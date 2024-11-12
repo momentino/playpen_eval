@@ -14,12 +14,13 @@ def main(args: argparse.Namespace) -> None:
             model_args=args.model_args,
             tasks=args.tasks,
             device=args.device,
-            log_samples=args.log_samples,
             trust_remote_code=args.trust_remote_code,
             results_path=args.results_path,
         )
-    if args.command_name == "score":
-        PlaypenEvaluator.score()
+    if args.command_name == "build_model_report":
+        PlaypenEvaluator.model_report()
+    if args.command_name == "build_benchmark_report":
+        PlaypenEvaluator.benchmark_report()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -64,24 +65,38 @@ if __name__ == "__main__":
     )
 
     run_parser.add_argument(
-        "--log_samples",
-        action="store_true",  # This makes it a flag
-        default=True,  # Default is True if the flag is not passed
-        help="Whether to log samples. Default is True."
-    )
-    run_parser.add_argument(
         "--results_path",
         type=str,
-        default="playpen_results",
-        help="Output path for results. Default is 'playpen_results'."
+        default="results",
+        help="Output path for results. Default is 'results/by_model'."
     )
 
-    score_parser = sub_parsers.add_parser("build_report", formatter_class=argparse.RawTextHelpFormatter)
-    score_parser.add_argument(
+    model_report_parser = sub_parsers.add_parser("build_model_report", formatter_class=argparse.RawTextHelpFormatter)
+    model_report_parser.add_argument(
         "-m", "--model_name",
         type=str,
         required=True,
         help="Model name, e.g., 'pretrained=model_name'."
+    )
+    model_report_parser.add_argument(
+        "--results_path",
+        type=str,
+        default="results/by_model",
+        help="Output path for results. Default is 'results/by_model'."
+    )
+
+    benchmark_report_parser = sub_parsers.add_parser("build_benchmark_report", formatter_class=argparse.RawTextHelpFormatter)
+    benchmark_report_parser.add_argument(
+        "-m", "--benchmark_name",
+        type=str,
+        required=True,
+        help="Model name, e.g., 'pretrained=model_name'."
+    )
+    benchmark_report_parser.add_argument(
+        "--results_path",
+        type=str,
+        default="results/by_benchmark",
+        help="Output path for results. Default is 'results/by_benchmark'."
     )
 
     args = parser.parse_args()
