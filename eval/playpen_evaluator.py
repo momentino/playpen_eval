@@ -4,7 +4,8 @@ import sys
 from pathlib import Path
 from typing import List
 from datetime import datetime
-from eval import playpen_eval_logger, get_executed_tasks
+from eval import playpen_eval_logger, get_executed_tasks, get_playpen_tasks
+from utils.utils import custom_json_serializer
 
 project_folder = Path(os.path.abspath(__file__)).parent.parent
 
@@ -19,6 +20,16 @@ lm_eval = importlib.import_module('benchmarks.static.lm-evaluation-harness.lm_ev
 from lm_eval.tasks import TaskManager
 
 
+def print_value_types(data):
+    # Iterate through each key-value pair in the dictionary
+    for key, value in data.items():
+        # Print the type of the value
+        print(f"Key: {key}, Value Type: {type(value)}")
+
+        # If the value is a dictionary, recurse into it
+        if isinstance(value, dict):
+            print(f"Recursing into dictionary at key: {key}")
+            print_value_types(value)
 
 class PlaypenEvaluator:
     def __init__(self):
@@ -52,19 +63,25 @@ class PlaypenEvaluator:
         else:
             model_args = model_args
 
+        playpen_tasks = get_playpen_tasks()
         task_manager = TaskManager()
         if len(tasks) == 0:
             if "all" in tasks[0]:
                 tasks = task_manager.all_tasks
             elif "remaning" in tasks[0]:
                 # Check for already executed tasks
-                executed_tasks, other_tasks = get_executed_tasks(model_results_path, tasks)
+                executed_tasks, other_tasks = get_executed_tasks(model_results_path, playpen_tasks)
                 task_manager = TaskManager()
                 all_tasks = task_manager.all_tasks
                 tasks = [t for t in other_tasks if t in all_tasks]
                 unk_tasks = [t for t in other_tasks if t not in all_tasks]
                 playpen_eval_logger.info(f"The current model has been already evaluated on the tasks: {executed_tasks}")
                 playpen_eval_logger.info(f"Unknown/Not yet implemented tasks: {unk_tasks}")
+        else:
+            for t in tasks:
+                if t not in playpen_tasks:
+                    raise ValueError("Task doesn't exist or is not a task in the Playpen Evaluation Pipeline.")
+
         playpen_eval_logger.info(f"Now evaluating on {tasks}")
 
         # Run evaluation for each task
@@ -80,7 +97,7 @@ class PlaypenEvaluator:
             output_file_path = Path(os.path.join(model_results_path, f"{task}_results{timestamp}.json"))
             output_file_path.parent.mkdir(parents=True, exist_ok=True)
             with open(output_file_path, "w") as file:
-                results = json.dumps(str(results))
+                results = json.dumps(results, default=custom_json_serializer)
                 json.dump(results, file)
 
     @staticmethod
