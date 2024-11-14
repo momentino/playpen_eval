@@ -51,20 +51,3 @@ capabilities_by_task:
   holmes:
       functional: []
       formal: ["semantics", "predicate_argument_structure", "negation" ]
-
-#tasks_by_capability:
-#  - functional:
-#      strategic_reasoning: ["planbench"]
-#      commonsense_reasoning: ["ewok", "llmbar"]
-#      social_commonsense_reasoning: ["social_iqa", "bbh", "lm-pragmatics"]
-#      causal_reasoning: ["planbench", "llmbar", "ewok", "social_iqa", "nli_dataset", "bbh", "super_glue", "strange_dataset" ]
-#      logical_reasoning: ["llmbar", "ewok", "nli_dataset", "bbh", "mmlu", "super_glue", "linguini", "glue_diagnostics"]
-#      numerical_reasoning: ["drop"]
-#      emotional_intelligence: ["social_iqa", "bbh"]
-#      theory_of_mind: ["fantom"]
-#      pragmatics: ["bbh", "lm-pragmatics"]
-##  - formal:
-#      semantics: ["super_glue", "lmentry", "holmes", "glue_diagnostics"]
-#      predicate_argument_structure: ["super_glue", "holmes", "glue_diagnostics"]
-#      negation: ["llmbar", "social_iqa", ]
-#      metalinguistic: []

@@ -13,6 +13,14 @@ from analyze import project_root
 from itertools import chain, combinations
 from utils.utils import get_all_json_files_from_path, convert_str_to_number
 
+def plot_and_save_task_scatterplots(scores_df: pd.DataFrame, save_path: Path):
+    for col_name, col_data in scores_df.items():
+        plt.figure(figsize=(8, 6))
+        sns.scatterplot(col_data)
+        file_path = save_path / col_name
+        plt.title(col_name)
+        plt.savefig(file_path, dpi=300, bbox_inches='tight')  # Save the figure
+
 def plot_and_save_matrix(correlation_matrix: pd.DataFrame, file_name:str, save_path: Path):
     # Create a heatmap with seaborn
     plt.figure(figsize=(8, 6))
@@ -20,54 +28,49 @@ def plot_and_save_matrix(correlation_matrix: pd.DataFrame, file_name:str, save_p
 
     # Save the figure as an image
     file_path = save_path / file_name
-    print(file_path)
+    plt.title(correlation_matrix.name)
     plt.savefig(file_path, dpi=300, bbox_inches='tight')  # Save as PNG with high resolution
     #plt.show()  # Display the heatmap
 
-def build_correlation_matrices(dict_for_correlations: Dict, save_results_path: Path):
+def build_correlation_matrices(dict_for_correlations: Dict, save_results_path: Path) -> List[pd.DataFrame]:
+    matrices = []
     # iterate over formal, functional, mixed
-
     for capability_subset_type, capability_subsets_dicts in dict_for_correlations.items():
         # create a folder for each.
         capability_subset_type_path = Path(save_results_path) / capability_subset_type
         if not os.path.exists(capability_subset_type_path):
             os.makedirs(capability_subset_type_path)
 
-        dict_for_correlations_only_score = {}
         # if there is more than one task sharing the same capabilities
-        #print(capability_subset_type)
         for capability_subset, task_dict in capability_subsets_dicts.items():
-            #print(capability_subset, task_dict)
             if len(task_dict.keys()) > 1:
                 capability_subset_path = Path(capability_subset_type_path) / capability_subset
                 if not os.path.exists(capability_subset_path):
                     os.mkdir(capability_subset_path)
                 scores_by_task = defaultdict(list)
                 for task, model_results in task_dict.items():
-                    #print(model_results)
                     scores_by_task[task] = [v[2] for v in model_results ]
 
-                df = pd.DataFrame(scores_by_task)
+                scores_df = pd.DataFrame(scores_by_task)
+                # Calculate the Pearson correlation matrix
+                correlation_matrix = scores_df.corr()
+                correlation_matrix.name = capability_subset
+                matrices.append(correlation_matrix)
 
-                # Calculate the correlation matrix
-                correlation_matrix = df.corr()
-
-                # display the correlation matrix
-                #print(f"Correlation matrix for {capability_subset_type}:")
-                #print(correlation_matrix)
-
-                print("\n")
                 file_name = capability_subset if capability_subset != "" else "total"
                 plot_and_save_matrix(correlation_matrix, file_name, capability_subset_path)
+                # Plot scatterplot
+                if capability_subset == "":
+                    save_path = capability_subset_path.parent
+                    plot_and_save_task_scatterplots(scores_df, save_path)
 
-
-
-def compute_correlation(results_grouped_by_task: Dict, task_info: Dict, full_capabilities_list: List,  save_results_path: Path) -> None:
+def compute_correlation(results_grouped_by_task: Dict, task_info: Dict, full_capabilities_list: List,  save_results_path: Path) -> List[pd.DataFrame]:
     dict_for_correlations = {
         "functional": defaultdict(lambda: defaultdict(list)),
         "formal": defaultdict(lambda: defaultdict(list)),
         "mix": defaultdict(lambda: defaultdict(list)),
-        "uncorrelated": defaultdict(lambda: defaultdict(list))
+        "uncorrelated": defaultdict(lambda: defaultdict(list)),
+        "total": defaultdict(lambda: defaultdict(list)),
     }
     uncorrelated_pairs_num = 0
 
@@ -94,12 +97,14 @@ def compute_correlation(results_grouped_by_task: Dict, task_info: Dict, full_cap
                             common_capabilities = True
                         subset_key = ','.join(map(str, combination))
                         #print(combination)
-                        if set(combination).issubset(set(full_capabilities_list["functional"])):
+                        if set(combination).issubset(set(full_capabilities_list["functional"])) and len(set(combination)) != 0:
                             capabilities_subset = "functional"
-                        elif set(combination).issubset(set(full_capabilities_list["formal"])):
+                        elif set(combination).issubset(set(full_capabilities_list["formal"])) and len(set(combination)) != 0:
                             capabilities_subset = "formal"
-                        else:
+                        elif len(set(combination)) != 0:
                             capabilities_subset = "mix"
+                        else:
+                            capabilities_subset = "total"
 
                         #print(subset_key, " ", task2, " ", scores2)
                         dict_for_correlations[capabilities_subset][subset_key][task2] = scores2
@@ -117,9 +122,7 @@ def compute_correlation(results_grouped_by_task: Dict, task_info: Dict, full_cap
                         dict_for_correlations["uncorrelated"][f"{task1}, {task2}"][task2] = scores2
 
     # create correlation matrices
-    print(dict_for_correlations["uncorrelated"])
     build_correlation_matrices(dict_for_correlations, save_results_path)
-
 
 def run_correlation(data_path: str, save_results_path:str) -> None:
     model_info_path = Path(os.path.abspath(__file__)).parent.parent / "data" / "models_info_for_correlation.yaml"
@@ -147,4 +150,3 @@ def run_correlation(data_path: str, save_results_path:str) -> None:
     capabilities_list = yaml.safe_load(open(task_info_path))["capabilities"]
 
     compute_correlation(results_grouped_by_task, task_info, capabilities_list, save_results_path)
-
