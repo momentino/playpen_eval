@@ -1,6 +1,18 @@
+import os
+from typing import List
+
 import torch
 from pathlib import Path
 from datetime import datetime
+
+
+def convert_str_to_number(s: str) -> float:
+    multipliers = {'B': 1_000_000_000}
+
+    if s[-1] in multipliers:
+        return float(s[:-1]) * multipliers[s[-1]]
+    else:
+        return float(s)
 
 def custom_json_serializer(obj):
     if isinstance(obj, datetime):
@@ -11,26 +23,11 @@ def custom_json_serializer(obj):
         return str(obj)
     raise TypeError(f"Type {type(obj)} not serializable")
 
-def get_all_json_paths(dir: Path):
-    # Traverse all directories and subdirectories
-    for dirpath, dirnames, filenames in os.walk(root_directory):
-        for filename in filenames:
-            # Check if the file is a JSON file
-            if filename.endswith('.json'):
-                file_path = os.path.join(dirpath, filename)
-
-                # Attempt to open and read the JSON file
-                try:
-                    with open(file_path, 'r') as file:
-                        data = json.load(file)
-                        print(f"Successfully read JSON from: {file_path}")
-                        # Process the JSON data as needed
-                        # For demonstration, print the loaded data
-                        print(data)
-                except json.JSONDecodeError as e:
-                    print(f"Error reading {file_path}: {e}")
-                except Exception as e:
-                    print(f"Could not open {file_path}: {e}")
+def get_all_json_files_from_path(dir: Path) -> List[str]:
+    json_files_list = []
+    for path in dir.rglob('*.json'):
+        json_files_list.append(str(path.resolve()))
+    return json_files_list
 
 def prepare_playpen_results(task_name: str, model_name:str, harness_results: dict = None) -> dict:
     results = {}
@@ -43,7 +40,7 @@ def prepare_playpen_results(task_name: str, model_name:str, harness_results: dic
         task_score_key = task_score_key[0]
         aggregated_metric_name = task_score_key.split(",")[0]
         aggregated_score_value = harness_results["results"][task_name][task_score_key]
-        aggregated_results = {aggregated_metric_name: aggregated_score_value}
+        aggregated_results = {"metric": aggregated_metric_name, "score": aggregated_score_value}
 
         results.update({
             "model_name": model_name,

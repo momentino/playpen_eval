@@ -1,0 +1,70 @@
+capabilities:
+  functional: [ "commonsense_reasoning", "strategic_reasoning", "logical_reasoning", "numerical_reasoning", "causal_reasoning", "physical_commonsense_reasoning", "social_commonsense_reasoning", "theory_of_mind", "emotional_intelligence", "pragmatics"]
+  formal: [ "semantics", "predicate_argument_structure", "negation", "metalinguistic" ]
+
+capabilities_by_task:
+  social_iqa:
+      functional: [ "causal_reasoning", "social_commonsense_reasoning", "emotional_intelligence" ]
+      formal: [ ]
+  mmlu:
+      functional: [ "logical_reasoning" ]
+      formal: [ ]
+  drop:
+      functional: [ "numerical_reasoning" ]
+      formal: [ ]
+  glue_diagnostics:
+      functional: [ "commonsense_reasoning" ]
+      formal: [ "semantics", "predicate_argument_structure" ]
+  super_glue:
+      functional: [ "logical_reasoning", "causal_reasoning", "commonsense_reasoning" ]
+      formal: [ "semantics", "predicate_argument_structure" ]
+  bbh:
+      functional: [ "logical_reasoning", "causal_reasoning", "commonsense_reasoning", "social_commonsense_reasoning", "emotional_intelligence", "pragmatics" ]
+      formal: [ "negation", "metalinguistic" ]
+  lm_pragmatics:
+      functional: [ "pragmatics" ]
+      formal: [ ]
+  llmbar_natural:
+      functional: [ "causal_reasoning", "logical_reasoning", "commonsense_reasoning" ]
+      formal: [ ]
+  # TODO
+  planbench:
+      functional: ["strategic_reasoning"]
+      formal: [ ]
+  ewok:
+      functional: ["commonsense_reasoning", "social_commonsense_reasoning", "causal_reasoning", "logical_reasoning" ]
+      formal: [ "negation" ]
+  fantom_full:
+      functional: ["theory_of_mind"]
+      formal: []
+  nli_dataset:
+      functional: ["causal_reasoning", "logical_reasoning"]
+  lmentry:
+      functional: []
+      formal: ["semantics", "metalinguistic"]
+  linguini:
+      functional: ["logical_reasoning"]
+      formal: ["metalinguistic"]
+  strange_dataset:
+      functional: ["causal_reasoning"]
+      formal: ["metalinguistic"]
+  holmes:
+      functional: []
+      formal: ["semantics", "predicate_argument_structure", "negation" ]
+
+#tasks_by_capability:
+#  - functional:
+#      strategic_reasoning: ["planbench"]
+#      commonsense_reasoning: ["ewok", "llmbar"]
+#      social_commonsense_reasoning: ["social_iqa", "bbh", "lm-pragmatics"]
+#      causal_reasoning: ["planbench", "llmbar", "ewok", "social_iqa", "nli_dataset", "bbh", "super_glue", "strange_dataset" ]
+#      logical_reasoning: ["llmbar", "ewok", "nli_dataset", "bbh", "mmlu", "super_glue", "linguini", "glue_diagnostics"]
+#      numerical_reasoning: ["drop"]
+#      emotional_intelligence: ["social_iqa", "bbh"]
+#      theory_of_mind: ["fantom"]
+#      pragmatics: ["bbh", "lm-pragmatics"]
+##  - formal:
+#      semantics: ["super_glue", "lmentry", "holmes", "glue_diagnostics"]
+#      predicate_argument_structure: ["super_glue", "holmes", "glue_diagnostics"]
+#      negation: ["llmbar", "social_iqa", ]
+#      metalinguistic: []
