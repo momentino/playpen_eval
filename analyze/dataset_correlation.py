@@ -37,7 +37,7 @@ def build_correlation_matrices(dict_for_correlations: Dict, save_results_path: P
         # if there is more than one task sharing the same capabilities
         #print(capability_subset_type)
         for capability_subset, task_dict in capability_subsets_dicts.items():
-            #print(capability_subset)
+            #print(capability_subset, task_dict)
             if len(task_dict.keys()) > 1:
                 capability_subset_path = Path(capability_subset_type_path) / capability_subset
                 if not os.path.exists(capability_subset_path):
@@ -53,8 +53,8 @@ def build_correlation_matrices(dict_for_correlations: Dict, save_results_path: P
                 correlation_matrix = df.corr()
 
                 # display the correlation matrix
-                print(f"Correlation matrix for {capability_subset}:")
-                print(correlation_matrix)
+                #print(f"Correlation matrix for {capability_subset_type}:")
+                #print(correlation_matrix)
 
                 print("\n")
                 file_name = capability_subset if capability_subset != "" else "total"
@@ -66,8 +66,10 @@ def compute_correlation(results_grouped_by_task: Dict, task_info: Dict, full_cap
     dict_for_correlations = {
         "functional": defaultdict(lambda: defaultdict(list)),
         "formal": defaultdict(lambda: defaultdict(list)),
-        "mix": defaultdict(lambda: defaultdict(list))
+        "mix": defaultdict(lambda: defaultdict(list)),
+        "uncorrelated": defaultdict(lambda: defaultdict(list))
     }
+    uncorrelated_pairs_num = 0
 
     for task1, scores1 in results_grouped_by_task.items():
         # list capabilities of task 1
@@ -83,10 +85,13 @@ def compute_correlation(results_grouped_by_task: Dict, task_info: Dict, full_cap
                 all_possible_subsets_capabilities_task2 = list(
                     chain.from_iterable(combinations(capabilities_task2, r) for r in range(len(capabilities_task2) + 1)))
 
+                common_capabilities = False
                 # iterate over subsets
                 for combination in all_possible_subsets_capabilities_task2:
                     # if the subset is a subset of the capabilities of task 1, save the scores
                     if set(combination).issubset(set(capabilities_task1)):
+                        if not len(set(combination)) == 0:
+                            common_capabilities = True
                         subset_key = ','.join(map(str, combination))
                         #print(combination)
                         if set(combination).issubset(set(full_capabilities_list["functional"])):
@@ -99,15 +104,20 @@ def compute_correlation(results_grouped_by_task: Dict, task_info: Dict, full_cap
                         #print(subset_key, " ", task2, " ", scores2)
                         dict_for_correlations[capabilities_subset][subset_key][task2] = scores2
 
-
-                        # create correlation plot (given subset, create plot for the two datasets)
-
                         # create report by benchmark. for each benchmark, build a report
                         # with which benchmarks did it correlate? Given each of the subsets of its skills,
                         # how many times, and with which benchmarks, did the dataset correlate
                         # with another among all those sharing the same subsets of skills?
                         # Count also how many are there for each subset.
-        # create correlation matrices
+                if not common_capabilities:
+                    # Build pairs of uncorrelated tasks
+                    uncorrelated_pairs_num+=1
+                    if len(dict_for_correlations["uncorrelated"][f"{task1}, {task2}"]) == 0 and len(dict_for_correlations["uncorrelated"][f"{task2}, {task1}"]) == 0:
+                        dict_for_correlations["uncorrelated"][f"{task1}, {task2}"][task1] = scores1
+                        dict_for_correlations["uncorrelated"][f"{task1}, {task2}"][task2] = scores2
+
+    # create correlation matrices
+    print(dict_for_correlations["uncorrelated"])
     build_correlation_matrices(dict_for_correlations, save_results_path)
 
 
