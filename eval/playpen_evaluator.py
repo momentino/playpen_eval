@@ -99,7 +99,7 @@ class PlaypenEvaluator:
                 json.dump(harness_results, file, default=custom_json_serializer)
 
             playpen_results_file_path = Path(os.path.join(model_playpen_results_path, f"{task}_playpen_results_{timestamp}.json"))
-            playpen_results = prepare_playpen_results(task_name=task, model_name=model_name, harness_results=harness_results)
+            playpen_results = prepare_playpen_results(main_task=task, model_name=model_name, harness_results=harness_results)
             with open(playpen_results_file_path, "w") as file:
                 json.dump(playpen_results, file, default=custom_json_serializer)
 
@@ -111,3 +111,17 @@ class PlaypenEvaluator:
     @staticmethod
     def benchmark_report(benchmark_name: str, results_path:Path = "results") -> None:
         pass
+
+    @staticmethod
+    def convert_res_from_harness(task_name: str, model_name:str, file_path: Path, output_path: Path) -> None:
+        model_name = model_name.replace("/", "__")
+        harness_dict = json.load(open(file_path, "r"))
+
+        model_playpen_results_path = Path(os.path.join(project_folder, output_path)) / "playpen" / model_name
+        model_playpen_results_path.mkdir(parents=True, exist_ok=True)
+        timestamp = datetime.now().strftime("%Y-%m-%dT%H-%M-%S.%f")
+        playpen_results_file_path = Path(
+            os.path.join(model_playpen_results_path, f"{task_name}_playpen_results_{timestamp}.json"))
+        playpen_results = prepare_playpen_results(main_task=task_name,model_name=model_name, harness_results=harness_dict)
+        with open(playpen_results_file_path, "w") as file:
+            json.dump(playpen_results, file, default=custom_json_serializer)

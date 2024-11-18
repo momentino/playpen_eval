@@ -52,6 +52,7 @@ def build_correlation_matrices(dict_for_correlations: Dict, save_results_path: P
                     scores_by_task[task] = [v[2] for v in model_results ]
 
                 scores_df = pd.DataFrame(scores_by_task)
+
                 # Calculate the Pearson correlation matrix
                 correlation_matrix = scores_df.corr()
                 correlation_matrix.name = capability_subset
@@ -124,29 +125,48 @@ def compute_correlation(results_grouped_by_task: Dict, task_info: Dict, full_cap
     # create correlation matrices
     build_correlation_matrices(dict_for_correlations, save_results_path)
 
-def run_correlation(data_path: str, save_results_path:str) -> None:
+def run_correlation(data_path: str, save_results_path:str, consider_subtasks_of: List[str]) -> None:
     model_info_path = Path(os.path.abspath(__file__)).parent.parent / "data" / "models_info_for_correlation.yaml"
     model_info = yaml.safe_load(open(model_info_path))["models"]
 
-    results_grouped_by_task = {}
+    results_grouped_by_task = defaultdict(list)
     data_path = project_root / data_path
     results_files_list = get_all_json_files_from_path(data_path)
+
+    # get file with listed the capabilities for each task
+    task_info_path = Path(os.path.abspath(__file__)).parent.parent / "data" / "tasks_capabilities.yaml"
+    task_info = yaml.safe_load(open(task_info_path))["capabilities_by_task"]
+    capabilities_list = yaml.safe_load(open(task_info_path))["capabilities"]
 
     for file_path in results_files_list:
         results_data = json.load(open(file_path))
         task_name = results_data["task"]
         model_name = results_data["model_name"]
         num_params = model_info[model_name]["params"]
-        score = results_data["aggregated_results"]["score"]
-        results = (model_name, convert_str_to_number(num_params), score)
-        results_grouped_by_task.setdefault(task_name, []).append(results)
+        if consider_subtasks_of:
+            if task_name in consider_subtasks_of:
+                for subtask_name, subtask_results in results_data["subtask_results"].items():
+                    if subtask_name in task_info.keys():
+                        score = subtask_results["score"]
+                        results = (model_name, convert_str_to_number(num_params), score)
+                        # check if there aren't duplicate scores for the same task
+                        for res in results_grouped_by_task[subtask_name]:
+                            if res[0] == results[0]:
+                                raise Exception("There are two duplicate results for the same task. Please check your results folder.")
+                        results_grouped_by_task[subtask_name].append(results)
+        if task_name in task_info.keys() and task_name not in consider_subtasks_of:
 
+            score = results_data["aggregated_results"]["score"]
+            results = (model_name, convert_str_to_number(num_params), score)
+            # check if there aren't duplicate scores for the same task
+            for res in results_grouped_by_task[task_name]:
+                if res[0] == results[0]:
+                    raise Exception(
+                        "There are two duplicate results for the same task. Please check your results folder.")
+            results_grouped_by_task[task_name].append(results)
     # Sort by model name and param size
     for key, value in results_grouped_by_task.items():
         value.sort(key=lambda x: (x[1], x[0]))
-    # get file with listed the capabilities for each task
-    task_info_path = Path(os.path.abspath(__file__)).parent.parent / "data" / "tasks_capabilities.yaml"
-    task_info = yaml.safe_load(open(task_info_path))["capabilities_by_task"]
-    capabilities_list = yaml.safe_load(open(task_info_path))["capabilities"]
+
 
     compute_correlation(results_grouped_by_task, task_info, capabilities_list, save_results_path)

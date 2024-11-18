@@ -21,6 +21,8 @@ def main(args: argparse.Namespace) -> None:
         PlaypenEvaluator.model_report()
     if args.command_name == "build_benchmark_report":
         PlaypenEvaluator.benchmark_report()
+    if args.command_name == "convert_results_from_harness":
+        PlaypenEvaluator.convert_res_from_harness(task_name=args.task_name, model_name=args.model_name, file_path=args.file_path, output_path=args.output_path)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -81,8 +83,8 @@ if __name__ == "__main__":
     model_report_parser.add_argument(
         "--results_path",
         type=str,
-        default="results/by_model",
-        help="Output path for results. Default is 'results/by_model'."
+        default="results/playpen",
+        help="Output path for results. Default is 'results/playpen'."
     )
 
     benchmark_report_parser = sub_parsers.add_parser("build_benchmark_report", formatter_class=argparse.RawTextHelpFormatter)
@@ -99,5 +101,30 @@ if __name__ == "__main__":
         help="Output path for results. Default is 'results/by_benchmark'."
     )
 
+    results_conversion = sub_parsers.add_parser("convert_results_from_harness", formatter_class=argparse.RawTextHelpFormatter)
+    results_conversion.add_argument(
+        "-t", "--task_name",
+        type=str,
+        required=True,
+        help="Model name"
+    )
+    results_conversion.add_argument(
+        "-m", "--model_name",
+        type=str,
+        required=True,
+        help="Model name"
+    )
+    results_conversion.add_argument(
+        "-p", "--file_path",
+        type=str,
+        required=True,
+        help="Path of the file with the Harness results to convert into playpen format."
+    )
+    results_conversion.add_argument(
+        "-o", "--output_path",
+        type=str,
+        default="results",
+        help="Path where to save the results."
+    )
     args = parser.parse_args()
     main(args)

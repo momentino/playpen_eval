@@ -3,6 +3,8 @@ models:
     params: 2B
   Qwen__Qwen2.5-3B-Instruct:
     params: 3B
+  microsoft__Phi-3.5-mini-instruct:
+    params: 3.5B
   meta-llama__Llama-3.1-8B-Instruct:
     params: 8B
   google__gemma-2-9b-it:

@@ -13,11 +13,29 @@ capabilities_by_task:
       functional: [ "numerical_reasoning" ]
       formal: [ ]
   glue_diagnostics:
-      functional: [ "commonsense_reasoning" ]
+      functional: [ "commonsense_reasoning", "logical_reasoning" ]
       formal: [ "semantics", "predicate_argument_structure" ]
-  super_glue:
+  super_glue_v2:
       functional: [ "logical_reasoning", "causal_reasoning", "commonsense_reasoning" ]
       formal: [ "semantics", "predicate_argument_structure" ]
+  super_glue_cb_reimplemented:
+      functional: [ "nli", "logical_reasoning" ]
+      formal: [ "" ]
+  super_glue_copa_reimplemented:
+      functional: [ "causal_reasoning" ]
+      formal: [ "" ]
+  super_glue_record_reimplemented:
+      functional: [ "commonsense_reasoning" ]
+      formal: [ "" ]
+  super_glue_rte_reimplemented:
+      functional: [ "nli" ]
+      formal: [ "" ]
+  super_glue_wic_reimplemented:
+      functional: [ "" ]
+      formal: [ "semantics" ]
+  super_glue_wsc_reimplemented:
+      functional: [ "" ]
+      formal: [ "predicate_argument_structure" ]
   bbh:
       functional: [ "logical_reasoning", "causal_reasoning", "commonsense_reasoning", "social_commonsense_reasoning", "emotional_intelligence", "pragmatics" ]
       formal: [ "negation", "metalinguistic" ]
