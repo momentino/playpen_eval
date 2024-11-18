@@ -19,7 +19,7 @@ capabilities_by_task:
       functional: [ "logical_reasoning", "causal_reasoning", "commonsense_reasoning" ]
       formal: [ "semantics", "predicate_argument_structure" ]
   super_glue_cb_reimplemented:
-      functional: [ "nli", "logical_reasoning" ]
+      functional: [ "logical_reasoning" ]
       formal: [ "" ]
   super_glue_copa_reimplemented:
       functional: [ "causal_reasoning" ]
@@ -28,7 +28,7 @@ capabilities_by_task:
       functional: [ "commonsense_reasoning" ]
       formal: [ "" ]
   super_glue_rte_reimplemented:
-      functional: [ "nli" ]
+      functional: [ "logical_reasoning" ]
       formal: [ "" ]
   super_glue_wic_reimplemented:
       functional: [ "" ]

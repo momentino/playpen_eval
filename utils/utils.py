@@ -26,12 +26,6 @@ def custom_json_serializer(obj):
         return int(obj)
     raise TypeError(f"Type {type(obj)} not serializable")
 
-def get_all_json_files_from_path(dir: Path) -> List[str]:
-    json_files_list = []
-    for path in dir.rglob('*.json'):
-        json_files_list.append(str(path.resolve()))
-    return json_files_list
-
 def prepare_playpen_results(main_task: str, model_name:str, harness_results: dict = None) -> dict:
     results = {}
     if(harness_results is not None):
