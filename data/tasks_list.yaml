@@ -1,0 +1,13 @@
+tasks:
+  - 'glue_diagnostics'
+  - 'llmbar_natural'
+  - 'lm_pragmatics'
+  - 'mmlu'
+  - 'social_iqa'
+  - 'super_glue_v2'
+  - 'drop'
+  - 'lingoly'
+  #- 'planbench'
+  #- 'fantom_full'
+  #- 'lmentry'
+  #- 'bbh'
