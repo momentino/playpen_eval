@@ -2,70 +2,92 @@ capabilities:
   functional: [ "commonsense_reasoning", "strategic_reasoning", "logical_reasoning", "numerical_reasoning", "causal_reasoning", "physical_commonsense_reasoning", "social_commonsense_reasoning", "theory_of_mind", "emotional_intelligence", "pragmatics"]
   formal: [ "semantics", "predicate_argument_structure", "negation", "metalinguistic" ]
 
-capabilities_by_task:
+tasks:
   social_iqa:
+      alias: "SocialIQA"
       functional: [ "causal_reasoning", "social_commonsense_reasoning", "emotional_intelligence" ]
       formal: [ ]
   mmlu:
+      alias: "MMLU"
       functional: [ "logical_reasoning" ]
       formal: [ ]
   drop:
+      alias: "DROP"
       functional: [ "numerical_reasoning" ]
       formal: [ ]
   glue_diagnostics:
+      alias: "GLUE Diagnostics"
       functional: [ "commonsense_reasoning", "logical_reasoning" ]
       formal: [ "semantics", "predicate_argument_structure" ]
   super_glue_v2:
+      alias: "SuperGLUE"
       functional: [ "logical_reasoning", "causal_reasoning", "commonsense_reasoning" ]
       formal: [ "semantics", "predicate_argument_structure" ]
   super_glue_cb_reimplemented:
+      alias: "CB"
       functional: [ "logical_reasoning" ]
-      formal: [ "" ]
+      formal: [ ]
   super_glue_copa_reimplemented:
-      functional: [ "causal_reasoning" ]
-      formal: [ "" ]
+      alias: "COPA"
+      functional: [ "causal_reasoning", "commonsense_reasoning", "logical_reasoning" ]
+      formal: []
   super_glue_record_reimplemented:
+      alias: "ReCoRD"
       functional: [ "commonsense_reasoning" ]
-      formal: [ "" ]
+      formal: []
   super_glue_rte_reimplemented:
+      alias: "RTE"
       functional: [ "logical_reasoning" ]
-      formal: [ "" ]
+      formal: []
   super_glue_wic_reimplemented:
-      functional: [ "" ]
+      alias: "WiC"
+      functional: []
       formal: [ "semantics" ]
   super_glue_wsc_reimplemented:
-      functional: [ "" ]
+      alias: "WSC"
+      functional: []
       formal: [ "predicate_argument_structure" ]
   bbh:
+      alias: "BBH"
       functional: [ "logical_reasoning", "causal_reasoning", "commonsense_reasoning", "social_commonsense_reasoning", "emotional_intelligence", "pragmatics" ]
       formal: [ "negation", "metalinguistic" ]
   lm_pragmatics:
+      alias: "LM-Pragmatics"
       functional: [ "pragmatics" ]
       formal: [ ]
   llmbar_natural:
+      alias: "LLMBar"
       functional: [ "causal_reasoning", "logical_reasoning", "commonsense_reasoning" ]
       formal: [ ]
   # TODO
   planbench:
+      alias: "PlanBench"
       functional: ["strategic_reasoning"]
       formal: [ ]
   ewok:
+      alias: "EWoK"
       functional: ["commonsense_reasoning", "social_commonsense_reasoning", "causal_reasoning", "logical_reasoning" ]
       formal: [ "negation" ]
   fantom_full:
+      alias: "FANToM"
       functional: ["theory_of_mind"]
       formal: []
   nli_dataset:
+      alias: "NLI Dataset"
       functional: ["causal_reasoning", "logical_reasoning"]
   lmentry:
+      alias: "LMentry"
       functional: []
       formal: ["semantics", "metalinguistic"]
   linguini:
+      alias: "Linguini"
       functional: ["logical_reasoning"]
       formal: ["metalinguistic"]
   strange_dataset:
+      alias: "Strange Dataset"
       functional: ["causal_reasoning"]
       formal: ["metalinguistic"]
   holmes:
+      alias: "Holmes"
       functional: []
       formal: ["semantics", "predicate_argument_structure", "negation" ]

@@ -5,8 +5,9 @@ import copy
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+import numpy as np
 from collections import defaultdict
-from typing import Dict, List
+from typing import Dict, List, Set
 from pathlib import Path
 
 from analyze import project_root
@@ -29,6 +30,23 @@ def plot_and_save_matrix(correlation_matrix: pd.DataFrame, file_name:str, output
     file_path = output_path / file_name
     plt.title(correlation_matrix.name)
     plt.savefig(file_path, dpi=300, bbox_inches='tight')  # Save as PNG with high resolution
+
+"""def compute_jaccard_similarity(capabilities_task1: Set[str], capabilities_task2: Set[str]) -> float:
+    columns = list(attributes.keys())
+    n = len(columns)
+    jaccard_matrix = np.zeros((n, n))
+
+    for i, col1 in enumerate(columns):
+        for j, col2 in enumerate(columns):
+            if i <= j:  # Avoid duplicate calculations
+                set1, set2 = attributes[col1], attributes[col2]
+                jaccard_similarity = len(set1 & set2) / len(set1 | set2)
+                jaccard_matrix[i, j] = jaccard_similarity
+                jaccard_matrix[j, i] = jaccard_similarity  # Symmetric
+
+    # Create a DataFrame from the Jaccard matrix
+    jaccard_df = pd.DataFrame(jaccard_matrix, index=columns, columns=columns)
+    return jaccard_df"""
 
 def build_correlation_matrices(scores_dict: Dict, save_results_path: Path) -> List[pd.DataFrame]:
     matrices = []
@@ -59,22 +77,25 @@ def build_correlation_matrices(scores_dict: Dict, save_results_path: Path) -> Li
                 plot_and_save_matrix(correlation_matrix=correlation_matrix, file_name=capability_subset, output_path=capability_subset_path)
 
 def compute_correlation(scores_dict: Dict, task_info: Dict, capabilities_list: List,  output_path: Path) -> List[pd.DataFrame]:
-    dict_for_correlations = {
+    formatted_scores_dict = {
         "functional": defaultdict(lambda: defaultdict(list)),
         "formal": defaultdict(lambda: defaultdict(list)),
         "mix": defaultdict(lambda: defaultdict(list)),
-        "uncorrelated": defaultdict(lambda: defaultdict(list)),
+        "unrelated": defaultdict(lambda: defaultdict(list)),
         "total": defaultdict(lambda: defaultdict(list)),
     }
 
     for task1, scores1 in scores_dict.items():
+        task1_prettyname = task_info[task1]["alias"]
         # list capabilities of task 1
         capabilities_task1 = copy.copy(task_info[task1]["functional"])
         capabilities_task1.extend(copy.copy(task_info[task1]["formal"]))
 
         for task2, scores2 in scores_dict.items():
+            task2_prettyname = task_info[task2]["alias"]
             # list capabilities of task 2
             if(task1 != task2):
+
                 common_capabilities = False
                 capabilities_task2 = copy.copy(task_info[task2]["functional"])
                 capabilities_task2.extend(copy.copy(task_info[task2]["formal"]))
@@ -93,17 +114,23 @@ def compute_correlation(scores_dict: Dict, task_info: Dict, capabilities_list: L
                             capabilities_subset = "formal"
                         else:
                             capabilities_subset = "mix"
-                        dict_for_correlations[capabilities_subset]["total"][task2] = scores2
-                        dict_for_correlations[capabilities_subset][subset_key][task2] = scores2
+                        formatted_scores_dict[capabilities_subset]["total"][task2_prettyname] = scores2
+                        formatted_scores_dict[capabilities_subset][subset_key][task2_prettyname] = scores2
                 if not common_capabilities:
                     # Build pairs of uncorrelated tasks
-                    if len(dict_for_correlations["uncorrelated"][f"{task1}, {task2}"]) == 0 and len(dict_for_correlations["uncorrelated"][f"{task2}, {task1}"]) == 0:
-                        dict_for_correlations["uncorrelated"][f"{task1}, {task2}"][task1] = scores1
-                        dict_for_correlations["uncorrelated"][f"{task1}, {task2}"][task2] = scores2
+                    if len(formatted_scores_dict["unrelated"][f"{task1_prettyname}, {task2_prettyname}"]) == 0 and len(formatted_scores_dict["unrelated"][f"{task2_prettyname}, {task1_prettyname}"]) == 0:
+                        formatted_scores_dict["unrelated"][f"{task1_prettyname}, {task2_prettyname}"][task1_prettyname] = scores1
+                        formatted_scores_dict["unrelated"][f"{task1_prettyname}, {task2_prettyname}"][task2_prettyname] = scores2
     # create correlation matrices
-    build_correlation_matrices(dict_for_correlations, output_path)
+    build_correlation_matrices(formatted_scores_dict, output_path)
 
 def run_correlation(src_path: Path, output_path:Path, take_subtasks: List[str]) -> None:
+    if len(take_subtasks) > 0:
+        output_path =output_path / Path(f"subt_ver_{','.join(take_subtasks)}")
+        os.makedirs(output_path, exist_ok=True)
+    else:
+        output_path = output_path / Path("overall")
+
     available_models_path = Path(os.path.abspath(__file__)).parent.parent / "data" / "models_info_for_correlation.yaml"
     available_models_info = yaml.safe_load(open(available_models_path))["models"]
     available_models_names = available_models_info.keys()
@@ -113,8 +140,8 @@ def run_correlation(src_path: Path, output_path:Path, take_subtasks: List[str]) 
     models_reports = get_models_reports(src_path=src_path, models_names=available_models_names)
 
     # get file with listed the capabilities for each task
-    task_info_path = Path(os.path.abspath(__file__)).parent.parent / "data" / "tasks_capabilities.yaml"
-    task_info = yaml.safe_load(open(task_info_path))["capabilities_by_task"]
+    task_info_path = Path(os.path.abspath(__file__)).parent.parent / "data" / "tasks_details.yaml"
+    task_info = yaml.safe_load(open(task_info_path))["tasks"]
     capabilities_list = yaml.safe_load(open(task_info_path))["capabilities"]
 
     for report in models_reports:

@@ -88,8 +88,9 @@ class PlaypenEvaluator:
             harness_results = lm_eval.simple_evaluate(
                 model=model_backend,
                 model_args=model_args,
-                tasks=tasks,
+                tasks=task,
                 device=device,
+                num_fewshot=0,
                 log_samples=True,
             )
             timestamp = datetime.now().strftime("%Y-%m-%dT%H-%M-%S.%f")

@@ -10,6 +10,7 @@ setup(
         "pandas",
         "scipy",
         "matplotlib",
-        "seaborn"
+        "seaborn",
+        "tarski"
     ],
 )
