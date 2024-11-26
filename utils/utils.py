@@ -35,7 +35,7 @@ def prepare_playpen_results(main_task: str, model_name:str, harness_results: dic
         for task_name, scores in harness_results["results"].items():
 
             # TODO Improve, support other scores
-            task_score_key = [key for key in scores if ("acc" in key or "f1" in key) and "stderr" not in key]
+            task_score_key = [key for key in scores if ("acc" in key or "f1" in key or "exact_match" in key) and "stderr" not in key]
 
             task_score_key = task_score_key[0]
             metric_name = task_score_key.split(",")[0]

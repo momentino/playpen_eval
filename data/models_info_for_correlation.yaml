@@ -1,6 +1,12 @@
 models:
+  meta-llama__Llama-3.2-1B-Instruct:
+    params: 1B
+  Qwen__Qwen2.5-1.5B-Instruct:
+    params: 1.5B
   google__gemma-2-2b-it:
     params: 2B
+  meta-llama__Llama-3.2-3B-Instruct:
+    params: 3B
   Qwen__Qwen2.5-3B-Instruct:
     params: 3B
   microsoft__Phi-3.5-mini-instruct:

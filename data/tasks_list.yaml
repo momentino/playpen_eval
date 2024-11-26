@@ -7,7 +7,7 @@ tasks:
   - 'super_glue_v2'
   - 'drop'
   - 'lingoly'
-  #- 'planbench'
+  - 'planbench'
   #- 'fantom_full'
   #- 'lmentry'
   #- 'bbh'

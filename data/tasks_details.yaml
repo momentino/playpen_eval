@@ -59,6 +59,10 @@ tasks:
       alias: "LLMBar"
       functional: [ "causal_reasoning", "logical_reasoning", "commonsense_reasoning" ]
       formal: [ ]
+  delta_nc:
+      alias: "LingOLY"
+      functional: ["logical reasoning"]
+      formal: ["metalinguistic"]
   # TODO
   planbench:
       alias: "PlanBench"

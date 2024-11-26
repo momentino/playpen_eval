@@ -2,6 +2,8 @@ import os
 import json
 import sys
 import importlib
+from asyncio import all_tasks
+
 import pandas as pd
 from pathlib import Path
 from typing import List
@@ -69,7 +71,7 @@ class PlaypenEvaluator:
                 tasks = task_manager.all_tasks
             elif "remaining" in tasks[0]:
                 # Check for already executed tasks
-                executed_tasks, other_tasks = get_executed_tasks(Path(model_harness_results_path).parent, playpen_tasks)
+                executed_tasks, other_tasks = get_executed_tasks(Path(model_harness_results_path), playpen_tasks)
                 task_manager = TaskManager()
                 all_tasks = task_manager.all_tasks
                 tasks = [t for t in other_tasks if t in all_tasks]

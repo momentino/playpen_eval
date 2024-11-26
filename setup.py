@@ -11,6 +11,7 @@ setup(
         "scipy",
         "matplotlib",
         "seaborn",
-        "tarski"
+        "tarski",
+        "bitsandbytes"
     ],
 )
