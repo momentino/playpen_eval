@@ -1,6 +1,0 @@
-dataset_name: rhyming_word
-task: rhyming_word
-include: _lmentry_template_yaml
-output_type: multiple_choice
-doc_to_choice: "{{[answer, distractor]}}"
-doc_to_target: 0

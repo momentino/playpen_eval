@@ -1,6 +1,0 @@
-dataset_name: sentence_not_containing
-task: lmentry_sentence_not_containing
-include: _lmentry_template_yaml
-output_type: generate_until
-doc_to_target: "{{word}}"
-process_results: !function utils.process_results_sentence_not_containing

@@ -1,6 +1,0 @@
-dataset_name: last_word
-task: lmentry_last_word
-include: _lmentry_template_yaml
-output_type: generate_until
-doc_to_target: "{{answer}}"
-process_results: !function utils.process_results_first_last_word

@@ -1,8 +1,0 @@
-group: llmbar_natural
-task:
-  - llmbar_natural_vanilla
-aggregate_metric_list:
-  - metric: acc
-    weight_by_size: True
-metadata:
-  version: 2

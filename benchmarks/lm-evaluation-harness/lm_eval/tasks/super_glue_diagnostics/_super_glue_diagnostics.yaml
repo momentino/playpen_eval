@@ -1,8 +1,0 @@
-group: super_glue_diagnostics
-task:
-  - super_glue_diagnostics_predicate_argument_structure
-  - super_glue_diagnostics_logic
-  - super_glue_diagnostics_knowledge
-aggregate_metric_list:
-    - metric: acc
-      aggregation: mean

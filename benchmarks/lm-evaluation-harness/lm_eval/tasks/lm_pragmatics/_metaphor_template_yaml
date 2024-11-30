@@ -1,3 +1,0 @@
-dataset_name: metaphor
-tag: lm_pragmatics_metaphor
-include: _general_template_yaml
