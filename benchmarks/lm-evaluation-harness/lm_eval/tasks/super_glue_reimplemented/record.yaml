@@ -1,0 +1,21 @@
+tag: super_glue_reimplemented
+task: super_glue_record_reimplemented
+dataset_path: super_glue
+dataset_name: record
+output_type: multiple_choice
+training_split: train
+validation_split: validation
+num_fewshot: 0
+doc_to_text: !function utils_record.doc_to_text
+doc_to_target: !function utils_record.doc_to_target
+doc_to_choice: !function utils_record.doc_to_choice
+process_docs: !function utils_record.process_docs
+process_results: !function utils_record.process_results
+metric_list:
+  - metric: f1
+    aggregation: mean
+  - metric: em
+    higher_is_better: True
+    aggregation: mean
+metadata:
+  version: 2.0

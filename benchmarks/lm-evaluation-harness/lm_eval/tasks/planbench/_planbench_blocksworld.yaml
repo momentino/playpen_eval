@@ -1,0 +1,7 @@
+group: planbench_blocksworld
+group_alias: blocksworld
+task:
+  - planbench_blocksworld_tasks
+aggregate_metric_list:
+  - metric: acc
+    weight_by_size: True

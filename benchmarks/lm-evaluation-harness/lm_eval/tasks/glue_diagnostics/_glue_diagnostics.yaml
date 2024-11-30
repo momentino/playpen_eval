@@ -1,0 +1,9 @@
+group: glue_diagnostics
+task:
+  - glue_diagnostics_lexical_semantics
+  - glue_diagnostics_predicate_argument_structure
+  - glue_diagnostics_logic
+  - glue_diagnostics_knowledge
+aggregate_metric_list:
+    - metric: acc
+      aggregation: mean

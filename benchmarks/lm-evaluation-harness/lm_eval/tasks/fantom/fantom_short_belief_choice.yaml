@@ -1,0 +1,11 @@
+dataset_path: clembench-playpen/fantom
+dataset_name: short_belief_choice
+task: fantom_short_belief_choice
+output_type: multiple_choice
+test_split: inaccessible
+doc_to_text: "{{input_text}}"
+doc_to_choice: !function utils.doc_to_choices
+doc_to_target: "{{correct_answer}}"
+metric_list:
+  - metric: acc
+

@@ -1,0 +1,3 @@
+task: glue_diagnostics_knowledge
+dataset_name: knowledge
+include: _glue_diagnostics_template

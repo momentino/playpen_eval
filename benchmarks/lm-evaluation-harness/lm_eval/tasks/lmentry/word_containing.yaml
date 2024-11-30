@@ -1,0 +1,6 @@
+dataset_name: word_containing
+task: lmentry_word_containing
+include: _lmentry_template_yaml
+output_type: generate_until
+doc_to_target: "{{letter}}"
+process_results: !function utils.process_results_word_containing

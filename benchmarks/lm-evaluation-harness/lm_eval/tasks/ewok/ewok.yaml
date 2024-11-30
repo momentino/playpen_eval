@@ -1,0 +1,11 @@
+dataset_path: ewok-core/ewok-core-1.0
+task: ewok
+test_split: test
+doc_to_text: "{{Context1}} {{Target1}}"
+output_type: loglikelihood
+metric_list:
+  - metric: surprisal
+    aggregation: mean
+    higher_is_better: false
+metadata:
+  version: 1.0

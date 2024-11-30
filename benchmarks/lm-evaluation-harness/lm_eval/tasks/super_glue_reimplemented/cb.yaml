@@ -1,0 +1,17 @@
+tag: super_glue_reimplemented
+task: super_glue_cb_reimplemented
+dataset_path: super_glue
+dataset_name: cb
+output_type: multiple_choice
+training_split: train
+validation_split: validation
+num_fewshot: 0
+doc_to_text: "{{premise}}\nQuestion: {{hypothesis}}. True, False, or Neither?\nAnswer:"
+doc_to_target: label
+doc_to_choice: ['True', 'False', 'Neither']
+metric_list:
+  - metric: acc
+  - metric: f1
+    aggregation: !function "utils_cb.multi_fi"
+metadata:
+  version: 1.0

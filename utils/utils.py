@@ -40,6 +40,7 @@ def prepare_playpen_results(main_task: str, model_name:str, harness_results: dic
             task_score_key = task_score_key[0]
             metric_name = task_score_key.split(",")[0]
             score_value = scores[task_score_key]
+
             if(task_name == main_task):
                 aggregated_results = {"metric": metric_name, "score": score_value}
             else:

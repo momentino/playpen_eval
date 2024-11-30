@@ -1,0 +1,7 @@
+dataset_name: any_words_from_category
+task: lmentry_any_words_from_category_4_distractors
+tag: lmentry_any_words_from_category_aux
+include: _lmentry_template_yaml
+output_type: multiple_choice
+doc_to_choice: ["no", "yes"]
+doc_to_target: !function utils.doc_to_target_any_words_from_category

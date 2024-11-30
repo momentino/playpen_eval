@@ -1,0 +1,10 @@
+dataset_name: ends_with_letter
+task: lmentry_ends_with_letter
+include: _lmentry_template_yaml
+output_type: generate_until
+generation_kwargs:
+  until:
+    - ".\n"
+    - "\n\n"
+doc_to_target: "{{letter}}"
+process_results: !function utils.process_results_ends_with_letter

@@ -54,11 +54,11 @@ def cluster(ordered_labels: np.ndarray, scores_matrix: pd.DataFrame):
 def plot_and_save_matrix(correlation_matrix: pd.DataFrame, name: bool, file_name:str, output_path: Path):
     plt.figure(figsize=(8, 6))
 
-    mask = np.triu(np.ones_like(correlation_matrix, dtype=bool))
+    #mask = np.triu(np.ones_like(correlation_matrix, dtype=bool))
 
     ax = sns.heatmap(
         correlation_matrix.round(2),
-        mask=mask,
+        #mask=mask,
         cmap='coolwarm',
         annot=True,  # Use the custom annotation matrix
         annot_kws={"size": 7},
@@ -67,8 +67,8 @@ def plot_and_save_matrix(correlation_matrix: pd.DataFrame, name: bool, file_name
     )
 
     # Hide the diagonal ticks
-    ax.set_xticks(np.delete(ax.get_xticks(), len(correlation_matrix) - 1))
-    ax.set_yticks(np.delete(ax.get_yticks(), 0))
+    #ax.set_xticks(np.delete(ax.get_xticks(), len(correlation_matrix) - 1))
+    #ax.set_yticks(np.delete(ax.get_yticks(), 0))
     file_path = output_path / file_name
 
     if name:

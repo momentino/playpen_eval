@@ -1,0 +1,7 @@
+dataset_name: less_letters_length_diff_3plus
+task: less_letters_length_diff_3plus
+tag: lmentry_less_letters_aux
+include: _lmentry_template_yaml
+output_type: multiple_choice
+doc_to_choice: "{{[answer, distractor]}}"
+doc_to_target: 0

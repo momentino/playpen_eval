@@ -1,0 +1,6 @@
+dataset_name: most_associated_word
+task: lmentry_most_associated_word
+include: _lmentry_template_yaml
+output_type: multiple_choice
+doc_to_choice: "{{[answer]+distractors}}"
+doc_to_target: 0

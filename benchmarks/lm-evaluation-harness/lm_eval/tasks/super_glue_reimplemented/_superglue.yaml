@@ -1,0 +1,8 @@
+group: super_glue_v2
+task:
+  - super_glue_reimplemented
+aggregate_metric_list:
+  - metric: acc
+    weight_by_size: True
+metadata:
+  version: 2

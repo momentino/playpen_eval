@@ -1,0 +1,12 @@
+dataset_path: clembench-playpen/lmentry
+test_split: test
+num_fewshot: 0
+doc_to_text: "{{input}}"
+metadata:
+  version: 0.0.1
+dataset_kwargs:
+  trust_remote_code: true
+metric_list:
+    - metric: acc
+      aggregation: mean
+      higher_is_better: true

@@ -1,0 +1,7 @@
+dataset_name: first_alphabetically_different_first_letter
+task: lmentry_first_alphabetically_different_first_letter
+tag: lmentry_first_alphabetically_aux
+include: _lmentry_template_yaml
+output_type: multiple_choice
+doc_to_choice: "{{[word1, word2]}}"
+doc_to_target: "{{answer_index}}"

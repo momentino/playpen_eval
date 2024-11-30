@@ -1,0 +1,21 @@
+# Tasks that are only used for robustness in the original paper
+group: lmentry_aux
+task:
+  - group: all_words_from_category
+    task:
+      - lmentry_all_words_from_category_aux
+  - group: any_words_from_category
+    task:
+      - lmentry_any_words_from_category_aux
+  - group: first_alphabetically
+    task:
+      - first_alphabetically_aux
+  - group: less_letters
+    task:
+      - lmentry_less_letters_aux
+  - group: more_letters
+    task:
+      - lmentry_more_letters_aux
+  - group: rhyming_word
+    task:
+      - lmentry_rhyming_word_aux

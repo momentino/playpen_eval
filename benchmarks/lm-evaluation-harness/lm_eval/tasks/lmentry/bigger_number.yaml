@@ -1,0 +1,6 @@
+dataset_name: bigger_number
+task: lmentry_bigger_number
+include: _lmentry_template_yaml
+output_type: multiple_choice
+doc_to_choice: "{{[n1|string, n2|string]}}"
+doc_to_target: "{{answer_index}}"

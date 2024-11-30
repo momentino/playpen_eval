@@ -1,0 +1,7 @@
+dataset_name: rhyming_word_ortographically_different
+task: rhyming_word_ortographically_different
+tag: lmentry_rhyming_word_aux
+include: _lmentry_template_yaml
+output_type: multiple_choice
+doc_to_choice: "{{[answer, distractor]}}"
+doc_to_target: 0

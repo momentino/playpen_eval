@@ -1,0 +1,71 @@
+group: lmentry
+task:
+  - group: all_words_from_category
+    task:
+      - lmentry_all_words_from_category
+  - group: any_words_from_category
+    task:
+      - lmentry_any_words_from_category
+  - group: bigger_number
+    task:
+      - lmentry_bigger_number
+  - group: ends_with_letter
+    task:
+      - lmentry_ends_with_letter
+  - group: ends_with_word
+    task:
+      - lmentry_ends_with_word
+  - group: first_alphabetically
+    task:
+      - lmentry_first_alphabetically
+  - group: first_letter
+    task:
+      - lmentry_first_letter
+  - group: first_word
+    task:
+      - lmentry_first_word
+  - group: homophones
+    task:
+      - lmentry_homophones
+  - group: last_letter
+    task:
+      - lmentry_last_letter
+  - group: last_word
+    task:
+      - lmentry_last_word
+  - group: least_associated_word
+    task:
+      - lmentry_least_associated_word
+  - group: less_letters
+    task:
+      - lmentry_less_letters
+  - group: more_letters
+    task:
+      - lmentry_more_letters
+  - group: most_associated_word
+    task:
+      - lmentry_most_associated_word
+  - group: sentence_containing
+    task:
+      - lmentry_sentence_containing
+  - group: sentence_not_containing
+    task:
+      - lmentry_sentence_not_containing
+  - group: smaller_number
+    task:
+      - lmentry_smaller_number
+  - group: word_after
+    task:
+      - lmentry_word_after
+  - group: word_before
+    task:
+      - lmentry_word_before
+  - group: word_containing
+    task:
+      - lmentry_word_containing
+  - group: word_not_containing
+    task:
+      - lmentry_word_not_containing
+aggregate_metric_list:
+  - metric: acc
+    weight_by_size: True

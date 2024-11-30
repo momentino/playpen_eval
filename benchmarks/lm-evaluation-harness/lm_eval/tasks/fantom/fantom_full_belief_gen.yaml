@@ -1,0 +1,12 @@
+dataset_path: clembench-playpen/fantom
+dataset_name: full_belief_gen
+task: fantom_full_belief_gen
+output_type: generate_until
+test_split: inaccessible
+doc_to_text: "{{input_text}}"
+doc_to_target: "{{correct_answer}}"
+process_results: !function utils.process_results_f1
+metric_list:
+  - metric: f1
+    aggregation: mean
+    higher_is_better: true

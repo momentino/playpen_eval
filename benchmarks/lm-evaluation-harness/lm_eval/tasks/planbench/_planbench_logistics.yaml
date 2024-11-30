@@ -1,0 +1,7 @@
+group: planbench_logistics
+group_alias: logistics
+task:
+  - planbench_logistics_tasks
+aggregate_metric_list:
+  - metric: acc
+    weight_by_size: True

@@ -1,0 +1,7 @@
+group: planbench
+task:
+  - planbench_blocksworld
+  - planbench_logistics
+aggregate_metric_list:
+  - metric: acc
+    weight_by_size: True
