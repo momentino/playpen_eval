@@ -55,7 +55,7 @@ tasks:
       alias: "LM-Pragmatics"
       functional: [ "pragmatics" ]
       formal: [ ]
-  llmbar_natural:
+  llmbar_natural_vanilla:
       alias: "LLMBar"
       functional: [ "causal_reasoning", "logical_reasoning", "commonsense_reasoning" ]
       formal: [ ]
