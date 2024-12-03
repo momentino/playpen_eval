@@ -7,91 +7,130 @@ tasks:
       alias: "SocialIQA"
       functional: [ "causal_reasoning", "social_commonsense_reasoning", "emotional_intelligence" ]
       formal: [ ]
+      functional_groups: ["executive_functions", "social_emotional_cognition"]
+      backend: "harness"
   mmlu:
       alias: "MMLU"
       functional: [ "logical_reasoning" ]
-      formal: [ ]
+      formal: []
+      functional_groups: ["executive_functions"]
+      backend: "harness"
   drop:
       alias: "DROP"
       functional: [ "numerical_reasoning" ]
-      formal: [ ]
+      formal: []
+      functional_groups: ["executive_functions"]
+      backend: "harness"
   glue_diagnostics:
       alias: "GLUE Diagnostics"
       functional: [ "commonsense_reasoning", "logical_reasoning" ]
       formal: [ "semantics", "predicate_argument_structure" ]
+      functional_groups: ["executive_functions"]
+      backend: "harness"
   super_glue_v2:
       alias: "SuperGLUE"
       functional: [ "logical_reasoning", "causal_reasoning", "commonsense_reasoning" ]
       formal: [ "semantics", "predicate_argument_structure" ]
+      functional_groups: ["executive_functions"]
+      backend: "harness"
   super_glue_cb_reimplemented:
       alias: "CB"
       functional: [ "logical_reasoning" ]
       formal: [ ]
+      functional_groups: ["executive_functions"]
+      backend: "harness"
   super_glue_copa_reimplemented:
       alias: "COPA"
       functional: [ "causal_reasoning", "commonsense_reasoning", "logical_reasoning" ]
       formal: []
+      functional_groups: ["executive_functions"]
+      backend: "harness"
   super_glue_record_reimplemented:
       alias: "ReCoRD"
       functional: [ "commonsense_reasoning" ]
       formal: []
+      functional_groups: ["executive_functions"]
+      backend: "harness"
   super_glue_rte_reimplemented:
       alias: "RTE"
       functional: [ "logical_reasoning" ]
       formal: []
+      functional_groups: ["executive_functions"]
+      backend: "harness"
   super_glue_wic_reimplemented:
       alias: "WiC"
       functional: []
       formal: [ "semantics" ]
+      functional_groups: []
+      backend: "harness"
   super_glue_wsc_reimplemented:
       alias: "WSC"
       functional: []
       formal: [ "predicate_argument_structure" ]
+      functional_groups: []
+      backend: "harness"
   bbh:
       alias: "BBH"
       functional: [ "logical_reasoning", "causal_reasoning", "commonsense_reasoning", "social_commonsense_reasoning", "emotional_intelligence", "pragmatics" ]
       formal: [ "negation", "metalinguistic" ]
+      functional_groups: ["executive_functions", "social_emotional_cognition"]
+      backend: "harness"
   lm_pragmatics:
       alias: "LM-Pragmatics"
       functional: [ "pragmatics" ]
       formal: [ ]
+      functional_groups: ["social_emotional_cognition"]
+      backend: "harness"
   llmbar_natural_vanilla:
       alias: "LLMBar"
-      functional: [ "causal_reasoning", "logical_reasoning", "commonsense_reasoning" ]
+      functional: [ "causal_reasoning", "logical_reasoning", "commonsense_reasoning", "physical_commonsense_reasoning", "social_commonsense_reasoning" ]
       formal: [ ]
+      functional_groups: ["executive_functions", "social_emotional_cognition"]
+      backend: "harness"
   delta_nc:
       alias: "LingOLY"
       functional: ["logical reasoning"]
       formal: ["metalinguistic"]
-  # TODO
+      functional_groups: ["executive_functions"]
+      backend: "harness"
   planbench:
       alias: "PlanBench"
       functional: ["strategic_reasoning"]
       formal: [ ]
+      functional_groups: ["executive_functions"]
+      backend: "harness"
+  # TODO
   ewok:
       alias: "EWoK"
-      functional: ["commonsense_reasoning", "social_commonsense_reasoning", "causal_reasoning", "logical_reasoning" ]
+      functional: ["physical_commonsense_reasoni9ng", "social_commonsense_reasoning", "causal_reasoning"]
       formal: [ "negation" ]
+      functional_groups: ["executive_functions", "social_emotional_cognition"]
   fantom_full:
       alias: "FANToM"
       functional: ["theory_of_mind"]
       formal: []
+      functional_groups: ["social_emotional_cognition"]
   nli_dataset:
       alias: "NLI Dataset"
       functional: ["causal_reasoning", "logical_reasoning"]
+      functional_groups: ["executive_functions"]
   lmentry:
       alias: "LMentry"
       functional: []
       formal: ["semantics", "metalinguistic"]
+      functional_groups: []
   linguini:
       alias: "Linguini"
       functional: ["logical_reasoning"]
       formal: ["metalinguistic"]
+      functional_groups: ["executive_functions"]
   strange_dataset:
       alias: "Strange Dataset"
       functional: ["causal_reasoning"]
       formal: ["metalinguistic"]
+      functional_groups: ["executive_functions"]
   holmes:
       alias: "Holmes"
       functional: []
       formal: ["semantics", "predicate_argument_structure", "negation" ]
+      functional_groups: []

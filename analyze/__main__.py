@@ -5,15 +5,23 @@ from analyze.dataset_correlation import run_correlation, verify_functional_corre
 
 
 def main(args: argparse.Namespace) -> None:
-    if args.command_name == "run_correlation":
+    if args.command_name == "correlation":
         playpen_correlation_logger.info(f"Starting the correlation analysis for the experiment.")
+        output_path_root = Path(args.output_path) / Path("overall") / args.correlation_method
         run_correlation(src_path = Path(args.src_path),
-                        output_path = Path(args.output_path),
-                        take_subtasks = args.take_subtasks,
-                        divide_by_model_size = args.by_model_size,
-                        name=args.name,
+                        output_path_root = output_path_root,
+                        tiers = args.tiers,
+                        correlation_method = args.correlation_method,
                         tasks_to_ignore=args.tasks_to_ignore)
-    elif args.command_name == "run_verify_functional_correlation_patterns":
+    elif args.command_name == "correlation_unpacked":
+        output_path_root = Path(args.output_path) / Path(f"unpacked_{','.join(args.tasks_to_unpack)}") / args.correlation_method
+        run_correlation(src_path=Path(args.src_path),
+                        output_path_root=output_path_root,
+                        tiers=args.tiers,
+                        correlation_method=args.correlation_method,
+                        tasks_to_ignore=args.tasks_to_ignore,
+                        tasks_to_unpack=args.tasks_to_unpack)
+    elif args.command_name == "verify_functional_correlation_patterns":
         playpen_correlation_logger.info(f"Starting to analyze patterns in the correlations.")
         verify_functional_correlation_patterns(src_path = Path(args.src_path))
 
@@ -21,7 +29,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     sub_parsers = parser.add_subparsers(dest="command_name")
 
-    run_correlation_parser = sub_parsers.add_parser("run_correlation", formatter_class=argparse.RawTextHelpFormatter)
+    run_correlation_parser = sub_parsers.add_parser("correlation", formatter_class=argparse.RawTextHelpFormatter)
 
     run_correlation_parser.add_argument(
         "-s", "--src_path",
@@ -50,16 +58,17 @@ if __name__ == "__main__":
     )
 
     run_correlation_parser.add_argument(
-        "--by_model_size",
+        "--tiers",
         action="store_true",
         default=False,
         help="Whether to include also separate analysis for different sizes of models."
     )
 
     run_correlation_parser.add_argument(
-        "--name",
-        action="store_true",
-        default=False,
+        "--correlation_method",
+        type=str,
+        default="pearson",
+        choices = ['pearson', 'kendall', 'spearman'],
         help="Whether to include the name of the image in the correlation plot."
     )
 
