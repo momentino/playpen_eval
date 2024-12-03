@@ -7,7 +7,7 @@ from typing import List, Dict
 playpen_eval_logger = logging.getLogger("playpen_eval_logger")
 
 def get_playpen_tasks() -> Dict[str, str]:
-    tasks_file = Path(__file__).parent.parent / "data" / "tasks_list.yaml"
+    tasks_file = Path(__file__).parent.parent / "config" / "task_registry.yaml"
     with open(tasks_file, 'r') as file:
         data = yaml.safe_load(file)
     return data['tasks']

@@ -99,17 +99,18 @@ tasks:
       formal: [ ]
       functional_groups: ["executive_functions"]
       backend: "harness"
+  fantom_full:
+      alias: "FANToM"
+      functional: [ "theory_of_mind" ]
+      formal: [ ]
+      functional_groups: [ "social_emotional_cognition" ]
+      backend: "harness"
   # TODO
   ewok:
       alias: "EWoK"
       functional: ["physical_commonsense_reasoni9ng", "social_commonsense_reasoning", "causal_reasoning"]
       formal: [ "negation" ]
       functional_groups: ["executive_functions", "social_emotional_cognition"]
-  fantom_full:
-      alias: "FANToM"
-      functional: ["theory_of_mind"]
-      formal: []
-      functional_groups: ["social_emotional_cognition"]
   nli_dataset:
       alias: "NLI Dataset"
       functional: ["causal_reasoning", "logical_reasoning"]
