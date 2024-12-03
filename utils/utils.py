@@ -1,4 +1,6 @@
 import os
+from collections import defaultdict
+
 import numpy as np
 from typing import List
 
@@ -26,6 +28,20 @@ def custom_json_serializer(obj):
         return int(obj)
     raise TypeError(f"Type {type(obj)} not serializable")
 
+def compute_fantom_aggregated_score(harness_results: dict) -> float:
+    results = defaultdict(list)
+    for task, samples in harness_results['samples'].items():
+        if "fact" not in task:
+            for sample in samples:
+                set_id = sample['set_id']
+                results[set_id].append(sample['acc'])
+
+    all_ones_count = sum(1 for values in results.values() if all(score == 1 for score in values))
+    num_set_id = len(results)
+
+    all_star = all_ones_count / num_set_id
+    return all_star
+
 def prepare_playpen_results(main_task: str, model_name:str, harness_results: dict = None) -> dict:
     results = {}
     if(harness_results is not None):
@@ -40,11 +56,14 @@ def prepare_playpen_results(main_task: str, model_name:str, harness_results: dic
             task_score_key = task_score_key[0]
             metric_name = task_score_key.split(",")[0]
             score_value = scores[task_score_key]
-
-            if(task_name == main_task):
-                aggregated_results = {"metric": metric_name, "score": score_value}
+            if task_name == "fantom_full":
+                score_value = compute_fantom_aggregated_score(harness_results)
+                aggregated_results = {"metric": 'all_star', "score": score_value}
             else:
-                subtask_results[task_name] = {"metric": metric_name, "score": score_value}
+                if(task_name == main_task):
+                    aggregated_results = {"metric": metric_name, "score": score_value}
+                else:
+                    subtask_results[task_name] = {"metric": metric_name, "score": score_value}
         results.update({
             "model_name": model_name,
             "task": main_task,
