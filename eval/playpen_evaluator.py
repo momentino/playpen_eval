@@ -19,7 +19,6 @@ sys.path.insert(0, submodule_path)
 
 # Dynamically import the module with the hyphen in its name
 lm_eval = importlib.import_module('benchmarks.lm-evaluation-harness.lm_eval')
-from lm_eval.tasks import TaskManager
 
 
 def print_value_types(data):
@@ -41,7 +40,7 @@ class PlaypenEvaluator:
         pass
 
     @staticmethod
-    def run(model_backend: str, model_args: str, tasks: List, device: str, trust_remote_code:bool, results_path: Path = "results") -> None:
+    def run(model_backend: str, model_args: str, tasks: List, device: str, trust_remote_code:bool, num_fewshot: int = None, results_path: Path = "results") -> None:
 
         model_name_parts = model_args.split(",")
         # Look for the part that starts with "pretrained="
@@ -86,14 +85,23 @@ class PlaypenEvaluator:
         for task in tasks:
             backend = playpen_tasks[task]["backend"]
             if backend == "harness":
-                results = lm_eval.simple_evaluate(
-                    model=model_backend,
-                    model_args=model_args,
-                    tasks=task,
-                    device=device,
-                    num_fewshot=0,
-                    log_samples=True,
-                )
+                if num_fewshot is not None:
+                    results = lm_eval.simple_evaluate(
+                        model=model_backend,
+                        model_args=model_args,
+                        tasks=task,
+                        device=device,
+                        num_fewshot=0,
+                        log_samples=True,
+                    )
+                else:
+                    results = lm_eval.simple_evaluate(
+                        model=model_backend,
+                        model_args=model_args,
+                        tasks=task,
+                        device=device,
+                        log_samples=True,
+                    )
                 timestamp = datetime.now().strftime("%Y-%m-%dT%H-%M-%S.%f")
                 harness_results_file_path = Path(os.path.join(model_harness_results_path, f"{task}_harness_results_{timestamp}.json"))
                 harness_results_file_path.parent.mkdir(parents=True, exist_ok=True)
