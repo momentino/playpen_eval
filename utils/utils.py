@@ -1,3 +1,4 @@
+import json
 import os
 from collections import defaultdict
 
@@ -31,14 +32,17 @@ def custom_json_serializer(obj):
 def compute_fantom_aggregated_score(harness_results: dict) -> float:
     results = defaultdict(list)
     for task, samples in harness_results['samples'].items():
+        print(task)
         if "fact" not in task:
             for sample in samples:
                 set_id = sample["doc"]["set_id"]
-                results[set_id].append(sample['acc'])
+                if 'acc' in sample:
+                    results[set_id].append(sample['acc'])
+                elif 'f1' in sample:
+                    results[set_id].append(sample['f1'])
 
     all_ones_count = sum(1 for values in results.values() if all(score == 1 for score in values))
     num_set_id = len(results)
-
     all_star = all_ones_count / num_set_id
     return all_star
 
@@ -76,3 +80,7 @@ def prepare_playpen_results(main_task: str, model_name:str, harness_results: dic
         })
         return results
     raise Exception("Other options besides  harness are not yet implemented.")
+
+fantom_full = "/mnt/cimec-storage6/users/filippo.momente/PycharmProjects/playpen_eval/results/harness/google__gemma-2-2b-it/fantom_full_harness_results_2024-12-04T16-13-00.960583.json"
+harness_res = json.load(open(fantom_full))
+prepare_playpen_results(main_task="fantom_full", model_name="google__gemma_2_2b_it", harness_results=harness_res)
