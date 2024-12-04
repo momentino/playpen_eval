@@ -15,6 +15,18 @@ tasks:
       formal: []
       functional_groups: ["executive_functions"]
       backend: "harness"
+  mmlu_formal_logic:
+      alias: "MMLU Formal Logic"
+      functional: [ "logical_reasoning" ]
+      formal: [ ]
+      functional_groups: [ "executive_functions" ]
+      backend: "harness"
+  mmlu_logical_fallacies:
+      alias: "MMLU Logical Fallacies"
+      functional: [ "logical_reasoning" ]
+      formal: [ ]
+      functional_groups: [ "executive_functions" ]
+      backend: "harness"
   drop:
       alias: "DROP"
       functional: [ "numerical_reasoning" ]
