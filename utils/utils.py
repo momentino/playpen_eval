@@ -81,6 +81,6 @@ def prepare_playpen_results(main_task: str, model_name:str, harness_results: dic
         return results
     raise Exception("Other options besides  harness are not yet implemented.")
 
-fantom_full = "/mnt/cimec-storage6/users/filippo.momente/PycharmProjects/playpen_eval/results/harness/google__gemma-2-2b-it/fantom_full_harness_results_2024-12-04T16-13-00.960583.json"
-harness_res = json.load(open(fantom_full))
-prepare_playpen_results(main_task="fantom_full", model_name="google__gemma_2_2b_it", harness_results=harness_res)
+#fantom_full = "/mnt/cimec-storage6/users/filippo.momente/PycharmProjects/playpen_eval/results/harness/google__gemma-2-2b-it/fantom_full_harness_results_2024-12-04T16-13-00.960583.json"
+#harness_res = json.load(open(fantom_full))
+#prepare_playpen_results(main_task="fantom_full", model_name="google__gemma_2_2b_it", harness_results=harness_res)
