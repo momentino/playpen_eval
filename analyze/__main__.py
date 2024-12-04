@@ -7,20 +7,17 @@ from analyze.dataset_correlation import run_correlation, verify_functional_corre
 def main(args: argparse.Namespace) -> None:
     if args.command_name == "correlation":
         playpen_correlation_logger.info(f"Starting the correlation analysis for the experiment.")
-        output_path_root = Path(args.output_path) / Path("overall") / args.correlation_method
+        if args.take_functional_subtasks:
+            output_path_root = Path(args.output_path) / Path(
+                f"unpacked_{','.join(args.tasks_to_unpack)}") / args.correlation_method
+        else:
+            output_path_root = Path(args.output_path) / Path("overall") / args.correlation_method
         run_correlation(src_path = Path(args.src_path),
                         output_path_root = output_path_root,
                         tiers = args.tiers,
                         correlation_method = args.correlation_method,
+                        take_functional_subtasks = args.take_functional_subtasks,
                         tasks_to_ignore=args.tasks_to_ignore)
-    elif args.command_name == "correlation_unpacked":
-        output_path_root = Path(args.output_path) / Path(f"unpacked_{','.join(args.tasks_to_unpack)}") / args.correlation_method
-        run_correlation(src_path=Path(args.src_path),
-                        output_path_root=output_path_root,
-                        tiers=args.tiers,
-                        correlation_method=args.correlation_method,
-                        tasks_to_ignore=args.tasks_to_ignore,
-                        tasks_to_unpack=args.tasks_to_unpack)
     elif args.command_name == "verify_functional_correlation_patterns":
         playpen_correlation_logger.info(f"Starting to analyze patterns in the correlations.")
         verify_functional_correlation_patterns(src_path = Path(args.src_path))
@@ -44,7 +41,7 @@ if __name__ == "__main__":
         help="Path to the folder where to save the results from the correlation analysis."
     )
     run_correlation_parser.add_argument(
-        "--take_subtasks",
+        "--take_functional_subtasks",
         nargs="+",
         default=[],
         help="For the specific tasks here, take the subtasks rather than the aggregation of results on subtasks."

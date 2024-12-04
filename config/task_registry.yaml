@@ -27,6 +27,36 @@ tasks:
       formal: [ "semantics", "predicate_argument_structure" ]
       functional_groups: ["executive_functions"]
       backend: "harness"
+  glue_diagnostics_logic:
+      alias: "GLUE Diagnostics Logical"
+      functional: ["logical_reasoning"]
+      formal: []
+      functional_groups: [ "executive_functions" ]
+      backend: "harness"
+  glue_diagnostics_lexical_semantics:
+      alias: "GLUE Diagnostics Lex. Sem."
+      functional: [ "semantics" ]
+      formal: [ ]
+      functional_groups: [ "executive_functions" ]
+      backend: "harness"
+  glue_diagnostics_predicate_argument_structure:
+      alias: "GLUE Diagnostics PAS"
+      functional: [ "predicate_argument_structure" ]
+      formal: [ ]
+      functional_groups: [ "executive_functions" ]
+      backend: "harness"
+  glue_diagnostics_knowledge_world:
+      alias: "GLUE Diagnostics World Know."
+      functional: [ ]
+      formal: [ ]
+      functional_groups: [ ]
+      backend: "harness"
+  glue_diagnostics_knowledge_common_sense:
+      alias: "GLUE Diagnostics Commonsense"
+      functional: [ "commonsense_reasoning" ]
+      formal: [ ]
+      functional_groups: [ "executive_functions" ]
+      backend: "harness"
   super_glue_v2:
       alias: "SuperGLUE"
       functional: [ "logical_reasoning", "causal_reasoning", "commonsense_reasoning" ]

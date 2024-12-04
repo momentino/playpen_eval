@@ -173,32 +173,33 @@ def organize_scores(scores: Dict, tasks_info: Dict, capabilities_list: List[str]
                             task2_name] = scores2
     return organized_scores
 
-def get_scores(reports, tasks_info: Dict[str,Dict[str,str]], tasks_to_ignore:List[str], tasks_to_unpack: List[str] = None):
+def get_scores(reports, tasks_info: Dict[str,Dict[str,str]], tasks_to_ignore:List[str], take_functional_subtasks: bool):
     scores_dict = defaultdict(list)
     task_names = tasks_info.keys()
     for report in reports:
         task_name = report["task"]
         model_name = report["model_name"]
         if task_name not in tasks_to_ignore:
-            if tasks_to_unpack is not None and task_name in tasks_to_unpack:
+            if take_functional_subtasks:
                 for subtask_name, subtask_results in report["subtask_results"].items():
-                    if subtask_name in task_names:
-                        score = subtask_results["score"]
-                        results = (model_name, score)
-                        scores_dict[subtask_name].append(results)
+                    if len(tasks_info[task_name]['functional']) > 0:
+                        if subtask_name in task_names:
+                            score = subtask_results["score"]
+                            results = (model_name, score)
+                            scores_dict[subtask_name].append(results)
             elif task_name in task_names:
                 score = report["aggregated_results"]["score"]
                 results = (model_name, score)
                 scores_dict[task_name].append(results)
     return scores_dict
 
-def run_correlation(src_path: Path, output_path_root:Path, correlation_method: str, tasks_to_ignore: List[str], tiers: bool, tasks_to_unpack:List[str] = None) -> None:
+def run_correlation(src_path: Path, output_path_root:Path, correlation_method: str, tasks_to_ignore: List[str], tiers: bool, take_functional_subtasks: bool) -> None:
 
     model_registry = get_model_registry()
     capabilities_list, tasks_info = get_tasks_info()
     src_path = project_root / src_path
     reports = get_reports(src_path=src_path, model_registry = model_registry)
-    scores = get_scores(reports, tasks_info, tasks_to_unpack=tasks_to_unpack, tasks_to_ignore=tasks_to_ignore)
+    scores = get_scores(reports, tasks_info, take_functional_subtasks=take_functional_subtasks, tasks_to_ignore=tasks_to_ignore)
 
     # Check for duplicates and sort by model name and param size
     for key, score_list in scores.items():
