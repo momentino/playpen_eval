@@ -33,7 +33,7 @@ def compute_fantom_aggregated_score(harness_results: dict) -> float:
     for task, samples in harness_results['samples'].items():
         if "fact" not in task:
             for sample in samples:
-                set_id = sample['set_id']
+                set_id = sample["doc"]["set_id"]
                 results[set_id].append(sample['acc'])
 
     all_ones_count = sum(1 for values in results.values() if all(score == 1 for score in values))
@@ -48,22 +48,26 @@ def prepare_playpen_results(main_task: str, model_name:str, harness_results: dic
         subtask_results = {}
         aggregated_results = {}
 
+        if main_task == 'lingoly':
+            main_task = "delta_nc"
+
         for task_name, scores in harness_results["results"].items():
+            if task_name != "lingoly":
+                # TODO Improve, support other scores
+                task_score_key = [key for key in scores if ("acc" in key or "f1" in key or "exact_match" in key) and "stderr" not in key]
 
-            # TODO Improve, support other scores
-            task_score_key = [key for key in scores if ("acc" in key or "f1" in key or "exact_match" in key) and "stderr" not in key]
+                task_score_key = task_score_key[0]
+                metric_name = task_score_key.split(",")[0]
 
-            task_score_key = task_score_key[0]
-            metric_name = task_score_key.split(",")[0]
-            score_value = scores[task_score_key]
-            if task_name == "fantom_full":
-                score_value = compute_fantom_aggregated_score(harness_results)
-                aggregated_results = {"metric": 'all_star', "score": score_value}
-            else:
-                if(task_name == main_task):
-                    aggregated_results = {"metric": metric_name, "score": score_value}
+                score_value = scores[task_score_key]
+                if task_name == "fantom_full":
+                    score_value = compute_fantom_aggregated_score(harness_results)
+                    aggregated_results = {"metric": 'all_star', "score": score_value}
                 else:
-                    subtask_results[task_name] = {"metric": metric_name, "score": score_value}
+                    if(task_name == main_task):
+                        aggregated_results = {"metric": metric_name, "score": score_value}
+                    else:
+                        subtask_results[task_name] = {"metric": metric_name, "score": score_value}
         results.update({
             "model_name": model_name,
             "task": main_task,

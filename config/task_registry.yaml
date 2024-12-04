@@ -87,7 +87,7 @@ tasks:
       formal: [ ]
       functional_groups: ["executive_functions", "social_emotional_cognition"]
       backend: "harness"
-  delta_nc:
+  lingoly:
       alias: "LingOLY"
       functional: ["logical reasoning"]
       formal: ["metalinguistic"]

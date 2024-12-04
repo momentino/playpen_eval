@@ -229,9 +229,9 @@ def run_correlation(src_path: Path, output_path_root:Path, correlation_method: s
         }
         for tier, bounds in model_size_thresholds.items():
             correlation_matrices = get_correlation_matrices(correlation_method, organized_scores, lower_bound=bounds['lower_bound'], upper_bound=bounds['upper_bound'], model_registry = model_registry, tasks_info=tasks_info)
-            output_path_root = output_path_root / tier
+            output_path = output_path_root / tier
             plot_and_save_matrices(correlation_matrices=correlation_matrices,
-                                   output_path_root=output_path_root)
+                                   output_path_root=output_path)
 
 
 
