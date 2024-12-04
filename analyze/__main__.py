@@ -8,8 +8,7 @@ def main(args: argparse.Namespace) -> None:
     if args.command_name == "correlation":
         playpen_correlation_logger.info(f"Starting the correlation analysis for the experiment.")
         if args.take_functional_subtasks:
-            output_path_root = Path(args.output_path) / Path(
-                f"unpacked_{','.join(args.tasks_to_unpack)}") / args.correlation_method
+            output_path_root = Path(args.output_path) / Path("unpacked") / args.correlation_method
         else:
             output_path_root = Path(args.output_path) / Path("overall") / args.correlation_method
         run_correlation(src_path = Path(args.src_path),
@@ -42,8 +41,8 @@ if __name__ == "__main__":
     )
     run_correlation_parser.add_argument(
         "--take_functional_subtasks",
-        nargs="+",
-        default=[],
+        action="store_true",
+        default=False,
         help="For the specific tasks here, take the subtasks rather than the aggregation of results on subtasks."
     )
 

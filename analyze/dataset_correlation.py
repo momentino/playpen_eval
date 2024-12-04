@@ -114,6 +114,7 @@ def get_correlation_matrices(correlation_method:str, scores: Dict, model_registr
         for subset_name, tasks in subsets.items():
             scores = defaultdict(list)
             for task, model_results in tasks.items():
+                print(task, model_results)
                 scores[task] = [v[1] for v in model_results if
                                 (lower_bound is None and upper_bound is None) or
                                 (lower_bound < convert_str_to_number(model_registry[v[0]]['params']) <= upper_bound)]
