@@ -125,6 +125,7 @@ tasks:
       formal: []
       functional_groups: ["executive_functions"]
       has_subtasks: False
+      main_task: False
       task_type: ["multiple_choice"]
       backend: "harness"
   super_glue_record_reimplemented:
@@ -762,27 +763,27 @@ tasks:
       main_task: False
       backend: "harness"
   # TODO
-  ewok:
-      alias: "EWoK"
-      functional: ["physical_commonsense_reasoni9ng", "social_commonsense_reasoning", "causal_reasoning"]
-      formal: [ "negation" ]
-      functional_groups: ["executive_functions", "social_emotional_cognition"]
-  nli_dataset:
-      alias: "NLI Dataset"
-      functional: ["causal_reasoning", "logical_reasoning"]
-      functional_groups: ["executive_functions"]
-  lmentry:
-      alias: "LMentry"
-      functional: []
-      formal: ["semantics", "metalinguistic"]
-      functional_groups: []
-  strange_dataset:
-      alias: "Strange Dataset"
-      functional: ["causal_reasoning"]
-      formal: ["metalinguistic"]
-      functional_groups: ["executive_functions"]
-  holmes:
-      alias: "Holmes"
-      functional: []
-      formal: ["semantics", "predicate_argument_structure", "negation" ]
-      functional_groups: []
+  #ewok:
+  #    alias: "EWoK"
+  #    functional: ["physical_commonsense_reasoni9ng", "social_commonsense_reasoning", "causal_reasoning"]
+  #    formal: [ "negation" ]
+  #    functional_groups: ["executive_functions", "social_emotional_cognition"]
+  #nli_dataset:
+  #    alias: "NLI Dataset"
+  #    functional: ["causal_reasoning", "logical_reasoning"]
+  #    functional_groups: ["executive_functions"]
+  #lmentry:
+  #    alias: "LMentry"
+  #    functional: []
+  #    formal: ["semantics", "metalinguistic"]
+  #    functional_groups: []
+  #strange_dataset:
+  #    alias: "Strange Dataset"
+  #    functional: ["causal_reasoning"]
+  #    formal: ["metalinguistic"]
+  #    functional_groups: ["executive_functions"]
+  #holmes:
+  #    alias: "Holmes"
+  #    functional: []
+  #    formal: ["semantics", "predicate_argument_structure", "negation" ]
+  #    functional_groups: []

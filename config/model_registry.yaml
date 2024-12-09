@@ -17,3 +17,19 @@ models:
     params: 9B
   Qwen__Qwen2.5-7B-Instruct:
     params: 7B
+  meta_llama__Llama-3.3-70B-Instruct:
+    params: 70B
+  meta-llama__Llama-3.1-70B-Instruct:
+    params: 70B
+  allenai__OLMo-7B-Instruct:
+    params: 7B
+  allenai__allenai/Llama-3.1-Tulu-3-8B:
+    params: 8B
+  google__gemma-2-27b-it:
+    params: 27B
+  Qwen__Qwen2.5-14B-Instruct:
+    params: 14B
+  Qwen__Qwen2.5-32B-Instruct:
+    params: 32B
+  Qwen__Qwen2.5-72B-Instruct:
+    params: 72B
