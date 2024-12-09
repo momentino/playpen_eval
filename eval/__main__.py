@@ -15,13 +15,8 @@ def main(args: argparse.Namespace) -> None:
             tasks=args.tasks,
             device=args.device,
             trust_remote_code=args.trust_remote_code,
-            num_fewshot=args.num_fewshot,
             results_path=args.results_path,
         )
-    if args.command_name == "build_model_report":
-        PlaypenEvaluator.model_report()
-    if args.command_name == "build_benchmark_report":
-        PlaypenEvaluator.benchmark_report()
     if args.command_name == "convert_results_from_harness":
         PlaypenEvaluator.convert_res_from_harness(task_name=args.task_name, model_name=args.model_name, file_path=args.file_path, output_path=args.output_path)
 
@@ -64,13 +59,6 @@ if __name__ == "__main__":
         "--trust_remote_code",
         action="store_true",  # This makes it a flag
         default=True,  # Default is True if the flag is not passed
-        help="Whether to trust remote code. Default is True."
-    )
-
-    run_parser.add_argument(
-        "--num_fewshot",
-        type=int,
-        default = None,
         help="Whether to trust remote code. Default is True."
     )
 

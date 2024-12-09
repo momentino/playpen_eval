@@ -8,13 +8,14 @@ def main(args: argparse.Namespace) -> None:
     if args.command_name == "correlation":
         playpen_correlation_logger.info(f"Starting the correlation analysis for the experiment.")
         if args.take_functional_subtasks:
-            output_path_root = Path(args.output_path) / Path("unpacked") / args.correlation_method
+            output_path_root = Path(args.output_path) / Path(args.discriminant) / Path("unpacked") / args.correlation_method
         else:
-            output_path_root = Path(args.output_path) / Path("overall") / args.correlation_method
+            output_path_root = Path(args.output_path) / Path(args.discriminant) / Path("overall") / args.correlation_method
         run_correlation(src_path = Path(args.src_path),
                         output_path_root = output_path_root,
                         tiers = args.tiers,
                         correlation_method = args.correlation_method,
+                        discriminant = args.discriminant,
                         take_functional_subtasks = args.take_functional_subtasks,
                         tasks_to_ignore=args.tasks_to_ignore)
     elif args.command_name == "verify_functional_correlation_patterns":
@@ -65,6 +66,14 @@ if __name__ == "__main__":
         type=str,
         default="pearson",
         choices = ['pearson', 'kendall', 'spearman'],
+        help="Whether to include the name of the image in the correlation plot."
+    )
+
+    run_correlation_parser.add_argument(
+        "--discriminant",
+        type=str,
+        default="capabilities",
+        choices=['capabilities', 'tasks'],
         help="Whether to include the name of the image in the correlation plot."
     )
 

@@ -8,144 +8,758 @@ tasks:
       functional: [ "causal_reasoning", "social_commonsense_reasoning", "emotional_intelligence" ]
       formal: [ ]
       functional_groups: ["executive_functions", "social_emotional_cognition"]
+      has_subtasks: False
+      main_task: True
+      task_type: ["multiple_choice"]
       backend: "harness"
   mmlu:
       alias: "MMLU"
       functional: [ "logical_reasoning" ]
       formal: []
       functional_groups: ["executive_functions"]
+      has_subtasks: True
+      main_task: True
+      task_type: ["multiple_choice"]
       backend: "harness"
   mmlu_formal_logic:
       alias: "MMLU Formal Logic"
       functional: [ "logical_reasoning" ]
       formal: [ ]
       functional_groups: [ "executive_functions" ]
+      has_subtasks: False
+      main_task: False
+      task_type: ["multiple_choice"]
       backend: "harness"
   mmlu_logical_fallacies:
       alias: "MMLU Logical Fallacies"
       functional: [ "logical_reasoning" ]
       formal: [ ]
       functional_groups: [ "executive_functions" ]
+      has_subtasks: False
+      main_task: False
+      task_type: ["multiple_choice"]
       backend: "harness"
   drop:
       alias: "DROP"
       functional: [ "numerical_reasoning" ]
       formal: []
       functional_groups: ["executive_functions"]
+      has_subtasks: False
+      main_task: True
       backend: "harness"
   glue_diagnostics:
       alias: "GLUE Diagnostics"
       functional: [ "commonsense_reasoning", "logical_reasoning" ]
       formal: [ "semantics", "predicate_argument_structure" ]
       functional_groups: ["executive_functions"]
+      has_subtasks: True
+      main_task: True
+      task_type: ["nli"]
       backend: "harness"
   glue_diagnostics_logic:
       alias: "GLUE Diagnostics Logical"
       functional: ["logical_reasoning"]
       formal: []
       functional_groups: [ "executive_functions" ]
+      has_subtasks: False
+      main_task: False
+      task_type: ["nli"]
       backend: "harness"
   glue_diagnostics_lexical_semantics:
       alias: "GLUE Diagnostics Lex. Sem."
-      functional: [ "semantics" ]
-      formal: [ ]
+      functional: [  ]
+      formal: [ "semantics"]
       functional_groups: [ "executive_functions" ]
+      has_subtasks: False
+      main_task: False
+      task_type: ["nli"]
       backend: "harness"
   glue_diagnostics_predicate_argument_structure:
       alias: "GLUE Diagnostics PAS"
-      functional: [ "predicate_argument_structure" ]
-      formal: [ ]
+      functional: [ ]
+      formal: [ "predicate_argument_structure"  ]
       functional_groups: [ "executive_functions" ]
+      has_subtasks: False
+      main_task: False
+      task_type: ["nli"]
       backend: "harness"
   glue_diagnostics_knowledge_world:
       alias: "GLUE Diagnostics World Know."
       functional: [ ]
       formal: [ ]
       functional_groups: [ ]
+      has_subtasks: False
+      main_task: False
+      task_type: ["nli"]
       backend: "harness"
   glue_diagnostics_knowledge_common_sense:
       alias: "GLUE Diagnostics Commonsense"
       functional: [ "commonsense_reasoning" ]
       formal: [ ]
       functional_groups: [ "executive_functions" ]
+      has_subtasks: False
+      main_task: False
+      task_type: ["nli"]
       backend: "harness"
   super_glue_v2:
       alias: "SuperGLUE"
       functional: [ "logical_reasoning", "causal_reasoning", "commonsense_reasoning" ]
       formal: [ "semantics", "predicate_argument_structure" ]
       functional_groups: ["executive_functions"]
-      backend: "harness"
+      has_subtasks: True
+      main_task: True
+      task_type: ["multiple_choice", "cloze", "nli"]
+      backend: "harness" # TODO
   super_glue_cb_reimplemented:
       alias: "CB"
       functional: [ "logical_reasoning" ]
       formal: [ ]
       functional_groups: ["executive_functions"]
+      has_subtasks: False
+      main_task: False
+      task_type: ["nli"]
       backend: "harness"
   super_glue_copa_reimplemented:
       alias: "COPA"
       functional: [ "causal_reasoning", "commonsense_reasoning", "logical_reasoning" ]
       formal: []
       functional_groups: ["executive_functions"]
+      has_subtasks: False
+      task_type: ["multiple_choice"]
       backend: "harness"
   super_glue_record_reimplemented:
       alias: "ReCoRD"
-      functional: [ "commonsense_reasoning" ]
+      functional: [ "commonsense_reasoning", "causal_reasoning" ]
       formal: []
       functional_groups: ["executive_functions"]
+      has_subtasks: False
+      main_task: False
+      task_type: ["cloze"]
+      backend: "harness"
+  super_glue_multirc_reimplemented:
+      alias: "MultiRC"
+      functional: [ "commonsense_reasoning" ]
+      formal: [ ]
+      functional_groups: [ "executive_functions" ]
+      has_subtasks: False
+      main_task: False
+      task_type: ["multiple_choice"]
       backend: "harness"
   super_glue_rte_reimplemented:
       alias: "RTE"
       functional: [ "logical_reasoning" ]
       formal: []
       functional_groups: ["executive_functions"]
+      has_subtasks: False
+      main_task: False
+      task_type: ["nli"]
       backend: "harness"
   super_glue_wic_reimplemented:
       alias: "WiC"
       functional: []
       formal: [ "semantics" ]
       functional_groups: []
+      has_subtasks: False
+      main_task: False
       backend: "harness"
   super_glue_wsc_reimplemented:
       alias: "WSC"
-      functional: []
+      functional: ["commonsense_reasoning"]
       formal: [ "predicate_argument_structure" ]
-      functional_groups: []
+      functional_groups: ["executive_functions"]
+      has_subtasks: False
+      main_task: False
+      task_type: ["multiple_choice"]
       backend: "harness"
   bbh:
       alias: "BBH"
       functional: [ "logical_reasoning", "causal_reasoning", "commonsense_reasoning", "social_commonsense_reasoning", "emotional_intelligence", "pragmatics" ]
-      formal: [ "negation", "metalinguistic" ]
+      formal: [ "negation", "metalinguistic", "predicate_argument_structure" ]
       functional_groups: ["executive_functions", "social_emotional_cognition"]
+      has_subtasks: True
+      main_task: True
+      backend: "harness"
+  bbh_cot_fewshot_boolean_expressions:
+      alias: "BBH Boolean Expressions"
+      functional: [ "logical_reasoning"]
+      formal: []
+      functional_groups: ["executive_functions"]
+      has_subtasks: False
+      main_task: False
+      task_type: ["open_question"]
+      backend: "harness"
+  bbh_cot_fewshot_causal_judgement:
+      alias: "BBH Causal Judgement"
+      functional: [ "causal_reasoning", "commonsense_reasoning", "social_commonsense_reasoning"]
+      formal: []
+      functional_groups: ["executive_functions", "social_emotional_cognition"]
+      has_subtasks: False
+      main_task: False
+      task_type: ["multiple_choice"]
+      backend: "harness"
+  bbh_cot_fewshot_date_understanding:
+      alias: "BBH Date Understanding"
+      functional: [ "logical_reasoning", "commonsense_reasoning" ]
+      formal: []
+      functional_groups: ["executive_functions"]
+      has_subtasks: False
+      main_task: False
+      task_type: ["multiple_choice"]
+      backend: "harness"
+  bbh_cot_fewshot_disambiguation_qa:
+      alias: "BBH Disambiguation QA"
+      functional: [ "commonsense_reasoning" ]
+      formal: [  ]
+      functional_groups: ["executive_functions"]
+      has_subtasks: False
+      main_task: False
+      task_type: ["multiple_choice"]
+      backend: "harness"
+  bbh_cot_fewshot_dyck_languages:
+      alias: "BBH Dyck Languages"
+      functional: [ "logical_reasoning" ]
+      formal: []
+      functional_groups: ["executive_functions"]
+      has_subtasks: False
+      main_task: False
+      task_type: ["open_question"]
+      backend: "harness"
+  bbh_cot_fewshot_formal_fallacies:
+      alias: "BBH Formal Fallacies"
+      functional: [ "logical_reasoning" ]
+      formal: [ ]
+      functional_groups: ["executive_functions"]
+      has_subtasks: False
+      main_task: False
+      task_type: ["multiple_choice"]
+      backend: "harness"
+  bbh_cot_fewshot_geometric_shapes:
+      alias: "BBH Geometric Shapes"
+      functional: [ ]
+      formal: [ ]
+      functional_groups: []
+      has_subtasks: False
+      main_task: False
+      task_type: ["multiple_choice"]
+      backend: "harness"
+  bbh_cot_fewshot_hyperbaton:
+      alias: "BBH Hyperbaton"
+      functional: [  ]
+      formal: [ "predicate_argument_structure" ]
+      task_type: ["multiple_choice"]
+      has_subtasks: False
+      main_task: False
+      functional_groups: []
+      backend: "harness"
+  bbh_cot_fewshot_logical_deduction_five_objects:
+      alias: "BBH Logical Deduction 5"
+      functional: [ "logical_reasoning" ]
+      formal: []
+      functional_groups: ["executive_functions"]
+      has_subtasks: False
+      main_task: False
+      task_type: ["multiple_choice"]
+      backend: "harness"
+  bbh_cot_fewshot_logical_deduction_seven_objects:
+      alias: "BBH Logical Deduction 7"
+      functional: [ "logical_reasoning" ]
+      formal: [ ]
+      functional_groups: ["executive_functions"]
+      has_subtasks: False
+      main_task: False
+      task_type: ["multiple_choice"]
+      backend: "harness"
+  bbh_cot_fewshot_logical_deduction_three_objects:
+      alias: "BBH Logical Deduction 3"
+      functional: [ "logical_reasoning" ]
+      formal: [  ]
+      functional_groups: ["executive_functions"]
+      has_subtasks: False
+      main_task: False
+      task_type: ["multiple_choice"]
+      backend: "harness"
+  bbh_cot_fewshot_movie_recommendation:
+      alias: "BBH Movie Recommendation"
+      functional: [  "emotional_intelligence" ]
+      formal: [ ]
+      functional_groups: ["social_emotional_cognition"]
+      has_subtasks: False
+      main_task: False
+      task_type: ["multiple_choice"]
+      backend: "harness"
+  bbh_cot_fewshot_multistep_arithmetic_two:
+      alias: "BBH Multistep Arithmetic"
+      functional: [ ]
+      formal: [ ]
+      functional_groups: []
+      has_subtasks: False
+      main_task: False
+      task_type: ["open_question"]
+      backend: "harness"
+  bbh_cot_fewshot_navigate:
+      alias: "BBH Navigate"
+      functional: [ "logical_reasoning" ]
+      formal: [ ]
+      functional_groups: ["executive_functions"]
+      has_subtasks: False
+      main_task: False
+      task_type: ["multiple_choice"]
+      backend: "harness"
+  bbh_cot_fewshot_object_counting:
+      alias: "BBH Object Counting"
+      functional: [ "logical_reasoning" ]
+      formal: [  ]
+      functional_groups: ["executive_functions"]
+      has_subtasks: False
+      main_task: False
+      task_type: ["open_question"] # MAYBE Multiple Choice
+      backend: "harness"
+  bbh_cot_fewshot_penguins_in_a_table:
+      alias: "BBH Penguins in a Table"
+      functional: [ "logical_reasoning" ]
+      formal: [ ]
+      functional_groups: ["executive_functions"]
+      has_subtasks: False
+      main_task: False
+      task_type: ["multiple_choice"]
+      backend: "harness"
+  bbh_cot_fewshot_reasoning_about_colored_objects:
+      alias: "BBH Reasoning Colored Objects"
+      functional: [ "logical_reasoning", "commonsense_reasoning" ]
+      formal: [ ]
+      functional_groups: ["executive_functions"]
+      has_subtasks: False
+      main_task: False
+      task_type: ["multiple_choice"]
+      backend: "harness"
+  bbh_cot_fewshot_ruin_names:
+      alias: "BBH Ruin Names"
+      functional: [  "pragmatics" ]
+      formal: [ ]
+      functional_groups: ["social_emotional_cognition"]
+      has_subtasks: False
+      main_task: False
+      task_type: ["multiple_choice"]
+      backend: "harness"
+  bbh_cot_fewshot_salient_translation_error_detection:
+      alias: "BBH Translation Error Detection"
+      functional: [ ]
+      formal: [ "negation",]
+      functional_groups: []
+      task_type: ["multiple_choice"]
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  bbh_cot_fewshot_snarks:
+      alias: "BBH Snarks"
+      functional: [  "pragmatics" ]
+      formal: [  ]
+      functional_groups: ["social_emotional_cognition"]
+      task_type: ["multiple_choice"]
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  bbh_cot_fewshot_sports_understanding:
+      alias: "BBH Sports Understanding"
+      functional: [  "commonsense_reasoning"]
+      formal: [ ]
+      functional_groups: ["executive_functions"]
+      task_type: ["open_question"] # MAYBE binary is another category
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  bbh_cot_fewshot_temporal_sequences:
+      alias: "BBH Temporal Sequences"
+      functional: [ "logical_reasoning" ]
+      formal: [  ]
+      functional_groups: ["executive_functions"]
+      task_type: ["multiple_choice"]
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  bbh_cot_fewshot_tracking_shuffled_objects_five_objects:
+      alias: "BBH Tracking Shuffled Objects 5"
+      functional: [ "logical_reasoning" ]
+      formal: [ ]
+      functional_groups: [ "executive_functions" ]
+      task_type: ["multiple_choice"]
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  bbh_cot_fewshot_tracking_shuffled_objects_seven_objects:
+      alias: "BBH Tracking Shuffled Objects 7"
+      functional: [ "logical_reasoning" ]
+      formal: [ ]
+      functional_groups: [ "executive_functions" ]
+      task_type: ["multiple_choice"]
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  bbh_cot_fewshot_tracking_shuffled_objects_three_objects:
+      alias: "BBH Tracking Shuffled Objects 3"
+      functional: [ "logical_reasoning" ]
+      formal: [  ]
+      functional_groups: ["executive_functions"]
+      task_type: ["multiple_choice"]
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  bbh_cot_fewshot_web_of_lies:
+      alias: "BBH Web of Lies"
+      functional: [ "logical_reasoning" ]
+      formal: [ ]
+      functional_groups: ["executive_functions"]
+      task_type: ["open_question"]
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  bbh_cot_fewshot_word_sorting:
+      alias: "BBH Word Sorting"
+      functional: [  ]
+      formal: [ "metalinguistic" ]
+      functional_groups: []
+      task_type: ["open_question"]
+      has_subtasks: False
+      main_task: False
       backend: "harness"
   lm_pragmatics:
       alias: "LM-Pragmatics"
       functional: [ "pragmatics" ]
       formal: [ ]
       functional_groups: ["social_emotional_cognition"]
+      has_subtasks: True
+      main_task: True
+      backend: "harness"
+  coherence:
+      alias: "LM-Pragmatics Coherence"
+      functional: [ "pragmatics" ]
+      formal: [ ]
+      functional_groups: [ "social_emotional_cognition" ]
+      task_type: [ "multiple_choice" ]
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  deceits:
+      alias: "LM-Pragmatics Deceits"
+      functional: [ "pragmatics" ]
+      formal: [ ]
+      functional_groups: [ "social_emotional_cognition" ]
+      task_type: [ "multiple_choice" ]
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  humour:
+      alias: "LM-Pragmatics Humour"
+      functional: [ "pragmatics" ]
+      formal: [ ]
+      functional_groups: [ "social_emotional_cognition" ]
+      task_type: [ "multiple_choice" ]
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  irony:
+      alias: "LM-Pragmatics Irony"
+      functional: [ "pragmatics" ]
+      formal: [ ]
+      functional_groups: [ "social_emotional_cognition" ]
+      task_type: [ "multiple_choice" ]
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  maxims:
+      alias: "LM-Pragmatics Maxims"
+      functional: [ "pragmatics" ]
+      formal: [ ]
+      functional_groups: [ "social_emotional_cognition" ]
+      task_type: [ "multiple_choice" ]
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  metaphor:
+      alias: "LM-Pragmatics Metaphor"
+      functional: [ "pragmatics" ]
+      formal: [ ]
+      functional_groups: [ "social_emotional_cognition" ]
+      task_type: [ "multiple_choice" ]
+      has_subtasks: False
+      main_task: False
       backend: "harness"
   llmbar_natural_vanilla:
       alias: "LLMBar"
       functional: [ "causal_reasoning", "logical_reasoning", "commonsense_reasoning", "physical_commonsense_reasoning", "social_commonsense_reasoning" ]
       formal: [ ]
       functional_groups: ["executive_functions", "social_emotional_cognition"]
+      task_type: ["multiple_choice"]
+      has_subtasks: False
+      main_task: False
       backend: "harness"
   lingoly:
       alias: "LingOLY"
       functional: ["logical reasoning"]
       formal: ["metalinguistic"]
       functional_groups: ["executive_functions"]
+      task_type: [ "open_question" ]
+      has_subtasks: False
+      main_task: False
       backend: "harness"
   planbench:
       alias: "PlanBench"
       functional: ["strategic_reasoning"]
       formal: [ ]
       functional_groups: ["executive_functions"]
+      has_subtasks: True
+      main_task: True
+      backend: "harness"
+  planbench_blocksworld_full_to_partial:
+      alias: "PB B FTP"
+      functional: [ "strategic_reasoning" ]
+      formal: [ ]
+      functional_groups: [ "executive_functions" ]
+      task_type: ["open_question"]
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  planbench_blocksworld_plan_goal_shuffling:
+      alias: "PB B Goal Shuffling"
+      functional: [ "strategic_reasoning" ]
+      formal: [ ]
+      functional_groups: [ "executive_functions" ]
+      task_type: [ "open_question" ]
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  planbench_blocksworld_partial_to_full:
+      alias: "PB B PTF"
+      functional: [ "strategic_reasoning" ]
+      formal: [ ]
+      functional_groups: [ "executive_functions" ]
+      task_type: [ "open_question" ]
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  planbench_blocksworld_plan_execution:
+      alias: "PB B PE"
+      functional: [ "strategic_reasoning" ]
+      formal: [ ]
+      functional_groups: [ "executive_functions" ]
+      task_type: [ "open_question" ]
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  planbench_blocksworld_plan_generalization:
+      alias: "PB B P Generalization"
+      functional: [ "strategic_reasoning" ]
+      formal: [ ]
+      functional_groups: [ "executive_functions" ]
+      task_type: [ "open_question" ]
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  planbench_blocksworld_plan_generation:
+      alias: "PB B P Generation"
+      functional: [ "strategic_reasoning" ]
+      formal: [ ]
+      functional_groups: [ "executive_functions" ]
+      task_type: [ "open_question" ]
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  planbench_blocksworld_plan_optimality:
+      alias: "PB B PO"
+      functional: [ "strategic_reasoning" ]
+      formal: [ ]
+      functional_groups: [ "executive_functions" ]
+      task_type: [ "open_question" ]
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  planbench_blocksworld_plan_reuse:
+      alias: "PB B PR"
+      functional: [ "strategic_reasoning" ]
+      formal: [ ]
+      functional_groups: [ "executive_functions" ]
+      task_type: [ "open_question" ]
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  planbench_blocksworld_plan_verification:
+      alias: "PB B PV"
+      functional: [ "strategic_reasoning" ]
+      formal: [ ]
+      functional_groups: [ "executive_functions" ]
+      task_type: [ "open_question" ]
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  planbench_blocksworld_plan_replanning:
+      alias: "PB B Replanning"
+      functional: [ "strategic_reasoning" ]
+      formal: [ ]
+      functional_groups: [ "executive_functions" ]
+      task_type: [ "open_question" ]
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  planbench_logistics_full_to_partial:
+      alias: "PB L FTP"
+      functional: [ "strategic_reasoning" ]
+      formal: [ ]
+      functional_groups: [ "executive_functions" ]
+      task_type: [ "open_question" ]
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  planbench_logistics_plan_goal_shuffling:
+      alias: "PB L Goal Shuffling"
+      functional: [ "strategic_reasoning" ]
+      formal: [ ]
+      functional_groups: [ "executive_functions" ]
+      task_type: [ "open_question" ]
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  planbench_logistics_partial_to_full:
+      alias: "PB L PTF"
+      functional: [ "strategic_reasoning" ]
+      formal: [ ]
+      functional_groups: [ "executive_functions" ]
+      task_type: [ "open_question" ]
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  planbench_logistics_plan_execution:
+      alias: "PB L PE"
+      functional: [ "strategic_reasoning" ]
+      formal: [ ]
+      functional_groups: [ "executive_functions" ]
+      task_type: [ "open_question" ]
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  planbench_logistics_plan_generalization:
+      alias: "PB L P Generalization"
+      functional: [ "strategic_reasoning" ]
+      formal: [ ]
+      functional_groups: [ "executive_functions" ]
+      task_type: [ "open_question" ]
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  planbench_logistics_plan_generation:
+      alias: "PB L P Generation"
+      functional: [ "strategic_reasoning" ]
+      formal: [ ]
+      functional_groups: [ "executive_functions" ]
+      task_type: [ "open_question" ]
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  planbench_logistics_plan_optimality:
+      alias: "PB L PO"
+      functional: [ "strategic_reasoning" ]
+      formal: [ ]
+      functional_groups: [ "executive_functions" ]
+      task_type: [ "open_question" ]
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  planbench_logistics_plan_reuse:
+      alias: "PB L PR"
+      functional: [ "strategic_reasoning" ]
+      formal: [ ]
+      functional_groups: [ "executive_functions" ]
+      task_type: [ "open_question" ]
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  planbench_logistics_plan_verification:
+      alias: "PB L PV"
+      functional: [ "strategic_reasoning" ]
+      formal: [ ]
+      functional_groups: [ "executive_functions" ]
+      task_type: [ "open_question" ]
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  planbench_logistics_plan_replanning:
+      alias: "PB L Replanning"
+      functional: [ "strategic_reasoning" ]
+      formal: [ ]
+      functional_groups: [ "executive_functions" ]
+      task_type: [ "open_question" ]
+      has_subtasks: False
+      main_task: False
       backend: "harness"
   fantom_full:
       alias: "FANToM"
       functional: [ "theory_of_mind" ]
       formal: [ ]
       functional_groups: [ "social_emotional_cognition" ]
+      has_subtasks: True
+      main_task: True
+      backend: "harness"
+  fantom_full_answerability_binary:
+      alias: "FANToM Answerability B"
+      functional: [ "theory_of_mind" ]
+      formal: [ ]
+      functional_groups: [ "social_emotional_cognition" ]
+      task_type: [ "multiple_choice" ]
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  fantom_full_answerability_list:
+      alias: "FANToM Answerability L"
+      functional: [ "theory_of_mind" ]
+      formal: [ ]
+      functional_groups: [ "social_emotional_cognition" ]
+      task_type: [ "open_question" ]
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  fantom_full_belief_choice:
+      alias: "FANToM Belief Choice"
+      functional: [ "theory_of_mind" ]
+      formal: [ ]
+      functional_groups: [ "social_emotional_cognition" ]
+      task_type: [ "multiple_choice" ]
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  fantom_belief_gen:
+      alias: "FANToM Belief Gen"
+      functional: [ "theory_of_mind" ]
+      formal: [ ]
+      functional_groups: [ "social_emotional_cognition" ]
+      task_type: [ "open_question" ]
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  fantom_full_fact:
+      alias: "FANToM Full Fact"
+      functional: [ "theory_of_mind" ]
+      formal: [ ]
+      functional_groups: [ "social_emotional_cognition" ]
+      task_type: [ "open_question" ]
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  fantom_full_infoaccessibility_binary:
+      alias: "FANToM Infoaccessibility B"
+      functional: [ "theory_of_mind" ]
+      formal: [ ]
+      functional_groups: [ "social_emotional_cognition" ]
+      task_type: [ "multiple_choice" ]
+      has_subtasks: False
+      main_task: False
+      backend: "harness"
+  fantom_full_infoaccessibility_list:
+      alias: "FANToM Infoaccessibility L"
+      functional: [ "theory_of_mind" ]
+      formal: [ ]
+      functional_groups: [ "social_emotional_cognition" ]
+      task_type: [ "open_question" ]
+      has_subtasks: False
+      main_task: False
       backend: "harness"
   # TODO
   ewok:
@@ -162,11 +776,6 @@ tasks:
       functional: []
       formal: ["semantics", "metalinguistic"]
       functional_groups: []
-  linguini:
-      alias: "Linguini"
-      functional: ["logical_reasoning"]
-      formal: ["metalinguistic"]
-      functional_groups: ["executive_functions"]
   strange_dataset:
       alias: "Strange Dataset"
       functional: ["causal_reasoning"]

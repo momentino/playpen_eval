@@ -17,9 +17,9 @@ from utils.utils import convert_str_to_number
 
 class CorrelationMatrix():
 
-    def __init__(self, data, capability_type, name):
+    def __init__(self, data, category, name):
         self.data = data
-        self.capability_type = capability_type
+        self.category = category
         self.name = name
 
 
@@ -82,11 +82,17 @@ def plot_and_save_matrices(correlation_matrices: List[CorrelationMatrix], output
     }
 
     for matrix in correlation_matrices:
-        output_path = output_path_root / matrix.capability_type
+        output_path = output_path_root / matrix.category
         os.makedirs(output_path, exist_ok=True)
         label_colors = [color_map[attr] for attr in matrix.data['group'].values.tolist()]
         matrix.data = matrix.data.drop(columns=['group'])
-        plt.figure(figsize=(8, 6))
+
+        num_rows, num_cols = matrix.data.shape
+        cell_width = 1.0
+        cell_height = 0.6
+        figsize = (num_cols * cell_width, num_rows * cell_height)
+
+        plt.figure(figsize=figsize)
         ax = sns.heatmap(
             matrix.data.round(2),
             cmap='coolwarm',
@@ -107,24 +113,21 @@ def plot_and_save_matrices(correlation_matrices: List[CorrelationMatrix], output
         matrix.data.to_csv(f"{file_path}.csv", index=True)
 
 def get_correlation_matrices(correlation_method:str, scores: Dict, model_registry: Dict, tasks_info: Dict, lower_bound: float = None, upper_bound: float = None) -> List[CorrelationMatrix]:
-
     matrices = []
-    # iterate over formal, functional, mixed
-    for capability_type, subsets in scores.items():
-        for subset_name, tasks in subsets.items():
-            scores = defaultdict(list)
-            for task, model_results in tasks.items():
-                print(task, model_results)
-                scores[task] = [v[1] for v in model_results if
+    for category, tasks in scores.items():
+        scores = defaultdict(list)
+        for task_id, model_results in tasks.items():
+            task_name = tasks_info[task_id]['alias']
+            scores[task_name] = [v[1] for v in model_results if
                                 (lower_bound is None and upper_bound is None) or
                                 (lower_bound < convert_str_to_number(model_registry[v[0]]['params']) <= upper_bound)]
-            scores_matrix = pd.DataFrame(scores)
-            correlation_matrix = CorrelationMatrix(data=scores_matrix.corr(method=correlation_method), name=subset_name, capability_type=capability_type)
-            correlation_matrix = sort_correlation_matrix(correlation_matrix, tasks_info)
-            matrices.append(correlation_matrix)
+        scores_matrix = pd.DataFrame(scores)
+        correlation_matrix = CorrelationMatrix(data=scores_matrix.corr(method=correlation_method), category=category, name=category)
+        correlation_matrix = sort_correlation_matrix(correlation_matrix, tasks_info)
+        matrices.append(correlation_matrix)
     return matrices
 
-def organize_scores(scores: Dict, tasks_info: Dict, capabilities_list: List[str]):
+def organize_scores_capabilities(scores: Dict, tasks_info: Dict, capabilities_list: List[str]):
     organized_scores = {
         "functional": defaultdict(lambda: defaultdict(list)),
         "formal": defaultdict(lambda: defaultdict(list)),
@@ -174,6 +177,25 @@ def organize_scores(scores: Dict, tasks_info: Dict, capabilities_list: List[str]
                             task2_name] = scores2
     return organized_scores
 
+def organize_scores_tasks(scores: Dict, tasks_info: Dict):
+    organized_scores = {
+        "multiple_choice": defaultdict(lambda: defaultdict(list)),
+        "open_question": defaultdict(lambda: defaultdict(list)),
+        #"cloze": defaultdict(lambda: defaultdict(list)),
+        "nli": defaultdict(lambda: defaultdict(list)),
+    }
+
+    for task1, scores1 in scores.items():
+        task1_type = tasks_info[task1]["task_type"]
+        for task2, scores2 in scores.items():
+            task2_type = tasks_info[task2]["task_type"]
+            if (task1 != task2 and
+                    len(tasks_info[task1]["functional"]) > 0 and len(tasks_info[task2]["functional"]) > 0 and
+                    task1_type == task2_type):
+                if len(task1_type) == 1 and len(task2_type) == 1:
+                    organized_scores[task1_type[0]][task1] = scores1
+    return organized_scores
+
 def get_scores(reports, tasks_info: Dict[str,Dict[str,str]], tasks_to_ignore:List[str], take_functional_subtasks: bool):
     scores_dict = defaultdict(list)
     task_names = tasks_info.keys()
@@ -183,18 +205,20 @@ def get_scores(reports, tasks_info: Dict[str,Dict[str,str]], tasks_to_ignore:Lis
         if task_name not in tasks_to_ignore:
             if take_functional_subtasks:
                 for subtask_name, subtask_results in report["subtask_results"].items():
-                    if len(tasks_info[task_name]['functional']) > 0:
+                    if subtask_name in task_names and len(tasks_info[subtask_name]['functional']) > 0:
                         if subtask_name in task_names:
                             score = subtask_results["score"]
                             results = (model_name, score)
                             scores_dict[subtask_name].append(results)
-            elif task_name in task_names:
-                score = report["aggregated_results"]["score"]
-                results = (model_name, score)
-                scores_dict[task_name].append(results)
+            if task_name in task_names:
+                if (take_functional_subtasks and not tasks_info[task_name]['has_subtasks']) or not take_functional_subtasks:
+                    if tasks_info[task_name]['has_subtasks'] == False:
+                        score = report["aggregated_results"]["score"]
+                        results = (model_name, score)
+                        scores_dict[task_name].append(results)
     return scores_dict
 
-def run_correlation(src_path: Path, output_path_root:Path, correlation_method: str, tasks_to_ignore: List[str], tiers: bool, take_functional_subtasks: bool) -> None:
+def run_correlation(src_path: Path, output_path_root:Path, correlation_method: str, discriminant: str, tasks_to_ignore: List[str], tiers: bool, take_functional_subtasks: bool) -> None:
 
     model_registry = get_model_registry()
     capabilities_list, tasks_info = get_tasks_info()
@@ -208,7 +232,11 @@ def run_correlation(src_path: Path, output_path_root:Path, correlation_method: s
             raise Exception("There are two scores for the same model and task! Check your results files folder.")
         score_list.sort(key=lambda x: (convert_str_to_number(model_registry[x[0]]['params']), x[0]))
 
-    organized_scores = organize_scores(scores, tasks_info, capabilities_list)
+    if discriminant == "capabilities":
+        organized_scores = organize_scores_capabilities(scores, tasks_info, capabilities_list)
+    elif discriminant == "tasks":
+        organized_scores = organize_scores_tasks(scores, tasks_info)
+
 
     correlation_matrices = get_correlation_matrices(correlation_method, organized_scores, model_registry = model_registry, tasks_info=tasks_info)
     output_path_root = output_path_root / "all"

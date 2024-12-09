@@ -40,7 +40,7 @@ class PlaypenEvaluator:
         pass
 
     @staticmethod
-    def run(model_backend: str, model_args: str, tasks: List, device: str, trust_remote_code:bool, num_fewshot: int = None, results_path: Path = "results") -> None:
+    def run(model_backend: str, model_args: str, tasks: List, device: str, trust_remote_code:bool, results_path: Path = "results") -> None:
 
         model_name_parts = model_args.split(",")
         # Look for the part that starts with "pretrained="
@@ -64,7 +64,7 @@ class PlaypenEvaluator:
             model_args = model_args
 
         playpen_tasks = get_playpen_tasks()
-        playpen_task_names = playpen_tasks.keys()
+        playpen_task_names = [n for n in playpen_tasks.keys() if playpen_tasks[n]['main_task'] == True]
         if len(tasks) == 1:
             if "all" in tasks[0]:
                 tasks = playpen_task_names
@@ -85,22 +85,24 @@ class PlaypenEvaluator:
         for task in tasks:
             backend = playpen_tasks[task]["backend"]
             if backend == "harness":
-                if num_fewshot is not None:
+                try:
                     results = lm_eval.simple_evaluate(
                         model=model_backend,
                         model_args=model_args,
                         tasks=task,
                         device=device,
+                        log_samples=True,
+                        apply_chat_template=True,
                         num_fewshot=0,
-                        log_samples=True,
                     )
-                else:
+                except:
                     results = lm_eval.simple_evaluate(
                         model=model_backend,
                         model_args=model_args,
                         tasks=task,
                         device=device,
                         log_samples=True,
+                        num_fewshot=0
                     )
                 timestamp = datetime.now().strftime("%Y-%m-%dT%H-%M-%S.%f")
                 harness_results_file_path = Path(os.path.join(model_harness_results_path, f"{task}_harness_results_{timestamp}.json"))

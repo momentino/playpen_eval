@@ -32,7 +32,6 @@ def custom_json_serializer(obj):
 def compute_fantom_aggregated_score(harness_results: dict) -> float:
     results = defaultdict(list)
     for task, samples in harness_results['samples'].items():
-        print(task)
         if "fact" not in task:
             for sample in samples:
                 set_id = sample["doc"]["set_id"]
@@ -81,6 +80,14 @@ def prepare_playpen_results(main_task: str, model_name:str, harness_results: dic
         return results
     raise Exception("Other options besides  harness are not yet implemented.")
 
-#fantom_full = "/mnt/cimec-storage6/users/filippo.momente/PycharmProjects/playpen_eval/results/harness/google__gemma-2-2b-it/fantom_full_harness_results_2024-12-04T16-13-00.960583.json"
-#harness_res = json.load(open(fantom_full))
-#prepare_playpen_results(main_task="fantom_full", model_name="google__gemma_2_2b_it", harness_results=harness_res)
+"""fantom_full = "/mnt/cimec-storage6/users/filippo.momente/PycharmProjects/playpen_eval/results/harness/Qwen__Qwen2.5-7B-Instruct/fantom_full_harness_results_2024-12-04T20-44-38.818250.json"
+harness_res = json.load(open(fantom_full))
+results = prepare_playpen_results(main_task="fantom_full", model_name="Qwen__Qwen2.5-7B-Instruct", harness_results=harness_res)
+timestamp = datetime.now().strftime("%Y-%m-%dT%H-%M-%S.%f")
+project_folder = Path(os.path.abspath(__file__)).parent.parent
+model_playpen_results_path = Path(os.path.join(project_folder, 'results')) / "playpen" / 'Qwen__Qwen2.5-7B-Instruct'
+model_playpen_results_path.mkdir(parents=True, exist_ok=True)
+playpen_results_file_path = Path(
+            os.path.join(model_playpen_results_path, f"fantom_full_playpen_results_{timestamp}.json"))
+with open(playpen_results_file_path, "w") as file:
+    json.dump(results, file, default=custom_json_serializer)"""

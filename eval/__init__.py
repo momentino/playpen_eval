@@ -2,11 +2,11 @@ import json
 import yaml
 import logging
 from pathlib import Path
-from typing import List, Dict
+from typing import List, Dict, Any
 
 playpen_eval_logger = logging.getLogger("playpen_eval_logger")
 
-def get_playpen_tasks() -> Dict[str, str]:
+def get_playpen_tasks() -> Dict[str, Dict[str, Any]]:
     tasks_file = Path(__file__).parent.parent / "config" / "task_registry.yaml"
     with open(tasks_file, 'r') as file:
         data = yaml.safe_load(file)
