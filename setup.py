@@ -12,6 +12,7 @@ setup(
         "matplotlib",
         "seaborn",
         "tarski",
-        "bitsandbytes"
+        "bitsandbytes",
+        "guidance"
     ],
 )

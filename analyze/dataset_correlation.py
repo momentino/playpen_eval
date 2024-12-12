@@ -115,34 +115,29 @@ def plot_and_save_matrices(correlation_matrices: List[CorrelationMatrix], output
 def get_correlation_matrices(correlation_method:str, scores: Dict, model_registry: Dict, tasks_info: Dict, lower_bound: float = None, upper_bound: float = None) -> List[CorrelationMatrix]:
     matrices = []
     for category, tasks in scores.items():
-        scores = defaultdict(list)
-        for task_id, model_results in tasks.items():
-            task_name = tasks_info[task_id]['alias']
-            scores[task_name] = [v[1] for v in model_results if
-                                (lower_bound is None and upper_bound is None) or
-                                (lower_bound < convert_str_to_number(model_registry[v[0]]['params']) <= upper_bound)]
-        scores_matrix = pd.DataFrame(scores)
-        correlation_matrix = CorrelationMatrix(data=scores_matrix.corr(method=correlation_method), category=category, name=category)
-        correlation_matrix = sort_correlation_matrix(correlation_matrix, tasks_info)
-        matrices.append(correlation_matrix)
+        if len(tasks.keys()) > 1:
+            scores = defaultdict(list)
+            for task_id, model_results in tasks.items():
+                task_name = tasks_info[task_id]['alias']
+                scores[task_name] = [v[1] for v in model_results if
+                                    (lower_bound is None and upper_bound is None) or
+                                    (lower_bound < convert_str_to_number(model_registry[v[0]]['params']) <= upper_bound)]
+            scores_matrix = pd.DataFrame(scores)
+            correlation_matrix = CorrelationMatrix(data=scores_matrix.corr(method=correlation_method), category=category, name=category)
+            correlation_matrix = sort_correlation_matrix(correlation_matrix, tasks_info)
+            matrices.append(correlation_matrix)
     return matrices
 
-def organize_scores_capabilities(scores: Dict, tasks_info: Dict, capabilities_list: List[str]):
-    organized_scores = {
-        "functional": defaultdict(lambda: defaultdict(list)),
-        "formal": defaultdict(lambda: defaultdict(list)),
-        "mix": defaultdict(lambda: defaultdict(list)),
-        "unrelated": defaultdict(lambda: defaultdict(list)),
-        "total": defaultdict(lambda: defaultdict(list)),
-    }
+def organize_scores_capabilities(scores: Dict, tasks_info: Dict, capabilities_list: List[str], category:str):
+    organized_scores = defaultdict(lambda: defaultdict(list))
 
     for task1, scores1 in scores.items():
-        task1_name = tasks_info[task1]["alias"]
+        #task1_name = tasks_info[task1]["alias"]
         # list capabilities of task 1
         capabilities_task1 = copy.copy(tasks_info[task1]["functional"] + tasks_info[task1]["formal"])
 
         for task2, scores2 in scores.items():
-            task2_name = tasks_info[task2]["alias"]
+            #task2_name = tasks_info[task2]["alias"]
             # list capabilities of task 2
             if (task1 != task2):
                 common_capabilities = False
@@ -154,27 +149,23 @@ def organize_scores_capabilities(scores: Dict, tasks_info: Dict, capabilities_li
                 # iterate over subsets
                 for subset in task2_subsets:
                     subset_key = ','.join(map(str, subset))
-                    if set(subset).issubset(set(capabilities_list["functional"])):
-                        subset_type = "functional"
-                    elif set(subset).issubset(set(capabilities_list["formal"])):
-                        subset_type = "formal"
-                    else:
-                        subset_type = "mix"
-                    # register overall correlation for all datasets associated with formal, functional capabilities or mixed
-                    organized_scores[subset_type]["total"][task2_name] = scores2
-                    # if the subset is a subset of the capabilities of task 1, save the scores
-                    if set(subset).issubset(set(capabilities_task1)):
-                        common_capabilities = True
-                        organized_scores[subset_type][subset_key][task2_name] = scores2
-                organized_scores["total"]["total"][task2_name] = scores2
-                if not common_capabilities:
+                    if set(subset).issubset(set(capabilities_list[category])):
+                        # register overall correlation for all datasets associated with formal, functional capabilities or mixed
+                        organized_scores["total"][task2] = scores2
+                        # if the subset is a subset of the capabilities of task 1, save the scores
+                        if set(subset).issubset(set(capabilities_task1)):
+                            common_capabilities = True
+                            organized_scores[subset_key][task2] = scores2
+                if category == "total":
+                    organized_scores["total"]["total"][task2] = scores2
+                """"if not common_capabilities:
                     # Build pairs of uncorrelated tasks
                     if len(organized_scores["unrelated"][f"{task1_name}, {task2_name}"]) == 0 and len(
                             organized_scores["unrelated"][f"{task2_name}, {task1_name}"]) == 0:
                         organized_scores["unrelated"][f"{task1_name}, {task2_name}"][
                             task1_name] = scores1
                         organized_scores["unrelated"][f"{task1_name}, {task2_name}"][
-                            task2_name] = scores2
+                            task2_name] = scores2"""
     return organized_scores
 
 def organize_scores_tasks(scores: Dict, tasks_info: Dict):
@@ -196,6 +187,19 @@ def organize_scores_tasks(scores: Dict, tasks_info: Dict):
                     organized_scores[task1_type[0]][task1] = scores1
     return organized_scores
 
+def organize_scores_benchmarks(scores: Dict, tasks_info: Dict):
+    organized_scores = defaultdict(lambda: defaultdict(list))
+
+    for task1, scores1 in scores.items():
+        task1_group = tasks_info[task1]["group"]
+        for task2, scores2 in scores.items():
+            task2_group = tasks_info[task2]["group"]
+            if (task1 != task2 and
+                    len(tasks_info[task1]["functional"]) > 0 and len(tasks_info[task2]["functional"]) > 0 and
+                    task1_group == task2_group):
+                    organized_scores[task1_group][task1] = scores1
+    return organized_scores
+
 def get_scores(reports, tasks_info: Dict[str,Dict[str,str]], tasks_to_ignore:List[str], take_functional_subtasks: bool):
     scores_dict = defaultdict(list)
     task_names = tasks_info.keys()
@@ -206,7 +210,7 @@ def get_scores(reports, tasks_info: Dict[str,Dict[str,str]], tasks_to_ignore:Lis
             if take_functional_subtasks:
                 for subtask_name, subtask_results in report["subtask_results"].items():
                     if subtask_name in task_names and len(tasks_info[subtask_name]['functional']) > 0:
-                        if subtask_name in task_names:
+                        if subtask_name in task_names and tasks_info[subtask_name] not in tasks_to_ignore:
                             score = subtask_results["score"]
                             results = (model_name, score)
                             scores_dict[subtask_name].append(results)
@@ -233,9 +237,13 @@ def run_correlation(src_path: Path, output_path_root:Path, correlation_method: s
         score_list.sort(key=lambda x: (convert_str_to_number(model_registry[x[0]]['params']), x[0]))
 
     if discriminant == "capabilities":
-        organized_scores = organize_scores_capabilities(scores, tasks_info, capabilities_list)
+        output_path_root = output_path_root/ "functional"
+        organized_scores = organize_scores_capabilities(scores, tasks_info, capabilities_list, "functional") # TODO: improve
     elif discriminant == "tasks":
         organized_scores = organize_scores_tasks(scores, tasks_info)
+    elif discriminant == "benchmarks":
+        organized_scores = organize_scores_benchmarks(scores, tasks_info)
+
 
 
     correlation_matrices = get_correlation_matrices(correlation_method, organized_scores, model_registry = model_registry, tasks_info=tasks_info)

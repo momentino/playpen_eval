@@ -73,8 +73,8 @@ if __name__ == "__main__":
         "--discriminant",
         type=str,
         default="capabilities",
-        choices=['capabilities', 'tasks'],
-        help="Whether to include the name of the image in the correlation plot."
+        choices=['capabilities', 'tasks', 'benchmarks'],
+        help="The variable to consider for grouping benchmarks for the correlation analysis."
     )
 
     run_verify_functional_correlation_patterns_parser = sub_parsers.add_parser("run_verify_functional_correlation_patterns", formatter_class=argparse.RawTextHelpFormatter)

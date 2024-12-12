@@ -2,23 +2,13 @@ import os
 import json
 import sys
 import importlib
-from asyncio import all_tasks
-
-import pandas as pd
 from pathlib import Path
 from typing import List, Optional, Union
 from datetime import datetime
 from eval import playpen_eval_logger, get_executed_tasks, get_playpen_tasks
 from utils.utils import custom_json_serializer, prepare_playpen_results
 
-project_folder = Path(os.path.abspath(__file__)).parent.parent
 
-# Add the path of the submodule folder to sys.path, while renaming the directory for import purposes
-submodule_path = os.path.join(project_folder, "benchmarks/static/lm-evaluation-harness")
-sys.path.insert(0, submodule_path)
-
-# Dynamically import the module with the hyphen in its name
-lm_eval = importlib.import_module('benchmarks.lm-evaluation-harness.lm_eval')
 
 
 def print_value_types(data):
@@ -93,7 +83,6 @@ class PlaypenEvaluator:
                         device=device,
                         log_samples=True,
                         apply_chat_template=True,
-                        num_fewshot=0,
                     )
                 except:
                     results = lm_eval.simple_evaluate(
@@ -102,7 +91,6 @@ class PlaypenEvaluator:
                         tasks=task,
                         device=device,
                         log_samples=True,
-                        num_fewshot=0
                     )
                 timestamp = datetime.now().strftime("%Y-%m-%dT%H-%M-%S.%f")
                 harness_results_file_path = Path(os.path.join(model_harness_results_path, f"{task}_harness_results_{timestamp}.json"))

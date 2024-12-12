@@ -11,6 +11,7 @@ tasks:
       has_subtasks: False
       main_task: True
       task_type: ["multiple_choice"]
+      group: social_iqa
       backend: "harness"
   mmlu:
       alias: "MMLU"
@@ -19,6 +20,7 @@ tasks:
       functional_groups: ["executive_functions"]
       has_subtasks: True
       main_task: True
+      group: mmlu
       task_type: ["multiple_choice"]
       backend: "harness"
   mmlu_formal_logic:
@@ -28,6 +30,7 @@ tasks:
       functional_groups: [ "executive_functions" ]
       has_subtasks: False
       main_task: False
+      group: mmlu
       task_type: ["multiple_choice"]
       backend: "harness"
   mmlu_logical_fallacies:
@@ -37,6 +40,7 @@ tasks:
       functional_groups: [ "executive_functions" ]
       has_subtasks: False
       main_task: False
+      group: mmlu
       task_type: ["multiple_choice"]
       backend: "harness"
   drop:
@@ -46,6 +50,7 @@ tasks:
       functional_groups: ["executive_functions"]
       has_subtasks: False
       main_task: True
+      group: drop
       backend: "harness"
   glue_diagnostics:
       alias: "GLUE Diagnostics"
@@ -54,6 +59,7 @@ tasks:
       functional_groups: ["executive_functions"]
       has_subtasks: True
       main_task: True
+      group: glue_diagnostics
       task_type: ["nli"]
       backend: "harness"
   glue_diagnostics_logic:
@@ -63,6 +69,7 @@ tasks:
       functional_groups: [ "executive_functions" ]
       has_subtasks: False
       main_task: False
+      group: glue_diagnostics
       task_type: ["nli"]
       backend: "harness"
   glue_diagnostics_lexical_semantics:
@@ -72,6 +79,7 @@ tasks:
       functional_groups: [ "executive_functions" ]
       has_subtasks: False
       main_task: False
+      group: glue_diagnostics
       task_type: ["nli"]
       backend: "harness"
   glue_diagnostics_predicate_argument_structure:
@@ -81,6 +89,7 @@ tasks:
       functional_groups: [ "executive_functions" ]
       has_subtasks: False
       main_task: False
+      group: glue_diagnostics
       task_type: ["nli"]
       backend: "harness"
   glue_diagnostics_knowledge_world:
@@ -90,6 +99,7 @@ tasks:
       functional_groups: [ ]
       has_subtasks: False
       main_task: False
+      group: glue_diagnostics
       task_type: ["nli"]
       backend: "harness"
   glue_diagnostics_knowledge_common_sense:
@@ -99,6 +109,7 @@ tasks:
       functional_groups: [ "executive_functions" ]
       has_subtasks: False
       main_task: False
+      group: glue_diagnostics
       task_type: ["nli"]
       backend: "harness"
   super_glue_v2:
@@ -108,6 +119,7 @@ tasks:
       functional_groups: ["executive_functions"]
       has_subtasks: True
       main_task: True
+      group: super_glue_v2
       task_type: ["multiple_choice", "cloze", "nli"]
       backend: "harness" # TODO
   super_glue_cb_reimplemented:
@@ -117,6 +129,7 @@ tasks:
       functional_groups: ["executive_functions"]
       has_subtasks: False
       main_task: False
+      group: super_glue_v2
       task_type: ["nli"]
       backend: "harness"
   super_glue_copa_reimplemented:
@@ -126,6 +139,7 @@ tasks:
       functional_groups: ["executive_functions"]
       has_subtasks: False
       main_task: False
+      group: super_glue_v2
       task_type: ["multiple_choice"]
       backend: "harness"
   super_glue_record_reimplemented:
@@ -135,6 +149,7 @@ tasks:
       functional_groups: ["executive_functions"]
       has_subtasks: False
       main_task: False
+      group: super_glue_v2
       task_type: ["cloze"]
       backend: "harness"
   super_glue_multirc_reimplemented:
@@ -144,6 +159,7 @@ tasks:
       functional_groups: [ "executive_functions" ]
       has_subtasks: False
       main_task: False
+      group: super_glue_v2
       task_type: ["multiple_choice"]
       backend: "harness"
   super_glue_rte_reimplemented:
@@ -153,6 +169,7 @@ tasks:
       functional_groups: ["executive_functions"]
       has_subtasks: False
       main_task: False
+      group: super_glue_v2
       task_type: ["nli"]
       backend: "harness"
   super_glue_wic_reimplemented:
@@ -162,6 +179,7 @@ tasks:
       functional_groups: []
       has_subtasks: False
       main_task: False
+      group: super_glue_v2
       backend: "harness"
   super_glue_wsc_reimplemented:
       alias: "WSC"
@@ -170,6 +188,7 @@ tasks:
       functional_groups: ["executive_functions"]
       has_subtasks: False
       main_task: False
+      group: super_glue_v2
       task_type: ["multiple_choice"]
       backend: "harness"
   bbh:
@@ -179,6 +198,7 @@ tasks:
       functional_groups: ["executive_functions", "social_emotional_cognition"]
       has_subtasks: True
       main_task: True
+      group: bbh
       backend: "harness"
   bbh_cot_fewshot_boolean_expressions:
       alias: "BBH Boolean Expressions"
@@ -187,6 +207,7 @@ tasks:
       functional_groups: ["executive_functions"]
       has_subtasks: False
       main_task: False
+      group: bbh
       task_type: ["open_question"]
       backend: "harness"
   bbh_cot_fewshot_causal_judgement:
@@ -196,6 +217,7 @@ tasks:
       functional_groups: ["executive_functions", "social_emotional_cognition"]
       has_subtasks: False
       main_task: False
+      group: bbh
       task_type: ["multiple_choice"]
       backend: "harness"
   bbh_cot_fewshot_date_understanding:
@@ -206,6 +228,7 @@ tasks:
       has_subtasks: False
       main_task: False
       task_type: ["multiple_choice"]
+      group: bbh
       backend: "harness"
   bbh_cot_fewshot_disambiguation_qa:
       alias: "BBH Disambiguation QA"
@@ -214,6 +237,7 @@ tasks:
       functional_groups: ["executive_functions"]
       has_subtasks: False
       main_task: False
+      group: bbh
       task_type: ["multiple_choice"]
       backend: "harness"
   bbh_cot_fewshot_dyck_languages:
@@ -223,6 +247,7 @@ tasks:
       functional_groups: ["executive_functions"]
       has_subtasks: False
       main_task: False
+      group: bbh
       task_type: ["open_question"]
       backend: "harness"
   bbh_cot_fewshot_formal_fallacies:
@@ -232,6 +257,7 @@ tasks:
       functional_groups: ["executive_functions"]
       has_subtasks: False
       main_task: False
+      group: bbh
       task_type: ["multiple_choice"]
       backend: "harness"
   bbh_cot_fewshot_geometric_shapes:
@@ -241,6 +267,7 @@ tasks:
       functional_groups: []
       has_subtasks: False
       main_task: False
+      group: bbh
       task_type: ["multiple_choice"]
       backend: "harness"
   bbh_cot_fewshot_hyperbaton:
@@ -250,6 +277,7 @@ tasks:
       task_type: ["multiple_choice"]
       has_subtasks: False
       main_task: False
+      group: bbh
       functional_groups: []
       backend: "harness"
   bbh_cot_fewshot_logical_deduction_five_objects:
@@ -259,6 +287,7 @@ tasks:
       functional_groups: ["executive_functions"]
       has_subtasks: False
       main_task: False
+      group: bbh
       task_type: ["multiple_choice"]
       backend: "harness"
   bbh_cot_fewshot_logical_deduction_seven_objects:
@@ -268,6 +297,7 @@ tasks:
       functional_groups: ["executive_functions"]
       has_subtasks: False
       main_task: False
+      group: bbh
       task_type: ["multiple_choice"]
       backend: "harness"
   bbh_cot_fewshot_logical_deduction_three_objects:
@@ -277,6 +307,7 @@ tasks:
       functional_groups: ["executive_functions"]
       has_subtasks: False
       main_task: False
+      group: bbh
       task_type: ["multiple_choice"]
       backend: "harness"
   bbh_cot_fewshot_movie_recommendation:
@@ -286,6 +317,7 @@ tasks:
       functional_groups: ["social_emotional_cognition"]
       has_subtasks: False
       main_task: False
+      group: bbh
       task_type: ["multiple_choice"]
       backend: "harness"
   bbh_cot_fewshot_multistep_arithmetic_two:
@@ -295,6 +327,7 @@ tasks:
       functional_groups: []
       has_subtasks: False
       main_task: False
+      group: bbh
       task_type: ["open_question"]
       backend: "harness"
   bbh_cot_fewshot_navigate:
@@ -304,6 +337,7 @@ tasks:
       functional_groups: ["executive_functions"]
       has_subtasks: False
       main_task: False
+      group: bbh
       task_type: ["multiple_choice"]
       backend: "harness"
   bbh_cot_fewshot_object_counting:
@@ -313,6 +347,7 @@ tasks:
       functional_groups: ["executive_functions"]
       has_subtasks: False
       main_task: False
+      group: bbh
       task_type: ["open_question"] # MAYBE Multiple Choice
       backend: "harness"
   bbh_cot_fewshot_penguins_in_a_table:
@@ -322,6 +357,7 @@ tasks:
       functional_groups: ["executive_functions"]
       has_subtasks: False
       main_task: False
+      group: bbh
       task_type: ["multiple_choice"]
       backend: "harness"
   bbh_cot_fewshot_reasoning_about_colored_objects:
@@ -331,6 +367,7 @@ tasks:
       functional_groups: ["executive_functions"]
       has_subtasks: False
       main_task: False
+      group: bbh
       task_type: ["multiple_choice"]
       backend: "harness"
   bbh_cot_fewshot_ruin_names:
@@ -340,6 +377,7 @@ tasks:
       functional_groups: ["social_emotional_cognition"]
       has_subtasks: False
       main_task: False
+      group: bbh
       task_type: ["multiple_choice"]
       backend: "harness"
   bbh_cot_fewshot_salient_translation_error_detection:
@@ -350,6 +388,7 @@ tasks:
       task_type: ["multiple_choice"]
       has_subtasks: False
       main_task: False
+      group: bbh
       backend: "harness"
   bbh_cot_fewshot_snarks:
       alias: "BBH Snarks"
@@ -359,6 +398,7 @@ tasks:
       task_type: ["multiple_choice"]
       has_subtasks: False
       main_task: False
+      group: bbh
       backend: "harness"
   bbh_cot_fewshot_sports_understanding:
       alias: "BBH Sports Understanding"
@@ -368,6 +408,7 @@ tasks:
       task_type: ["open_question"] # MAYBE binary is another category
       has_subtasks: False
       main_task: False
+      group: bbh
       backend: "harness"
   bbh_cot_fewshot_temporal_sequences:
       alias: "BBH Temporal Sequences"
@@ -377,6 +418,7 @@ tasks:
       task_type: ["multiple_choice"]
       has_subtasks: False
       main_task: False
+      group: bbh
       backend: "harness"
   bbh_cot_fewshot_tracking_shuffled_objects_five_objects:
       alias: "BBH Tracking Shuffled Objects 5"
@@ -386,6 +428,7 @@ tasks:
       task_type: ["multiple_choice"]
       has_subtasks: False
       main_task: False
+      group: bbh
       backend: "harness"
   bbh_cot_fewshot_tracking_shuffled_objects_seven_objects:
       alias: "BBH Tracking Shuffled Objects 7"
@@ -395,6 +438,7 @@ tasks:
       task_type: ["multiple_choice"]
       has_subtasks: False
       main_task: False
+      group: bbh
       backend: "harness"
   bbh_cot_fewshot_tracking_shuffled_objects_three_objects:
       alias: "BBH Tracking Shuffled Objects 3"
@@ -404,6 +448,7 @@ tasks:
       task_type: ["multiple_choice"]
       has_subtasks: False
       main_task: False
+      group: bbh
       backend: "harness"
   bbh_cot_fewshot_web_of_lies:
       alias: "BBH Web of Lies"
@@ -413,6 +458,7 @@ tasks:
       task_type: ["open_question"]
       has_subtasks: False
       main_task: False
+      group: bbh
       backend: "harness"
   bbh_cot_fewshot_word_sorting:
       alias: "BBH Word Sorting"
@@ -422,6 +468,7 @@ tasks:
       task_type: ["open_question"]
       has_subtasks: False
       main_task: False
+      group: bbh
       backend: "harness"
   lm_pragmatics:
       alias: "LM-Pragmatics"
@@ -430,6 +477,7 @@ tasks:
       functional_groups: ["social_emotional_cognition"]
       has_subtasks: True
       main_task: True
+      group: lm_pragmatics
       backend: "harness"
   coherence:
       alias: "LM-Pragmatics Coherence"
@@ -439,6 +487,7 @@ tasks:
       task_type: [ "multiple_choice" ]
       has_subtasks: False
       main_task: False
+      group: lm_pragmatics
       backend: "harness"
   deceits:
       alias: "LM-Pragmatics Deceits"
@@ -448,6 +497,7 @@ tasks:
       task_type: [ "multiple_choice" ]
       has_subtasks: False
       main_task: False
+      group: lm_pragmatics
       backend: "harness"
   humour:
       alias: "LM-Pragmatics Humour"
@@ -457,6 +507,7 @@ tasks:
       task_type: [ "multiple_choice" ]
       has_subtasks: False
       main_task: False
+      group: lm_pragmatics
       backend: "harness"
   irony:
       alias: "LM-Pragmatics Irony"
@@ -466,6 +517,7 @@ tasks:
       task_type: [ "multiple_choice" ]
       has_subtasks: False
       main_task: False
+      group: lm_pragmatics
       backend: "harness"
   maxims:
       alias: "LM-Pragmatics Maxims"
@@ -475,6 +527,7 @@ tasks:
       task_type: [ "multiple_choice" ]
       has_subtasks: False
       main_task: False
+      group: lm_pragmatics
       backend: "harness"
   metaphor:
       alias: "LM-Pragmatics Metaphor"
@@ -484,6 +537,7 @@ tasks:
       task_type: [ "multiple_choice" ]
       has_subtasks: False
       main_task: False
+      group: lm_pragmatics
       backend: "harness"
   llmbar_natural_vanilla:
       alias: "LLMBar"
@@ -493,6 +547,7 @@ tasks:
       task_type: ["multiple_choice"]
       has_subtasks: False
       main_task: False
+      group: llmbar_natural
       backend: "harness"
   lingoly:
       alias: "LingOLY"
@@ -502,6 +557,7 @@ tasks:
       task_type: [ "open_question" ]
       has_subtasks: False
       main_task: False
+      group: lingoly
       backend: "harness"
   planbench:
       alias: "PlanBench"
@@ -510,6 +566,7 @@ tasks:
       functional_groups: ["executive_functions"]
       has_subtasks: True
       main_task: True
+      group: planbench
       backend: "harness"
   planbench_blocksworld_full_to_partial:
       alias: "PB B FTP"
@@ -519,6 +576,7 @@ tasks:
       task_type: ["open_question"]
       has_subtasks: False
       main_task: False
+      group: planbench
       backend: "harness"
   planbench_blocksworld_plan_goal_shuffling:
       alias: "PB B Goal Shuffling"
@@ -528,6 +586,7 @@ tasks:
       task_type: [ "open_question" ]
       has_subtasks: False
       main_task: False
+      group: planbench
       backend: "harness"
   planbench_blocksworld_partial_to_full:
       alias: "PB B PTF"
@@ -537,6 +596,7 @@ tasks:
       task_type: [ "open_question" ]
       has_subtasks: False
       main_task: False
+      group: planbench
       backend: "harness"
   planbench_blocksworld_plan_execution:
       alias: "PB B PE"
@@ -546,6 +606,7 @@ tasks:
       task_type: [ "open_question" ]
       has_subtasks: False
       main_task: False
+      group: planbench
       backend: "harness"
   planbench_blocksworld_plan_generalization:
       alias: "PB B P Generalization"
@@ -555,6 +616,7 @@ tasks:
       task_type: [ "open_question" ]
       has_subtasks: False
       main_task: False
+      group: planbench
       backend: "harness"
   planbench_blocksworld_plan_generation:
       alias: "PB B P Generation"
@@ -564,6 +626,7 @@ tasks:
       task_type: [ "open_question" ]
       has_subtasks: False
       main_task: False
+      group: planbench
       backend: "harness"
   planbench_blocksworld_plan_optimality:
       alias: "PB B PO"
@@ -573,6 +636,7 @@ tasks:
       task_type: [ "open_question" ]
       has_subtasks: False
       main_task: False
+      group: planbench
       backend: "harness"
   planbench_blocksworld_plan_reuse:
       alias: "PB B PR"
@@ -582,6 +646,7 @@ tasks:
       task_type: [ "open_question" ]
       has_subtasks: False
       main_task: False
+      group: planbench
       backend: "harness"
   planbench_blocksworld_plan_verification:
       alias: "PB B PV"
@@ -591,6 +656,7 @@ tasks:
       task_type: [ "open_question" ]
       has_subtasks: False
       main_task: False
+      group: planbench
       backend: "harness"
   planbench_blocksworld_plan_replanning:
       alias: "PB B Replanning"
@@ -600,6 +666,7 @@ tasks:
       task_type: [ "open_question" ]
       has_subtasks: False
       main_task: False
+      group: planbench
       backend: "harness"
   planbench_logistics_full_to_partial:
       alias: "PB L FTP"
@@ -609,6 +676,7 @@ tasks:
       task_type: [ "open_question" ]
       has_subtasks: False
       main_task: False
+      group: planbench
       backend: "harness"
   planbench_logistics_plan_goal_shuffling:
       alias: "PB L Goal Shuffling"
@@ -618,6 +686,7 @@ tasks:
       task_type: [ "open_question" ]
       has_subtasks: False
       main_task: False
+      group: planbench
       backend: "harness"
   planbench_logistics_partial_to_full:
       alias: "PB L PTF"
@@ -627,6 +696,7 @@ tasks:
       task_type: [ "open_question" ]
       has_subtasks: False
       main_task: False
+      group: planbench
       backend: "harness"
   planbench_logistics_plan_execution:
       alias: "PB L PE"
@@ -636,6 +706,7 @@ tasks:
       task_type: [ "open_question" ]
       has_subtasks: False
       main_task: False
+      group: planbench
       backend: "harness"
   planbench_logistics_plan_generalization:
       alias: "PB L P Generalization"
@@ -645,6 +716,7 @@ tasks:
       task_type: [ "open_question" ]
       has_subtasks: False
       main_task: False
+      group: planbench
       backend: "harness"
   planbench_logistics_plan_generation:
       alias: "PB L P Generation"
@@ -654,6 +726,7 @@ tasks:
       task_type: [ "open_question" ]
       has_subtasks: False
       main_task: False
+      group: planbench
       backend: "harness"
   planbench_logistics_plan_optimality:
       alias: "PB L PO"
@@ -663,6 +736,7 @@ tasks:
       task_type: [ "open_question" ]
       has_subtasks: False
       main_task: False
+      group: planbench
       backend: "harness"
   planbench_logistics_plan_reuse:
       alias: "PB L PR"
@@ -672,6 +746,7 @@ tasks:
       task_type: [ "open_question" ]
       has_subtasks: False
       main_task: False
+      group: planbench
       backend: "harness"
   planbench_logistics_plan_verification:
       alias: "PB L PV"
@@ -681,6 +756,7 @@ tasks:
       task_type: [ "open_question" ]
       has_subtasks: False
       main_task: False
+      group: planbench
       backend: "harness"
   planbench_logistics_plan_replanning:
       alias: "PB L Replanning"
@@ -690,6 +766,7 @@ tasks:
       task_type: [ "open_question" ]
       has_subtasks: False
       main_task: False
+      group: planbench
       backend: "harness"
   fantom_full:
       alias: "FANToM"
@@ -698,6 +775,7 @@ tasks:
       functional_groups: [ "social_emotional_cognition" ]
       has_subtasks: True
       main_task: True
+      group: fantom_full
       backend: "harness"
   fantom_full_answerability_binary:
       alias: "FANToM Answerability B"
@@ -707,6 +785,7 @@ tasks:
       task_type: [ "multiple_choice" ]
       has_subtasks: False
       main_task: False
+      group: fantom_full
       backend: "harness"
   fantom_full_answerability_list:
       alias: "FANToM Answerability L"
@@ -716,6 +795,7 @@ tasks:
       task_type: [ "open_question" ]
       has_subtasks: False
       main_task: False
+      group: fantom_full
       backend: "harness"
   fantom_full_belief_choice:
       alias: "FANToM Belief Choice"
@@ -725,6 +805,7 @@ tasks:
       task_type: [ "multiple_choice" ]
       has_subtasks: False
       main_task: False
+      group: fantom_full
       backend: "harness"
   fantom_belief_gen:
       alias: "FANToM Belief Gen"
@@ -734,6 +815,7 @@ tasks:
       task_type: [ "open_question" ]
       has_subtasks: False
       main_task: False
+      group: fantom_full
       backend: "harness"
   fantom_full_fact:
       alias: "FANToM Full Fact"
@@ -743,6 +825,7 @@ tasks:
       task_type: [ "open_question" ]
       has_subtasks: False
       main_task: False
+      group: fantom_full
       backend: "harness"
   fantom_full_infoaccessibility_binary:
       alias: "FANToM Infoaccessibility B"
@@ -752,6 +835,7 @@ tasks:
       task_type: [ "multiple_choice" ]
       has_subtasks: False
       main_task: False
+      group: fantom_full
       backend: "harness"
   fantom_full_infoaccessibility_list:
       alias: "FANToM Infoaccessibility L"
@@ -761,6 +845,7 @@ tasks:
       task_type: [ "open_question" ]
       has_subtasks: False
       main_task: False
+      group: fantom_full
       backend: "harness"
   # TODO
   #ewok:

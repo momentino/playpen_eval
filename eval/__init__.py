@@ -1,8 +1,20 @@
 import json
 import yaml
+import os
+import sys
+import importlib
 import logging
 from pathlib import Path
 from typing import List, Dict, Any
+
+project_folder = Path(os.path.abspath(__file__)).parent.parent
+
+# Add the path of the submodule folder to sys.path, while renaming the directory for import purposes
+submodule_path = os.path.join(project_folder, "benchmarks/static/lm-evaluation-harness")
+sys.path.insert(0, submodule_path)
+
+# Dynamically import the module with the hyphen in its name
+lm_eval = importlib.import_module('benchmarks.lm-evaluation-harness.lm_eval')
 
 playpen_eval_logger = logging.getLogger("playpen_eval_logger")
 
