@@ -856,7 +856,7 @@ tasks:
       has_subtasks: False
       main_task: True
       group: dnli
-      backend: "playpen_eval"
+      backend: "playeval_framework"
   gtbench:
       alias: "GTBench"
       functional: [ "strategic_reasoning" ]
@@ -866,7 +866,7 @@ tasks:
       has_subtasks: False
       main_task: True
       group: gtbench
-      backend: "playpen_eval"
+      backend: "playeval_framework"
   gamebench:
       alias: "GameBench"
       functional: [ "strategic_reasoning" ]
@@ -876,7 +876,7 @@ tasks:
       has_subtasks: False
       main_task: True
       group: gamebench
-      backend: "playpen_eval"
+      backend: "playeval_framework"
   symmtom:
       alias: "SymmToM"
       functional: [ "theory_of_mind" ]
@@ -886,9 +886,9 @@ tasks:
       has_subtasks: False
       main_task: True
       group: gamebench
-      backend: "playpen_eval"
+      backend: "playeval_framework"
   entity_deduction_arena:
-      alias: "entity_deduction_arena"
+      alias: "Entity Deduction Arena"
       functional: [ "theory_of_mind" ]
       formal: [ ]
       functional_groups: [ "social_emotional_cognition" ]
@@ -896,7 +896,7 @@ tasks:
       has_subtasks: False
       main_task: True
       group: entity_deduction_arena
-      backend: "playpen_eval"
+      backend: "playeval_framework"
   # TODO
   #ewok:
   #    alias: "EWoK"
