@@ -847,6 +847,56 @@ tasks:
       main_task: False
       group: fantom_full
       backend: "harness"
+  dnli:
+      alias: "DNLI"
+      functional: [ "pragmatics" ]
+      formal: [ ]
+      functional_groups: [ "social_emotional_cognition" ]
+      task_type: [ "open_question" ]
+      has_subtasks: False
+      main_task: True
+      group: dnli
+      backend: "playpen_eval"
+  gtbench:
+      alias: "GTBench"
+      functional: [ "strategic_reasoning" ]
+      formal: [ ]
+      functional_groups: [ "executive_functions" ]
+      task_type: [ "interactive" ]
+      has_subtasks: False
+      main_task: True
+      group: gtbench
+      backend: "playpen_eval"
+  gamebench:
+      alias: "GameBench"
+      functional: [ "strategic_reasoning" ]
+      formal: [ ]
+      functional_groups: [ "executive_functions" ]
+      task_type: [ "interactive" ]
+      has_subtasks: False
+      main_task: True
+      group: gamebench
+      backend: "playpen_eval"
+  symmtom:
+      alias: "SymmToM"
+      functional: [ "theory_of_mind" ]
+      formal: [ ]
+      functional_groups: [ "social_emotional_cognition" ]
+      task_type: [ "interactive" ]
+      has_subtasks: False
+      main_task: True
+      group: gamebench
+      backend: "playpen_eval"
+  entity_deduction_arena:
+      alias: "entity_deduction_arena"
+      functional: [ "theory_of_mind" ]
+      formal: [ ]
+      functional_groups: [ "social_emotional_cognition" ]
+      task_type: [ "interactive" ]
+      has_subtasks: False
+      main_task: True
+      group: entity_deduction_arena
+      backend: "playpen_eval"
   # TODO
   #ewok:
   #    alias: "EWoK"

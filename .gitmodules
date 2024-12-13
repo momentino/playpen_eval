@@ -1,3 +1,27 @@
 [submodule "benchmarks/lm-evaluation-harness"]
 	path = benchmarks/lm-evaluation-harness
 	url = https://github.com/momentino/lm-evaluation-harness
+[submodule "benchmarks/playpen/DNLI"]
+	path = benchmarks/playpen/DNLI
+	url = https://github.com/momentino/DNLI.git
+[submodule "benchmarks/playpen/tasks/DNLI"]
+	path = benchmarks/playpen/tasks/DNLI
+	url = https://github.com/momentino/DNLI.git
+[submodule "benchmarks/playpen_eval/DNLI"]
+	path = benchmarks/playpen_eval/DNLI
+	url = https://github.com/momentino/DNLI.git
+[submodule "benchmarks/playpen_eval/--force"]
+	path = benchmarks/playpen_eval/--force
+	url = https://github.com/momentino/DNLI.git
+[submodule "benchmarks/playpen_eval/--dnli"]
+	path = benchmarks/playpen_eval/--dnli
+	url = https://github.com/momentino/DNLI.git
+[submodule "benchmarks/playpen_eval/dnli"]
+	path = benchmarks/playpen_eval/dnli
+	url = https://github.com/momentino/DNLI.git
+[submodule "frameworks/lm-evaluation-harness"]
+	path = frameworks/lm-evaluation-harness
+	url = https://github.com/momentino/lm-evaluation-harness.git
+[submodule "frameworks/playpen_eval/tasks/DNLI"]
+	path = frameworks/playpen_eval/tasks/DNLI
+	url = https://github.com/momentino/DNLI.git

@@ -13,6 +13,7 @@ setup(
         "seaborn",
         "tarski",
         "bitsandbytes",
-        "guidance"
+        "guidance",
+        "sentence_transformers",
     ],
 )
