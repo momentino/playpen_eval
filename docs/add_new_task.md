@@ -15,7 +15,7 @@ For this reason, all the benchmarks which are not supported by it will be implem
 Follow the original documentation [here](https://github.com/momentino/lm-evaluation-harness/tree/main/docs).
 ## Adding new tasks to playeval_framework
 
-This is what we have to figure out. However, we may implement new tasks within the _playeval_framework/tasks_ folder, starting from forking the repositories and them using **git submodule add <repo-url>**. This way, we still have a connection with the original project.  
+This is what we have to figure out. However, we may implement new tasks within the _playeval_framework/tasks_ folder, starting from forking the repositories and then using **git submodule add <repo-url>**. This way, we still have a connection with the original project.  
 We have to fork so we can also modify them.
 
 ## After implementing a task

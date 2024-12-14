@@ -6,7 +6,7 @@ from typing import List
 from datetime import datetime
 from eval import playpen_eval_logger, get_executed_tasks, get_playpen_tasks
 from utils.utils import custom_json_serializer, prepare_playpen_results
-from frameworks.playpen_eval import evaluate as playpen_evaluate
+import frameworks.playeval_framework as playeval
 
 def print_value_types(data):
     # Iterate through each key-value pair in the dictionary
@@ -95,8 +95,8 @@ def run(model_backend: str, model_args: str, tasks: List, device: str, trust_rem
             playpen_results = prepare_playpen_results(main_task=task, model_name=model_name, harness_results=results)
             with open(playpen_results_file_path, "w") as file:
                 json.dump(playpen_results, file, default=custom_json_serializer)
-        elif backend == "playpen_eval":
-            results = playpen_evaluate(
+        elif backend == "playeval_framework":
+            results = playeval.evaluate(
                 model=model_backend,
                 model_args=model_args,
                 tasks=task,
@@ -104,6 +104,12 @@ def run(model_backend: str, model_args: str, tasks: List, device: str, trust_rem
                 log_samples=True,
                 apply_chat_template=True,
             )
+
+            timestamp = datetime.now().strftime("%Y-%m-%dT%H-%M-%S.%f")
+            playpen_results_file_path = Path(
+                os.path.join(model_playpen_results_path, f"{task}_playpen_results_{timestamp}.json"))
+            with open(playpen_results_file_path, "w") as file:
+                json.dump(results, file, default=custom_json_serializer)
 
 def convert_res_from_harness(task_name: str, model_name:str, file_path: Path, output_path: Path) -> None:
     model_name = model_name.replace("/", "__")

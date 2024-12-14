@@ -1,6 +1,6 @@
 [submodule "frameworks/lm_evaluation_harness"]
 	path = frameworks/lm_evaluation_harness
 	url = https://github.com/momentino/lm-evaluation-harness.git
-[submodule "frameworks/playeval_framework/tasks/DNLI"]
-	path = frameworks/playeval_framework/tasks/DNLI
+[submodule "frameworks/playeval_framework/tasks/dnli/dnli_module"]
+	path = frameworks/playeval_framework/tasks/dnli/dnli_module
 	url = https://github.com/momentino/DNLI.git

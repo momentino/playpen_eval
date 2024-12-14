@@ -1,15 +1,15 @@
 import argparse
 import logging
 
-from eval.playpen_evaluator import PlaypenEvaluator
+from eval import playpen_evaluator
 
 playpen_eval_logger = logging.getLogger("playpen_eval_logger")
 
 def main(args: argparse.Namespace) -> None:
     if args.command_name == "ls":
-        PlaypenEvaluator.list_tasks()
+        playpen_evaluator.list_tasks()
     if args.command_name == "run":
-        PlaypenEvaluator.run(
+        playpen_evaluator.run(
             model_backend=args.model_backend,
             model_args=args.model_args,
             tasks=args.tasks,
@@ -18,7 +18,7 @@ def main(args: argparse.Namespace) -> None:
             results_path=args.results_path,
         )
     if args.command_name == "convert_results_from_harness":
-        PlaypenEvaluator.convert_res_from_harness(task_name=args.task_name, model_name=args.model_name, file_path=args.file_path, output_path=args.output_path)
+        playpen_evaluator.convert_res_from_harness(task_name=args.task_name, model_name=args.model_name, file_path=args.file_path, output_path=args.output_path)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
