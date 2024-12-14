@@ -15,5 +15,6 @@ setup(
         "bitsandbytes",
         "guidance",
         "sentence_transformers",
+        "sentencepiece"
     ],
 )

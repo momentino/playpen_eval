@@ -6,18 +6,7 @@ from typing import List
 from datetime import datetime
 from eval import playpen_eval_logger, get_executed_tasks, get_playpen_tasks
 from utils.utils import custom_json_serializer, prepare_playpen_results
-import frameworks.playeval_framework as playeval
-
-def print_value_types(data):
-    # Iterate through each key-value pair in the dictionary
-    for key, value in data.items():
-        # Print the type of the value
-        print(f"Key: {key}, Value Type: {type(value)}")
-
-        # If the value is a dictionary, recurse into it
-        if isinstance(value, dict):
-            print(f"Recursing into dictionary at key: {key}")
-            print_value_types(value)
+import frameworks.playeval_framework.evaluator as playeval
 
 def list_tasks() -> None:
     # TODO
@@ -99,7 +88,7 @@ def run(model_backend: str, model_args: str, tasks: List, device: str, trust_rem
             results = playeval.evaluate(
                 model=model_backend,
                 model_args=model_args,
-                tasks=task,
+                task=task,
                 device=device,
                 log_samples=True,
                 apply_chat_template=True,
