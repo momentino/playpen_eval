@@ -7,7 +7,7 @@ from frameworks.playeval_framework.tasks.dnli.dnli_module.baselines.llm.main imp
 from frameworks.playeval_framework.models import Model
 from frameworks.playeval_framework.tasks.task import Task
 
-""" Taken and adapted from the original repository (add source)"""
+""" Taken and adapted from the original repository (https://github.com/GU-CLASP/DNLI)"""
 class DNLITask(Task):
     def __init__(self):
         super().__init__(task_name="dnli")

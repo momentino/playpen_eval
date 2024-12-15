@@ -857,7 +857,304 @@ tasks:
       main_task: True
       group: dnli
       backend: "playeval_framework"
-  #gtbench:
+  ewok_minimal_pairs:
+      alias: "EWoK Minimal Pairs"
+      functional: ["physical_commonsense_reasoning", "social_commonsense_reasoning", "causal_reasoning"]
+      formal: [ "negation" ]
+      functional_groups: ["executive_functions", "social_emotional_cognition"]
+      has_subtasks: True
+      main_task: True
+      group: ewok_minimal_pairs
+      backend: "playeval_framework"
+  ewok_minimal_pairs_agent_properties:
+      alias: "EWoK Minimal Pairs Agent Properties"
+      functional: [ "physical_commonsense_reasoning", "social_commonsense_reasoning", "causal_reasoning" ]
+      formal: [ "negation" ]
+      functional_groups: [ "executive_functions", "social_emotional_cognition" ]
+      has_subtasks: False
+      main_task: False
+      group: ewok_minimal_pairs
+      backend: "playeval_framework"
+  ewok_minimal_pairs_social_relations:
+      alias: "EWoK Minimal Pairs Social Relations"
+      functional: ["social_commonsense_reasoning", "causal_reasoning" ]
+      formal: [ "negation" ]
+      functional_groups: [ "executive_functions", "social_emotional_cognition" ]
+      has_subtasks: False
+      main_task: False
+      group: ewok_minimal_pairs
+      backend: "playeval_framework"
+  ewok_minimal_pairs_material_dynamics:
+      alias: "EWoK Minimal Pairs Material Dynamics"
+      functional: [ "physical_commonsense_reasoning", "causal_reasoning" ]
+      formal: [ "negation" ]
+      functional_groups: [ "executive_functions"]
+      has_subtasks: False
+      main_task: False
+      group: ewok_minimal_pairs
+      backend: "playeval_framework"
+  ewok_minimal_pairs_physical_relations:
+      alias: "EWoK Minimal Pairs Physical Relations"
+      functional: [ "physical_commonsense_reasoning", "causal_reasoning" ]
+      formal: [ "negation" ]
+      functional_groups: [ "executive_functions"]
+      has_subtasks: False
+      main_task: False
+      group: ewok_minimal_pairs
+      backend: "playeval_framework"
+  ewok_minimal_pairs_physical_interactions:
+      alias: "EWoK Minimal Pairs Physical Interactions"
+      functional: [ "physical_commonsense_reasoning", "causal_reasoning" ]
+      formal: [ "negation" ]
+      functional_groups: [ "executive_functions" ]
+      has_subtasks: False
+      main_task: False
+      group: ewok_minimal_pairs
+      backend: "playeval_framework"
+  ewok_minimal_pairs_spatial_relations:
+      alias: "EWoK Minimal Pairs Spatial Relations"
+      functional: [ "physical_commonsense_reasoning", "causal_reasoning" ]
+      formal: [ "negation" ]
+      functional_groups: [ "executive_functions" ]
+      has_subtasks: False
+      main_task: False
+      group: ewok_minimal_pairs
+      backend: "playeval_framework"
+  ewok_minimal_pairs_quantitative_properties:
+      alias: "EWoK Minimal Pairs Quantitative Properties"
+      functional: [ "physical_commonsense_reasoning", "causal_reasoning" ]
+      formal: [ "negation" ]
+      functional_groups: [ "executive_functions" ]
+      has_subtasks: False
+      main_task: False
+      group: ewok_minimal_pairs
+      backend: "playeval_framework"
+  ewok_minimal_pairs_social_properties:
+      alias: "EWoK Minimal Pairs Social Properties"
+      functional: [ "social_commonsense_reasoning", "causal_reasoning" ]
+      formal: [ "negation" ]
+      functional_groups: [ "social_emotional_cognition" ]
+      has_subtasks: False
+      main_task: False
+      group: ewok_minimal_pairs
+      backend: "playeval_framework"
+  ewok_minimal_pairs_social_interactions:
+      alias: "EWoK Minimal Pairs Social Interactions"
+      functional: [ "social_commonsense_reasoning", "causal_reasoning" ]
+      formal: [ "negation" ]
+      functional_groups: [ "social_emotional_cognition" ]
+      has_subtasks: False
+      main_task: False
+      group: ewok_minimal_pairs
+      backend: "playeval_framework"
+  ewok_minimal_pairs_material_properties:
+      alias: "EWoK Minimal Pairs Material Properties"
+      functional: [ "physical_commonsense_reasoning", "causal_reasoning" ]
+      formal: [ "negation" ]
+      functional_groups: [ "social_emotional_cognition" ]
+      has_subtasks: False
+      main_task: False
+      group: ewok_minimal_pairs
+      backend: "playeval_framework"
+  ewok_multiple_choice:
+      alias: "EWoK Multiple Choice"
+      functional: [ "physical_commonsense_reasoning", "social_commonsense_reasoning", "causal_reasoning" ]
+      formal: [ "negation" ]
+      functional_groups: [ "executive_functions", "social_emotional_cognition" ]
+      has_subtasks: True
+      main_task: True
+      group: ewok_multiple_choice
+      backend: "playeval_framework"
+  ewok_multiple_choice_agent_properties:
+      alias: "EWoK Multiple Choice Agent Properties"
+      functional: [ "physical_commonsense_reasoning", "social_commonsense_reasoning", "causal_reasoning" ]
+      formal: [ "negation" ]
+      functional_groups: [ "executive_functions", "social_emotional_cognition" ]
+      has_subtasks: False
+      main_task: False
+      group: ewok_multiple_choice
+      backend: "playeval_framework"
+  ewok_multiple_choice_social_relations:
+      alias: "EWoK Multiple Choice Social Relations"
+      functional: [ "social_commonsense_reasoning", "causal_reasoning" ]
+      formal: [ "negation" ]
+      functional_groups: [ "executive_functions", "social_emotional_cognition" ]
+      has_subtasks: False
+      main_task: False
+      group: ewok_multiple_choice
+      backend: "playeval_framework"
+  ewok_multiple_choice_material_dynamics:
+      alias: "EWoK Multiple Choice Material Dynamics"
+      functional: [ "physical_commonsense_reasoning", "causal_reasoning" ]
+      formal: [ "negation" ]
+      functional_groups: [ "executive_functions" ]
+      has_subtasks: False
+      main_task: False
+      group: ewok_multiple_choice
+      backend: "playeval_framework"
+  ewok_multiple_choice_physical_relations:
+      alias: "EWoK Multiple Choice Physical Relations"
+      functional: [ "physical_commonsense_reasoning", "causal_reasoning" ]
+      formal: [ "negation" ]
+      functional_groups: [ "executive_functions" ]
+      has_subtasks: False
+      main_task: False
+      group: ewok_multiple_choice
+      backend: "playeval_framework"
+  ewok_multiple_choice_physical_interactions:
+      alias: "EWoK Multiple Choice Physical Interactions"
+      functional: [ "physical_commonsense_reasoning", "causal_reasoning" ]
+      formal: [ "negation" ]
+      functional_groups: [ "executive_functions" ]
+      has_subtasks: False
+      main_task: False
+      group: ewok_multiple_choice
+      backend: "playeval_framework"
+  ewok_multiple_choice_spatial_relations:
+      alias: "EWoK Multiple Choice Spatial Relations"
+      functional: [ "physical_commonsense_reasoning", "causal_reasoning" ]
+      formal: [ "negation" ]
+      functional_groups: [ "executive_functions" ]
+      has_subtasks: False
+      main_task: False
+      group: ewok_multiple_choice
+      backend: "playeval_framework"
+  ewok_multiple_choice_quantitative_properties:
+      alias: "EWoK Multiple Choice Quantitative Properties"
+      functional: [ "physical_commonsense_reasoning", "causal_reasoning" ]
+      formal: [ "negation" ]
+      functional_groups: [ "executive_functions" ]
+      has_subtasks: False
+      main_task: False
+      group: ewok_multiple_choice
+      backend: "playeval_framework"
+  ewok_multiple_choice_social_properties:
+      alias: "EWoK Multiple Choice Social Properties"
+      functional: [ "social_commonsense_reasoning", "causal_reasoning" ]
+      formal: [ "negation" ]
+      functional_groups: [ "social_emotional_cognition" ]
+      has_subtasks: False
+      main_task: False
+      group: ewok_multiple_choice
+      backend: "playeval_framework"
+  ewok_multiple_choice_social_interactions:
+      alias: "EWoK Multiple Choice Social Interactions"
+      functional: [ "social_commonsense_reasoning", "causal_reasoning" ]
+      formal: [ "negation" ]
+      functional_groups: [ "social_emotional_cognition" ]
+      has_subtasks: False
+      main_task: False
+      group: ewok_multiple_choice
+      backend: "playeval_framework"
+  ewok_multiple_choice_material_properties:
+      alias: "EWoK Multiple Choice Material Properties"
+      functional: [ "physical_commonsense_reasoning", "causal_reasoning" ]
+      formal: [ "negation" ]
+      functional_groups: [ "social_emotional_cognition" ]
+      has_subtasks: False
+      main_task: False
+      group: ewok_multiple_choice
+      backend: "playeval_framework"
+  ewok_likert:
+      alias: "EWoK Likert"
+      functional: [ "physical_commonsense_reasoning", "social_commonsense_reasoning", "causal_reasoning" ]
+      formal: [ "negation" ]
+      functional_groups: [ "executive_functions", "social_emotional_cognition" ]
+      has_subtasks: True
+      main_task: True
+      group: ewok_likert
+      backend: "playeval_framework"
+  ewok_likert_agent_properties:
+      alias: "EWoK Likert Agent Properties"
+      functional: [ "physical_commonsense_reasoning", "social_commonsense_reasoning", "causal_reasoning" ]
+      formal: [ "negation" ]
+      functional_groups: [ "executive_functions", "social_emotional_cognition" ]
+      has_subtasks: False
+      main_task: False
+      group: ewok_likert
+      backend: "playeval_framework"
+  ewok_likert_social_relations:
+      alias: "EWoK Likert Social Relations"
+      functional: [ "social_commonsense_reasoning", "causal_reasoning" ]
+      formal: [ "negation" ]
+      functional_groups: [ "executive_functions", "social_emotional_cognition" ]
+      has_subtasks: False
+      main_task: False
+      group: ewok_likert
+      backend: "playeval_framework"
+  ewok_likert_material_dynamics:
+      alias: "EWoK Likert Material Dynamics"
+      functional: [ "physical_commonsense_reasoning", "causal_reasoning" ]
+      formal: [ "negation" ]
+      functional_groups: [ "executive_functions" ]
+      has_subtasks: False
+      main_task: False
+      group: ewok_likert
+      backend: "playeval_framework"
+  ewok_likert_physical_relations:
+      alias: "EWoK Likert Physical Relations"
+      functional: [ "physical_commonsense_reasoning", "causal_reasoning" ]
+      formal: [ "negation" ]
+      functional_groups: [ "executive_functions" ]
+      has_subtasks: False
+      main_task: False
+      group: ewok_likert
+      backend: "playeval_framework"
+  ewok_likert_physical_interactions:
+      alias: "EWoK Likert Physical Interactions"
+      functional: [ "physical_commonsense_reasoning", "causal_reasoning" ]
+      formal: [ "negation" ]
+      functional_groups: [ "executive_functions" ]
+      has_subtasks: False
+      main_task: False
+      group: ewok_likert
+      backend: "playeval_framework"
+  ewok_likert_spatial_relations:
+      alias: "EWoK Likert Spatial Relations"
+      functional: [ "physical_commonsense_reasoning", "causal_reasoning" ]
+      formal: [ "negation" ]
+      functional_groups: [ "executive_functions" ]
+      has_subtasks: False
+      main_task: False
+      group: ewok_likert
+      backend: "playeval_framework"
+  ewok_likert_quantitative_properties:
+      alias: "EWoK Likert Quantitative Properties"
+      functional: [ "physical_commonsense_reasoning", "causal_reasoning" ]
+      formal: [ "negation" ]
+      functional_groups: [ "executive_functions" ]
+      has_subtasks: False
+      main_task: False
+      group: ewok_likert
+      backend: "playeval_framework"
+  ewok_likert_social_properties:
+      alias: "EWoK Likert Social Properties"
+      functional: [ "social_commonsense_reasoning", "causal_reasoning" ]
+      formal: [ "negation" ]
+      functional_groups: [ "social_emotional_cognition" ]
+      has_subtasks: False
+      main_task: False
+      group: ewok_likert
+      backend: "playeval_framework"
+  ewok_likert_social_interactions:
+      alias: "EWoK Likert Social Interactions"
+      functional: [ "social_commonsense_reasoning", "causal_reasoning" ]
+      formal: [ "negation" ]
+      functional_groups: [ "social_emotional_cognition" ]
+      has_subtasks: False
+      main_task: False
+      group: ewok_likert
+      backend: "playeval_framework"
+  ewok_likert_material_properties:
+      alias: "EWoK Likert Material Properties"
+      functional: [ "physical_commonsense_reasoning", "causal_reasoning" ]
+      formal: [ "negation" ]
+      functional_groups: [ "social_emotional_cognition" ]
+      has_subtasks: False
+      main_task: False
+      group: ewok_likert
+      backend: "playeval_framework"
+      #gtbench:
   #    alias: "GTBench"
   #    functional: [ "strategic_reasoning" ]
   #    formal: [ ]
@@ -897,16 +1194,6 @@ tasks:
   #    main_task: True
   #    group: entity_deduction_arena
   #    backend: "playeval_framework"
-  # TODO
-  #ewok:
-  #    alias: "EWoK"
-  #    functional: ["physical_commonsense_reasoni9ng", "social_commonsense_reasoning", "causal_reasoning"]
-  #    formal: [ "negation" ]
-  #    functional_groups: ["executive_functions", "social_emotional_cognition"]
-  #nli_dataset:
-  #    alias: "NLI Dataset"
-  #    functional: ["causal_reasoning", "logical_reasoning"]
-  #    functional_groups: ["executive_functions"]
   #lmentry:
   #    alias: "LMentry"
   #    functional: []

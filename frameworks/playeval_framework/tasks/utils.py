@@ -39,7 +39,7 @@ def get_task(task_name:str):
 def get_task_config(task:str) -> Dict[str, Any]:
     data = {}
     try:
-        task_config_root = framework_root / "tasks" / task
+        task_config_root = framework_root / "tasks"
         for yaml_file in task_config_root.rglob("*.yaml"):
             if yaml_file.is_file():
                 try:

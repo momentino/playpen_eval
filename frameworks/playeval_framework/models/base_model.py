@@ -4,6 +4,10 @@ class Model(ABC):
         self.model_name = model_name
 
     @abstractmethod
+    def __call__(self, prompt):
+        pass
+
+    @abstractmethod
     def generate(self):
         pass
 
