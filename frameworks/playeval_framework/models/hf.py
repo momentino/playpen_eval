@@ -13,16 +13,12 @@ class HF(Model):
                  device: str,
                  trust_remote_code: bool,
                  guidance: bool = False,
-                 stop_token: str = None,
-                 max_tokens: int = None,
                  torch_dtype: str = 'auto') -> None:
         self.model_name = pretrained.replace("__","/")
         super().__init__(model_name=self.model_name)
         self.device = device
         self.trust_remote_code = trust_remote_code
         self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
-        self.tokenizer.padding_side = "right"
-        self.tokenizer.pad_token = self.tokenizer.eos_token
 
         if guidance:
             model_config= {
@@ -42,22 +38,36 @@ class HF(Model):
                                                               torch_dtype=self.torch_dtype)
             self.model.to(self.device)
 
+    def set_tokenizer_padding_side(self, padding_side:str, ):
+        self.tokenizer.padding_side = padding_side
+
+    def set_tokenizer_pad_token(self, pad_token:str):
+        self.tokenizer.pad_token = pad_token
+
     def __call__(self, prompt: str) -> (torch.Tensor, torch.Tensor):
         if isinstance(self.model, PreTrainedModel):
-            # TODO: Need to check if it works for non-chat models
-            #messages = [{"role": "user", "content": prompt}]
-            #text = self.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=False)
-            text=prompt
-            model_inputs = self.tokenizer([text], return_tensors="pt", padding="longest", max_length=1024, add_special_tokens=True).to(self.model.device)
+            model_inputs = self.tokenizer([prompt], return_tensors="pt", padding="longest", max_length=1024, add_special_tokens=True).to(self.model.device)
             with torch.no_grad():
                 outputs = self.model(**model_inputs)
             return model_inputs, outputs['logits']
         else:
             raise Exception('Model must be a model from Huggingface to use this method.')
 
-    def generate(self):
+    def generate(self,prompt: str, **kwargs):
         if isinstance(self.model, PreTrainedModel):
-            pass
+            if self.tokenizer.chat_template is not None:
+                messages = [{"role": "user", "content": prompt}]
+                prompt = self.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+            model_inputs = self.tokenizer([prompt], return_tensors="pt", padding=True).to(
+                self.device
+            )
+            outputs = self.model.generate(
+                **model_inputs,
+                **kwargs,
+            )
+            text = self.tokenizer.batch_decode(outputs, skip_special_tokens=True)
+            completions = [t[len(p):] for t, p in zip(text, [prompt])]
+            return completions
         else:
             raise Exception('Model must be a model from Huggingface to use this method.')
 

@@ -6,13 +6,9 @@ def evaluate(task: str, model_args:str, device: str, log_samples: bool = False, 
     task_config = get_task_config(task)
     if model == "hf":
         model_args = dict(pair.split("=") for pair in model_args.split(","))
-        if "max_tokens" in task_config:
-            model_args['max_tokens'] = task_config['max_tokens']
-        if "stop_token" in task_config:
-            model_args['stop_token'] = task_config['stop_token']
         model = HF(guidance=task_config['guidance'], device=device, **model_args)
     else:
         raise Exception(f"Model backend {model} is not supported.")
-    task = get_task(task)
+    task = get_task(task, task_config)
     results = task.evaluate(model)
     return results

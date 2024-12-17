@@ -10,6 +10,8 @@ def main(args: argparse.Namespace) -> None:
         if args.take_functional_subtasks:
             output_path_root = Path(args.output_path) / Path(args.discriminant) / Path("unpacked") / args.correlation_method
         else:
+            if args.discriminant == "benchmarks":
+                raise Exception("Cannot consider overall benchmarks here. We are taking into consideration within-benchmark subtasks. Try by adding the '--take_functional_subtasks' argument.")
             output_path_root = Path(args.output_path) / Path(args.discriminant) / Path("overall") / args.correlation_method
         run_correlation(src_path = Path(args.src_path),
                         output_path_root = output_path_root,

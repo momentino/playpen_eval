@@ -52,7 +52,7 @@ def prepare_playpen_results(main_task: str, model_name:str, harness_results: dic
         aggregated_results = {}
 
         if main_task == 'lingoly':
-            main_task = "delta_nc"
+            main_task = 'delta_nc'
 
         for task_name, scores in harness_results["results"].items():
             if task_name != "lingoly":

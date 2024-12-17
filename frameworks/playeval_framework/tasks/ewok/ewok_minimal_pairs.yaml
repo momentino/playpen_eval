@@ -1,6 +1,4 @@
 task_name: ewok_minimal_pairs
 guidance: False
-stop_token: '\n\n'
-max_tokens: 20
 hf_precision: "bf16"
 hf_optimize: False,

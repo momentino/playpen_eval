@@ -39,10 +39,10 @@ class DNLITask(Task):
             # Count matching values at the same position
         acc = sum(1 for i in range(len(preds)) if preds[i] == self.labels[i])/len(self.labels)
 
-        results = {"model_name": model.get_model_name(),
-                   "task:": self.task_name,
+        results = {"model_name": model.get_model_name().replace("/","__"),
+                   "task": self.task_name,
                    "aggregated_results": {"metric":"acc", "score":acc},
-                   "subtasks":{}
+                   "subtask_results":{}
                    }
         return results
 

@@ -13,7 +13,7 @@ def import_module_from_path(file_path):
     spec.loader.exec_module(module)
     return module
 
-def get_task(task_name:str):
+def get_task(task_name:str, task_config: Dict[str, Any]) -> Task:
     task_root = framework_root / "tasks"
     # Iterate over all files ending with "_task.py"
     for file_path in task_root.rglob("*_task.py"):

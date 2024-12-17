@@ -13,6 +13,7 @@ tasks:
       task_type: ["multiple_choice"]
       group: social_iqa
       backend: "harness"
+      chance_level: 0.25
   mmlu:
       alias: "MMLU"
       functional: [ "logical_reasoning" ]
@@ -23,6 +24,7 @@ tasks:
       group: mmlu
       task_type: ["multiple_choice"]
       backend: "harness"
+      chance_level: 0.25
   mmlu_formal_logic:
       alias: "MMLU Formal Logic"
       functional: [ "logical_reasoning" ]
@@ -33,6 +35,7 @@ tasks:
       group: mmlu
       task_type: ["multiple_choice"]
       backend: "harness"
+      chance_level: 0.25
   mmlu_logical_fallacies:
       alias: "MMLU Logical Fallacies"
       functional: [ "logical_reasoning" ]
@@ -43,15 +46,18 @@ tasks:
       group: mmlu
       task_type: ["multiple_choice"]
       backend: "harness"
+      chance_level: 0.25
   drop:
       alias: "DROP"
       functional: [ "numerical_reasoning" ]
       formal: []
       functional_groups: ["executive_functions"]
       has_subtasks: False
+      task_type: [ "open_generation" ]
       main_task: True
       group: drop
       backend: "harness"
+      chance_level: 1.44
   glue_diagnostics:
       alias: "GLUE Diagnostics"
       functional: [ "commonsense_reasoning", "logical_reasoning" ]
@@ -62,6 +68,7 @@ tasks:
       group: glue_diagnostics
       task_type: ["nli"]
       backend: "harness"
+      chance_level: 0.33
   glue_diagnostics_logic:
       alias: "GLUE Diagnostics Logical"
       functional: ["logical_reasoning"]
@@ -72,6 +79,7 @@ tasks:
       group: glue_diagnostics
       task_type: ["nli"]
       backend: "harness"
+      chance_level: 0.33
   glue_diagnostics_lexical_semantics:
       alias: "GLUE Diagnostics Lex. Sem."
       functional: [  ]
@@ -82,6 +90,7 @@ tasks:
       group: glue_diagnostics
       task_type: ["nli"]
       backend: "harness"
+      chance_level: 0.33
   glue_diagnostics_predicate_argument_structure:
       alias: "GLUE Diagnostics PAS"
       functional: [ ]
@@ -92,6 +101,7 @@ tasks:
       group: glue_diagnostics
       task_type: ["nli"]
       backend: "harness"
+      chance_level: 0.33
   glue_diagnostics_knowledge_world:
       alias: "GLUE Diagnostics World Know."
       functional: [ ]
@@ -102,6 +112,7 @@ tasks:
       group: glue_diagnostics
       task_type: ["nli"]
       backend: "harness"
+      chance_level: 0.33
   glue_diagnostics_knowledge_common_sense:
       alias: "GLUE Diagnostics Commonsense"
       functional: [ "commonsense_reasoning" ]
@@ -112,6 +123,7 @@ tasks:
       group: glue_diagnostics
       task_type: ["nli"]
       backend: "harness"
+      chance_level: 0.33
   super_glue_v2:
       alias: "SuperGLUE"
       functional: [ "logical_reasoning", "causal_reasoning", "commonsense_reasoning" ]
@@ -122,6 +134,7 @@ tasks:
       group: super_glue_v2
       task_type: ["multiple_choice", "cloze", "nli"]
       backend: "harness" # TODO
+      chance_level: 0
   super_glue_cb_reimplemented:
       alias: "CB"
       functional: [ "logical_reasoning" ]
@@ -132,6 +145,7 @@ tasks:
       group: super_glue_v2
       task_type: ["nli"]
       backend: "harness"
+      chance_level: 0.33
   super_glue_copa_reimplemented:
       alias: "COPA"
       functional: [ "causal_reasoning", "commonsense_reasoning", "logical_reasoning" ]
@@ -142,6 +156,7 @@ tasks:
       group: super_glue_v2
       task_type: ["multiple_choice"]
       backend: "harness"
+      chance_level: 0.5
   super_glue_record_reimplemented:
       alias: "ReCoRD"
       functional: [ "commonsense_reasoning", "causal_reasoning" ]
@@ -152,6 +167,7 @@ tasks:
       group: super_glue_v2
       task_type: ["cloze"]
       backend: "harness"
+      chance_level: 0.1912
   super_glue_multirc_reimplemented:
       alias: "MultiRC"
       functional: [ "commonsense_reasoning" ]
@@ -162,6 +178,7 @@ tasks:
       group: super_glue_v2
       task_type: ["multiple_choice"]
       backend: "harness"
+      chance_level: 0.443 # f1 macro, look at the original paper
   super_glue_rte_reimplemented:
       alias: "RTE"
       functional: [ "logical_reasoning" ]
@@ -172,6 +189,7 @@ tasks:
       group: super_glue_v2
       task_type: ["nli"]
       backend: "harness"
+      chance_level: 0.33
   super_glue_wic_reimplemented:
       alias: "WiC"
       functional: []
@@ -181,6 +199,7 @@ tasks:
       main_task: False
       group: super_glue_v2
       backend: "harness"
+      chance_level: 0.5
   super_glue_wsc_reimplemented:
       alias: "WSC"
       functional: ["commonsense_reasoning"]
@@ -191,15 +210,29 @@ tasks:
       group: super_glue_v2
       task_type: ["multiple_choice"]
       backend: "harness"
+      chance_level: 0.5
+  bbh_fewshot:
+      alias: "BBH Fewshot"
+      functional: [ "logical_reasoning", "causal_reasoning", "commonsense_reasoning", "social_commonsense_reasoning", "emotional_intelligence", "pragmatics" ]
+      formal: [ "negation", "metalinguistic", "predicate_argument_structure" ]
+      functional_groups: [ "executive_functions", "social_emotional_cognition" ]
+      task_type: [ "multiple_choice" , "open_question" ]
+      has_subtasks: True
+      main_task: True
+      group: bbh
+      backend: "harness"
+      chance_level: 0
   bbh:
       alias: "BBH"
       functional: [ "logical_reasoning", "causal_reasoning", "commonsense_reasoning", "social_commonsense_reasoning", "emotional_intelligence", "pragmatics" ]
       formal: [ "negation", "metalinguistic", "predicate_argument_structure" ]
       functional_groups: ["executive_functions", "social_emotional_cognition"]
+      task_type: [ "multiple_choice" , "open_question"]
       has_subtasks: True
       main_task: True
       group: bbh
       backend: "harness"
+      chance_level: 0
   bbh_cot_fewshot_boolean_expressions:
       alias: "BBH Boolean Expressions"
       functional: [ "logical_reasoning"]
@@ -210,6 +243,7 @@ tasks:
       group: bbh
       task_type: ["open_question"]
       backend: "harness"
+      chance_level: 0.5
   bbh_cot_fewshot_causal_judgement:
       alias: "BBH Causal Judgement"
       functional: [ "causal_reasoning", "commonsense_reasoning", "social_commonsense_reasoning"]
@@ -220,6 +254,7 @@ tasks:
       group: bbh
       task_type: ["multiple_choice"]
       backend: "harness"
+      chance_level: 0.5
   bbh_cot_fewshot_date_understanding:
       alias: "BBH Date Understanding"
       functional: [ "logical_reasoning", "commonsense_reasoning" ]
@@ -230,6 +265,7 @@ tasks:
       task_type: ["multiple_choice"]
       group: bbh
       backend: "harness"
+      chance_level: 0.15
   bbh_cot_fewshot_disambiguation_qa:
       alias: "BBH Disambiguation QA"
       functional: [ "commonsense_reasoning" ]
@@ -240,6 +276,7 @@ tasks:
       group: bbh
       task_type: ["multiple_choice"]
       backend: "harness"
+      chance_level: 0.33
   bbh_cot_fewshot_dyck_languages:
       alias: "BBH Dyck Languages"
       functional: [ "logical_reasoning" ]
@@ -250,6 +287,7 @@ tasks:
       group: bbh
       task_type: ["open_question"]
       backend: "harness"
+      chance_level: 0
   bbh_cot_fewshot_formal_fallacies:
       alias: "BBH Formal Fallacies"
       functional: [ "logical_reasoning" ]
@@ -260,6 +298,7 @@ tasks:
       group: bbh
       task_type: ["multiple_choice"]
       backend: "harness"
+      chance_level: 0.5
   bbh_cot_fewshot_geometric_shapes:
       alias: "BBH Geometric Shapes"
       functional: [ ]
@@ -270,6 +309,7 @@ tasks:
       group: bbh
       task_type: ["multiple_choice"]
       backend: "harness"
+      chance_level: 0.11
   bbh_cot_fewshot_hyperbaton:
       alias: "BBH Hyperbaton"
       functional: [  ]
@@ -280,6 +320,7 @@ tasks:
       group: bbh
       functional_groups: []
       backend: "harness"
+      chance_level: 0.5
   bbh_cot_fewshot_logical_deduction_five_objects:
       alias: "BBH Logical Deduction 5"
       functional: [ "logical_reasoning" ]
@@ -290,6 +331,7 @@ tasks:
       group: bbh
       task_type: ["multiple_choice"]
       backend: "harness"
+      chance_level: 0.2
   bbh_cot_fewshot_logical_deduction_seven_objects:
       alias: "BBH Logical Deduction 7"
       functional: [ "logical_reasoning" ]
@@ -300,6 +342,7 @@ tasks:
       group: bbh
       task_type: ["multiple_choice"]
       backend: "harness"
+      chance_level: 0.142
   bbh_cot_fewshot_logical_deduction_three_objects:
       alias: "BBH Logical Deduction 3"
       functional: [ "logical_reasoning" ]
@@ -310,6 +353,7 @@ tasks:
       group: bbh
       task_type: ["multiple_choice"]
       backend: "harness"
+      chance_level: 0.33
   bbh_cot_fewshot_movie_recommendation:
       alias: "BBH Movie Recommendation"
       functional: [  "emotional_intelligence" ]
@@ -320,6 +364,7 @@ tasks:
       group: bbh
       task_type: ["multiple_choice"]
       backend: "harness"
+      chance_level: 0.35 # check again
   bbh_cot_fewshot_multistep_arithmetic_two:
       alias: "BBH Multistep Arithmetic"
       functional: [ ]
@@ -330,6 +375,7 @@ tasks:
       group: bbh
       task_type: ["open_question"]
       backend: "harness"
+      chance_level: 0
   bbh_cot_fewshot_navigate:
       alias: "BBH Navigate"
       functional: [ "logical_reasoning" ]
@@ -340,6 +386,7 @@ tasks:
       group: bbh
       task_type: ["multiple_choice"]
       backend: "harness"
+      chance_level: 0.5
   bbh_cot_fewshot_object_counting:
       alias: "BBH Object Counting"
       functional: [ "logical_reasoning" ]
@@ -350,6 +397,7 @@ tasks:
       group: bbh
       task_type: ["open_question"] # MAYBE Multiple Choice
       backend: "harness"
+      chance_level: 0
   bbh_cot_fewshot_penguins_in_a_table:
       alias: "BBH Penguins in a Table"
       functional: [ "logical_reasoning" ]
@@ -360,6 +408,7 @@ tasks:
       group: bbh
       task_type: ["multiple_choice"]
       backend: "harness"
+      chance_level: 0.25
   bbh_cot_fewshot_reasoning_about_colored_objects:
       alias: "BBH Reasoning Colored Objects"
       functional: [ "logical_reasoning", "commonsense_reasoning" ]
@@ -370,6 +419,7 @@ tasks:
       group: bbh
       task_type: ["multiple_choice"]
       backend: "harness"
+      chance_level: 0.1
   bbh_cot_fewshot_ruin_names:
       alias: "BBH Ruin Names"
       functional: [  "pragmatics" ]
@@ -380,6 +430,7 @@ tasks:
       group: bbh
       task_type: ["multiple_choice"]
       backend: "harness"
+      chance_level: 0.25
   bbh_cot_fewshot_salient_translation_error_detection:
       alias: "BBH Translation Error Detection"
       functional: [ ]
@@ -390,6 +441,7 @@ tasks:
       main_task: False
       group: bbh
       backend: "harness"
+      chance_level: 0.16
   bbh_cot_fewshot_snarks:
       alias: "BBH Snarks"
       functional: [  "pragmatics" ]
@@ -400,6 +452,7 @@ tasks:
       main_task: False
       group: bbh
       backend: "harness"
+      chance_level: 0.5
   bbh_cot_fewshot_sports_understanding:
       alias: "BBH Sports Understanding"
       functional: [  "commonsense_reasoning"]
@@ -410,6 +463,7 @@ tasks:
       main_task: False
       group: bbh
       backend: "harness"
+      chance_level: 0.5
   bbh_cot_fewshot_temporal_sequences:
       alias: "BBH Temporal Sequences"
       functional: [ "logical_reasoning" ]
@@ -420,6 +474,7 @@ tasks:
       main_task: False
       group: bbh
       backend: "harness"
+      chance_level: 0.25
   bbh_cot_fewshot_tracking_shuffled_objects_five_objects:
       alias: "BBH Tracking Shuffled Objects 5"
       functional: [ "logical_reasoning" ]
@@ -430,6 +485,7 @@ tasks:
       main_task: False
       group: bbh
       backend: "harness"
+      chance_level: 0.2
   bbh_cot_fewshot_tracking_shuffled_objects_seven_objects:
       alias: "BBH Tracking Shuffled Objects 7"
       functional: [ "logical_reasoning" ]
@@ -440,6 +496,7 @@ tasks:
       main_task: False
       group: bbh
       backend: "harness"
+      chance_level: 0.142
   bbh_cot_fewshot_tracking_shuffled_objects_three_objects:
       alias: "BBH Tracking Shuffled Objects 3"
       functional: [ "logical_reasoning" ]
@@ -450,6 +507,7 @@ tasks:
       main_task: False
       group: bbh
       backend: "harness"
+      chance_level: 0.33
   bbh_cot_fewshot_web_of_lies:
       alias: "BBH Web of Lies"
       functional: [ "logical_reasoning" ]
@@ -460,6 +518,7 @@ tasks:
       main_task: False
       group: bbh
       backend: "harness"
+      chance_level: 0.5
   bbh_cot_fewshot_word_sorting:
       alias: "BBH Word Sorting"
       functional: [  ]
@@ -470,15 +529,18 @@ tasks:
       main_task: False
       group: bbh
       backend: "harness"
+      chance_level: 0
   lm_pragmatics:
       alias: "LM-Pragmatics"
       functional: [ "pragmatics" ]
       formal: [ ]
       functional_groups: ["social_emotional_cognition"]
+      task_type: ["multiple_choice"]
       has_subtasks: True
       main_task: True
       group: lm_pragmatics
       backend: "harness"
+      chance_level: 0
   coherence:
       alias: "LM-Pragmatics Coherence"
       functional: [ "pragmatics" ]
@@ -489,6 +551,7 @@ tasks:
       main_task: False
       group: lm_pragmatics
       backend: "harness"
+      chance_level: 0.5
   deceits:
       alias: "LM-Pragmatics Deceits"
       functional: [ "pragmatics" ]
@@ -499,6 +562,7 @@ tasks:
       main_task: False
       group: lm_pragmatics
       backend: "harness"
+      chance_level: 0.25
   humour:
       alias: "LM-Pragmatics Humour"
       functional: [ "pragmatics" ]
@@ -509,6 +573,7 @@ tasks:
       main_task: False
       group: lm_pragmatics
       backend: "harness"
+      chance_level: 0.2
   irony:
       alias: "LM-Pragmatics Irony"
       functional: [ "pragmatics" ]
@@ -519,6 +584,7 @@ tasks:
       main_task: False
       group: lm_pragmatics
       backend: "harness"
+      chance_level: 0.25
   maxims:
       alias: "LM-Pragmatics Maxims"
       functional: [ "pragmatics" ]
@@ -529,6 +595,7 @@ tasks:
       main_task: False
       group: lm_pragmatics
       backend: "harness"
+      chance_level: 0.25
   metaphor:
       alias: "LM-Pragmatics Metaphor"
       functional: [ "pragmatics" ]
@@ -539,6 +606,7 @@ tasks:
       main_task: False
       group: lm_pragmatics
       backend: "harness"
+      chance_level: 0.2
   llmbar_natural_vanilla:
       alias: "LLMBar"
       functional: [ "causal_reasoning", "logical_reasoning", "commonsense_reasoning", "physical_commonsense_reasoning", "social_commonsense_reasoning" ]
@@ -549,6 +617,7 @@ tasks:
       main_task: False
       group: llmbar_natural
       backend: "harness"
+      chance_level: 0.5
   lingoly:
       alias: "LingOLY"
       functional: ["logical reasoning"]
@@ -559,15 +628,18 @@ tasks:
       main_task: False
       group: lingoly
       backend: "harness"
+      chance_level: 0
   planbench:
       alias: "PlanBench"
       functional: ["strategic_reasoning"]
       formal: [ ]
       functional_groups: ["executive_functions"]
+      task_type: ["open_question"]
       has_subtasks: True
       main_task: True
       group: planbench
       backend: "harness"
+      chance_level: 0
   planbench_blocksworld_full_to_partial:
       alias: "PB B FTP"
       functional: [ "strategic_reasoning" ]
@@ -578,6 +650,7 @@ tasks:
       main_task: False
       group: planbench
       backend: "harness"
+      chance_level: 0
   planbench_blocksworld_plan_goal_shuffling:
       alias: "PB B Goal Shuffling"
       functional: [ "strategic_reasoning" ]
@@ -588,6 +661,7 @@ tasks:
       main_task: False
       group: planbench
       backend: "harness"
+      chance_level: 0
   planbench_blocksworld_partial_to_full:
       alias: "PB B PTF"
       functional: [ "strategic_reasoning" ]
@@ -598,6 +672,7 @@ tasks:
       main_task: False
       group: planbench
       backend: "harness"
+      chance_level: 0
   planbench_blocksworld_plan_execution:
       alias: "PB B PE"
       functional: [ "strategic_reasoning" ]
@@ -608,6 +683,7 @@ tasks:
       main_task: False
       group: planbench
       backend: "harness"
+      chance_level: 0
   planbench_blocksworld_plan_generalization:
       alias: "PB B P Generalization"
       functional: [ "strategic_reasoning" ]
@@ -618,6 +694,7 @@ tasks:
       main_task: False
       group: planbench
       backend: "harness"
+      chance_level: 0
   planbench_blocksworld_plan_generation:
       alias: "PB B P Generation"
       functional: [ "strategic_reasoning" ]
@@ -628,6 +705,7 @@ tasks:
       main_task: False
       group: planbench
       backend: "harness"
+      chance_level: 0
   planbench_blocksworld_plan_optimality:
       alias: "PB B PO"
       functional: [ "strategic_reasoning" ]
@@ -638,6 +716,7 @@ tasks:
       main_task: False
       group: planbench
       backend: "harness"
+      chance_level: 0
   planbench_blocksworld_plan_reuse:
       alias: "PB B PR"
       functional: [ "strategic_reasoning" ]
@@ -648,6 +727,7 @@ tasks:
       main_task: False
       group: planbench
       backend: "harness"
+      chance_level: 0
   planbench_blocksworld_plan_verification:
       alias: "PB B PV"
       functional: [ "strategic_reasoning" ]
@@ -658,6 +738,7 @@ tasks:
       main_task: False
       group: planbench
       backend: "harness"
+      chance_level: 0
   planbench_blocksworld_plan_replanning:
       alias: "PB B Replanning"
       functional: [ "strategic_reasoning" ]
@@ -668,6 +749,7 @@ tasks:
       main_task: False
       group: planbench
       backend: "harness"
+      chance_level: 0
   planbench_logistics_full_to_partial:
       alias: "PB L FTP"
       functional: [ "strategic_reasoning" ]
@@ -678,6 +760,7 @@ tasks:
       main_task: False
       group: planbench
       backend: "harness"
+      chance_level: 0
   planbench_logistics_plan_goal_shuffling:
       alias: "PB L Goal Shuffling"
       functional: [ "strategic_reasoning" ]
@@ -688,6 +771,7 @@ tasks:
       main_task: False
       group: planbench
       backend: "harness"
+      chance_level: 0
   planbench_logistics_partial_to_full:
       alias: "PB L PTF"
       functional: [ "strategic_reasoning" ]
@@ -698,6 +782,7 @@ tasks:
       main_task: False
       group: planbench
       backend: "harness"
+      chance_level: 0
   planbench_logistics_plan_execution:
       alias: "PB L PE"
       functional: [ "strategic_reasoning" ]
@@ -708,6 +793,7 @@ tasks:
       main_task: False
       group: planbench
       backend: "harness"
+      chance_level: 0
   planbench_logistics_plan_generalization:
       alias: "PB L P Generalization"
       functional: [ "strategic_reasoning" ]
@@ -718,6 +804,7 @@ tasks:
       main_task: False
       group: planbench
       backend: "harness"
+      chance_level: 0
   planbench_logistics_plan_generation:
       alias: "PB L P Generation"
       functional: [ "strategic_reasoning" ]
@@ -728,6 +815,7 @@ tasks:
       main_task: False
       group: planbench
       backend: "harness"
+      chance_level: 0
   planbench_logistics_plan_optimality:
       alias: "PB L PO"
       functional: [ "strategic_reasoning" ]
@@ -738,6 +826,7 @@ tasks:
       main_task: False
       group: planbench
       backend: "harness"
+      chance_level: 0
   planbench_logistics_plan_reuse:
       alias: "PB L PR"
       functional: [ "strategic_reasoning" ]
@@ -748,6 +837,7 @@ tasks:
       main_task: False
       group: planbench
       backend: "harness"
+      chance_level: 0
   planbench_logistics_plan_verification:
       alias: "PB L PV"
       functional: [ "strategic_reasoning" ]
@@ -758,6 +848,7 @@ tasks:
       main_task: False
       group: planbench
       backend: "harness"
+      chance_level: 0
   planbench_logistics_plan_replanning:
       alias: "PB L Replanning"
       functional: [ "strategic_reasoning" ]
@@ -768,15 +859,18 @@ tasks:
       main_task: False
       group: planbench
       backend: "harness"
+      chance_level: 0
   fantom_full:
       alias: "FANToM"
       functional: [ "theory_of_mind" ]
       formal: [ ]
       functional_groups: [ "social_emotional_cognition" ]
+      task_type: [ "multiple_choice" , "open_question"]
       has_subtasks: True
       main_task: True
       group: fantom_full
       backend: "harness"
+      chance_level: 0
   fantom_full_answerability_binary:
       alias: "FANToM Answerability B"
       functional: [ "theory_of_mind" ]
@@ -787,6 +881,7 @@ tasks:
       main_task: False
       group: fantom_full
       backend: "harness"
+      chance_level: 0.5
   fantom_full_answerability_list:
       alias: "FANToM Answerability L"
       functional: [ "theory_of_mind" ]
@@ -797,6 +892,7 @@ tasks:
       main_task: False
       group: fantom_full
       backend: "harness"
+      chance_level: 0.03
   fantom_full_belief_choice:
       alias: "FANToM Belief Choice"
       functional: [ "theory_of_mind" ]
@@ -807,6 +903,7 @@ tasks:
       main_task: False
       group: fantom_full
       backend: "harness"
+      chance_level: 0.5
   fantom_belief_gen:
       alias: "FANToM Belief Gen"
       functional: [ "theory_of_mind" ]
@@ -817,6 +914,7 @@ tasks:
       main_task: False
       group: fantom_full
       backend: "harness"
+      chance_level: 0
   fantom_full_fact:
       alias: "FANToM Full Fact"
       functional: [ "theory_of_mind" ]
@@ -827,6 +925,7 @@ tasks:
       main_task: False
       group: fantom_full
       backend: "harness"
+      chance_level: 0
   fantom_full_infoaccessibility_binary:
       alias: "FANToM Infoaccessibility B"
       functional: [ "theory_of_mind" ]
@@ -837,6 +936,7 @@ tasks:
       main_task: False
       group: fantom_full
       backend: "harness"
+      chance_level: 0.5
   fantom_full_infoaccessibility_list:
       alias: "FANToM Infoaccessibility L"
       functional: [ "theory_of_mind" ]
@@ -847,313 +947,381 @@ tasks:
       main_task: False
       group: fantom_full
       backend: "harness"
+      chance_level: 0.03
   dnli:
       alias: "DNLI"
       functional: [ "pragmatics" ]
       formal: [ ]
       functional_groups: [ "social_emotional_cognition" ]
-      task_type: [ "open_question" ]
+      task_type: [ "nli" ]
       has_subtasks: False
       main_task: True
       group: dnli
       backend: "playeval_framework"
+      chance_level: 0.33
   ewok_minimal_pairs:
       alias: "EWoK Minimal Pairs"
       functional: ["physical_commonsense_reasoning", "social_commonsense_reasoning", "causal_reasoning"]
       formal: [ "negation" ]
       functional_groups: ["executive_functions", "social_emotional_cognition"]
+      task_type: ["minimal_pairs_logprobs"]
       has_subtasks: True
       main_task: True
       group: ewok_minimal_pairs
       backend: "playeval_framework"
+      chance_level: 0.5
   ewok_minimal_pairs_agent_properties:
       alias: "EWoK Minimal Pairs Agent Properties"
       functional: [ "physical_commonsense_reasoning", "social_commonsense_reasoning", "causal_reasoning" ]
       formal: [ "negation" ]
       functional_groups: [ "executive_functions", "social_emotional_cognition" ]
+      task_type: ["minimal_pairs_logprobs"]
       has_subtasks: False
       main_task: False
       group: ewok_minimal_pairs
       backend: "playeval_framework"
+      chance_level: 0.5
   ewok_minimal_pairs_social_relations:
       alias: "EWoK Minimal Pairs Social Relations"
       functional: ["social_commonsense_reasoning", "causal_reasoning" ]
       formal: [ "negation" ]
       functional_groups: [ "executive_functions", "social_emotional_cognition" ]
+      task_type: ["minimal_pairs_logprobs"]
       has_subtasks: False
       main_task: False
       group: ewok_minimal_pairs
       backend: "playeval_framework"
+      chance_level: 0.5
   ewok_minimal_pairs_material_dynamics:
       alias: "EWoK Minimal Pairs Material Dynamics"
       functional: [ "physical_commonsense_reasoning", "causal_reasoning" ]
       formal: [ "negation" ]
       functional_groups: [ "executive_functions"]
+      task_type: ["minimal_pairs_logprobs"]
       has_subtasks: False
       main_task: False
       group: ewok_minimal_pairs
       backend: "playeval_framework"
+      chance_level: 0.5
   ewok_minimal_pairs_physical_relations:
       alias: "EWoK Minimal Pairs Physical Relations"
       functional: [ "physical_commonsense_reasoning", "causal_reasoning" ]
       formal: [ "negation" ]
       functional_groups: [ "executive_functions"]
+      task_type: ["minimal_pairs_logprobs"]
       has_subtasks: False
       main_task: False
       group: ewok_minimal_pairs
       backend: "playeval_framework"
+      chance_level: 0.5
   ewok_minimal_pairs_physical_interactions:
       alias: "EWoK Minimal Pairs Physical Interactions"
       functional: [ "physical_commonsense_reasoning", "causal_reasoning" ]
       formal: [ "negation" ]
       functional_groups: [ "executive_functions" ]
+      task_type: ["minimal_pairs_logprobs"]
       has_subtasks: False
       main_task: False
       group: ewok_minimal_pairs
       backend: "playeval_framework"
+      chance_level: 0.5
   ewok_minimal_pairs_spatial_relations:
       alias: "EWoK Minimal Pairs Spatial Relations"
       functional: [ "physical_commonsense_reasoning", "causal_reasoning" ]
       formal: [ "negation" ]
       functional_groups: [ "executive_functions" ]
+      task_type: ["minimal_pairs_logprobs"]
       has_subtasks: False
       main_task: False
       group: ewok_minimal_pairs
       backend: "playeval_framework"
+      chance_level: 0.5
   ewok_minimal_pairs_quantitative_properties:
       alias: "EWoK Minimal Pairs Quantitative Properties"
       functional: [ "physical_commonsense_reasoning", "causal_reasoning" ]
       formal: [ "negation" ]
       functional_groups: [ "executive_functions" ]
+      task_type: ["minimal_pairs_logprobs"]
       has_subtasks: False
       main_task: False
       group: ewok_minimal_pairs
       backend: "playeval_framework"
+      chance_level: 0.5
   ewok_minimal_pairs_social_properties:
       alias: "EWoK Minimal Pairs Social Properties"
       functional: [ "social_commonsense_reasoning", "causal_reasoning" ]
       formal: [ "negation" ]
       functional_groups: [ "social_emotional_cognition" ]
+      task_type: ["minimal_pairs_logprobs"]
       has_subtasks: False
       main_task: False
       group: ewok_minimal_pairs
       backend: "playeval_framework"
+      chance_level: 0.5
   ewok_minimal_pairs_social_interactions:
       alias: "EWoK Minimal Pairs Social Interactions"
       functional: [ "social_commonsense_reasoning", "causal_reasoning" ]
       formal: [ "negation" ]
       functional_groups: [ "social_emotional_cognition" ]
+      task_type: ["minimal_pairs_logprobs"]
       has_subtasks: False
       main_task: False
       group: ewok_minimal_pairs
       backend: "playeval_framework"
+      chance_level: 0.5
   ewok_minimal_pairs_material_properties:
       alias: "EWoK Minimal Pairs Material Properties"
       functional: [ "physical_commonsense_reasoning", "causal_reasoning" ]
       formal: [ "negation" ]
       functional_groups: [ "social_emotional_cognition" ]
+      task_type: ["minimal_pairs_logprobs"]
       has_subtasks: False
       main_task: False
       group: ewok_minimal_pairs
       backend: "playeval_framework"
+      chance_level: 0.5
   ewok_multiple_choice:
       alias: "EWoK Multiple Choice"
       functional: [ "physical_commonsense_reasoning", "social_commonsense_reasoning", "causal_reasoning" ]
       formal: [ "negation" ]
       functional_groups: [ "executive_functions", "social_emotional_cognition" ]
+      task_type: ["multiple_choice"]
       has_subtasks: True
       main_task: True
       group: ewok_multiple_choice
       backend: "playeval_framework"
+      chance_level: 0.5
   ewok_multiple_choice_agent_properties:
       alias: "EWoK Multiple Choice Agent Properties"
       functional: [ "physical_commonsense_reasoning", "social_commonsense_reasoning", "causal_reasoning" ]
       formal: [ "negation" ]
       functional_groups: [ "executive_functions", "social_emotional_cognition" ]
+      task_type: ["multiple_choice"]
       has_subtasks: False
       main_task: False
       group: ewok_multiple_choice
       backend: "playeval_framework"
+      chance_level: 0.5
   ewok_multiple_choice_social_relations:
       alias: "EWoK Multiple Choice Social Relations"
       functional: [ "social_commonsense_reasoning", "causal_reasoning" ]
       formal: [ "negation" ]
       functional_groups: [ "executive_functions", "social_emotional_cognition" ]
+      task_type: ["multiple_choice"]
       has_subtasks: False
       main_task: False
       group: ewok_multiple_choice
       backend: "playeval_framework"
+      chance_level: 0.5
   ewok_multiple_choice_material_dynamics:
       alias: "EWoK Multiple Choice Material Dynamics"
       functional: [ "physical_commonsense_reasoning", "causal_reasoning" ]
       formal: [ "negation" ]
       functional_groups: [ "executive_functions" ]
+      task_type: ["multiple_choice"]
       has_subtasks: False
       main_task: False
       group: ewok_multiple_choice
       backend: "playeval_framework"
+      chance_level: 0.5
   ewok_multiple_choice_physical_relations:
       alias: "EWoK Multiple Choice Physical Relations"
       functional: [ "physical_commonsense_reasoning", "causal_reasoning" ]
       formal: [ "negation" ]
       functional_groups: [ "executive_functions" ]
+      task_type: ["multiple_choice"]
       has_subtasks: False
       main_task: False
       group: ewok_multiple_choice
       backend: "playeval_framework"
+      chance_level: 0.5
   ewok_multiple_choice_physical_interactions:
       alias: "EWoK Multiple Choice Physical Interactions"
       functional: [ "physical_commonsense_reasoning", "causal_reasoning" ]
       formal: [ "negation" ]
       functional_groups: [ "executive_functions" ]
+      task_type: ["multiple_choice"]
       has_subtasks: False
       main_task: False
       group: ewok_multiple_choice
       backend: "playeval_framework"
+      chance_level: 0.5
   ewok_multiple_choice_spatial_relations:
       alias: "EWoK Multiple Choice Spatial Relations"
       functional: [ "physical_commonsense_reasoning", "causal_reasoning" ]
       formal: [ "negation" ]
       functional_groups: [ "executive_functions" ]
+      task_type: ["multiple_choice"]
       has_subtasks: False
       main_task: False
       group: ewok_multiple_choice
       backend: "playeval_framework"
+      chance_level: 0.5
   ewok_multiple_choice_quantitative_properties:
       alias: "EWoK Multiple Choice Quantitative Properties"
       functional: [ "physical_commonsense_reasoning", "causal_reasoning" ]
       formal: [ "negation" ]
       functional_groups: [ "executive_functions" ]
+      task_type: ["multiple_choice"]
       has_subtasks: False
       main_task: False
       group: ewok_multiple_choice
       backend: "playeval_framework"
+      chance_level: 0.5
   ewok_multiple_choice_social_properties:
       alias: "EWoK Multiple Choice Social Properties"
       functional: [ "social_commonsense_reasoning", "causal_reasoning" ]
       formal: [ "negation" ]
       functional_groups: [ "social_emotional_cognition" ]
+      task_type: ["multiple_choice"]
       has_subtasks: False
       main_task: False
       group: ewok_multiple_choice
       backend: "playeval_framework"
+      chance_level: 0.5
   ewok_multiple_choice_social_interactions:
       alias: "EWoK Multiple Choice Social Interactions"
       functional: [ "social_commonsense_reasoning", "causal_reasoning" ]
       formal: [ "negation" ]
       functional_groups: [ "social_emotional_cognition" ]
+      task_type: ["multiple_choice"]
       has_subtasks: False
       main_task: False
       group: ewok_multiple_choice
       backend: "playeval_framework"
+      chance_level: 0.5
   ewok_multiple_choice_material_properties:
       alias: "EWoK Multiple Choice Material Properties"
       functional: [ "physical_commonsense_reasoning", "causal_reasoning" ]
       formal: [ "negation" ]
       functional_groups: [ "social_emotional_cognition" ]
+      task_type: ["multiple_choice"]
       has_subtasks: False
       main_task: False
       group: ewok_multiple_choice
       backend: "playeval_framework"
+      chance_level: 0.5
   ewok_likert:
       alias: "EWoK Likert"
       functional: [ "physical_commonsense_reasoning", "social_commonsense_reasoning", "causal_reasoning" ]
       formal: [ "negation" ]
       functional_groups: [ "executive_functions", "social_emotional_cognition" ]
+      task_type: ["likert"]
       has_subtasks: True
       main_task: True
       group: ewok_likert
       backend: "playeval_framework"
+      chance_level: 0.5
   ewok_likert_agent_properties:
       alias: "EWoK Likert Agent Properties"
       functional: [ "physical_commonsense_reasoning", "social_commonsense_reasoning", "causal_reasoning" ]
       formal: [ "negation" ]
       functional_groups: [ "executive_functions", "social_emotional_cognition" ]
+      task_type: ["likert"]
       has_subtasks: False
       main_task: False
       group: ewok_likert
       backend: "playeval_framework"
+      chance_level: 0.5
   ewok_likert_social_relations:
       alias: "EWoK Likert Social Relations"
       functional: [ "social_commonsense_reasoning", "causal_reasoning" ]
       formal: [ "negation" ]
       functional_groups: [ "executive_functions", "social_emotional_cognition" ]
+      task_type: ["likert"]
       has_subtasks: False
       main_task: False
       group: ewok_likert
       backend: "playeval_framework"
+      chance_level: 0.5
   ewok_likert_material_dynamics:
       alias: "EWoK Likert Material Dynamics"
       functional: [ "physical_commonsense_reasoning", "causal_reasoning" ]
       formal: [ "negation" ]
       functional_groups: [ "executive_functions" ]
+      task_type: ["likert"]
       has_subtasks: False
       main_task: False
       group: ewok_likert
       backend: "playeval_framework"
+      chance_level: 0.5
   ewok_likert_physical_relations:
       alias: "EWoK Likert Physical Relations"
       functional: [ "physical_commonsense_reasoning", "causal_reasoning" ]
       formal: [ "negation" ]
       functional_groups: [ "executive_functions" ]
+      task_type: ["likert"]
       has_subtasks: False
       main_task: False
       group: ewok_likert
       backend: "playeval_framework"
+      chance_level: 0.5
   ewok_likert_physical_interactions:
       alias: "EWoK Likert Physical Interactions"
       functional: [ "physical_commonsense_reasoning", "causal_reasoning" ]
       formal: [ "negation" ]
       functional_groups: [ "executive_functions" ]
+      task_type: ["likert"]
       has_subtasks: False
       main_task: False
       group: ewok_likert
       backend: "playeval_framework"
+      chance_level: 0.5
   ewok_likert_spatial_relations:
       alias: "EWoK Likert Spatial Relations"
       functional: [ "physical_commonsense_reasoning", "causal_reasoning" ]
       formal: [ "negation" ]
       functional_groups: [ "executive_functions" ]
+      task_type: ["likert"]
       has_subtasks: False
       main_task: False
       group: ewok_likert
       backend: "playeval_framework"
+      chance_level: 0.5
   ewok_likert_quantitative_properties:
       alias: "EWoK Likert Quantitative Properties"
       functional: [ "physical_commonsense_reasoning", "causal_reasoning" ]
       formal: [ "negation" ]
       functional_groups: [ "executive_functions" ]
+      task_type: ["likert"]
       has_subtasks: False
       main_task: False
       group: ewok_likert
       backend: "playeval_framework"
+      chance_level: 0.5
   ewok_likert_social_properties:
       alias: "EWoK Likert Social Properties"
       functional: [ "social_commonsense_reasoning", "causal_reasoning" ]
       formal: [ "negation" ]
       functional_groups: [ "social_emotional_cognition" ]
+      task_type: ["likert"]
       has_subtasks: False
       main_task: False
       group: ewok_likert
       backend: "playeval_framework"
+      chance_level: 0.5
   ewok_likert_social_interactions:
       alias: "EWoK Likert Social Interactions"
       functional: [ "social_commonsense_reasoning", "causal_reasoning" ]
       formal: [ "negation" ]
       functional_groups: [ "social_emotional_cognition" ]
+      task_type: ["likert"]
       has_subtasks: False
       main_task: False
       group: ewok_likert
       backend: "playeval_framework"
+      chance_level: 0.5
   ewok_likert_material_properties:
       alias: "EWoK Likert Material Properties"
       functional: [ "physical_commonsense_reasoning", "causal_reasoning" ]
       formal: [ "negation" ]
       functional_groups: [ "social_emotional_cognition" ]
+      task_type: ["likert"]
       has_subtasks: False
       main_task: False
       group: ewok_likert
       backend: "playeval_framework"
+      chance_level: 0.5
       #gtbench:
   #    alias: "GTBench"
   #    functional: [ "strategic_reasoning" ]
