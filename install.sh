@@ -1,8 +1,8 @@
 #!/bin/bash
-pip install requirements.txt
+pip install -e .
 
 cd frameworks/lm_evaluation_harness
-pip install requirements.txt
+pip install -e .
 
-cd ../frameworks/playeval_framework/tasks/ewok/ewok_module
+cd ../playeval_framework/tasks/ewok/ewok_module
 pip install -e .

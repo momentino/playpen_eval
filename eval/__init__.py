@@ -1,8 +1,6 @@
 import json
 import yaml
 import os
-import sys
-import importlib
 import logging
 from pathlib import Path
 from typing import List, Dict, Any
@@ -16,7 +14,7 @@ def get_playpen_tasks() -> Dict[str, Dict[str, Any]]:
     tasks_file = Path(__file__).parent.parent / "config" / "task_registry.yaml"
     with open(tasks_file, 'r') as file:
         data = yaml.safe_load(file)
-    return data['tasks']
+    return data['groups']
 
 
 def get_executed_tasks(model_results_path: Path, tasks: List[str]) -> (List[str], List[str]):

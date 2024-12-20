@@ -1,12 +1,11 @@
 import os
 import json
 import yaml
-import copy
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 from collections import defaultdict
-from typing import Dict, List, Tuple, Set
+from typing import Dict, List, Tuple, Any
 from pathlib import Path
 
 from analyze import project_root, model_registry_path, task_registry_path
@@ -39,7 +38,7 @@ def get_model_registry():
 
 def get_tasks_info():
     task_registry = yaml.safe_load(open(task_registry_path))
-    tasks_info =  task_registry["tasks"]
+    tasks_info =  task_registry["groups"]
     capabilities_list = task_registry["capabilities"]
     return capabilities_list, tasks_info
 
@@ -148,6 +147,7 @@ def get_correlation_matrices(correlation_method:str, scores: Dict, model_registr
             partial_scores = defaultdict(list)
             for task_id, model_results in tasks.items():
                 task_name = tasks_info[task_id]['alias']
+
                 partial_scores[task_name] = [v for v in model_results if
                                     (lower_bound is None and upper_bound is None) or
                                     (lower_bound < convert_str_to_number(model_registry[v[0]]['params']) <= upper_bound)]
@@ -158,16 +158,25 @@ def get_correlation_matrices(correlation_method:str, scores: Dict, model_registr
             matrices.append(correlation_matrix)
     return matrices
 
-def organize_scores_capabilities(scores: Dict, tasks_info: Dict, capabilities_list: List[str], category:str):
+def organize_scores_capabilities(scores: Dict, tasks_info: Dict, category:str):
     organized_scores = defaultdict(lambda: defaultdict(list))
-    for task1, scores1 in scores.items():
-        for task2, scores2 in scores.items():
-            if (task1 != task2):
-                if category != "total":
-                    if len(tasks_info[task1][category]) == 1 and len(tasks_info[task2][category]) == 1 and tasks_info[task1][category][0] == tasks_info[task2][category][0]:
-                        organized_scores[tasks_info[task1][category][0]][task2] = scores2
-                else:
-                    organized_scores["total"][task2] = scores2
+    for main_task1, tasks1 in scores.items():
+        for task1_name, scores1 in tasks1.items():
+            for main_task2, tasks2 in scores.items():
+                for task2_name, scores2 in tasks2.items():
+                    if (task1_name != task2_name):
+                        if category != "total":
+                            try:
+                                task1_categories = tasks_info[task1_name][category]
+                                task2_categories = tasks_info[task1_name][category]
+                            except:
+                                # check in subtasks
+                                task1_categories = tasks_info[main_task1]["subtasks"][task1_name][category]
+                                task2_categories = tasks_info[main_task2]["subtasks"][task2_name][category]
+                            if len(task1_categories) == 1 and len(task2_categories) == 1 and task1_categories[0] == task2_categories[0]:
+                                organized_scores[task2_categories[0]][task2_name] = scores2
+                        else:
+                            organized_scores["total"][task2_name] = scores2
     return organized_scores
 
 def organize_scores_tasks(scores: Dict, tasks_info: Dict):
@@ -203,29 +212,41 @@ def organize_scores_benchmarks(scores: Dict, tasks_info: Dict):
                     organized_scores[task1_group][task1] = scores1
     return organized_scores
 
-def get_scores(reports, tasks_info: Dict[str,Dict[str,str]], tasks_to_ignore:List[str], take_functional_subtasks: bool):
-    scores_dict = defaultdict(list)
-    task_names = tasks_info.keys()
-    for report in reports:
-        task_name = report["task"]
-        model_name = report["model_name"]
-        if task_name not in tasks_to_ignore:
-            if take_functional_subtasks:
-                for subtask_name, subtask_results in report["subtask_results"].items():
-                    if subtask_name in task_names and len(tasks_info[subtask_name]['functional']) > 0:
-                        if subtask_name in task_names and tasks_info[subtask_name] not in tasks_to_ignore:
-                            score = subtask_results["score"]
-                            if score > tasks_info[task_name]['chance_level']:
-                                results = (model_name, score)
-                                scores_dict[subtask_name].append(results)
-            if task_name in task_names:
-                if (take_functional_subtasks and not tasks_info[task_name]['has_subtasks']) or not take_functional_subtasks:
-                    #if tasks_info[task_name]['has_subtasks'] == False:
-                    score = report["aggregated_results"]["score"]
-                    if score > tasks_info[task_name]['chance_level']:
+def ammissible(score: float, chance_level:float) -> bool:
+    if score > chance_level:
+        return True
+    return False
 
-                        results = (model_name, score)
-                        scores_dict[task_name].append(results)
+def get_info(task_name: str, tasks_info: Dict) -> (str, float, bool, bool):
+    for group, tasks in tasks_info.items():
+        for name, info in tasks.items():
+            if name == task_name:
+                functional = len(info["functional"])>0 and len(info["formal"])==0
+                try:
+                    main_task = info["main_task"]
+                except:
+                    main_task = False
+                return group, info["chance_level"], main_task, functional
+    return None, None, None, None
+
+def get_scores(reports, tasks_info: Dict[str,Dict[str,Any]], tasks_to_ignore:List[str], take_functional_subtasks: bool):
+    scores_dict = defaultdict(lambda: defaultdict(list))
+    group_names = tasks_info.keys()
+    task_names = [tasks_info[g].keys() for g in group_names]
+
+    for report in reports:
+        model_name = report["model_name"]
+        for task_name, score in report["task_results"].items():
+            if task_name in task_names and task_name not in tasks_to_ignore:
+                group_name, chance_level, main_task, functional = get_info(task_name, tasks_info)
+                assert group_name is not None
+                assert chance_level is not None
+                assert main_task is not None
+                assert functional is not None
+                if take_functional_subtasks and functional and ammissible(score, chance_level):
+                    scores_dict[group_name][task_name].append((model_name, score))
+                elif not take_functional_subtasks and functional and main_task and ammissible(score, chance_level):
+                    scores_dict[group_name][task_name].append((model_name, score))
     return scores_dict
 
 def run_correlation(src_path: Path, output_path_root:Path, correlation_method: str, discriminant: str, tasks_to_ignore: List[str], tiers: bool, take_functional_subtasks: bool) -> None:
@@ -237,18 +258,19 @@ def run_correlation(src_path: Path, output_path_root:Path, correlation_method: s
     scores = get_scores(reports, tasks_info, take_functional_subtasks=take_functional_subtasks, tasks_to_ignore=tasks_to_ignore)
 
     # Check for duplicates and sort by model name and param size
-    for key, score_list in scores.items():
-        if len({t[0] for t in score_list}) < len(score_list):
-            raise Exception("There are two scores for the same model and task! Check your results files folder.")
-        score_list.sort(key=lambda x: (convert_str_to_number(model_registry[x[0]]['params']), x[0]))
+    for group, tasks in scores.items():
+        for task_name, model_scores in tasks.items():
+            if len({t[0] for t in model_scores}) < len(model_scores):
+                raise Exception("There are two scores for the same model and task! Check your results files folder.")
+            model_scores.sort(key=lambda x: (convert_str_to_number(model_registry[x[0]]['params']), x[0]))
 
     organized_scores = []
     if discriminant == "capabilities":
         output_path_root = output_path_root/ "functional"
-        organized_scores.append({"scores": organize_scores_capabilities(scores, tasks_info, capabilities_list, "functional"), "output_path_root": output_path_root}) # TODO: improve
+        organized_scores.append({"scores": organize_scores_capabilities(scores, tasks_info, "functional"), "output_path_root": output_path_root}) # TODO: improve
         output_path_root = output_path_root / "total"
         organized_scores.append(
-            {"scores": organize_scores_capabilities(scores, tasks_info, capabilities_list, "total"),
+            {"scores": organize_scores_capabilities(scores, tasks_info, "total"),
              "output_path_root": output_path_root})  # TODO: improve
 
     elif discriminant == "tasks":

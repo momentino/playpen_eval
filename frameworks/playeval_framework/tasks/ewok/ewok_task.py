@@ -146,14 +146,9 @@ class EwokMinimalPairsTask(Task):
             correct[row["Domain"].replace("-", "_")].append(score)
             correct["total"].append(score)
 
-        formatted_results = {"model_name": model.get_model_name().replace("/","__"),
-                             "task": self.task_name,
-                             "aggregated_results": {"metric": "acc", "score": sum(correct["total"]) / len(correct["total"])},
-                             "subtask_results": {}
-                             }
+        formatted_results = {"model_name": model.get_model_name().replace("/","__"), "task_results": {}}
         for key, value in correct.items():
-            if key != "total":
-                formatted_results["subtasks"][f"{self.task_name}_{key}"] = {"metric": "acc",
+            formatted_results["task_results"][f"{self.task_name}_{key}"] = {"metric": "acc",
                                                                             "score": sum(correct[key]) / len(
                                                                                 correct[key])}
         return formatted_results
@@ -234,20 +229,12 @@ class EwokMultipleChoice(Task):
                     score = 1
                 elif("1" in results["text_choice_target_1"]["model_output"] or "2" in results["text_choice_target_2"]["model_output"]):
                     score = 0.5
-                print(" MODEL OUTPUT ", results["text_choice_target_1"]["model_output"])
                 correct[row["Domain"].replace("-", "_")][gen_type][prompt_type].append(score)
                 correct["total"][gen_type][prompt_type].append(score)
 
-        formatted_results = {"model_name": model.get_model_name().replace("/","__"),
-                             "task": self.task_name,
-                             "aggregated_results": {"metric": "acc",
-                                                    "score": sum(correct["total"]["constrained"]["optimized"]) / len(correct["total"]["constrained"]["optimized"])},
-                             "subtask_results": {}
-                             }
+        formatted_results = {"model_name": model.get_model_name().replace("/","__"), "task_results": {}}
         for key, value in correct.items():
-            for gen_type, prompt_type in itertools.product([gen_type, prompt_type]):
-                if key != "total":
-                    formatted_results["subtasks"][f"{self.task_name}_{key}"][gen_type][prompt_type] = {"metric": "acc",
+            formatted_results["task_results"][f"{self.task_name}_{key}"] = {"metric": "acc",
                                                                             "score": sum(correct[key]) / len(
                                                                                 correct[key])}
         return formatted_results

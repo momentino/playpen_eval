@@ -5,12 +5,19 @@ from pathlib import Path
 from typing import List
 from datetime import datetime
 from eval import playpen_eval_logger, get_executed_tasks, get_playpen_tasks
-from utils.utils import custom_json_serializer, prepare_playpen_results
+from utils.utils import custom_json_serializer, convert_harness_results
 import frameworks.playeval_framework.evaluator as playeval
 
 def list_tasks() -> None:
     # TODO
     pass
+
+def get_task_backend(task: str, tasks_info: dict) -> str:
+    for group, tasks in tasks_info.items():
+        for name, info in tasks.items():
+            if name == task:
+                return info["backend"]
+    return None
 
 def run(model_backend: str, model_args: str, tasks: List, device: str, trust_remote_code:bool, results_path: Path = "results") -> None:
 
@@ -36,7 +43,7 @@ def run(model_backend: str, model_args: str, tasks: List, device: str, trust_rem
         model_args = model_args
 
     playpen_tasks = get_playpen_tasks()
-    playpen_task_names = [n for n in playpen_tasks.keys() if playpen_tasks[n]['main_task'] == True]
+    playpen_task_names = [name for task_info in playpen_tasks.values() for name in task_info.keys()]
     if len(tasks) == 1:
         if "all" in tasks[0]:
             tasks = playpen_task_names
@@ -55,7 +62,8 @@ def run(model_backend: str, model_args: str, tasks: List, device: str, trust_rem
 
     # Run evaluation for each task
     for task in tasks:
-        backend = playpen_tasks[task]["backend"]
+        backend = get_task_backend(task, playpen_tasks)
+        assert backend is not None
         if backend == "harness":
             try:
                 results = lm_eval.simple_evaluate(
@@ -81,7 +89,7 @@ def run(model_backend: str, model_args: str, tasks: List, device: str, trust_rem
                 json.dump(results, file, default=custom_json_serializer)
             playpen_results_file_path = Path(
                 os.path.join(model_playpen_results_path, f"{task}_playpen_results_{timestamp}.json"))
-            playpen_results = prepare_playpen_results(main_task=task, model_name=model_name, harness_results=results)
+            playpen_results = convert_harness_results(model_name=model_name, harness_results=results)
             with open(playpen_results_file_path, "w") as file:
                 json.dump(playpen_results, file, default=custom_json_serializer)
         elif backend == "playeval_framework":

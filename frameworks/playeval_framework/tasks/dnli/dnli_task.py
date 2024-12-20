@@ -1,11 +1,17 @@
 from pathlib import Path
-from typing import Dict, Any
+from typing import Dict, Any, List
 from tqdm import tqdm
+from enum import Enum
 from frameworks.playeval_framework.tasks.dnli.dnli_module.baselines.llm.datasets import DNLI
 from frameworks.playeval_framework.tasks.dnli.dnli_module.baselines.llm.main import prepare_prompts_nli_dialogue, \
     read_examples_dialogue, nli_label
 from frameworks.playeval_framework.models import Model
 from frameworks.playeval_framework.tasks.task import Task
+
+class NLILabel(str, Enum):
+    entailment = "Entailment"
+    contradiction = "Contradiction"
+    neutral = "Neutral"
 
 """ Taken and adapted from the original repository (https://github.com/GU-CLASP/DNLI)"""
 class DNLITask(Task):
@@ -20,7 +26,7 @@ class DNLITask(Task):
         self.dataset = DNLI(str(data_path))
         self.labels = self.dataset.get_labels()
 
-    def _prepare_prompts(self):
+    def _prepare_prompts(self) -> List[str]:
         self.instruction_prompt = "Given a dialogue excerpt and a Hypothesis, decide on the semantic relation between them, choosing between Entailment, Contradiction, and Neutral."
         self.items = self.dataset.get_dialogue_hyp_pairs()
         examples_path = Path(__file__).parent / "dnli_module" / "baselines" / "llm" / "prompts" / "examples2.txt"
@@ -40,10 +46,9 @@ class DNLITask(Task):
         acc = sum(1 for i in range(len(preds)) if preds[i] == self.labels[i])/len(self.labels)
 
         results = {"model_name": model.get_model_name().replace("/","__"),
-                   "task": self.task_name,
-                   "aggregated_results": {"metric":"acc", "score":acc},
-                   "subtask_results":{}
+                   "task_results": {}
                    }
+        results["task_results"][self.task_name] = {"metric": "acc", "score": acc}
         return results
 
 

@@ -13,8 +13,10 @@ setup(
         "seaborn",
         "tarski",
         "bitsandbytes",
-        "guidance",
+        "guidance @ git+https://github.com/guidance-ai/guidance.git@hudson-ai-hybridcache", # need to install this branch of guidance repo to work with Gemma2
         "sentence_transformers",
-        "sentencepiece"
+        "sentencepiece",
+        "openai==1.57.4",
+        "llguidance=0.2.0"
     ],
 )
