@@ -275,11 +275,11 @@ groups:
             functional_groups: [ "social_emotional_cognition" ]
             task_type: [ "multiple_choice" ]
             backend: "harness"
-    wm:
-        wm:
-            alias: "WM"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ] #TODO
-            backend: "harness"
+    #wm:
+    #    wm:
+    #        alias: "WM"
+    #        functional: [ "working_memory" ]
+    #        formal: [ ]
+    #        functional_groups: [ "executive_functions" ]
+    #        task_type: [ "open_question" ] #TODO
+    #        backend: "harness"
