@@ -10,3 +10,9 @@
 [submodule "frameworks/playeval_framework/tasks/ewok/ewok_module"]
 	path = frameworks/playeval_framework/tasks/ewok/ewok_module
 	url = https://github.com/momentino/ewok-paper.git
+[submodule "frameworks/playeval_framework/tasks/ChatGPT-WM"]
+	path = frameworks/playeval_framework/tasks/ChatGPT-WM
+	url = https://github.com/Daniel-Gong/ChatGPT-WM.git
+[submodule "frameworks/playeval_framework/tasks/wm/wm_module"]
+	path = frameworks/playeval_framework/tasks/wm/wm_module
+	url = https://github.com/Daniel-Gong/ChatGPT-WM.git

@@ -55,10 +55,14 @@ class HF(Model):
         else:
             raise Exception('Model must be a model from Huggingface to use this method.')
 
-    def generate(self,prompt: str, **kwargs):
+    def generate(self,prompt: str, system:str = None, **kwargs):
         if isinstance(self.model, PreTrainedModel):
             if self.tokenizer.chat_template is not None:
-                messages = [{"role": "user", "content": prompt}]
+                print(self.tokenizer.chat_template)
+                messages = []
+                if system is not None:
+                    messages.append({"role":"system", "content": system})
+                messages.append({"role": "user", "content": prompt})
                 prompt = self.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
             model_inputs = self.tokenizer([prompt], return_tensors="pt", padding=True).to(
                 self.device
