@@ -17,6 +17,6 @@ setup(
         "sentence_transformers",
         "sentencepiece",
         "openai==1.57.4",
-        "llguidance=0.2.0"
+        "llguidance==0.2.0"
     ],
 )
