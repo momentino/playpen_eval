@@ -281,5 +281,5 @@ groups:
             functional: [ "working_memory" ]
             formal: [ ]
             functional_groups: [ "executive_functions" ]
-            task_type: [ "" ] #TODO
+            task_type: [ "open_question" ] #TODO
             backend: "harness"
