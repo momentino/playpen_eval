@@ -1,0 +1,1 @@
+Given two sentences, Premise and Hypothesis, decide on the semantic relation between them, choosing between Entailment, Contradiction, and Neutral.
