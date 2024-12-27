@@ -19,7 +19,7 @@ def get_task_backend(task: str, tasks_info: dict) -> str:
                 return info["backend"]
     return None
 
-def run(model_backend: str, model_args: str, tasks: List, device: str, trust_remote_code:bool, results_path: Path = "results") -> None:
+def run(model_backend: str, model_args: str, tasks: List, device: str, trust_remote_code:bool, parallelize:bool, results_path: Path = "results") -> None:
 
     model_name_parts = model_args.split(",")
     # Look for the part that starts with "pretrained="
@@ -41,6 +41,9 @@ def run(model_backend: str, model_args: str, tasks: List, device: str, trust_rem
         model_args = model_args + ",trust_remote_code=True"
     else:
         model_args = model_args
+    if parallelize:
+        model_args = model_args + ",parallelize=True"
+
 
     playpen_tasks = get_playpen_tasks()
     playpen_task_names = [name for task_info in playpen_tasks.values() for name in task_info.keys() if "main_task" in task_info[name].keys() and task_info[name]["main_task"]]

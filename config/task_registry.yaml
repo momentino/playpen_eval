@@ -276,11 +276,208 @@ groups:
             functional_groups: [ "social_emotional_cognition" ]
             task_type: [ "multiple_choice" ]
             backend: "harness"
-    #wm:
-    #    wm:
-    #        alias: "WM"
-    #        functional: [ "working_memory" ]
-    #        formal: [ ]
-    #        functional_groups: [ "executive_functions" ]
-    #        task_type: [ "open_question" ] #TODO
-    #        backend: "harness"
+    wm:
+        wm:
+            alias: "WM"
+            functional: [ "working_memory" ]
+            formal: [ ]
+            functional_groups: [ "executive_functions" ]
+            task_type: [ "open_question" ]
+            main_task: True
+            backend: "playeval_framework"
+        wm_spatial_3*3:
+            alias: "WM Spatial 3*3 Overall"
+            functional: [ "working_memory" ]
+            formal: [ ]
+            functional_groups: [ "executive_functions" ]
+            task_type: [ "open_question" ]
+            backend: "playeval_framework"
+        wm_spatial_3*3_1back:
+            alias: "WM Spatial 3*3 Diff. 1"
+            functional: [ "working_memory" ]
+            formal: [ ]
+            functional_groups: [ "executive_functions" ]
+            task_type: [ "open_question" ]
+            backend: "playeval_framework"
+        wm_spatial_3*3_2back:
+            alias: "WM Spatial 3*3 Diff. 2"
+            functional: [ "working_memory" ]
+            formal: [ ]
+            functional_groups: [ "executive_functions" ]
+            task_type: [ "open_question" ]
+            backend: "playeval_framework"
+        wm_spatial_3*3_3back:
+            alias: "WM Spatial 3*3 Diff. 3"
+            functional: [ "working_memory" ]
+            formal: [ ]
+            functional_groups: [ "executive_functions" ]
+            task_type: [ "open_question" ]
+            backend: "playeval_framework"
+        wm_spatial_4*4:
+            alias: "WM Spatial 4*4 Overall"
+            functional: [ "working_memory" ]
+            formal: [ ]
+            functional_groups: [ "executive_functions" ]
+            task_type: [ "open_question" ]
+            backend: "playeval_framework"
+        wm_spatial_4*4_1back:
+            alias: "WM Spatial 4*4 Diff. 1"
+            functional: [ "working_memory" ]
+            formal: [ ]
+            functional_groups: [ "executive_functions" ]
+            task_type: [ "open_question" ]
+            backend: "playeval_framework"
+        wm_spatial_4*4_2back:
+            alias: "WM Spatial 4*4 Diff. 2"
+            functional: [ "working_memory" ]
+            formal: [ ]
+            functional_groups: [ "executive_functions" ]
+            task_type: [ "open_question" ]
+            backend: "playeval_framework"
+        wm_spatial_4*4_3back:
+            alias: "WM Spatial 4*4 Diff. 3"
+            functional: [ "working_memory" ]
+            formal: [ ]
+            functional_groups: [ "executive_functions" ]
+            task_type: [ "open_question" ]
+            backend: "playeval_framework"
+        wm_spatial_5*5:
+            alias: "WM Spatial 5*5 Overall"
+            functional: [ "working_memory" ]
+            formal: [ ]
+            functional_groups: [ "executive_functions" ]
+            task_type: [ "open_question" ]
+            backend: "playeval_framework"
+        wm_Spatial_5*5_1back:
+            alias: "WM Spatial 5*5 Diff. 1"
+            functional: [ "working_memory" ]
+            formal: [ ]
+            functional_groups: [ "executive_functions" ]
+            task_type: [ "open_question" ]
+            backend: "playeval_framework"
+        wm_spatial_5*5_2back:
+            alias: "WM Spatial 5*5 Diff. 2"
+            functional: [ "working_memory" ]
+            formal: [ ]
+            functional_groups: [ "executive_functions" ]
+            task_type: [ "open_question" ]
+            backend: "playeval_framework"
+        wm_spatial_5*5_3back:
+            alias: "WM Spatial 5*5 Diff. 3"
+            functional: [ "working_memory" ]
+            formal: [ ]
+            functional_groups: [ "executive_functions" ]
+            task_type: [ "open_question" ]
+            backend: "playeval_framework"
+        wm_spatial_7*7:
+            alias: "WM Spatial 7*7 Overall"
+            functional: [ "working_memory" ]
+            formal: [ ]
+            functional_groups: [ "executive_functions" ]
+            task_type: [ "open_question" ]
+            backend: "playeval_framework"
+        wm_spatial_7*7_1back:
+            alias: "WM Spatial 7*7 Diff. 1"
+            functional: [ "working_memory" ]
+            formal: [ ]
+            functional_groups: [ "executive_functions" ]
+            task_type: [ "open_question" ]
+            backend: "playeval_framework"
+        wm_spatial_7*7_2back:
+            alias: "WM Spatial 7*7 Diff. 2"
+            functional: [ "working_memory" ]
+            formal: [ ]
+            functional_groups: [ "executive_functions" ]
+            task_type: [ "open_question" ]
+            backend: "playeval_framework"
+        wm_spatial_7*7_3back:
+            alias: "WM Spatial 7*7 Diff. 3"
+            functional: [ "working_memory" ]
+            formal: [ ]
+            functional_groups: [ "executive_functions" ]
+            task_type: [ "open_question" ]
+            backend: "playeval_framework"
+        wm_spatial_abstract_3*3:
+            alias: "WM Spatial 3*3 Abstract Overall"
+            functional: [ "working_memory" ]
+            formal: [ ]
+            functional_groups: [ "executive_functions" ]
+            task_type: [ "open_question" ]
+            backend: "playeval_framework"
+        wm_spatial_3*3_abstract_ 1back:
+            alias: "WM Spatial 3*3 Abstract Diff. 1"
+            functional: [ "working_memory" ]
+            formal: [ ]
+            functional_groups: [ "executive_functions" ]
+            task_type: [ "open_question" ]
+            backend: "playeval_framework"
+        wm_spatial_3*3_abstract_2back:
+            alias: "WM Spatial 3*3 Abstract Diff. 2"
+            functional: [ "working_memory" ]
+            formal: [ ]
+            functional_groups: [ "executive_functions" ]
+            task_type: [ "open_question" ]
+            backend: "playeval_framework"
+        wm_spatial_3*3_abstract_3back:
+            alias: "WM Spatial 3*3 Abstract Diff. 3"
+            functional: [ "working_memory" ]
+            formal: [ ]
+            functional_groups: [ "executive_functions" ]
+            task_type: [ "open_question" ]
+            backend: "playeval_framework"
+        wm_spatial_abstract_2_3*3:
+            alias: "WM Spatial Abstract 2 3*3 Overall"
+            functional: [ "working_memory" ]
+            formal: [ ]
+            functional_groups: [ "executive_functions" ]
+            task_type: [ "open_question" ]
+            backend: "playeval_framework"
+        wm_spatial_3*3_abstract_2_1back:
+            alias: "WM Spatial 3*3 Abstract 2 Diff. 1"
+            functional: [ "working_memory" ]
+            formal: [ ]
+            functional_groups: [ "executive_functions" ]
+            task_type: [ "open_question" ]
+            backend: "playeval_framework"
+        wm_spatial_3*3_abstract_2_2back:
+            alias: "WM Spatial 3*3 Abstract 2 Diff. 2"
+            functional: [ "working_memory" ]
+            formal: [ ]
+            functional_groups: [ "executive_functions" ]
+            task_type: [ "open_question" ]
+            backend: "playeval_framework"
+        wm_spatial_abstract_2_3back:
+            alias: "WM Spatial 3*3 Abstract 2 Diff. 3"
+            functional: [ "working_memory" ]
+            formal: [ ]
+            functional_groups: [ "executive_functions" ]
+            task_type: [ "open_question" ]
+            backend: "playeval_framework"
+        wm_verbal:
+            alias: "WM Verbal Overall"
+            functional: [ "working_memory" ]
+            formal: [ ]
+            functional_groups: [ "executive_functions" ]
+            task_type: [ "open_question" ]
+            backend: "playeval_framework"
+        wm_verbal_1back:
+            alias: "WM Verbal Diff. 1"
+            functional: [ "working_memory" ]
+            formal: [ ]
+            functional_groups: [ "executive_functions" ]
+            task_type: [ "open_question" ]
+            backend: "playeval_framework"
+        wm_verbal_2back:
+            alias: "WM Verbal Diff. 2"
+            functional: [ "working_memory" ]
+            formal: [ ]
+            functional_groups: [ "executive_functions" ]
+            task_type: [ "open_question" ]
+            backend: "playeval_framework"
+        wm_verbal_3back:
+            alias: "WM Verbal Diff. 3"
+            functional: [ "working_memory" ]
+            formal: [ ]
+            functional_groups: [ "executive_functions" ]
+            task_type: [ "open_question" ]
+            backend: "playeval_framework"

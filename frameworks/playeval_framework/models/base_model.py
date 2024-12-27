@@ -8,7 +8,7 @@ class Model(ABC):
         pass
 
     @abstractmethod
-    def generate(self,prompt: str, **kwargs):
+    def generate(self,prompt: str, system:str = None, **kwargs):
         pass
 
     def get_model_name(self) -> str:

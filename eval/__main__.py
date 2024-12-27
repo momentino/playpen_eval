@@ -15,6 +15,7 @@ def main(args: argparse.Namespace) -> None:
             tasks=args.tasks,
             device=args.device,
             trust_remote_code=args.trust_remote_code,
+            parallelize=args.parallelize,
             results_path=args.results_path,
         )
     if args.command_name == "convert_results_from_harness":
@@ -57,6 +58,13 @@ if __name__ == "__main__":
     )
     run_parser.add_argument(
         "--trust_remote_code",
+        action="store_true",  # This makes it a flag
+        default=True,  # Default is True if the flag is not passed
+        help="Whether to trust remote code. Default is True."
+    )
+
+    run_parser.add_argument(
+        "--parallelize",
         action="store_true",  # This makes it a flag
         default=True,  # Default is True if the flag is not passed
         help="Whether to trust remote code. Default is True."
