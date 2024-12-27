@@ -28,7 +28,7 @@ groups:
             functional_groups: [ "executive_functions" ]
             task_type: [ "open_question" ]
             backend: "harness"
-        hendrycks_math_counting_prob:
+        hendrycks_math_counting_and_prob:
             alias: "MATH Counting and Prob."
             functional: [ "logical_numerical_reasoning" ]
             formal: [ ]
