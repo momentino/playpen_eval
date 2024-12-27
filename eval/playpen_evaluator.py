@@ -43,8 +43,7 @@ def run(model_backend: str, model_args: str, tasks: List, device: str, trust_rem
         model_args = model_args
 
     playpen_tasks = get_playpen_tasks()
-    playpen_task_names = playpen_tasks.keys()
-    #playpen_task_names = [name for task_info in playpen_tasks.values() for name in task_info.keys()]
+    playpen_task_names = [name for task_info in playpen_tasks.values() for name in task_info.keys() if "main_task" in task_info[name].keys() and task_info[name]["main_task"]]
     if len(tasks) == 1:
         if "all" in tasks[0]:
             tasks = playpen_task_names
