@@ -98,7 +98,7 @@ class WMTask(Task):
                     block_acc = correct / len(trials)
                     accuracies.append(block_acc)
                 mean_acc = sum(accuracies) / len(accuracies)
-                results[experiment][self.nback] = mean_acc
+                results[experiment][n] = mean_acc
         formatted_results = {"model_name": model.get_model_name().replace("/","__"), "task_results": {}}
 
         total_accuracies = []

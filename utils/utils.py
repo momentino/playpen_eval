@@ -1,12 +1,6 @@
-import json
-import os
-from collections import defaultdict
-
 import numpy as np
-from typing import List
-
 import torch
-from pathlib import Path
+from collections import defaultdict
 from datetime import datetime
 
 
@@ -27,6 +21,8 @@ def custom_json_serializer(obj):
         return str(obj)
     elif isinstance(obj, np.int64):
         return int(obj)
+    elif isinstance(obj, np.bool_):
+        return bool(obj)
     raise TypeError(f"Type {type(obj)} not serializable")
 
 def compute_fantom_aggregated_score(harness_results: dict) -> float:

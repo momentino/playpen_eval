@@ -19,8 +19,6 @@ def main(args: argparse.Namespace) -> None:
             parallelize=args.parallelize,
             results_path=args.results_path,
         )
-    if args.command_name == "convert_results_from_harness":
-        playpen_evaluator.convert_res_from_harness(task_name=args.task_name, model_name=args.model_name, file_path=args.file_path, output_path=args.output_path)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -85,58 +83,5 @@ if __name__ == "__main__":
         help="Output path for results. Default is 'results/by_model'."
     )
 
-    model_report_parser = sub_parsers.add_parser("build_model_report", formatter_class=argparse.RawTextHelpFormatter)
-    model_report_parser.add_argument(
-        "-m", "--model_name",
-        type=str,
-        required=True,
-        help="Model name, e.g., 'pretrained=model_name'."
-    )
-    model_report_parser.add_argument(
-        "--results_path",
-        type=str,
-        default="results/playpen",
-        help="Output path for results. Default is 'results/playpen'."
-    )
-
-    benchmark_report_parser = sub_parsers.add_parser("build_benchmark_report", formatter_class=argparse.RawTextHelpFormatter)
-    benchmark_report_parser.add_argument(
-        "-m", "--benchmark_name",
-        type=str,
-        required=True,
-        help="Model name, e.g., 'pretrained=model_name'."
-    )
-    benchmark_report_parser.add_argument(
-        "--results_path",
-        type=str,
-        default="results/by_benchmark",
-        help="Output path for results. Default is 'results/by_benchmark'."
-    )
-
-    results_conversion = sub_parsers.add_parser("convert_results_from_harness", formatter_class=argparse.RawTextHelpFormatter)
-    results_conversion.add_argument(
-        "-t", "--task_name",
-        type=str,
-        required=True,
-        help="Model name"
-    )
-    results_conversion.add_argument(
-        "-m", "--model_name",
-        type=str,
-        required=True,
-        help="Model name"
-    )
-    results_conversion.add_argument(
-        "-p", "--file_path",
-        type=str,
-        required=True,
-        help="Path of the file with the Harness results to convert into playpen format."
-    )
-    results_conversion.add_argument(
-        "-o", "--output_path",
-        type=str,
-        default="results",
-        help="Path where to save the results."
-    )
     args = parser.parse_args()
     main(args)

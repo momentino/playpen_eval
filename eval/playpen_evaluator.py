@@ -68,25 +68,15 @@ def run(model_backend: str, model_args: str, gen_kwargs:str, tasks: List, device
         backend = get_task_backend(task, playpen_tasks)
         assert backend is not None
         if backend == "harness":
-            try:
-                results = lm_eval.simple_evaluate(
-                    model=model_backend,
-                    model_args=model_args,
-                    gen_kwargs=gen_kwargs,
-                    tasks=task,
-                    device=device,
-                    log_samples=True,
-                    apply_chat_template=True,
-                )
-            except:
-                results = lm_eval.simple_evaluate(
-                    model=model_backend,
-                    model_args=model_args,
-                    gen_kwargs=gen_kwargs,
-                    tasks=task,
-                    device=device,
-                    log_samples=True,
-                )
+            results = lm_eval.simple_evaluate(
+                model=model_backend,
+                model_args=model_args,
+                gen_kwargs=gen_kwargs,
+                tasks=task,
+                device=device,
+                log_samples=True,
+                apply_chat_template=True,
+            )
             timestamp = datetime.now().strftime("%Y-%m-%dT%H-%M-%S.%f")
             harness_results_file_path = Path(os.path.join(model_harness_results_path, f"{task}_harness_results_{timestamp}.json"))
             harness_results_file_path.parent.mkdir(parents=True, exist_ok=True)
@@ -113,17 +103,4 @@ def run(model_backend: str, model_args: str, gen_kwargs:str, tasks: List, device
                 os.path.join(model_playpen_results_path, f"{task}_playpen_results_{timestamp}.json"))
             with open(playpen_results_file_path, "w") as file:
                 json.dump(results, file, default=custom_json_serializer)
-
-def convert_res_from_harness(task_name: str, model_name:str, file_path: Path, output_path: Path) -> None:
-    model_name = model_name.replace("/", "__")
-    harness_dict = json.load(open(file_path, "r"))
-
-    model_playpen_results_path = Path(os.path.join(project_folder, output_path)) / "playpen" / model_name
-    model_playpen_results_path.mkdir(parents=True, exist_ok=True)
-    timestamp = datetime.now().strftime("%Y-%m-%dT%H-%M-%S.%f")
-    playpen_results_file_path = Path(
-        os.path.join(model_playpen_results_path, f"{task_name}_playpen_results_{timestamp}.json"))
-    playpen_results = prepare_playpen_results(main_task=task_name,model_name=model_name, harness_results=harness_dict)
-    with open(playpen_results_file_path, "w") as file:
-        json.dump(playpen_results, file, default=custom_json_serializer)
 
