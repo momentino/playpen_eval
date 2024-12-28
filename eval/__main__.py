@@ -12,6 +12,7 @@ def main(args: argparse.Namespace) -> None:
         playpen_evaluator.run(
             model_backend=args.model_backend,
             model_args=args.model_args,
+            gen_kwargs=args.gen_kwargs,
             tasks=args.tasks,
             device=args.device,
             trust_remote_code=args.trust_remote_code,
@@ -67,7 +68,14 @@ if __name__ == "__main__":
         "--parallelize",
         action="store_true",  # This makes it a flag
         default=True,  # Default is True if the flag is not passed
-        help="Whether to trust remote code. Default is True."
+        help="Whether to run big models on multiple GPUs."
+    )
+
+    run_parser.add_argument(
+        "--gen_kwargs",
+        type=str,
+        default="do_sample=False",
+        help="Kwargs for generation. Same format as --model_args"
     )
 
     run_parser.add_argument(

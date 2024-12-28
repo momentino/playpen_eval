@@ -89,8 +89,11 @@ class WMTask(Task):
                 accuracies = []
                 for block, trials in tqdm(self.dataset[exp_to_input_map[experiment]][f"{n}back"].items()):
                     correct = 0
+                    messages = []
+                    messages.append({"role": "system", "content": prompt})
                     for t in trials:
-                        answer = model.generate(system=prompt, prompt=t["stimulus"])[0]
+                        messages.append({"role": "user", "content": t["stimulus"]})
+                        answer = model.generate(messages=messages)[0]
                         correct += answer == t["target"]
                     block_acc = correct / len(trials)
                     accuracies.append(block_acc)

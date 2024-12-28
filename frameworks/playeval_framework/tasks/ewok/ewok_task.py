@@ -234,7 +234,8 @@ class EwokMultipleChoice(Task):
             model.set_tokenizer_padding_side("left")
             if not model.tokenizer.pad_token:
                 model.set_tokenizer_pad_token(model.tokenizer.eos_token)
-            completions = model.generate(prompt, **kwargs)
+            messages = [{"role":"user","content": prompt}]
+            completions = model.generate(messages=messages, **kwargs)
         return completions
 
     def evaluate(self, model: Model | HF) -> Dict[str, Any]:

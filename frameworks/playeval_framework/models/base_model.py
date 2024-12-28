@@ -1,3 +1,4 @@
+from typing import Dict, List
 from abc import ABC, abstractmethod
 class Model(ABC):
     def __init__(self, model_name: str):
@@ -8,7 +9,7 @@ class Model(ABC):
         pass
 
     @abstractmethod
-    def generate(self,prompt: str, system:str = None, **kwargs):
+    def generate(self,messages:List[Dict[str,str]]):
         pass
 
     def get_model_name(self) -> str:

@@ -19,7 +19,7 @@ def get_task_backend(task: str, tasks_info: dict) -> str:
                 return info["backend"]
     return None
 
-def run(model_backend: str, model_args: str, tasks: List, device: str, trust_remote_code:bool, parallelize:bool, results_path: Path = "results") -> None:
+def run(model_backend: str, model_args: str, gen_kwargs:str, tasks: List, device: str, trust_remote_code:bool, parallelize:bool, results_path: Path = "results") -> None:
 
     model_name_parts = model_args.split(",")
     # Look for the part that starts with "pretrained="
@@ -72,6 +72,7 @@ def run(model_backend: str, model_args: str, tasks: List, device: str, trust_rem
                 results = lm_eval.simple_evaluate(
                     model=model_backend,
                     model_args=model_args,
+                    gen_kwargs=gen_kwargs,
                     tasks=task,
                     device=device,
                     log_samples=True,
@@ -81,6 +82,7 @@ def run(model_backend: str, model_args: str, tasks: List, device: str, trust_rem
                 results = lm_eval.simple_evaluate(
                     model=model_backend,
                     model_args=model_args,
+                    gen_kwargs=gen_kwargs,
                     tasks=task,
                     device=device,
                     log_samples=True,
@@ -99,6 +101,7 @@ def run(model_backend: str, model_args: str, tasks: List, device: str, trust_rem
             results = playeval.evaluate(
                 model=model_backend,
                 model_args=model_args,
+                gen_kwargs=gen_kwargs,
                 task=task,
                 device=device,
                 log_samples=True,
