@@ -289,7 +289,8 @@ class EwokMultipleChoice(Task):
 
         formatted_results = {"model_name": model.get_model_name().replace("/","__"), "task_results": {}}
         for key, value in correct.items():
-            formatted_results["task_results"][f"{self.task_name}_{key}"] = {"metric": "acc",
+            subtask = "_"+key if key != "total" else ""
+            formatted_results["task_results"][f"{self.task_name}{subtask}"] = {"metric": "acc",
                                                                             "score": sum(correct[key]) / len(
                                                                                 correct[key])}
         return formatted_results
