@@ -57,15 +57,15 @@ if __name__ == "__main__":
     )
     run_parser.add_argument(
         "--trust_remote_code",
-        action="store_true",  # This makes it a flag
-        default=True,  # Default is True if the flag is not passed
+        action="store_true",
+        default=True,
         help="Whether to trust remote code. Default is True."
     )
 
     run_parser.add_argument(
         "--parallelize",
-        action="store_true",  # This makes it a flag
-        default=False,  # Default is True if the flag is not passed
+        action="store_true",
+        default=False,
         help="Whether to run big models on multiple GPUs."
     )
 
