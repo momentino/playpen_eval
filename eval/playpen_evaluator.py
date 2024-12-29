@@ -52,7 +52,7 @@ def run(model_backend: str, model_args: str, gen_kwargs:str, tasks: List, device
             tasks = playpen_task_names
         elif "remaining" in tasks[0]:
             # Check for already executed tasks
-            executed_tasks, other_tasks = get_executed_tasks(Path(model_harness_results_path), playpen_task_names)
+            executed_tasks, other_tasks = get_executed_tasks(Path(model_playpen_results_path), playpen_task_names)
             tasks = other_tasks
             playpen_eval_logger.info(f"The current model has been already evaluated on the tasks: {executed_tasks}")
             playpen_eval_logger.info(f"Now attempting to evaluate on: {other_tasks}")
@@ -75,6 +75,7 @@ def run(model_backend: str, model_args: str, gen_kwargs:str, tasks: List, device
                 tasks=task,
                 device=device,
                 log_samples=True,
+                limit=10,
                 apply_chat_template=True,
             )
             timestamp = datetime.now().strftime("%Y-%m-%dT%H-%M-%S.%f")
