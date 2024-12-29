@@ -23,8 +23,8 @@ def get_executed_tasks(model_results_path: Path, tasks: List[str]) -> (List[str]
         with open(json_file, "r") as file:
             try:
                 data = json.load(file)
-                if "results" in data:
-                    executed_tasks.update(data["results"].keys())
+                if "task_results" in data:
+                    executed_tasks.update(data["task_results"].keys())
             except json.JSONDecodeError:
                 playpen_eval_logger.warning(f"Warning: {json_file} could not be decoded as JSON.")
 
