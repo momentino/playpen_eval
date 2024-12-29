@@ -207,15 +207,15 @@ groups:
             functional_groups: [ "social_emotional_cognition" ]
             task_type: [ "open_question" ]
             backend: "harness"
-    dnli:
-        dnli:
-            alias: "DNLI"
-            functional: [ "pragmatics" ]
-            formal: [ ]
-            functional_groups: [ "social_emotional_cognition" ]
-            task_type: [ "nli" ]
-            backend: "playeval_framework"
-            main_task: True
+    #dnli:
+    #    dnli:
+    #        alias: "DNLI"
+    #        functional: [ "pragmatics" ]
+    #        formal: [ ]
+    #        functional_groups: [ "social_emotional_cognition" ]
+    #        task_type: [ "nli" ]
+    #        backend: "playeval_framework"
+    #        main_task: True
     eq_bench:
         eq_bench:
             alias: "EQBench"
