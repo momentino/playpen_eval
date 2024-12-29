@@ -75,7 +75,6 @@ def run(model_backend: str, model_args: str, gen_kwargs:str, tasks: List, device
                 tasks=task,
                 device=device,
                 log_samples=True,
-                limit=10,
                 apply_chat_template=True,
             )
             timestamp = datetime.now().strftime("%Y-%m-%dT%H-%M-%S.%f")
