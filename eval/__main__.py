@@ -65,7 +65,7 @@ if __name__ == "__main__":
     run_parser.add_argument(
         "--parallelize",
         action="store_true",  # This makes it a flag
-        default=True,  # Default is True if the flag is not passed
+        default=False,  # Default is True if the flag is not passed
         help="Whether to run big models on multiple GPUs."
     )
 
