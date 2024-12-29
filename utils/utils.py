@@ -45,9 +45,8 @@ def convert_harness_results(model_name:str, harness_results: dict) -> dict:
     results = {}
     task_results = {}
     for task_name, scores in harness_results["results"].items():
-        # TODO Improve, support other scores
-        task_score_key = [key for key in scores if ("acc" in key or "f1" in key or "exact_match" in key) and "stderr" not in key]
-
+        task_score_key = [key for key in scores if "none" in key and "stderr" not in key]
+        # Take only the score from the first metric if there are more
         task_score_key = task_score_key[0]
         metric_name = task_score_key.split(",")[0]
 
