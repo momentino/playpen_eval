@@ -2,6 +2,8 @@ import torch
 from typing import List, Dict
 from functools import reduce
 from guidance import models
+from accelerate import dispatch_model, infer_auto_device_map
+from accelerate.utils import get_balanced_memory
 from transformers import AutoModelForCausalLM, AutoTokenizer, PreTrainedModel
 from frameworks.playeval_framework.models import Model
 from frameworks.playeval_framework.models.guidance_chat_templates.chat_templates import CUSTOM_CHAT_TEMPLATE_CACHE
@@ -26,6 +28,7 @@ class HF(Model):
         if self.tokenizer.pad_token is None:
             self.set_tokenizer_pad_token(self.tokenizer.eos_token)
 
+
         if guidance:
             model_config = {
                 'echo': False,
@@ -40,11 +43,18 @@ class HF(Model):
                 self.model = models.Transformers(self.model_name, **model_config)
         else:
             self.torch_dtype = torch.float16 if torch_dtype == 'float16' else torch_dtype
-            self.model = AutoModelForCausalLM.from_pretrained(self.model_name,
+            model = AutoModelForCausalLM.from_pretrained(self.model_name,
                                                               trust_remote_code=self.trust_remote_code,
                                                               revision='main',
-                                                              torch_dtype=self.torch_dtype,
-                                                              device_map='auto')
+                                                              torch_dtype=self.torch_dtype)
+
+            device_map = infer_auto_device_map(
+                model,
+                max_memory=None,
+                no_split_module_classes=model._no_split_modules,
+                dtype='float16'
+            )
+            self.model = dispatch_model(model, device_map=device_map)
 
     def set_tokenizer_padding_side(self, padding_side:str):
         self.tokenizer.padding_side = padding_side
@@ -63,24 +73,27 @@ class HF(Model):
 
     def generate(self,messages: List[Dict[str,str]]|List[str]):
         if isinstance(self.model, PreTrainedModel):
-            if self.tokenizer.chat_template is not None:
-                try:
-                    prompt = self.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-                except:
-                    # May not have a system role
-                    for m in messages:
-                        if m['role'] == "system":
-                            m['role'] = "user"
-                    prompt = self.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-            model_inputs = self.tokenizer([prompt], return_tensors="pt", padding=True).to(
-                self.device
-            )
-
-            outputs = self.model.generate(
-                pad_token_id=self.tokenizer.pad_token_id,
-                **model_inputs,
-                **self.gen_kwargs,
-            )
+            try:
+                prompt = self.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+                model_inputs = self.tokenizer([prompt], return_tensors="pt", padding=True).to(self.model.device)
+                outputs=self.model.generate(
+                    pad_token_id=self.tokenizer.pad_token_id,
+                    **model_inputs,
+                    **self.gen_kwargs,
+                )
+            except:
+                # May not have a system role
+                for m in messages:
+                    if m['role'] == "system":
+                        m['role'] = "user"
+                messages = self._ensure_turn_taking(messages)
+                prompt = self.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+                model_inputs = self.tokenizer([prompt], return_tensors="pt", padding=True).to(self.model.device)
+                outputs = self.model.generate(
+                    pad_token_id=self.tokenizer.pad_token_id,
+                    **model_inputs,
+                    **self.gen_kwargs,
+                )
             input = self.tokenizer.batch_decode(model_inputs['input_ids'], skip_special_tokens=True)
             text = self.tokenizer.batch_decode(outputs, skip_special_tokens=True)
             completions = [t[len(i):] for t, i in zip(text,input)]
