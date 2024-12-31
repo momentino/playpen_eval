@@ -11,7 +11,8 @@ class WMTask(Task):
     def __init__(self):
         super().__init__(task_name="wm")
         self.dataset = self._prepare_dataset()
-        self.experiments = ["spatial_3*3", "spatial_3*3_abstraction", "spatial_3*3_abstraction_2", "spatial_4*4", "spatial_5*5", "spatial_7*7", "verbal"]
+        # "spatial_4*4", "spatial_5*5", "spatial_7*7"
+        self.experiments = ["spatial_3*3", "spatial_3*3_abstraction", "spatial_3*3_abstraction_2", "verbal"]
         self.nback = 3
 
     def _prepare_dataset(self) -> Dict[str, Dict[str, Any]]:
@@ -72,6 +73,7 @@ class WMTask(Task):
             print(f"An error occurred: {e}")
 
     def evaluate(self, model: Model) -> Dict[str, Any]:
+        out_of_context = 0
         exp_to_input_map = {
             "spatial_3*3": "grids_3*3",
             "spatial_3*3_abstraction": "grids_3*3_abstraction",
@@ -99,7 +101,7 @@ class WMTask(Task):
                     accuracies.append(block_acc)
                 mean_acc = sum(accuracies) / len(accuracies)
                 results[experiment][n] = mean_acc
-        formatted_results = {"model_name": model.get_model_name().replace("/","__"), "task_results": {}}
+        formatted_results = {"model_name": model.get_model_name().replace("/","__"),"out_of_context": out_of_context, "task_results": {}}
 
         total_accuracies = []
         for experiment, sub_exp in results.items():
