@@ -49,11 +49,12 @@ class HF(Model):
             self.model.engine.model_obj = dispatch_model(self.model.engine.model_obj, device_map=device_map)
         else:
             self.torch_dtype = torch.float16 if torch_dtype == 'float16' else torch_dtype
+            print(" BEFORE MODEL ")
             model = AutoModelForCausalLM.from_pretrained(self.model_name,
                                                               trust_remote_code=self.trust_remote_code,
                                                               revision='main',
                                                               torch_dtype=self.torch_dtype)
-
+            print(" AFTER MODEL ")
             device_map = infer_auto_device_map(
                 model,
                 max_memory=None,
