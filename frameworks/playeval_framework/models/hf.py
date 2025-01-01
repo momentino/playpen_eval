@@ -57,8 +57,10 @@ class HF(Model):
             device_map = infer_auto_device_map(
                 model,
                 max_memory=None,
+                no_split_module_classes=model._no_split_modules,
                 dtype='float16'
             )
+            print(" DEVICE MAP ",device_map)
             self.model = dispatch_model(model, device_map=device_map)
 
     def set_tokenizer_padding_side(self, padding_side:str):
