@@ -3,6 +3,7 @@ from typing import List, Dict
 from functools import reduce
 from guidance import models
 from accelerate import dispatch_model, infer_auto_device_map
+from accelerate.utils.modeling import get_max_memory
 from transformers import AutoModelForCausalLM, AutoTokenizer, PreTrainedModel
 from frameworks.playeval_framework.models import Model
 from frameworks.playeval_framework.models.guidance_chat_templates.chat_templates import CUSTOM_CHAT_TEMPLATE_CACHE
@@ -31,7 +32,8 @@ class HF(Model):
         if guidance:
             model_config = {
                 'echo': False,
-                'dtype': 'float16'
+                'dtype': 'float16',
+                'device_map': 'auto'
             }
             self.chat_template = AutoTokenizer.from_pretrained(self.model_name).chat_template
             if self.chat_template in CUSTOM_CHAT_TEMPLATE_CACHE:
@@ -49,20 +51,12 @@ class HF(Model):
             self.model.engine.model_obj = dispatch_model(self.model.engine.model_obj, device_map=device_map)
         else:
             self.torch_dtype = torch.float16 if torch_dtype == 'float16' else torch_dtype
-            print(" BEFORE MODEL ")
-            model = AutoModelForCausalLM.from_pretrained(self.model_name,
+
+            self.model = AutoModelForCausalLM.from_pretrained(self.model_name,
                                                               trust_remote_code=self.trust_remote_code,
                                                               revision='main',
-                                                              torch_dtype=self.torch_dtype)
-            print(" AFTER MODEL ")
-            device_map = infer_auto_device_map(
-                model,
-                max_memory=None,
-                no_split_module_classes=model._no_split_modules,
-                dtype='float16'
-            )
-            print(" DEVICE MAP ",device_map)
-            self.model = dispatch_model(model, device_map=device_map)
+                                                              torch_dtype=self.torch_dtype,
+                                                              device_map='auto')
 
     def set_tokenizer_padding_side(self, padding_side:str):
         self.tokenizer.padding_side = padding_side
@@ -72,7 +66,7 @@ class HF(Model):
 
     def __call__(self, prompt: str) -> (torch.Tensor, torch.Tensor):
         if isinstance(self.model, PreTrainedModel):
-            model_inputs = self.tokenizer([prompt], return_tensors="pt", padding="longest", max_length=1024, add_special_tokens=True).to(self.model.device)
+            model_inputs = self.tokenizer([prompt], return_tensors="pt", padding=True)
             with torch.no_grad():
                 outputs = self.model(**model_inputs)
             return model_inputs, outputs['logits']
@@ -83,7 +77,7 @@ class HF(Model):
         if isinstance(self.model, PreTrainedModel):
             try:
                 prompt = self.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-                model_inputs = self.tokenizer([prompt], return_tensors="pt", padding=True).to(self.model.device)
+                model_inputs = self.tokenizer([prompt], return_tensors="pt", padding=True)
             except:
                 # May not have a system role
                 for m in messages:
@@ -91,7 +85,7 @@ class HF(Model):
                         m['role'] = "user"
                 messages = self._ensure_turn_taking(messages)
                 prompt = self.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-                model_inputs = self.tokenizer([prompt], return_tensors="pt", padding=True).to(self.model.device)
+                model_inputs = self.tokenizer([prompt], return_tensors="pt", padding=True)
             outputs = self.model.generate(
                 pad_token_id=self.tokenizer.pad_token_id,
                 **model_inputs,
