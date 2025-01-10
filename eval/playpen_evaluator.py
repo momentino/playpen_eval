@@ -74,6 +74,7 @@ def run(model_backend: str, model_args: str, gen_kwargs:str, tasks: List, device
                 gen_kwargs=gen_kwargs,
                 tasks=task,
                 device=device,
+                limit= 15,
                 log_samples=True,
                 apply_chat_template=True,
             )
