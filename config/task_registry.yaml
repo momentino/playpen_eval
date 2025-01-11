@@ -1024,16 +1024,27 @@ groups:
   #    main_task: True
   #    group: gamebench
   #    backend: "playeval_framework"
-  #entity_deduction_arena:
-  #    alias: "Entity Deduction Arena"
-  #    functional: [ "theory_of_mind" ]
-  #    formal: [ ]
-  #    functional_groups: [ "social_emotional_cognition" ]
-  #    task_type: [ "interactive" ]
-  #    has_subtasks: False
-  #    main_task: True
-  #    group: entity_deduction_arena
-  #    backend: "playeval_framework"
+    entity_deduction_arena:
+        entity_deduction_arena_things:
+            alias: "Entity Deduction Arena Things"
+            functional: [ "theory_of_mind" ]
+            formal: [ ]
+            functional_groups: [ "social_emotional_cognition" ]
+            task_type: [ "interactive" ]
+            has_subtasks: False
+            main_task: True
+            group: entity_deduction_arena
+            backend: "playeval_framework"
+        entity_deduction_arena_things_celebrities:
+            alias: "Entity Deduction Arena Celebrities"
+            functional: [ "theory_of_mind" ]
+            formal: [ ]
+            functional_groups: [ "social_emotional_cognition" ]
+            task_type: [ "interactive" ]
+            has_subtasks: False
+            main_task: True
+            group: entity_deduction_arena
+            backend: "playeval_framework"
   #lmentry:
   #    alias: "LMentry"
   #    functional: []
