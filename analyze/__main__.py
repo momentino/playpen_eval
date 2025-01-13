@@ -1,7 +1,7 @@
 import argparse
 from pathlib import Path
 from analyze import playpen_correlation_logger
-from analyze.dataset_correlation import run_correlation, verify_functional_correlation_patterns
+from analyze.dataset_correlation import run_correlation
 
 
 def main(args: argparse.Namespace) -> None:
@@ -20,9 +20,6 @@ def main(args: argparse.Namespace) -> None:
                         discriminant = args.discriminant,
                         take_functional_subtasks = args.take_functional_subtasks,
                         tasks_to_ignore=args.tasks_to_ignore)
-    elif args.command_name == "verify_functional_correlation_patterns":
-        playpen_correlation_logger.info(f"Starting to analyze patterns in the correlations.")
-        verify_functional_correlation_patterns(src_path = Path(args.src_path))
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
