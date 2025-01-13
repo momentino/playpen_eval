@@ -72,10 +72,28 @@ groups:
     #        task_type: [ "open_question" ]
     #        backend: "harness"
     ewok_minimal_pairs:
-        ewok_minimal_pairs:
-            alias: "EWoK Minimal Pairs"
+        #ewok_minimal_pairs:
+        #    alias: "EWoK Minimal Pairs"
+        #    functional: [ "commonsense_reasoning", "social_commonsense_reasoning" ]
+        #    functional_groups: [ "executive_functions", "social_emotional_cognition" ]
+        #    formal: [ ]
+        #    task_type: [ "minimal_pairs_logprobs" ]
+        #    backend: "playeval_framework"
+        #    main_task: True
+        #    random_baseline: 0.5
+        ewok_minimal_pairs_social:
+            alias: "EWoK Minimal Pairs Social"
             functional: [ "commonsense_reasoning", "social_commonsense_reasoning" ]
-            functional_groups: [ "executive_functions", "social_emotional_cognition" ]
+            functional_groups: ["social_emotional_cognition" ]
+            formal: [ ]
+            task_type: [ "minimal_pairs_logprobs" ]
+            backend: "playeval_framework"
+            main_task: True
+            random_baseline: 0.5
+        ewok_minimal_pairs_executive:
+            alias: "EWoK Minimal Pairs Executive"
+            functional: [ "commonsense_reasoning", "social_commonsense_reasoning" ]
+            functional_groups: [ "executive_functions"]
             formal: [ ]
             task_type: [ "minimal_pairs_logprobs" ]
             backend: "playeval_framework"
@@ -116,6 +134,14 @@ groups:
         ewok_minimal_pairs_physical_interactions:
             alias: "EWoK Minimal Pairs Physical Interactions"
             functional: [ "commonsense_reasoning"]
+            functional_groups: [ "executive_functions" ]
+            formal: [ ]
+            task_type: [ "minimal_pairs_logprobs" ]
+            backend: "playeval_framework"
+            random_baseline: 0.5
+        ewok_minimal_pairs_physical_dynamics:
+            alias: "EWoK Minimal Pairs Physical Dynamics"
+            functional: [ "commonsense_reasoning" ]
             functional_groups: [ "executive_functions" ]
             formal: [ ]
             task_type: [ "minimal_pairs_logprobs" ]

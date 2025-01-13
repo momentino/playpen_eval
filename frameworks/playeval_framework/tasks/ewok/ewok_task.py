@@ -121,6 +121,8 @@ class EwokMinimalPairsTask(Task):
 
         correct = {
             'total': [],
+            'executive': [],
+            'social': [],
             'agent_properties': [],
             'social_relations': [],
             'material_dynamics': [],
@@ -133,6 +135,19 @@ class EwokMinimalPairsTask(Task):
             'social_interactions': [],
             'material_properties': [],
         }
+
+        social_subtasks = ['social_relations',
+                           'social_properties',
+                           'social_interactions']
+        executive_subtasks = ['agent_properties',
+                              'material_dynamics',
+                              'physical_dynamics',
+                              'physical_interactions',
+                              'spatial_relations',
+                              'quantitative_properties',
+                              'material_properties',
+                              'physical_relations']
+
         for row in tqdm(self.dataset, desc="Evaluating Ewok Minimal Pairs"):
             context_1 = row["Context1"]
             context_2 = row["Context2"]
@@ -196,9 +211,13 @@ class EwokMinimalPairsTask(Task):
                 score = 0.5
             else:
                 score = 0
-
-            correct[row["Domain"].replace("-", "_")].append(score)
+            domain = row["Domain"].replace("-", "_")
+            correct[domain].append(score)
             correct["total"].append(score)
+            if domain in executive_subtasks:
+                correct["executive"].append(score)
+            elif domain in social_subtasks:
+                correct["social"].append(score)
 
         formatted_results = {"model_name": model.get_model_name().replace("/","__"), "task_results": {}}
         for key, value in correct.items():

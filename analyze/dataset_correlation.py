@@ -242,7 +242,8 @@ def get_scores(reports, tasks_info: Dict[str,Dict[str,Any]], tasks_to_ignore:Lis
                 assert chance_level is not None
                 assert main_task is not None
                 assert functional is not None
-                if take_functional_subtasks and functional and ammissible(score, chance_level):
+                if take_functional_subtasks and functional and ammissible(score, chance_level) and not main_task:
+                    print(task_name)
                     scores_dict[group_name][task_name].append((model_name, score))
                 elif not take_functional_subtasks and functional and main_task and ammissible(score, chance_level):
                     scores_dict[group_name][task_name].append((model_name, score))
