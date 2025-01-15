@@ -19,7 +19,8 @@ def main(args: argparse.Namespace) -> None:
                         correlation_method = args.correlation_method,
                         discriminant = args.discriminant,
                         take_functional_subtasks = args.take_functional_subtasks,
-                        tasks_to_ignore=args.tasks_to_ignore)
+                        ignore_tasks=args.ignore_tasks,
+                        ignore_groups=args.ignore_groups)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -47,10 +48,17 @@ if __name__ == "__main__":
     )
 
     run_correlation_parser.add_argument(
-        "--tasks_to_ignore",
+        "--ignore_tasks",
         nargs="+",
         default=[],
         help="Specify tasks to ignore in the correlation analysis."
+    )
+
+    run_correlation_parser.add_argument(
+        "--ignore_groups",
+        nargs="+",
+        default=[],
+        help="Specify groups of tasks to ignore in the correlation analysis."
     )
 
     run_correlation_parser.add_argument(

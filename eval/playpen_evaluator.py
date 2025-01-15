@@ -65,8 +65,10 @@ def run(model_backend: str, model_args: str, gen_kwargs:str, tasks: List, device
 
     # Run evaluation for each task
     for task in tasks:
+        start_time = datetime.now()
         backend = get_task_backend(task, playpen_tasks)
         assert backend is not None
+        assert backend in {"harness", "playeval_framework"}
         if backend == "harness":
             results = lm_eval.simple_evaluate(
                 model=model_backend,
@@ -82,11 +84,7 @@ def run(model_backend: str, model_args: str, gen_kwargs:str, tasks: List, device
             harness_results_file_path.parent.mkdir(parents=True, exist_ok=True)
             with open(harness_results_file_path, "w") as file:
                 json.dump(results, file, default=custom_json_serializer)
-            playpen_results_file_path = Path(
-                os.path.join(model_playpen_results_path, f"{task}_playpen_results_{timestamp}.json"))
-            playpen_results = convert_harness_results(model_name=model_name, harness_results=results)
-            with open(playpen_results_file_path, "w") as file:
-                json.dump(playpen_results, file, default=custom_json_serializer)
+            results = convert_harness_results(model_name=model_name, harness_results=results)
         elif backend == "playeval_framework":
             results = playeval.evaluate(
                 model=model_backend,
@@ -97,10 +95,12 @@ def run(model_backend: str, model_args: str, gen_kwargs:str, tasks: List, device
                 log_samples=True,
                 apply_chat_template=True,
             )
-
-            timestamp = datetime.now().strftime("%Y-%m-%dT%H-%M-%S.%f")
-            playpen_results_file_path = Path(
-                os.path.join(model_playpen_results_path, f"{task}_playpen_results_{timestamp}.json"))
-            with open(playpen_results_file_path, "w") as file:
-                json.dump(results, file, default=custom_json_serializer)
+        end_time = datetime.now()
+        task_time = end_time - start_time
+        results["computing_time"] = str(task_time)
+        timestamp = datetime.now().strftime("%Y-%m-%dT%H-%M-%S.%f")
+        playpen_results_file_path = Path(
+            os.path.join(model_playpen_results_path, f"{task}_playpen_results_{timestamp}.json"))
+        with open(playpen_results_file_path, "w") as file:
+            json.dump(results, file, default=custom_json_serializer)
 

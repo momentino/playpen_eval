@@ -72,33 +72,33 @@ groups:
     #        task_type: [ "open_question" ]
     #        backend: "harness"
     ewok_minimal_pairs:
-        #ewok_minimal_pairs:
-        #    alias: "EWoK Minimal Pairs"
+        ewok_minimal_pairs:
+            alias: "EWoK Minimal Pairs"
+            functional: [ "commonsense_reasoning", "social_commonsense_reasoning" ]
+            functional_groups: [ "executive_functions", "social_emotional_cognition" ]
+            formal: [ ]
+            task_type: [ "minimal_pairs_logprobs" ]
+            backend: "playeval_framework"
+            main_task: True
+            random_baseline: 0.5
+        #ewok_minimal_pairs_social:
+        #    alias: "EWoK Minimal Pairs Social"
         #    functional: [ "commonsense_reasoning", "social_commonsense_reasoning" ]
-        #    functional_groups: [ "executive_functions", "social_emotional_cognition" ]
+        #    functional_groups: ["social_emotional_cognition" ]
         #    formal: [ ]
         #    task_type: [ "minimal_pairs_logprobs" ]
         #    backend: "playeval_framework"
         #    main_task: True
         #    random_baseline: 0.5
-        ewok_minimal_pairs_social:
-            alias: "EWoK Minimal Pairs Social"
-            functional: [ "commonsense_reasoning", "social_commonsense_reasoning" ]
-            functional_groups: ["social_emotional_cognition" ]
-            formal: [ ]
-            task_type: [ "minimal_pairs_logprobs" ]
-            backend: "playeval_framework"
-            main_task: True
-            random_baseline: 0.5
-        ewok_minimal_pairs_executive:
-            alias: "EWoK Minimal Pairs Executive"
-            functional: [ "commonsense_reasoning", "social_commonsense_reasoning" ]
-            functional_groups: [ "executive_functions"]
-            formal: [ ]
-            task_type: [ "minimal_pairs_logprobs" ]
-            backend: "playeval_framework"
-            main_task: True
-            random_baseline: 0.5
+        #ewok_minimal_pairs_executive:
+        #    alias: "EWoK Minimal Pairs Executive"
+        #    functional: [ "commonsense_reasoning", "social_commonsense_reasoning" ]
+        #    functional_groups: [ "executive_functions"]
+        #    formal: [ ]
+        #    task_type: [ "minimal_pairs_logprobs" ]
+        #    backend: "playeval_framework"
+        #    main_task: True
+        #    random_baseline: 0.5
         ewok_minimal_pairs_agent_properties:
             alias: "EWoK Minimal Pairs Agent Properties"
             functional: [ "commonsense_reasoning" ]
@@ -109,8 +109,8 @@ groups:
             random_baseline: 0.5
         ewok_minimal_pairs_social_relations:
             alias: "EWoK Minimal Pairs Social Relations"
-            functional: [ "social_commonsense_reasoning" ]
-            functional_groups: ["social_emotional_cognition" ]
+            functional: [ "commonsense_reasoning" ]
+            functional_groups: ["executive_functions" ]
             formal: [ ]
             task_type: [ "minimal_pairs_logprobs" ]
             backend: "playeval_framework"
@@ -165,16 +165,16 @@ groups:
             random_baseline: 0.5
         ewok_minimal_pairs_social_properties:
             alias: "EWoK Minimal Pairs Social Properties"
-            functional: [ "social_commonsense_reasoning"]
-            functional_groups: [ "social_emotional_cognition" ]
+            functional: [ "commonsense_reasoning"]
+            functional_groups: [ "executive_functions" ]
             formal: [ ]
             task_type: [ "minimal_pairs_logprobs" ]
             backend: "playeval_framework"
             random_baseline: 0.5
         ewok_minimal_pairs_social_interactions:
             alias: "EWoK Minimal Pairs Social Interactions"
-            functional: [ "social_commonsense_reasoning" ]
-            functional_groups: [ "social_emotional_cognition" ]
+            functional: [ "commonsense_reasoning" ]
+            functional_groups: [ "executive_functions" ]
             formal: [ ]
             task_type: [ "minimal_pairs_logprobs" ]
             backend: "playeval_framework"
@@ -198,7 +198,7 @@ groups:
             main_task: True
             random_baseline: 0
         fantom_full_answerability_binary:
-            alias: "FANToM Answerability B"
+            alias: "FANToM Answerability Y/N"
             functional: [ "theory_of_mind" ]
             formal: [ ]
             functional_groups: [ "social_emotional_cognition" ]
@@ -221,8 +221,8 @@ groups:
             task_type: [ "multiple_choice" ]
             backend: "harness"
             random_baseline: 0
-        fantom_belief_gen:
-            alias: "FANToM Belief Gen"
+        fantom_full_belief_gen:
+            alias: "FANToM Belief Dist"
             functional: [ "theory_of_mind" ]
             formal: [ ]
             functional_groups: [ "social_emotional_cognition" ]
@@ -238,7 +238,7 @@ groups:
             backend: "harness"
             random_baseline: 0
         fantom_full_infoaccessibility_binary:
-            alias: "FANToM Infoaccessibility B"
+            alias: "FANToM Infoaccessibility Y/N"
             functional: [ "theory_of_mind" ]
             formal: [ ]
             functional_groups: [ "social_emotional_cognition" ]
@@ -330,6 +330,14 @@ groups:
             task_type: [ "multiple_choice" ]
             backend: "harness"
             random_baseline: 0.2
+        indirect_speech:
+            alias: "LM-Pragmatics Indirect Speech"
+            functional: [ "pragmatics" ]
+            formal: [ ]
+            functional_groups: [ "social_emotional_cognition" ]
+            task_type: [ "multiple_choice" ]
+            backend: "harness"
+            random_baseline: 0.25
     wm:
         wm:
             alias: "WM"

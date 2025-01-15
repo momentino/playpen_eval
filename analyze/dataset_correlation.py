@@ -227,7 +227,7 @@ def get_info(task_name: str, tasks_info: Dict) -> (str, float, bool, bool):
                 return group, info["random_baseline"], main_task, functional
     return None, None, None, None
 
-def get_scores(reports, tasks_info: Dict[str,Dict[str,Any]], tasks_to_ignore:List[str], take_functional_subtasks: bool):
+def get_scores(reports, tasks_info: Dict[str,Dict[str,Any]], ignore_tasks:List[str], ignore_groups: List[str], take_functional_subtasks: bool):
     scores_dict = defaultdict(lambda: defaultdict(list))
     group_names = tasks_info.keys()
     task_names = [task for g in group_names for task in tasks_info[g].keys()]
@@ -236,26 +236,33 @@ def get_scores(reports, tasks_info: Dict[str,Dict[str,Any]], tasks_to_ignore:Lis
         model_name = report["model_name"]
         for task_name, score_dict in report["task_results"].items():
             score = score_dict['score']
-            if task_name in task_names and task_name not in tasks_to_ignore:
+            if task_name in task_names and task_name not in ignore_tasks:
                 group_name, chance_level, main_task, functional = get_info(task_name, tasks_info)
                 assert group_name is not None
                 assert chance_level is not None
                 assert main_task is not None
                 assert functional is not None
-                if take_functional_subtasks and functional and ammissible(score, chance_level) and not main_task:
-                    print(task_name)
-                    scores_dict[group_name][task_name].append((model_name, score))
-                elif not take_functional_subtasks and functional and main_task and ammissible(score, chance_level):
-                    scores_dict[group_name][task_name].append((model_name, score))
+                if group_name not in ignore_groups:
+                    if take_functional_subtasks and functional and ammissible(score, chance_level) and (not main_task or len(tasks_info[group_name]) == 1):
+                        scores_dict[group_name][task_name].append((model_name, score))
+                    elif not take_functional_subtasks and functional and main_task and ammissible(score, chance_level):
+                        scores_dict[group_name][task_name].append((model_name, score))
     return scores_dict
 
-def run_correlation(src_path: Path, output_path_root:Path, correlation_method: str, discriminant: str, tasks_to_ignore: List[str], tiers: bool, take_functional_subtasks: bool) -> None:
+def run_correlation(src_path: Path,
+                    output_path_root:Path,
+                    correlation_method: str,
+                    discriminant: str,
+                    ignore_tasks: List[str],
+                    ignore_groups: List[str],
+                    tiers: bool,
+                    take_functional_subtasks: bool) -> None:
 
     model_registry = get_model_registry()
     capabilities_list, tasks_info = get_tasks_info()
     src_path = project_root / src_path
     reports = get_reports(src_path=src_path, model_registry = model_registry)
-    scores = get_scores(reports, tasks_info, take_functional_subtasks=take_functional_subtasks, tasks_to_ignore=tasks_to_ignore)
+    scores = get_scores(reports, tasks_info, take_functional_subtasks=take_functional_subtasks, ignore_tasks=ignore_tasks, ignore_groups=ignore_groups)
 
     # Check for duplicates and sort by model name and param size
     for group, tasks in scores.items():
