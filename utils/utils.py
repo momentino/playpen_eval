@@ -61,3 +61,17 @@ def convert_harness_results(model_name:str, harness_results: dict) -> dict:
         "task_results": task_results
     })
     return results
+
+def time_to_seconds(time_str):
+    h, m, s = time_str.split(":")
+    s, ms = s.split(".") if "." in s else (s, "0")
+    seconds = int(h) * 3600 + int(m) * 60 + int(s) + float(f"0.{ms}")
+    return seconds
+
+
+def compute_total_time(time_strings: str) -> str:
+    total_seconds = sum(time_to_seconds(time) for time in time_strings)
+    hours = int(total_seconds // 3600)
+    minutes = int((total_seconds % 3600) // 60)
+    seconds = total_seconds % 60
+    return f"{hours}:{minutes:02}:{seconds:06.3f}"

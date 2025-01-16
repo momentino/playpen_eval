@@ -1,6 +1,7 @@
 import argparse
 import logging
 
+from pathlib import Path
 from eval import playpen_evaluator
 
 playpen_eval_logger = logging.getLogger("playpen_eval_logger")
@@ -19,11 +20,17 @@ def main(args: argparse.Namespace) -> None:
             parallelize=args.parallelize,
             results_path=args.results_path,
         )
+    if args.command_name == "report_costs":
+        playpen_evaluator.report_costs(
+            results_path = Path(args.results_path),
+            output_path=Path(args.output_path),
+            models= args.models,
+        )
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     sub_parsers = parser.add_subparsers(dest="command_name")
-    sub_parsers.add_parser("ls")
+
 
     run_parser = sub_parsers.add_parser("run", formatter_class=argparse.RawTextHelpFormatter)
     run_parser.add_argument(
@@ -81,6 +88,28 @@ if __name__ == "__main__":
         type=str,
         default="results",
         help="Output path for results. Default is 'results/by_model'."
+    )
+
+    report_costs_parser = sub_parsers.add_parser("report_costs", formatter_class=argparse.RawTextHelpFormatter)
+    report_costs_parser.add_argument(
+        "--results_path",
+        type=str,
+        default="results/playpen",
+        help="Output path for results. Default is 'results/playpen'."
+    )
+    report_costs_parser.add_argument(
+        "--output_path",
+        type=str,
+        default="results/cost_reports",
+        help="Output path for the reports for the cost estimates. Default is 'results/cost_reports'."
+    )
+    report_costs_parser.add_argument(
+        "--models",
+        nargs="+",
+        required=True,
+        help="""
+            List of models for which we want to estimate costs
+        """
     )
 
     args = parser.parse_args()
