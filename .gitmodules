@@ -1,12 +1,3 @@
 [submodule "frameworks/lm_evaluation_harness"]
 	path = frameworks/lm_evaluation_harness
 	url = https://github.com/momentino/lm-evaluation-harness.git
-[submodule "frameworks/playeval_framework/tasks/dnli/dnli_module"]
-	path = frameworks/playeval_framework/tasks/dnli/dnli_module
-	url = https://github.com/momentino/DNLI.git
-[submodule "frameworks/playeval_framework/tasks/ewok_module"]
-	path = frameworks/playeval_framework/tasks/ewok_module
-	url = git@github.com:momentino/ewok-paper.git
-[submodule "frameworks/playeval_framework/tasks/ewok/ewok_module"]
-	path = frameworks/playeval_framework/tasks/ewok/ewok_module
-	url = https://github.com/momentino/ewok-paper.git

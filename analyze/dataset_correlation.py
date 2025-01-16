@@ -42,6 +42,17 @@ def get_tasks_info():
     capabilities_list = task_registry["capabilities"]
     return capabilities_list, tasks_info
 
+def get_alias(task_name:str, tasks_info: Dict) -> str:
+    for group, tasks in tasks_info.items():
+        for name, info in tasks.items():
+            if name == task_name:
+                return info["alias"]
+
+def get_functional_group_from_alias(task_name:str, tasks_info: Dict) -> str:
+    for group, tasks in tasks_info.items():
+        for name, info in tasks.items():
+            if info["alias"] == task_name:
+                return info["functional_groups"]
 
 def get_reports(src_path: Path, model_registry: Dict[str, Dict[str, str]]):
     model_names = model_registry.keys()
@@ -54,22 +65,15 @@ def get_reports(src_path: Path, model_registry: Dict[str, Dict[str, str]]):
                     models_reports.append(json.load(open(os.path.join(subdir, file))))
     return models_reports
 
-def get_task_id(task_name: str, tasks_info: Dict[str, Dict[str, str]]):
-    for key, item in tasks_info.items():
-        if isinstance(item, dict) and item.get('alias') == task_name:
-            return key
-    return None
-
 def sort_correlation_matrix(correlation_matrix: CorrelationMatrix, tasks_info: Dict[str, Dict[str, str]]):
     groups_info = []
     for task in correlation_matrix.data.columns:
-        task_id = get_task_id(task, tasks_info)
-        groups = tasks_info[task_id]["functional_groups"]
-        if "executive_functions" in groups and "social_emotional_cognition" not in groups:
+        functional_groups = get_functional_group_from_alias(task, tasks_info)
+        if "executive_functions" in functional_groups and "social_emotional_cognition" not in functional_groups:
             groups_info.append(0)
-        elif "executive_functions" in groups and "social_emotional_cognition" in groups:
+        elif "executive_functions" in functional_groups and "social_emotional_cognition" in functional_groups:
             groups_info.append(1)
-        elif "social_emotional_cognition" in groups and "executive_functions" not in groups:
+        elif "social_emotional_cognition" in functional_groups and "executive_functions" not in functional_groups:
             groups_info.append(2)
         else:
             groups_info.append(3)
@@ -146,8 +150,7 @@ def get_correlation_matrices(correlation_method:str, scores: Dict, model_registr
         if len(tasks.keys()) > 1:
             partial_scores = defaultdict(list)
             for task_id, model_results in tasks.items():
-                task_name = tasks_info[task_id]['alias']
-
+                task_name = get_alias(task_id, tasks_info)
                 partial_scores[task_name] = [v for v in model_results if
                                     (lower_bound is None and upper_bound is None) or
                                     (lower_bound < convert_str_to_number(model_registry[v[0]]['params']) <= upper_bound)]
@@ -160,19 +163,14 @@ def get_correlation_matrices(correlation_method:str, scores: Dict, model_registr
 
 def organize_scores_capabilities(scores: Dict, tasks_info: Dict, category:str):
     organized_scores = defaultdict(lambda: defaultdict(list))
-    for main_task1, tasks1 in scores.items():
+    for group1, tasks1 in scores.items():
         for task1_name, scores1 in tasks1.items():
-            for main_task2, tasks2 in scores.items():
+            for group2, tasks2 in scores.items():
                 for task2_name, scores2 in tasks2.items():
                     if (task1_name != task2_name):
                         if category != "total":
-                            try:
-                                task1_categories = tasks_info[task1_name][category]
-                                task2_categories = tasks_info[task1_name][category]
-                            except:
-                                # check in subtasks
-                                task1_categories = tasks_info[main_task1]["subtasks"][task1_name][category]
-                                task2_categories = tasks_info[main_task2]["subtasks"][task2_name][category]
+                            task1_categories = tasks_info[group1][task1_name][category]
+                            task2_categories = tasks_info[group2][task2_name][category]
                             if len(task1_categories) == 1 and len(task2_categories) == 1 and task1_categories[0] == task2_categories[0]:
                                 organized_scores[task2_categories[0]][task2_name] = scores2
                         else:
@@ -199,18 +197,18 @@ def organize_scores_tasks(scores: Dict, tasks_info: Dict):
                     organized_scores[task1_type[0]][task1] = scores1
     return organized_scores
 
-def organize_scores_benchmarks(scores: Dict, tasks_info: Dict):
+"""def organize_scores_benchmarks(scores: Dict, tasks_info: Dict):
     organized_scores = defaultdict(lambda: defaultdict(list))
 
-    for task1, scores1 in scores.items():
-        task1_group = tasks_info[task1]["group"]
-        for task2, scores2 in scores.items():
-            task2_group = tasks_info[task2]["group"]
-            if (task1 != task2 and
-                    len(tasks_info[task1]["functional"]) > 0 and len(tasks_info[task2]["functional"]) > 0 and
-                    task1_group == task2_group):
-                    organized_scores[task1_group][task1] = scores1
-    return organized_scores
+    for group1, group1_results in scores.items():
+        for task1, scores1 in group1_results.items():
+            for group2, group2_results in scores.items():
+                for task2, scores2 in group2_results.items():
+                    if (task1 != task2 and
+                            len(tasks_info[task1]["functional"]) > 0 and len(tasks_info[task2]["functional"]) > 0 and
+                            group1 == group2):
+                            organized_scores[group1][task1] = scores1
+    return organized_scores"""
 
 def ammissible(score: float, chance_level:float) -> bool:
     if score > chance_level:
@@ -226,24 +224,26 @@ def get_info(task_name: str, tasks_info: Dict) -> (str, float, bool, bool):
                     main_task = info["main_task"]
                 except:
                     main_task = False
-                return group, info["chance_level"], main_task, functional
+                return group, info["random_baseline"], main_task, functional
     return None, None, None, None
 
 def get_scores(reports, tasks_info: Dict[str,Dict[str,Any]], tasks_to_ignore:List[str], take_functional_subtasks: bool):
     scores_dict = defaultdict(lambda: defaultdict(list))
     group_names = tasks_info.keys()
-    task_names = [tasks_info[g].keys() for g in group_names]
+    task_names = [task for g in group_names for task in tasks_info[g].keys()]
 
     for report in reports:
         model_name = report["model_name"]
-        for task_name, score in report["task_results"].items():
+        for task_name, score_dict in report["task_results"].items():
+            score = score_dict['score']
             if task_name in task_names and task_name not in tasks_to_ignore:
                 group_name, chance_level, main_task, functional = get_info(task_name, tasks_info)
                 assert group_name is not None
                 assert chance_level is not None
                 assert main_task is not None
                 assert functional is not None
-                if take_functional_subtasks and functional and ammissible(score, chance_level):
+                if take_functional_subtasks and functional and ammissible(score, chance_level) and not main_task:
+                    print(task_name)
                     scores_dict[group_name][task_name].append((model_name, score))
                 elif not take_functional_subtasks and functional and main_task and ammissible(score, chance_level):
                     scores_dict[group_name][task_name].append((model_name, score))
@@ -276,7 +276,7 @@ def run_correlation(src_path: Path, output_path_root:Path, correlation_method: s
     elif discriminant == "tasks":
         organized_scores.append({"scores": organize_scores_tasks(scores, tasks_info), "output_path_root": output_path_root})
     elif discriminant == "benchmarks":
-        organized_scores.append({"scores": organize_scores_benchmarks(scores, tasks_info), "output_path_root": output_path_root})
+        organized_scores.append({"scores": scores, "output_path_root": output_path_root})
 
 
     for scores in organized_scores:
@@ -304,70 +304,6 @@ def run_correlation(src_path: Path, output_path_root:Path, correlation_method: s
                 output_path = scores["output_path_root"] / tier
                 plot_and_save_matrices(correlation_matrices=correlation_matrices,
                                        output_path_root=output_path)
-
-
-
-def verify_functional_correlation_patterns(src_path: Path):
-    task_info_path = Path(os.path.abspath(__file__)).parent.parent / "data" / "tasks_details.yaml"
-    task_info = yaml.safe_load(open(task_info_path))["tasks"]
-    capabilities_list = yaml.safe_load(open(task_info_path))["capabilities"]
-    pattern_root = src_path / "patterns"
-    verification_pattern_root = pattern_root / "verification"
-
-
-
-    # check for functional, and do it also at different model size tiers.
-    for path in src_path.rglob('functional/total'):
-        if path.is_dir():  # Ensure it's a directory
-            for csv_file in path.glob('*.csv'):
-                reorganized_correlations = defaultdict(list)
-                correlation_df = pd.read_csv(csv_file, index_col=0)
-                verification_output_path = verification_pattern_root / path.parent.parent.name # overall or model tier
-                if not os.path.exists(verification_output_path):
-                    os.makedirs(verification_output_path)
-
-                # iterate over the matrix to check for patterns
-                for task1 in correlation_df.columns:
-                    # Find capabilities associated to column
-                    task1_capabilities = []
-                    for task_name, info in task_info.items():
-                        if info["alias"] == task1:
-                            task1_capabilities = info["functional"]
-
-                    task2_capabilities = []
-                    for task2, corr in correlation_df[task1].items():
-                        if(task2 != task1):
-                            # Find capabilities associated to row
-                            for task_name, info in task_info.items():
-                                if info["alias"] == task2:
-                                    task2_capabilities = info["functional"]
-                            num_common_capabilities = len(set(task1_capabilities).intersection(task2_capabilities))
-                            reorganized_correlations[task1].append((num_common_capabilities, corr))
-
-                # sort correlations for each skill so that the correlation with datasets which share most capabilities are first
-                results = defaultdict(list)
-                for task, correlations in reorganized_correlations.items():
-                    reorganized_correlations[task] = sorted(correlations, key=lambda x: x[0], reverse=True)
-
-                    # check whether it's true for each task that there is more correlation with tasks with which it shares more capabilities
-                    if not all(t[0] == 0 for t in reorganized_correlations[task]): # if they have at least other capabilites in common with some other task
-                        verified = True
-                        for i, corr_tuple in enumerate(reorganized_correlations[task]):
-                            if i>=0:
-                                for j, corr_tuple2 in enumerate(reorganized_correlations[task][:i]):
-                                    # if it has more capabilities in common
-                                    if corr_tuple2[0] > corr_tuple[0]:
-                                        if corr_tuple2[1] < corr_tuple[1]:
-                                            verified = False
-                                            break
-                        results['task'].append(task)
-                        results['verified'].append(verified)
-                verify_df = pd.DataFrame(results)
-                file_name = verification_output_path / "verify_results.csv"
-                verify_df.to_csv(file_name, index=False)
-
-
-                #print(reorganized_correlations)
 
 
 
