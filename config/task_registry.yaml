@@ -571,3 +571,13 @@ groups:
             task_type: [ "open_question" ]
             backend: "playeval_framework"
             random_baseline: 0.5
+
+    ##
+    mmlu:
+        mmlu:
+            alias: "MMLU"
+            backend: "harness"
+    bbh_fewshot:
+        bbh_fewshot:
+            alias: "BBH"
+            backend: "harness"

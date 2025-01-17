@@ -18,6 +18,7 @@ def main(args: argparse.Namespace) -> None:
             device=args.device,
             trust_remote_code=args.trust_remote_code,
             parallelize=args.parallelize,
+            num_fewshot=args.num_fewshot,
             results_path=args.results_path,
         )
     if args.command_name == "report_costs":
@@ -74,6 +75,13 @@ if __name__ == "__main__":
         action="store_true",
         default=False,
         help="Whether to run big models on multiple GPUs."
+    )
+
+    run_parser.add_argument(
+        "--num_fewshot",
+        type=int,
+        default=0,
+        help="The number of few-shot samples to use for evaluation"
     )
 
     run_parser.add_argument(

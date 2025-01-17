@@ -20,7 +20,7 @@ def get_task_backend(task: str, tasks_info: dict) -> str:
                 return info["backend"]
     return None
 
-def run(model_backend: str, model_args: str, gen_kwargs:str, tasks: List, device: str, trust_remote_code:bool, parallelize:bool, results_path: Path = "results") -> None:
+def run(model_backend: str, model_args: str, gen_kwargs:str, tasks: List, device: str, trust_remote_code:bool, parallelize:bool, num_fewshot: int, results_path: Path = "results") -> None:
 
     model_name_parts = model_args.split(",")
     # Look for the part that starts with "pretrained="
@@ -78,6 +78,7 @@ def run(model_backend: str, model_args: str, gen_kwargs:str, tasks: List, device
                 tasks=task,
                 device=device,
                 log_samples=True,
+                num_fewshot=num_fewshot,
                 apply_chat_template=True,
             )
             timestamp = datetime.now().strftime("%Y-%m-%dT%H-%M-%S.%f")
