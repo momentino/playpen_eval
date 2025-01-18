@@ -1,4 +1,0 @@
-task_name: ewok_likert
-guidance: False
-max_new_tokens: 20
-stopping_criteria: '\n\n'

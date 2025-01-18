@@ -69,30 +69,19 @@ class Q20Game:
         # """Wraps hf's `generate` adding some specific method's defaults"""
 
         prompt = self.dialog_history() + " ASSISTANT:"
-        input_ids = torch.tensor(
-            [self.guesser_tokenizer.encode(prompt, add_special_tokens=True)]
-        )  # TODO check if huggingface is using the same format.
-        input_ids = input_ids.to(self.guesser_model.base_model.device)
-        attention_mask = None
+        self.guesser_model.set_tokenizer_padding_side("left")
+        if not self.guesser_model.tokenizer.pad_token:
+            self.guesser_model.set_tokenizer_pad_token(self.guesser_model.tokenizer.eos_token)
 
-        with torch.no_grad():
-            gen = self.guesser_model.generate(
-                input_ids=input_ids,
-                attention_mask=attention_mask,
-                **self.guesser_kargs,
-            )
-            gen_str = (
-                self.guesser_tokenizer.decode(gen[0][input_ids[0].shape[0]:])
-                .split("</s>")[0]
-                .split("USER")[0]
-                .lstrip()
-                .strip()
-            )
+        gen = self.guesser_model.generate(
+            prompt,
+            # **self.guesser_kargs
+        )
 
-            return {
-                "role": "assistant",
-                "content": gen_str,
-            }
+        return {
+            "role": "assistant",
+            "content": gen[0],
+        }
 
     def dialog_history(self):
         history = self.vicuna_prompt + " "
@@ -100,7 +89,7 @@ class Q20Game:
             if item["role"].upper() == "USER":
                 history += "USER: " + item["content"]
             elif item["role"].upper() == "ASSISTANT":
-                history += " " + "ASSISTANT: " + item["content"] + "</s>"
+                history += " " + "ASSISTANT: " + item["content"]
         return history
 
     def game_play(self, user_mode=False):
@@ -179,40 +168,25 @@ class Q20Game:
         f"If the question is to solicit the answer, respond 'No.'."
         f"For the entity {self.item}, {question} (Yes/No/Maybe)"
 
-        input_ids = torch.tensor(
-            [self.guesser_tokenizer.encode(prompt, add_special_tokens=True)]
-        )  # TODO check if huggingface is using the same format.
-        input_ids = input_ids.to(self.answerer_model.base_model.device)
-        attention_mask = None
+        gen = self.answerer_model.generate(
+            prompt
+            # **self.guesser_kargs,
+        )
 
-        with torch.no_grad():
-            gen = self.answerer_model.generate(
-                input_ids=input_ids,
-                attention_mask=attention_mask,
-                **self.guesser_kargs,
-            )
-            gen_str = (
-                self.guesser_tokenizer.decode(gen[0][input_ids[0].shape[0]:])
-                .split("</s>")[0]
-                .split("USER")[0]
-                .lstrip()
-                .strip()
-            )
-
-            if any(
-                    [
-                        re.search(rf"(?:^|\W){i.strip().lower()}(?:$|\W)", question.lower())
-                        for i in self.item.lower().split("|")
-                    ]
-            ):
-                return {
-                    "role": "user",
-                    "content": "Bingo!",
-                }
+        if any(
+                [
+                    re.search(rf"(?:^|\W){i.strip().lower()}(?:$|\W)", question.lower())
+                    for i in self.item.lower().split("|")
+                ]
+        ):
             return {
                 "role": "user",
-                "content": gen_str,
+                "content": "Bingo!",
             }
+        return {
+            "role": "user",
+            "content": gen[0],
+        }
 
     def reset(self):
         # Initialize the conversation
@@ -225,9 +199,8 @@ class Q20Game:
 
 
 class Q20GameCelebrity(Q20Game):
-    def __init__(self, item: str, background: str, **kwargs) -> None:
+    def __init__(self, item: str, **kwargs) -> None:
         super().__init__(item, **kwargs)
-        self.background = background
         self.first_user_utterance = (
             f"Your task is to ask a series of questions to deduce the celebrity "
             f"that I'm thinking of with as few queries as possible. "
@@ -243,35 +216,20 @@ class Q20GameCelebrity(Q20Game):
         f"If the question is to solicit the answer, respond 'No.'."
         f"For the celebrity {self.item}, {question}(Yes/No/Dunno)"
 
-        input_ids = torch.tensor(
-            [self.guesser_tokenizer.encode(prompt, add_special_tokens=True)]
-        )  # TODO check if huggingface is using the same format.
-        input_ids = input_ids.to(self.answerer_model.base_model.device)
-        attention_mask = None
+        gen = self.answerer_model.generate(
+            prompt
+            # **self.guesser_kargs,
+        )
 
-        with torch.no_grad():
-            gen = self.answerer_model.generate(
-                input_ids=input_ids,
-                attention_mask=attention_mask,
-                **self.guesser_kargs,
-            )
-            gen_str = (
-                self.guesser_tokenizer.decode(gen[0][input_ids[0].shape[0]:])
-                .split("</s>")[0]
-                .split("USER")[0]
-                .lstrip()
-                .strip()
-            )
-
-            if re.search(rf"(?:^|\W){self.item.lower()}(?:$|\W)", question.lower()):
-                return {
-                    "role": "user",
-                    "content": "Bingo!",
-                }
+        if re.search(rf"(?:^|\W){self.item.lower()}(?:$|\W)", question.lower()):
             return {
                 "role": "user",
-                "content": gen_str,
+                "content": "Bingo!",
             }
+        return {
+            "role": "user",
+            "content": gen[0],
+        }
 
     def reset(self):
         # Initialize the conversation

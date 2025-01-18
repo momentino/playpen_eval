@@ -4,17 +4,8 @@ capabilities:
 
 groups:
     entity_deduction_arena:
-        entity_deduction_arena_things:
-            alias: "Entity Deduction Arena Things"
-            functional: [ "strategic_reasoning" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "interactive" ]
-            main_task: True
-            backend: "playeval_framework"
-            # TODO Specify Random Baseline
-        entity_deduction_arena_things_celebrities:
-            alias: "Entity Deduction Arena Celebrities"
+        entity_deduction_arena:
+            alias: "Entity Deduction Arena"
             functional: [ "strategic_reasoning" ]
             formal: [ ]
             functional_groups: [ "executive_functions" ]
