@@ -1,0 +1,10 @@
+capabilities:
+  functional: [ "commonsense_reasoning",
+                "planning_decision_making",
+                "logical_numerical_reasoning",
+                "causal_reasoning",
+                "social_commonsense_reasoning",
+                "theory_of_mind",
+                "emotional_intelligence",
+                "pragmatics",
+                "working_memory"]

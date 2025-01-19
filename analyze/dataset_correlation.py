@@ -1,6 +1,5 @@
 import os
 import json
-import yaml
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -8,7 +7,8 @@ from collections import defaultdict
 from typing import Dict, List, Tuple, Any
 from pathlib import Path
 
-from analyze import project_root, model_registry_path, task_registry_path
+from config import project_root, get_functional_group_from_alias, get_alias, get_model_registry, get_task_info, \
+    get_task_registry
 from utils.utils import convert_str_to_number
 
 
@@ -30,29 +30,6 @@ class CorrelationMatrix():
         group_column = self.data.pop('group')  # Remove 'group' column
         self.data = self.data[self.data.index]
         self.data['group'] = group_column
-
-
-def get_model_registry():
-    model_registry = yaml.safe_load(open(model_registry_path))["models"]
-    return model_registry
-
-def get_tasks_info():
-    task_registry = yaml.safe_load(open(task_registry_path))
-    tasks_info =  task_registry["groups"]
-    capabilities_list = task_registry["capabilities"]
-    return capabilities_list, tasks_info
-
-def get_alias(task_name:str, tasks_info: Dict) -> str:
-    for group, tasks in tasks_info.items():
-        for name, info in tasks.items():
-            if name == task_name:
-                return info["alias"]
-
-def get_functional_group_from_alias(task_name:str, tasks_info: Dict) -> str:
-    for group, tasks in tasks_info.items():
-        for name, info in tasks.items():
-            if info["alias"] == task_name:
-                return info["functional_groups"]
 
 def get_reports(src_path: Path, model_registry: Dict[str, Dict[str, str]]):
     model_names = model_registry.keys()
@@ -144,24 +121,24 @@ def keep_common(partial_scores: Dict[str, List[Tuple[str,float]]]) -> (Dict[str,
 
     return filtered_data, remaining_models
 
-def get_correlation_matrices(correlation_method:str, scores: Dict, model_registry: Dict, tasks_info: Dict, lower_bound: float = None, upper_bound: float = None) -> List[CorrelationMatrix]:
+def get_correlation_matrices(correlation_method:str, scores: Dict, model_registry: Dict, task_registry: Dict, lower_bound: float = None, upper_bound: float = None) -> List[CorrelationMatrix]:
     matrices = []
     for category, tasks in scores.items():
         if len(tasks.keys()) > 1:
             partial_scores = defaultdict(list)
             for task_id, model_results in tasks.items():
-                task_name = get_alias(task_id, tasks_info)
+                task_name = get_alias(task_id, task_registry)
                 partial_scores[task_name] = [v for v in model_results if
                                     (lower_bound is None and upper_bound is None) or
                                     (lower_bound < convert_str_to_number(model_registry[v[0]]['params']) <= upper_bound)]
             scores, remaining_models = keep_common(partial_scores)
             scores_matrix = pd.DataFrame(scores)
             correlation_matrix = CorrelationMatrix(data=scores_matrix.corr(method=correlation_method), category=category, name=category, models=remaining_models)
-            correlation_matrix = sort_correlation_matrix(correlation_matrix, tasks_info)
+            correlation_matrix = sort_correlation_matrix(correlation_matrix, task_registry)
             matrices.append(correlation_matrix)
     return matrices
 
-def organize_scores_capabilities(scores: Dict, tasks_info: Dict, category:str):
+def organize_scores_capabilities(scores: Dict, task_registry: Dict, category:str):
     organized_scores = defaultdict(lambda: defaultdict(list))
     for group1, tasks1 in scores.items():
         for task1_name, scores1 in tasks1.items():
@@ -169,15 +146,15 @@ def organize_scores_capabilities(scores: Dict, tasks_info: Dict, category:str):
                 for task2_name, scores2 in tasks2.items():
                     if (task1_name != task2_name):
                         if category != "total":
-                            task1_categories = tasks_info[group1][task1_name][category]
-                            task2_categories = tasks_info[group2][task2_name][category]
+                            task1_categories = task_registry[group1][task1_name][category]
+                            task2_categories = task_registry[group2][task2_name][category]
                             if len(task1_categories) == 1 and len(task2_categories) == 1 and task1_categories[0] == task2_categories[0]:
                                 organized_scores[task2_categories[0]][task2_name] = scores2
                         else:
                             organized_scores["total"][task2_name] = scores2
     return organized_scores
 
-def organize_scores_tasks(scores: Dict, tasks_info: Dict):
+"""def organize_scores_tasks(scores: Dict, task_registry: Dict):
     organized_scores = {
         "multiple_choice": defaultdict(lambda: defaultdict(list)),
         "open_question": defaultdict(lambda: defaultdict(list)),
@@ -187,15 +164,15 @@ def organize_scores_tasks(scores: Dict, tasks_info: Dict):
     }
 
     for task1, scores1 in scores.items():
-        task1_type = tasks_info[task1]["task_type"]
+        task1_type = task_registry[task1]["task_type"]
         for task2, scores2 in scores.items():
-            task2_type = tasks_info[task2]["task_type"]
+            task2_type = task_registry[task2]["task_type"]
             if (task1 != task2 and
-                    len(tasks_info[task1]["functional"]) > 0 and len(tasks_info[task2]["functional"]) > 0 and isinstance(task1_type, str) and isinstance(task2_type, str) and
+                    len(task_registry[task1]["functional"]) > 0 and len(task_registry[task2]["functional"]) > 0 and isinstance(task1_type, str) and isinstance(task2_type, str) and
                     task1_type == task2_type):
                 if len(task1_type) == 1 and len(task2_type) == 1:
                     organized_scores[task1_type[0]][task1] = scores1
-    return organized_scores
+    return organized_scores"""
 
 """def organize_scores_benchmarks(scores: Dict, tasks_info: Dict):
     organized_scores = defaultdict(lambda: defaultdict(list))
@@ -210,43 +187,23 @@ def organize_scores_tasks(scores: Dict, tasks_info: Dict):
                             organized_scores[group1][task1] = scores1
     return organized_scores"""
 
-def ammissible(score: float, chance_level:float) -> bool:
-    if score > chance_level:
-        return True
-    return False
-
-def get_info(task_name: str, tasks_info: Dict) -> (str, float, bool, bool):
-    for group, tasks in tasks_info.items():
-        for name, info in tasks.items():
-            if name == task_name:
-                functional = len(info["functional"])>0 and len(info["formal"])==0
-                try:
-                    main_task = info["main_task"]
-                except:
-                    main_task = False
-                return group, info["random_baseline"], main_task, functional
-    return None, None, None, None
-
-def get_scores(reports, tasks_info: Dict[str,Dict[str,Any]], ignore_tasks:List[str], ignore_groups: List[str], take_functional_subtasks: bool):
+def get_scores(reports, task_registry: Dict[str,Dict[str,Any]], ignore_tasks:List[str], ignore_groups: List[str], take_functional_subtasks: bool):
     scores_dict = defaultdict(lambda: defaultdict(list))
-    group_names = tasks_info.keys()
-    task_names = [task for g in group_names for task in tasks_info[g].keys()]
+    group_names = task_registry.keys()
+    task_names = [task for g in group_names for task in task_registry[g].keys()]
 
     for report in reports:
         model_name = report["model_name"]
         for task_name, score_dict in report["task_results"].items():
-            score = score_dict['score']
             if task_name in task_names and task_name not in ignore_tasks:
-                group_name, chance_level, main_task, functional = get_info(task_name, tasks_info)
-                assert group_name is not None
-                assert chance_level is not None
-                assert main_task is not None
-                assert functional is not None
-                if group_name not in ignore_groups:
-                    if take_functional_subtasks and functional and ammissible(score, chance_level) and (not main_task or len(tasks_info[group_name]) == 1):
-                        scores_dict[group_name][task_name].append((model_name, score))
-                    elif not take_functional_subtasks and functional and main_task and ammissible(score, chance_level):
-                        scores_dict[group_name][task_name].append((model_name, score))
+                group, task_config = get_task_info(task_name)
+                if group not in ignore_groups:
+                    score = score_dict['normalized_score']
+                    main_task = task_config["main_task"]
+                    if take_functional_subtasks and score > 0 and (not main_task or len(task_registry[group]) == 1):
+                        scores_dict[group][task_name].append((model_name, score))
+                    elif not take_functional_subtasks and main_task and score >0:
+                        scores_dict[group][task_name].append((model_name, score))
     return scores_dict
 
 def run_correlation(src_path: Path,
@@ -259,10 +216,11 @@ def run_correlation(src_path: Path,
                     take_functional_subtasks: bool) -> None:
 
     model_registry = get_model_registry()
-    capabilities_list, tasks_info = get_tasks_info()
+    task_registry = get_task_registry()
+    #capabilities_list, tasks_info = get_tasks_info()
     src_path = project_root / src_path
     reports = get_reports(src_path=src_path, model_registry = model_registry)
-    scores = get_scores(reports, tasks_info, take_functional_subtasks=take_functional_subtasks, ignore_tasks=ignore_tasks, ignore_groups=ignore_groups)
+    scores = get_scores(reports, task_registry, take_functional_subtasks=take_functional_subtasks, ignore_tasks=ignore_tasks, ignore_groups=ignore_groups)
 
     # Check for duplicates and sort by model name and param size
     for group, tasks in scores.items():
@@ -274,20 +232,20 @@ def run_correlation(src_path: Path,
     organized_scores = []
     if discriminant == "capabilities":
         output_path_root = output_path_root/ "functional"
-        organized_scores.append({"scores": organize_scores_capabilities(scores, tasks_info, "functional"), "output_path_root": output_path_root}) # TODO: improve
+        organized_scores.append({"scores": organize_scores_capabilities(scores, task_registry, "functional"), "output_path_root": output_path_root}) # TODO: improve
         output_path_root = output_path_root / "total"
         organized_scores.append(
-            {"scores": organize_scores_capabilities(scores, tasks_info, "total"),
+            {"scores": organize_scores_capabilities(scores, task_registry, "total"),
              "output_path_root": output_path_root})  # TODO: improve
 
-    elif discriminant == "tasks":
-        organized_scores.append({"scores": organize_scores_tasks(scores, tasks_info), "output_path_root": output_path_root})
+    #elif discriminant == "tasks":
+    #    organized_scores.append({"scores": organize_scores_tasks(scores, tasks_info), "output_path_root": output_path_root})
     elif discriminant == "benchmarks":
         organized_scores.append({"scores": scores, "output_path_root": output_path_root})
 
 
     for scores in organized_scores:
-        correlation_matrices = get_correlation_matrices(correlation_method, scores["scores"], model_registry = model_registry, tasks_info=tasks_info)
+        correlation_matrices = get_correlation_matrices(correlation_method, scores["scores"], model_registry = model_registry, task_registry=task_registry)
         output_path_root = output_path_root / "all"
         plot_and_save_matrices(correlation_matrices=correlation_matrices,
                                output_path_root=scores["output_path_root"])
@@ -307,7 +265,7 @@ def run_correlation(src_path: Path,
                 #}
             }
             for tier, bounds in model_size_thresholds.items():
-                correlation_matrices = get_correlation_matrices(correlation_method, scores["scores"], lower_bound=bounds['lower_bound'], upper_bound=bounds['upper_bound'], model_registry = model_registry, tasks_info=tasks_info)
+                correlation_matrices = get_correlation_matrices(correlation_method, scores["scores"], lower_bound=bounds['lower_bound'], upper_bound=bounds['upper_bound'], model_registry = model_registry, task_registry=task_registry)
                 output_path = scores["output_path_root"] / tier
                 plot_and_save_matrices(correlation_matrices=correlation_matrices,
                                        output_path_root=output_path)

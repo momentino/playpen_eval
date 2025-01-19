@@ -1,19 +1,18 @@
-models:
-  meta-llama__Llama-3.1-8B-Instruct:
-    params: 8B
-  google__gemma-2-9b-it:
-    params: 9B
-  Qwen__Qwen2.5-7B-Instruct:
-    params: 7B
-  tiiuae__Falcon3-10B-Instruct:
-    params: 10B
-  Qwen__Qwen2.5-32B-Instruct:
-    params: 32B
-  CohereForAI__aya-expanse-32b:
-    params: 32B
-  meta-llama__Llama-3.3-70B-Instruct:
-    params: 70B
-  meta-llama__Meta-Llama-3.1-70B-Instruct:
-    params: 70B
+meta-llama__Llama-3.1-8B-Instruct:
+  params: 8B
+google__gemma-2-9b-it:
+  params: 9B
+Qwen__Qwen2.5-7B-Instruct:
+  params: 7B
+tiiuae__Falcon3-10B-Instruct:
+  params: 10B
+Qwen__Qwen2.5-32B-Instruct:
+  params: 32B
+CohereForAI__aya-expanse-32b:
+  params: 32B
+meta-llama__Llama-3.3-70B-Instruct:
+  params: 70B
+meta-llama__Meta-Llama-3.1-70B-Instruct:
+  params: 70B
   #CohereForAI__c4ai-command-r-plus:
   #  params: 104B

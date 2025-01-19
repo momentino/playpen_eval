@@ -19,7 +19,9 @@ def main(args: argparse.Namespace) -> None:
             trust_remote_code=args.trust_remote_code,
             parallelize=args.parallelize,
             num_fewshot=args.num_fewshot,
+            fewshot_as_multiturn=args.fewshot_as_multiturn,
             results_path=args.results_path,
+            apply_chat_template=args.apply_chat_template
         )
     if args.command_name == "report_costs":
         playpen_evaluator.report_costs(
@@ -82,6 +84,20 @@ if __name__ == "__main__":
         type=int,
         default=0,
         help="The number of few-shot samples to use for evaluation"
+    )
+
+    run_parser.add_argument(
+        "--fewshot_as_multiturn",
+        action="store_true",
+        default=False,
+        help="Whether we wish to have fewshot example spanning across turns"
+    )
+
+    run_parser.add_argument(
+        "--apply_chat_template",
+        action="store_true",
+        default=False,
+        help="Whether to apply the chat template."
     )
 
     run_parser.add_argument(

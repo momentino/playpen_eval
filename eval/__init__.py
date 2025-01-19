@@ -1,21 +1,11 @@
 import json
 import yaml
-import os
 import logging
 from pathlib import Path
 from typing import List, Dict, Any
 from frameworks.lm_evaluation_harness import lm_eval
 
-project_folder = Path(os.path.abspath(__file__)).parent.parent
-
 playpen_eval_logger = logging.getLogger("playpen_eval_logger")
-
-def get_playpen_tasks() -> Dict[str, Dict[str, Any]]:
-    tasks_file = Path(__file__).parent.parent / "config" / "task_registry.yaml"
-    with open(tasks_file, 'r') as file:
-        data = yaml.safe_load(file)
-    return data['groups']
-
 
 def get_executed_tasks(model_results_path: Path, tasks: List[str]) -> (List[str], List[str]):
     executed_tasks = set()

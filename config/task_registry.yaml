@@ -1,583 +1,619 @@
-capabilities:
-  functional: [ "commonsense_reasoning", "planning_decision_making", "logical_numerical_reasoning", "causal_reasoning","social_commonsense_reasoning", "theory_of_mind", "emotional_intelligence", "pragmatics", "working_memory"]
-  formal: [ "semantics", "predicate_argument_structure", "negation", "metalinguistic" ]
-
-groups:
+logiqa2:
     logiqa2:
-        logiqa2:
-            alias: "LogiQA 2.0"
-            functional: [ "logical_numerical_reasoning" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions"]
-            task_type: [ "multiple_choice" ]
-            backend: "harness"
-            main_task: True
-            random_baseline: 0.25
-    #hendrycks_math:
-    #    hendrycks_math:
-    #        alias: "MATH"
-    #        functional: [ "logical_numerical_reasoning" ]
-    #        formal: [ ]
-    #        functional_groups: [ "executive_functions" ]
-    #        task_type: [ "open_question" ]
-    #        backend: "harness"
-    #        main_task: True
-    #    hendrycks_math_algebra:
-    #        alias: "MATH Algebra"
-    #        functional: [ "logical_numerical_reasoning" ]
-    #        formal: [ ]
-    #        functional_groups: [ "executive_functions" ]
-    #        task_type: [ "open_question" ]
-    #        backend: "harness"
-    #    hendrycks_math_counting_and_prob:
-    #        alias: "MATH Counting and Prob."
-    #        functional: [ "logical_numerical_reasoning" ]
-    #        formal: [ ]
-    #        functional_groups: [ "executive_functions" ]
-    #        task_type: [ "open_question" ]
-    #        backend: "harness"
-    #    hendrycks_geometry:
-    #        alias: "MATH Geometry"
-    #        functional: [ "logical_numerical_reasoning" ]
-    #        formal: [ ]
-    #        functional_groups: [ "executive_functions" ]
-    #        task_type: [ "open_question" ]
-    #        backend: "harness"
-    #    hendrycks_intermediate_algebra:
-    #        alias: "MATH Intermediate Algebra"
-    #        functional: [ "logical_numerical_reasoning" ]
-    #        formal: [ ]
-    #        functional_groups: [ "executive_functions" ]
-    #        task_type: [ "open_question" ]
-    #        backend: "harness"
-    #    hendrycks_math_num_theory:
-    #        alias: "MATH Num. Theory"
-    #        functional: [ "logical_numerical_reasoning" ]
-    #        formal: [ ]
-    #        functional_groups: [ "executive_functions" ]
-    #        task_type: [ "open_question" ]
-    #        backend: "harness"
-    #    hendrycks_math_prealgebra:
-    #        alias: "MATH Prealgebra"
-    #        functional: [ "logical_numerical_reasoning" ]
-    #        formal: [ ]
-    #        functional_groups: [ "executive_functions" ]
-    #        task_type: [ "open_question" ]
-    #        backend: "harness"
-    #    hendrycks_math_precalc:
-    #        alias: "MATH Precalc."
-    #        functional: [ "logical_numerical_reasoning" ]
-    #        formal: [ ]
-    #        functional_groups: [ "executive_functions" ]
-    #        task_type: [ "open_question" ]
-    #        backend: "harness"
+        alias: "LogiQA 2.0"
+        functional: [ "logical_numerical_reasoning" ]
+        functional_groups: [ "executive_functions"]
+        task_type: [ "multiple_choice" ]
+        backend: "harness"
+        main_task: True
+        random_baseline: 0.25
+        higher_bound: 1
+ewok_minimal_pairs:
     ewok_minimal_pairs:
-        ewok_minimal_pairs:
-            alias: "EWoK Minimal Pairs"
-            functional: [ "commonsense_reasoning", "social_commonsense_reasoning" ]
-            functional_groups: [ "executive_functions", "social_emotional_cognition" ]
-            formal: [ ]
-            task_type: [ "minimal_pairs_logprobs" ]
-            backend: "playeval_framework"
-            main_task: True
-            random_baseline: 0.5
-        #ewok_minimal_pairs_social:
-        #    alias: "EWoK Minimal Pairs Social"
-        #    functional: [ "commonsense_reasoning", "social_commonsense_reasoning" ]
-        #    functional_groups: ["social_emotional_cognition" ]
-        #    formal: [ ]
-        #    task_type: [ "minimal_pairs_logprobs" ]
-        #    backend: "playeval_framework"
-        #    main_task: True
-        #    random_baseline: 0.5
-        #ewok_minimal_pairs_executive:
-        #    alias: "EWoK Minimal Pairs Executive"
-        #    functional: [ "commonsense_reasoning", "social_commonsense_reasoning" ]
-        #    functional_groups: [ "executive_functions"]
-        #    formal: [ ]
-        #    task_type: [ "minimal_pairs_logprobs" ]
-        #    backend: "playeval_framework"
-        #    main_task: True
-        #    random_baseline: 0.5
-        ewok_minimal_pairs_agent_properties:
-            alias: "EWoK Minimal Pairs Agent Properties"
-            functional: [ "commonsense_reasoning" ]
-            functional_groups: [ "executive_functions" ]
-            formal: [ ]
-            task_type: [ "minimal_pairs_logprobs" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
-        ewok_minimal_pairs_social_relations:
-            alias: "EWoK Minimal Pairs Social Relations"
-            functional: [ "commonsense_reasoning" ]
-            functional_groups: ["executive_functions" ]
-            formal: [ ]
-            task_type: [ "minimal_pairs_logprobs" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
-        ewok_minimal_pairs_material_dynamics:
-            alias: "EWoK Minimal Pairs Material Dynamics"
-            functional: [ "commonsense_reasoning"]
-            functional_groups: [ "executive_functions" ]
-            formal: [ ]
-            task_type: [ "minimal_pairs_logprobs" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
-        ewok_minimal_pairs_physical_relations:
-            alias: "EWoK Minimal Pairs Physical Relations"
-            functional: [ "commonsense_reasoning"]
-            functional_groups: [ "executive_functions" ]
-            formal: [ ]
-            task_type: [ "minimal_pairs_logprobs" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
-        ewok_minimal_pairs_physical_interactions:
-            alias: "EWoK Minimal Pairs Physical Interactions"
-            functional: [ "commonsense_reasoning"]
-            functional_groups: [ "executive_functions" ]
-            formal: [ ]
-            task_type: [ "minimal_pairs_logprobs" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
-        ewok_minimal_pairs_physical_dynamics:
-            alias: "EWoK Minimal Pairs Physical Dynamics"
-            functional: [ "commonsense_reasoning" ]
-            functional_groups: [ "executive_functions" ]
-            formal: [ ]
-            task_type: [ "minimal_pairs_logprobs" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
-        ewok_minimal_pairs_spatial_relations:
-            alias: "EWoK Minimal Pairs Spatial Relations"
-            functional: [ "commonsense_reasoning"]
-            functional_groups: [ "executive_functions" ]
-            formal: [ ]
-            task_type: [ "minimal_pairs_logprobs" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
-        ewok_minimal_pairs_quantitative_properties:
-            alias: "EWoK Minimal Pairs Quantitative Properties"
-            functional: [ "commonsense_reasoning" ]
-            functional_groups: [ "executive_functions" ]
-            formal: [ ]
-            task_type: [ "minimal_pairs_logprobs" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
-        ewok_minimal_pairs_social_properties:
-            alias: "EWoK Minimal Pairs Social Properties"
-            functional: [ "commonsense_reasoning"]
-            functional_groups: [ "executive_functions" ]
-            formal: [ ]
-            task_type: [ "minimal_pairs_logprobs" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
-        ewok_minimal_pairs_social_interactions:
-            alias: "EWoK Minimal Pairs Social Interactions"
-            functional: [ "commonsense_reasoning" ]
-            functional_groups: [ "executive_functions" ]
-            formal: [ ]
-            task_type: [ "minimal_pairs_logprobs" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
-        ewok_minimal_pairs_material_properties:
-            alias: "EWoK Minimal Pairs Material Properties"
-            functional: [ "commonsense_reasoning"]
-            functional_groups: [ "executive_functions" ]
-            formal: [ ]
-            task_type: [ "minimal_pairs_logprobs" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
-    fantom:
-        fantom_full:
-            alias: "FANToM"
-            functional: [ "theory_of_mind" ]
-            formal: [ ]
-            functional_groups: [ "social_emotional_cognition" ]
-            task_type: [ "multiple_choice" , "open_question" ]
-            backend: "harness"
-            main_task: True
-            random_baseline: 0
-        fantom_full_answerability_binary:
-            alias: "FANToM Answerability Y/N"
-            functional: [ "theory_of_mind" ]
-            formal: [ ]
-            functional_groups: [ "social_emotional_cognition" ]
-            task_type: [ "multiple_choice" ]
-            backend: "harness"
-            random_baseline: 0.5
-        fantom_full_answerability_list:
-            alias: "FANToM Answerability L"
-            functional: [ "theory_of_mind" ]
-            formal: [ ]
-            functional_groups: [ "social_emotional_cognition" ]
-            task_type: [ "open_question" ]
-            backend: "harness"
-            random_baseline: 0
-        fantom_full_belief_choice:
-            alias: "FANToM Belief Choice"
-            functional: [ "theory_of_mind" ]
-            formal: [ ]
-            functional_groups: [ "social_emotional_cognition" ]
-            task_type: [ "multiple_choice" ]
-            backend: "harness"
-            random_baseline: 0
-        fantom_full_belief_gen:
-            alias: "FANToM Belief Dist"
-            functional: [ "theory_of_mind" ]
-            formal: [ ]
-            functional_groups: [ "social_emotional_cognition" ]
-            task_type: [ "open_question" ]
-            backend: "harness"
-            random_baseline: 0
-        fantom_full_fact:
-            alias: "FANToM Full Fact"
-            functional: [ "theory_of_mind" ]
-            formal: [ ]
-            functional_groups: [ "social_emotional_cognition" ]
-            task_type: [ "open_question" ]
-            backend: "harness"
-            random_baseline: 0
-        fantom_full_infoaccessibility_binary:
-            alias: "FANToM Infoaccessibility Y/N"
-            functional: [ "theory_of_mind" ]
-            formal: [ ]
-            functional_groups: [ "social_emotional_cognition" ]
-            task_type: [ "multiple_choice" ]
-            backend: "harness"
-            random_baseline: 0.5
-        fantom_full_infoaccessibility_list:
-            alias: "FANToM Infoaccessibility L"
-            functional: [ "theory_of_mind" ]
-            formal: [ ]
-            functional_groups: [ "social_emotional_cognition" ]
-            task_type: [ "open_question" ]
-            backend: "harness"
-            random_baseline: 0
-    #dnli:
-    #    dnli:
-    #        alias: "DNLI"
-    #        functional: [ "pragmatics" ]
-    #        formal: [ ]
-    #        functional_groups: [ "social_emotional_cognition" ]
-    #        task_type: [ "nli" ]
-    #        backend: "playeval_framework"
-    #        main_task: True
+        alias: "EWoK Minimal Pairs"
+        functional: [ "commonsense_reasoning", "social_commonsense_reasoning" ]
+        functional_groups: [ "executive_functions", "social_emotional_cognition" ]
+        formal: [ ]
+        task_type: [ "minimal_pairs_logprobs" ]
+        backend: "playeval_framework"
+        main_task: True
+        random_baseline: 0.5
+        higher_bound: 1
+    ewok_minimal_pairs_agent_properties:
+        alias: "EWoK Minimal Pairs Agent Properties"
+        functional: [ "commonsense_reasoning" ]
+        functional_groups: [ "executive_functions" ]
+        formal: [ ]
+        task_type: [ "minimal_pairs_logprobs" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    ewok_minimal_pairs_social_relations:
+        alias: "EWoK Minimal Pairs Social Relations"
+        functional: [ "commonsense_reasoning" ]
+        functional_groups: ["executive_functions" ]
+        formal: [ ]
+        task_type: [ "minimal_pairs_logprobs" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    ewok_minimal_pairs_material_dynamics:
+        alias: "EWoK Minimal Pairs Material Dynamics"
+        functional: [ "commonsense_reasoning"]
+        functional_groups: [ "executive_functions" ]
+        formal: [ ]
+        task_type: [ "minimal_pairs_logprobs" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    ewok_minimal_pairs_physical_relations:
+        alias: "EWoK Minimal Pairs Physical Relations"
+        functional: [ "commonsense_reasoning"]
+        functional_groups: [ "executive_functions" ]
+        formal: [ ]
+        task_type: [ "minimal_pairs_logprobs" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    ewok_minimal_pairs_physical_interactions:
+        alias: "EWoK Minimal Pairs Physical Interactions"
+        functional: [ "commonsense_reasoning"]
+        functional_groups: [ "executive_functions" ]
+        formal: [ ]
+        task_type: [ "minimal_pairs_logprobs" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    ewok_minimal_pairs_physical_dynamics:
+        alias: "EWoK Minimal Pairs Physical Dynamics"
+        functional: [ "commonsense_reasoning" ]
+        functional_groups: [ "executive_functions" ]
+        formal: [ ]
+        task_type: [ "minimal_pairs_logprobs" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    ewok_minimal_pairs_spatial_relations:
+        alias: "EWoK Minimal Pairs Spatial Relations"
+        functional: [ "commonsense_reasoning"]
+        functional_groups: [ "executive_functions" ]
+        formal: [ ]
+        task_type: [ "minimal_pairs_logprobs" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    ewok_minimal_pairs_quantitative_properties:
+        alias: "EWoK Minimal Pairs Quantitative Properties"
+        functional: [ "commonsense_reasoning" ]
+        functional_groups: [ "executive_functions" ]
+        formal: [ ]
+        task_type: [ "minimal_pairs_logprobs" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    ewok_minimal_pairs_social_properties:
+        alias: "EWoK Minimal Pairs Social Properties"
+        functional: [ "commonsense_reasoning"]
+        functional_groups: [ "executive_functions" ]
+        formal: [ ]
+        task_type: [ "minimal_pairs_logprobs" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    ewok_minimal_pairs_social_interactions:
+        alias: "EWoK Minimal Pairs Social Interactions"
+        functional: [ "commonsense_reasoning" ]
+        functional_groups: [ "executive_functions" ]
+        formal: [ ]
+        task_type: [ "minimal_pairs_logprobs" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    ewok_minimal_pairs_material_properties:
+        alias: "EWoK Minimal Pairs Material Properties"
+        functional: [ "commonsense_reasoning"]
+        functional_groups: [ "executive_functions" ]
+        formal: [ ]
+        task_type: [ "minimal_pairs_logprobs" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+fantom:
+    fantom_full:
+        alias: "FANToM"
+        functional: [ "theory_of_mind" ]
+        formal: [ ]
+        functional_groups: [ "social_emotional_cognition" ]
+        task_type: [ "multiple_choice" , "open_question" ]
+        backend: "harness"
+        main_task: True
+        random_baseline: 0 # TODO
+        higher_bound: 1
+    fantom_full_answerability_binary:
+        alias: "FANToM Answerability Y/N"
+        functional: [ "theory_of_mind" ]
+        formal: [ ]
+        functional_groups: [ "social_emotional_cognition" ]
+        task_type: [ "multiple_choice" ]
+        backend: "harness"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    fantom_full_answerability_list:
+        alias: "FANToM Answerability L"
+        functional: [ "theory_of_mind" ]
+        formal: [ ]
+        functional_groups: [ "social_emotional_cognition" ]
+        task_type: [ "open_question" ]
+        backend: "harness"
+        main_task: False
+        random_baseline: 0.03 # (1/32) since only one combination of names of 5 characters is the correct one
+        higher_bound: 1
+    #fantom_full_belief_choice:
+    #    alias: "FANToM Belief Choice"
+    #    functional: [ "theory_of_mind" ]
+    #    formal: [ ]
+    #    functional_groups: [ "social_emotional_cognition" ]
+    #    task_type: [ "multiple_choice" ]
+    #    backend: "harness"
+    #    main_task: False
+    #    random_baseline: 0.5
+    #    higher_bound: 1
+    fantom_full_belief_gen:
+        alias: "FANToM Belief Dist"
+        functional: [ "theory_of_mind" ]
+        formal: [ ]
+        functional_groups: [ "social_emotional_cognition" ]
+        task_type: [ "open_question" ]
+        backend: "harness"
+        main_task: False
+        random_baseline: 0
+        higher_bound: 1
+    fantom_full_fact:
+        alias: "FANToM Full Fact"
+        functional: [ "theory_of_mind" ]
+        formal: [ ]
+        functional_groups: [ "social_emotional_cognition" ]
+        task_type: [ "open_question" ]
+        backend: "harness"
+        main_task: False
+        random_baseline: 0
+        higher_bound: 1
+    fantom_full_infoaccessibility_binary:
+        alias: "FANToM Infoaccessibility Y/N"
+        functional: [ "theory_of_mind" ]
+        formal: [ ]
+        functional_groups: [ "social_emotional_cognition" ]
+        task_type: [ "multiple_choice" ]
+        backend: "harness"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    fantom_full_infoaccessibility_list:
+        alias: "FANToM Infoaccessibility L"
+        functional: [ "theory_of_mind" ]
+        formal: [ ]
+        functional_groups: [ "social_emotional_cognition" ]
+        task_type: [ "open_question" ]
+        backend: "harness"
+        main_task: False
+        random_baseline: 0.03
+        higher_bound: 1
+#dnli:
+#    dnli:
+#        alias: "DNLI"
+#        functional: [ "pragmatics" ]
+#        formal: [ ]
+#        functional_groups: [ "social_emotional_cognition" ]
+#        task_type: [ "nli" ]
+#        backend: "playeval_framework"
+#        main_task: True
+eq_bench:
     eq_bench:
-        eq_bench:
-            alias: "EQBench"
-            functional: [ "emotional_intelligence" ]
-            formal: [ ]
-            functional_groups: [ "social_emotional_cognition" ]
-            task_type: [ "likert" ]
-            main_task: True
-            backend: "harness"
-            random_baseline: 0
+        alias: "EQBench"
+        functional: [ "emotional_intelligence" ]
+        formal: [ ]
+        functional_groups: [ "social_emotional_cognition" ]
+        task_type: [ "likert" ]
+        main_task: True
+        backend: "harness"
+        random_baseline: 0
+        higher_bound: 100
+lm_pragmatics:
     lm_pragmatics:
-        lm_pragmatics:
-            alias: "LM-Pragmatics"
-            functional: [ "pragmatics" ]
-            formal: [ ]
-            functional_groups: [ "social_emotional_cognition" ]
-            task_type: [ "multiple_choice" ]
-            backend: "harness"
-            main_task: True
-            random_baseline: 0.23
-        coherence:
-            alias: "LM-Pragmatics Coherence"
-            functional: [ "pragmatics" ]
-            formal: [ ]
-            functional_groups: [ "social_emotional_cognition" ]
-            task_type: [ "multiple_choice" ]
-            backend: "harness"
-            random_baseline: 0.5
-        deceits:
-            alias: "LM-Pragmatics Deceits"
-            functional: [ "pragmatics" ]
-            formal: [ ]
-            functional_groups: [ "social_emotional_cognition" ]
-            task_type: [ "multiple_choice" ]
-            backend: "harness"
-            random_baseline: 0.25
-        humour:
-            alias: "LM-Pragmatics Humour"
-            functional: [ "pragmatics" ]
-            formal: [ ]
-            functional_groups: [ "social_emotional_cognition" ]
-            task_type: [ "multiple_choice" ]
-            backend: "harness"
-            random_baseline: 0.2
-        irony:
-            alias: "LM-Pragmatics Irony"
-            functional: [ "pragmatics" ]
-            formal: [ ]
-            functional_groups: [ "social_emotional_cognition" ]
-            task_type: [ "multiple_choice" ]
-            backend: "harness"
-            random_baseline: 0.25
-        maxims:
-            alias: "LM-Pragmatics Maxims"
-            functional: [ "pragmatics" ]
-            formal: [ ]
-            functional_groups: [ "social_emotional_cognition" ]
-            task_type: [ "multiple_choice" ]
-            backend: "harness"
-            random_baseline: 0.25
-        metaphor:
-            alias: "LM-Pragmatics Metaphor"
-            functional: [ "pragmatics" ]
-            formal: [ ]
-            functional_groups: [ "social_emotional_cognition" ]
-            task_type: [ "multiple_choice" ]
-            backend: "harness"
-            random_baseline: 0.2
-        indirect_speech:
-            alias: "LM-Pragmatics Indirect Speech"
-            functional: [ "pragmatics" ]
-            formal: [ ]
-            functional_groups: [ "social_emotional_cognition" ]
-            task_type: [ "multiple_choice" ]
-            backend: "harness"
-            random_baseline: 0.25
+        alias: "LM-Pragmatics"
+        functional: [ "pragmatics" ]
+        formal: [ ]
+        functional_groups: [ "social_emotional_cognition" ]
+        task_type: [ "multiple_choice" ]
+        backend: "harness"
+        main_task: True
+        random_baseline: 0.3
+        higher_bound: 1
+    coherence:
+        alias: "LM-Pragmatics Coherence"
+        functional: [ "pragmatics" ]
+        formal: [ ]
+        functional_groups: [ "social_emotional_cognition" ]
+        task_type: [ "multiple_choice" ]
+        backend: "harness"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    deceits:
+        alias: "LM-Pragmatics Deceits"
+        functional: [ "pragmatics" ]
+        formal: [ ]
+        functional_groups: [ "social_emotional_cognition" ]
+        task_type: [ "multiple_choice" ]
+        backend: "harness"
+        main_task: False
+        random_baseline: 0.25
+        higher_bound: 1
+    humour:
+        alias: "LM-Pragmatics Humour"
+        functional: [ "pragmatics" ]
+        formal: [ ]
+        functional_groups: [ "social_emotional_cognition" ]
+        task_type: [ "multiple_choice" ]
+        backend: "harness"
+        main_task: False
+        random_baseline: 0.2
+        higher_bound: 1
+    irony:
+        alias: "LM-Pragmatics Irony"
+        functional: [ "pragmatics" ]
+        formal: [ ]
+        functional_groups: [ "social_emotional_cognition" ]
+        task_type: [ "multiple_choice" ]
+        backend: "harness"
+        main_task: False
+        random_baseline: 0.25
+        higher_bound: 1
+    maxims:
+        alias: "LM-Pragmatics Maxims"
+        functional: [ "pragmatics" ]
+        formal: [ ]
+        functional_groups: [ "social_emotional_cognition" ]
+        task_type: [ "multiple_choice" ]
+        backend: "harness"
+        main_task: False
+        random_baseline: 0.25
+        higher_bound: 1
+    metaphor:
+        alias: "LM-Pragmatics Metaphor"
+        functional: [ "pragmatics" ]
+        formal: [ ]
+        functional_groups: [ "social_emotional_cognition" ]
+        task_type: [ "multiple_choice" ]
+        backend: "harness"
+        main_task: False
+        random_baseline: 0.2
+        higher_bound: 1
+    indirect_speech:
+        alias: "LM-Pragmatics Indirect Speech"
+        functional: [ "pragmatics" ]
+        formal: [ ]
+        functional_groups: [ "social_emotional_cognition" ]
+        task_type: [ "multiple_choice" ]
+        backend: "harness"
+        main_task: False
+        random_baseline: 0.25
+        higher_bound: 1
+wm:
     wm:
-        wm:
-            alias: "WM"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            main_task: True
-            backend: "playeval_framework"
-            random_baseline: 0.5
-        wm_spatial_3*3:
-            alias: "WM Spatial 3*3 Overall"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
-        wm_spatial_3*3_1back:
-            alias: "WM Spatial 3*3 Diff. 1"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
-        wm_spatial_3*3_2back:
-            alias: "WM Spatial 3*3 Diff. 2"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
-        wm_spatial_3*3_3back:
-            alias: "WM Spatial 3*3 Diff. 3"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
-        wm_spatial_4*4:
-            alias: "WM Spatial 4*4 Overall"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
-        wm_spatial_4*4_1back:
-            alias: "WM Spatial 4*4 Diff. 1"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
-        wm_spatial_4*4_2back:
-            alias: "WM Spatial 4*4 Diff. 2"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
-        wm_spatial_4*4_3back:
-            alias: "WM Spatial 4*4 Diff. 3"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
-        wm_spatial_5*5:
-            alias: "WM Spatial 5*5 Overall"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
-        wm_Spatial_5*5_1back:
-            alias: "WM Spatial 5*5 Diff. 1"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
-        wm_spatial_5*5_2back:
-            alias: "WM Spatial 5*5 Diff. 2"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
-        wm_spatial_5*5_3back:
-            alias: "WM Spatial 5*5 Diff. 3"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
-        wm_spatial_7*7:
-            alias: "WM Spatial 7*7 Overall"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
-        wm_spatial_7*7_1back:
-            alias: "WM Spatial 7*7 Diff. 1"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
-        wm_spatial_7*7_2back:
-            alias: "WM Spatial 7*7 Diff. 2"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
-        wm_spatial_7*7_3back:
-            alias: "WM Spatial 7*7 Diff. 3"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
-        wm_spatial_abstract_3*3:
-            alias: "WM Spatial 3*3 Abstract Overall"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
-        wm_spatial_3*3_abstract_ 1back:
-            alias: "WM Spatial 3*3 Abstract Diff. 1"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
-        wm_spatial_3*3_abstract_2back:
-            alias: "WM Spatial 3*3 Abstract Diff. 2"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
-        wm_spatial_3*3_abstract_3back:
-            alias: "WM Spatial 3*3 Abstract Diff. 3"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
-        wm_spatial_abstract_2_3*3:
-            alias: "WM Spatial Abstract 2 3*3 Overall"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
-        wm_spatial_3*3_abstract_2_1back:
-            alias: "WM Spatial 3*3 Abstract 2 Diff. 1"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
-        wm_spatial_3*3_abstract_2_2back:
-            alias: "WM Spatial 3*3 Abstract 2 Diff. 2"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
-        wm_spatial_abstract_2_3back:
-            alias: "WM Spatial 3*3 Abstract 2 Diff. 3"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
-        wm_verbal:
-            alias: "WM Verbal Overall"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playeval_framework"
-        wm_verbal_1back:
-            alias: "WM Verbal Diff. 1"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
-        wm_verbal_2back:
-            alias: "WM Verbal Diff. 2"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
-        wm_verbal_3back:
-            alias: "WM Verbal Diff. 3"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playeval_framework"
-            random_baseline: 0.5
+        alias: "WM"
+        functional: [ "working_memory" ]
+        formal: [ ]
+        functional_groups: [ "executive_functions" ]
+        task_type: [ "open_question" ]
+        main_task: True
+        backend: "playeval_framework"
+        random_baseline: 0.5
+        higher_bound: 1
+    wm_spatial_3*3:
+        alias: "WM Spatial 3*3 Overall"
+        functional: [ "working_memory" ]
+        formal: [ ]
+        functional_groups: [ "executive_functions" ]
+        task_type: [ "open_question" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    wm_spatial_3*3_1back:
+        alias: "WM Spatial 3*3 Diff. 1"
+        functional: [ "working_memory" ]
+        formal: [ ]
+        functional_groups: [ "executive_functions" ]
+        task_type: [ "open_question" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    wm_spatial_3*3_2back:
+        alias: "WM Spatial 3*3 Diff. 2"
+        functional: [ "working_memory" ]
+        formal: [ ]
+        functional_groups: [ "executive_functions" ]
+        task_type: [ "open_question" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    wm_spatial_3*3_3back:
+        alias: "WM Spatial 3*3 Diff. 3"
+        functional: [ "working_memory" ]
+        formal: [ ]
+        functional_groups: [ "executive_functions" ]
+        task_type: [ "open_question" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    wm_spatial_4*4:
+        alias: "WM Spatial 4*4 Overall"
+        functional: [ "working_memory" ]
+        formal: [ ]
+        functional_groups: [ "executive_functions" ]
+        task_type: [ "open_question" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    wm_spatial_4*4_1back:
+        alias: "WM Spatial 4*4 Diff. 1"
+        functional: [ "working_memory" ]
+        formal: [ ]
+        functional_groups: [ "executive_functions" ]
+        task_type: [ "open_question" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    wm_spatial_4*4_2back:
+        alias: "WM Spatial 4*4 Diff. 2"
+        functional: [ "working_memory" ]
+        formal: [ ]
+        functional_groups: [ "executive_functions" ]
+        task_type: [ "open_question" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    wm_spatial_4*4_3back:
+        alias: "WM Spatial 4*4 Diff. 3"
+        functional: [ "working_memory" ]
+        formal: [ ]
+        functional_groups: [ "executive_functions" ]
+        task_type: [ "open_question" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    wm_spatial_5*5:
+        alias: "WM Spatial 5*5 Overall"
+        functional: [ "working_memory" ]
+        formal: [ ]
+        functional_groups: [ "executive_functions" ]
+        task_type: [ "open_question" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    wm_Spatial_5*5_1back:
+        alias: "WM Spatial 5*5 Diff. 1"
+        functional: [ "working_memory" ]
+        formal: [ ]
+        functional_groups: [ "executive_functions" ]
+        task_type: [ "open_question" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    wm_spatial_5*5_2back:
+        alias: "WM Spatial 5*5 Diff. 2"
+        functional: [ "working_memory" ]
+        formal: [ ]
+        functional_groups: [ "executive_functions" ]
+        task_type: [ "open_question" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    wm_spatial_5*5_3back:
+        alias: "WM Spatial 5*5 Diff. 3"
+        functional: [ "working_memory" ]
+        formal: [ ]
+        functional_groups: [ "executive_functions" ]
+        task_type: [ "open_question" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    wm_spatial_7*7:
+        alias: "WM Spatial 7*7 Overall"
+        functional: [ "working_memory" ]
+        formal: [ ]
+        functional_groups: [ "executive_functions" ]
+        task_type: [ "open_question" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    wm_spatial_7*7_1back:
+        alias: "WM Spatial 7*7 Diff. 1"
+        functional: [ "working_memory" ]
+        formal: [ ]
+        functional_groups: [ "executive_functions" ]
+        task_type: [ "open_question" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    wm_spatial_7*7_2back:
+        alias: "WM Spatial 7*7 Diff. 2"
+        functional: [ "working_memory" ]
+        formal: [ ]
+        functional_groups: [ "executive_functions" ]
+        task_type: [ "open_question" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    wm_spatial_7*7_3back:
+        alias: "WM Spatial 7*7 Diff. 3"
+        functional: [ "working_memory" ]
+        formal: [ ]
+        functional_groups: [ "executive_functions" ]
+        task_type: [ "open_question" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    wm_spatial_abstract_3*3:
+        alias: "WM Spatial 3*3 Abstract Overall"
+        functional: [ "working_memory" ]
+        formal: [ ]
+        functional_groups: [ "executive_functions" ]
+        task_type: [ "open_question" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    wm_spatial_3*3_abstract_ 1back:
+        alias: "WM Spatial 3*3 Abstract Diff. 1"
+        functional: [ "working_memory" ]
+        formal: [ ]
+        functional_groups: [ "executive_functions" ]
+        task_type: [ "open_question" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    wm_spatial_3*3_abstract_2back:
+        alias: "WM Spatial 3*3 Abstract Diff. 2"
+        functional: [ "working_memory" ]
+        formal: [ ]
+        functional_groups: [ "executive_functions" ]
+        task_type: [ "open_question" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    wm_spatial_3*3_abstract_3back:
+        alias: "WM Spatial 3*3 Abstract Diff. 3"
+        functional: [ "working_memory" ]
+        formal: [ ]
+        functional_groups: [ "executive_functions" ]
+        task_type: [ "open_question" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    wm_spatial_abstract_2_3*3:
+        alias: "WM Spatial Abstract 2 3*3 Overall"
+        functional: [ "working_memory" ]
+        formal: [ ]
+        functional_groups: [ "executive_functions" ]
+        task_type: [ "open_question" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    wm_spatial_3*3_abstract_2_1back:
+        alias: "WM Spatial 3*3 Abstract 2 Diff. 1"
+        functional: [ "working_memory" ]
+        formal: [ ]
+        functional_groups: [ "executive_functions" ]
+        task_type: [ "open_question" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    wm_spatial_3*3_abstract_2_2back:
+        alias: "WM Spatial 3*3 Abstract 2 Diff. 2"
+        functional: [ "working_memory" ]
+        formal: [ ]
+        functional_groups: [ "executive_functions" ]
+        task_type: [ "open_question" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    wm_spatial_abstract_2_3back:
+        alias: "WM Spatial 3*3 Abstract 2 Diff. 3"
+        functional: [ "working_memory" ]
+        formal: [ ]
+        functional_groups: [ "executive_functions" ]
+        task_type: [ "open_question" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    wm_verbal:
+        alias: "WM Verbal Overall"
+        functional: [ "working_memory" ]
+        formal: [ ]
+        functional_groups: [ "executive_functions" ]
+        task_type: [ "open_question" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    wm_verbal_1back:
+        alias: "WM Verbal Diff. 1"
+        functional: [ "working_memory" ]
+        formal: [ ]
+        functional_groups: [ "executive_functions" ]
+        task_type: [ "open_question" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    wm_verbal_2back:
+        alias: "WM Verbal Diff. 2"
+        functional: [ "working_memory" ]
+        formal: [ ]
+        functional_groups: [ "executive_functions" ]
+        task_type: [ "open_question" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    wm_verbal_3back:
+        alias: "WM Verbal Diff. 3"
+        functional: [ "working_memory" ]
+        formal: [ ]
+        functional_groups: [ "executive_functions" ]
+        task_type: [ "open_question" ]
+        backend: "playeval_framework"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
 
-    ##
+
+##
+mmlu:
     mmlu:
-        mmlu:
-            alias: "MMLU"
-            backend: "harness"
+        alias: "MMLU"
+        backend: "harness"
+        main_task: True
+        random_baseline: 0.5
+        higher_bound: 1
+bbh_fewshot:
     bbh_fewshot:
-        bbh_fewshot:
-            alias: "BBH"
-            backend: "harness"
+        alias: "BBH"
+        backend: "harness"
+        main_task: True
