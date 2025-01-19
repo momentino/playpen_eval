@@ -617,3 +617,46 @@ bbh_fewshot:
         alias: "BBH"
         backend: "harness"
         main_task: True
+metabench:
+    metabench:
+        alias: "Metabench"
+        backend: "harness"
+        main_task: True
+        random_baseline: 0 # to compute (but maybe useless)
+        higher_bound: 1
+    metabench_arc:
+        alias: "Metabench ARC"
+        backend: "harness"
+        main_task: False
+        random_baseline: 0.25
+        higher_bound: 1
+    metabench_gsm8k:
+        alias: "Metabench GSM8K"
+        backend: "harness"
+        main_task: False
+        random_baseline: 0
+        higher_bound: 1
+    metabench_hellaswag:
+        alias: "Metabench HellaSWAG"
+        backend: "harness"
+        main_task: False
+        random_baseline: 0.25
+        higher_bound: 1
+    metabench_mmlu:
+        alias: "Metabench MMLU"
+        backend: "harness"
+        main_task: False
+        random_baseline: 0.25
+        higher_bound: 1
+    metabench_truthfulqa:
+        alias: "Metabench HellaSWAG"
+        backend: "harness"
+        main_task: False
+        random_baseline: 0.12
+        higher_bound: 1
+    metabench_winogrande:
+        alias: "Metabench Winogrande"
+        backend: "harness"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
