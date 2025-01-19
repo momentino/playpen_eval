@@ -85,7 +85,6 @@ def run(model_backend: str,
                 num_fewshot=num_fewshot,
                 fewshot_as_multiturn=fewshot_as_multiturn,
                 apply_chat_template=apply_chat_template,
-                limit=3
             )
             timestamp = datetime.now().strftime("%Y-%m-%dT%H-%M-%S.%f")
             harness_results_file_path = Path(os.path.join(model_harness_results_path, f"{task}_harness_results_{timestamp}.json"))
