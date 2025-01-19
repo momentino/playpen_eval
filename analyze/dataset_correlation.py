@@ -48,9 +48,9 @@ def sort_correlation_matrix(correlation_matrix: CorrelationMatrix, tasks_info: D
         functional_groups = get_functional_group_from_alias(task, tasks_info)
         if "executive_functions" in functional_groups and "social_emotional_cognition" not in functional_groups:
             groups_info.append(0)
-        elif "executive_functions" in functional_groups and "social_emotional_cognition" in functional_groups:
-            groups_info.append(1)
         elif "social_emotional_cognition" in functional_groups and "executive_functions" not in functional_groups:
+            groups_info.append(1)
+        elif "extra" in functional_groups:
             groups_info.append(2)
         else:
             groups_info.append(3)
@@ -67,8 +67,8 @@ def sort_correlation_matrix(correlation_matrix: CorrelationMatrix, tasks_info: D
 def plot_and_save_matrices(correlation_matrices: List[CorrelationMatrix], output_path_root: Path):
     color_map = {
         0: 'red',
-        1: 'green',
-        2: 'blue'
+        1: 'blue',
+        2: 'green'
     }
 
     for matrix in correlation_matrices:
@@ -198,9 +198,9 @@ def get_scores(reports, task_registry: Dict[str,Dict[str,Any]], ignore_tasks:Lis
             if task_name in task_names and task_name not in ignore_tasks:
                 group, task_config = get_task_info(task_name)
                 if group not in ignore_groups:
-                    score = score_dict['normalized_score']
-                    main_task = task_config["main_task"]
-                    if take_functional_subtasks and score > 0 and (not main_task or len(task_registry[group]) == 1):
+                    score = score_dict['score'] # score = score_dict['normalized_score']
+                    main_task = task_config["main_task"] #score > 0
+                    if take_functional_subtasks and score > task_config["random_baseline"] and (not main_task or len(task_registry[group]) == 1):
                         scores_dict[group][task_name].append((model_name, score))
                     elif not take_functional_subtasks and main_task and score >0:
                         scores_dict[group][task_name].append((model_name, score))

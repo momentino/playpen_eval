@@ -45,7 +45,7 @@ if __name__ == "__main__":
     import json
 
     # Define the folder containing JSON files
-    folder_path = "/mnt/cimec-storage6/users/filippo.momente/PycharmProjects/playpen_eval/results/playpen/google__gemma-2-9b-it"
+    folder_path = "/mnt/cimec-storage6/users/filippo.momente/PycharmProjects/playpen_eval/results/playpen/meta-llama__Llama-3.1-8B-Instruct"
 
     # Iterate through all files in the folder
     for file_name in os.listdir(folder_path):
