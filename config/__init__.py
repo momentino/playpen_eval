@@ -20,12 +20,6 @@ def get_task_registry():
     task_registry = yaml.safe_load(open(task_registry_path))
     return task_registry
 
-"""def get_tasks_info():
-    task_registry = yaml.safe_load(open(task_registry_path))
-    tasks_info =  task_registry["groups"]
-    capabilities_list = task_registry["capabilities"]
-    return capabilities_list, tasks_info"""
-
 def get_task_info(task_name: str) -> (str, Dict):
     task_registry = yaml.safe_load(open(task_registry_path))
     for group, tasks in task_registry.items():
@@ -34,11 +28,13 @@ def get_task_info(task_name: str) -> (str, Dict):
                 return group, info
     raise ValueError(f"No config for the task {task_name} found!")
 
-def get_alias(task_name:str, tasks_info: Dict) -> str:
-    for group, tasks in tasks_info.items():
-        for name, info in tasks.items():
-            if name == task_name:
-                return info["alias"]
+def get_alias(task_name:str) -> str:
+    _, info = get_task_info(task_name)
+    return info["alias"]
+
+def get_baseline(task_name:str) -> str:
+    _, info = get_task_info(task_name)
+    return info["random_baseline"]
 
 def get_functional_group_from_alias(task_name:str, tasks_info: Dict) -> str:
     for group, tasks in tasks_info.items():

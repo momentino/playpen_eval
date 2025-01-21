@@ -1,7 +1,8 @@
 import argparse
 from pathlib import Path
 from analyze import playpen_correlation_logger
-from analyze.dataset_correlation import run_correlation
+from analyze.correlation import run_correlation
+from analyze.scatterplots import run_scatterplots
 
 
 def main(args: argparse.Namespace) -> None:
@@ -18,9 +19,17 @@ def main(args: argparse.Namespace) -> None:
                         tiers = args.tiers,
                         correlation_method = args.correlation_method,
                         discriminant = args.discriminant,
-                        take_functional_subtasks = args.take_functional_subtasks,
+                        subset = args.subset,
                         ignore_tasks=args.ignore_tasks,
-                        ignore_groups=args.ignore_groups)
+                        ignore_groups=args.ignore_groups,
+                        take_above_baseline=args.take_above_baseline)
+    elif args.command_name == "scatterplot":
+        playpen_correlation_logger.info(f"Plotting results for pairs of benchmarks")
+        run_scatterplots(src_path=Path(args.src_path),
+                        output_path_root=Path(args.output_path)
+                           )
+
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -41,10 +50,9 @@ if __name__ == "__main__":
         help="Path to the folder where to save the results from the correlation analysis."
     )
     run_correlation_parser.add_argument(
-        "--take_functional_subtasks",
-        action="store_true",
-        default=False,
-        help="For the specific tasks here, take the subtasks rather than the aggregation of results on subtasks."
+        "--subset",
+        type=str,
+        help="Choose which subset of results you wish to consider. Admissible values: 'subtasks', 'main', 'all'."
     )
 
     run_correlation_parser.add_argument(
@@ -69,6 +77,13 @@ if __name__ == "__main__":
     )
 
     run_correlation_parser.add_argument(
+        "--take_above_baseline",
+        action="store_true",
+        default=False,
+        help="Whether to consider only results above the random baseline or not."
+    )
+
+    run_correlation_parser.add_argument(
         "--correlation_method",
         type=str,
         default="pearson",
@@ -84,12 +99,18 @@ if __name__ == "__main__":
         help="The variable to consider for grouping benchmarks for the correlation analysis."
     )
 
-    run_verify_functional_correlation_patterns_parser = sub_parsers.add_parser("run_verify_functional_correlation_patterns", formatter_class=argparse.RawTextHelpFormatter)
-    run_verify_functional_correlation_patterns_parser.add_argument(
+    scatterplot_parser = sub_parsers.add_parser("scatterplot", formatter_class=argparse.RawTextHelpFormatter)
+    scatterplot_parser.add_argument(
         "-s", "--src_path",
         type=str,
-        default="results/correlation",
-        help="Path to the folder containing the results from which to extract data for the correlation analysis."
+        default="results/playpen",
+        help="Path to the folder containing the results from which to extract data for the plots."
+    )
+    scatterplot_parser.add_argument(
+        "-o", "--output_path",
+        type=str,
+        default="results/scatterplots",
+        help="Path to the folder where to save the plots."
     )
 
     args = parser.parse_args()
