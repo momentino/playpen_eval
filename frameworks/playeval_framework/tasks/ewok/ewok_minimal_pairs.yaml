@@ -1,4 +1,0 @@
-task_name: ewok_minimal_pairs
-guidance: False
-hf_precision: "bf16"
-hf_optimize: False,

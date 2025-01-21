@@ -8,6 +8,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer, PreTrainedModel
 from frameworks.playeval_framework.models import Model
 from frameworks.playeval_framework.models.guidance_chat_templates.chat_templates import CUSTOM_CHAT_TEMPLATE_CACHE
 
+
 class HF(Model):
 
     def __init__(self, pretrained: str,
@@ -18,7 +19,7 @@ class HF(Model):
                  torch_dtype: str = 'auto',
                  parallelize: bool = True,
                  ) -> None:
-        self.model_name = pretrained.replace("__","/")
+        self.model_name = pretrained.replace("__", "/")
         super().__init__(model_name=self.model_name)
         self.gen_kwargs = gen_kwargs
         self.device = device
@@ -27,7 +28,6 @@ class HF(Model):
 
         if self.tokenizer.pad_token is None:
             self.set_tokenizer_pad_token(self.tokenizer.eos_token)
-
 
         if guidance:
             model_config = {
@@ -58,10 +58,10 @@ class HF(Model):
                                                               torch_dtype=self.torch_dtype,
                                                               device_map='auto')
 
-    def set_tokenizer_padding_side(self, padding_side:str):
+    def set_tokenizer_padding_side(self, padding_side: str):
         self.tokenizer.padding_side = padding_side
 
-    def set_tokenizer_pad_token(self, pad_token:str):
+    def set_tokenizer_pad_token(self, pad_token: str):
         self.tokenizer.pad_token = pad_token
 
     def __call__(self, prompt: str) -> (torch.Tensor, torch.Tensor):
@@ -73,10 +73,12 @@ class HF(Model):
         else:
             raise Exception('Model must be a model from Huggingface to use this method.')
 
-    def generate(self,messages: List[Dict[str,str]]|List[str]):
+    def generate(self, messages: List[Dict[str, str]] | List[str]):
         if isinstance(self.model, PreTrainedModel):
             try:
+                # This line is breaking everything for me, but I should uncomment it
                 prompt = self.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+                # prompt = messages
                 model_inputs = self.tokenizer([prompt], return_tensors="pt", padding=True)
             except:
                 # May not have a system role
@@ -86,6 +88,7 @@ class HF(Model):
                 messages = self._ensure_turn_taking(messages)
                 prompt = self.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
                 model_inputs = self.tokenizer([prompt], return_tensors="pt", padding=True)
+
             outputs = self.model.generate(
                 pad_token_id=self.tokenizer.pad_token_id,
                 **model_inputs,
@@ -93,7 +96,7 @@ class HF(Model):
             )
             input = self.tokenizer.batch_decode(model_inputs['input_ids'], skip_special_tokens=True)
             text = self.tokenizer.batch_decode(outputs, skip_special_tokens=True)
-            completions = [t[len(i):] for t, i in zip(text,input)]
+            completions = [t[len(i):] for t, i in zip(text, input)]
             return completions
         else:
             raise Exception('Model must be a model from Huggingface to use this method.')
@@ -107,4 +110,3 @@ class HF(Model):
 
     def get_tokenizer(self):
         return self.tokenizer
-
