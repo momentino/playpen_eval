@@ -34,9 +34,9 @@ def get_task(task_name: str) -> Task:
                             return instance
                             stdout_logger.info(f"Match found: {cls.__name__} in {file_path}")
                     except TypeError as e:
-                        playeval_logger.error(f"Could not instantiate {cls.__name__}: {e}")
+                        stdout_logger.error(f"Could not instantiate {cls.__name__}: {e}")
         except Exception as e:
-            playeval_logger.error(f"Error processing {file_path}: {e}")
+            stdout_logger.error(f"Error processing {file_path}: {e}")
 
 
 def get_task_config(task: str) -> Dict[str, Any]:
