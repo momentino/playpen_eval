@@ -66,7 +66,7 @@ class HF(Model):
 
     def __call__(self, prompt: str) -> (torch.Tensor, torch.Tensor):
         if isinstance(self.model, PreTrainedModel):
-            model_inputs = self.tokenizer([prompt], return_tensors="pt", padding=True)
+            model_inputs = self.tokenizer([prompt], return_tensors="pt", padding=True).to(self.device)
             with torch.no_grad():
                 outputs = self.model(**model_inputs)
             return model_inputs, outputs['logits']
@@ -87,7 +87,7 @@ class HF(Model):
                     prompt = self.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
             else:
                 prompt = messages
-            model_inputs = self.tokenizer([prompt], return_tensors="pt", padding=True)
+            model_inputs = self.tokenizer([prompt], return_tensors="pt", padding=True).to(self.device)
             outputs = self.model.generate(
                 pad_token_id=self.tokenizer.pad_token_id,
                 **model_inputs,

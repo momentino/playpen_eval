@@ -63,7 +63,6 @@ class EDATask(Task):
                 item=item,
                 answerer_model=answerer_model,
                 guesser_model=model,
-                guesser_tokenizer=model.get_tokenizer(),
                 num_turns=20,
                 apply_chat_template=apply_chat_template
             )
