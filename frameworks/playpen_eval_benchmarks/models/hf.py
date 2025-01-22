@@ -5,19 +5,19 @@ from guidance import models
 from accelerate import dispatch_model, infer_auto_device_map
 from accelerate.utils.modeling import get_max_memory
 from transformers import AutoModelForCausalLM, AutoTokenizer, PreTrainedModel
-from frameworks.playeval_framework.models import Model
-from frameworks.playeval_framework.models.guidance_chat_templates.chat_templates import CUSTOM_CHAT_TEMPLATE_CACHE
+from frameworks.playpen_eval_benchmarks.models import Model
+from frameworks.playpen_eval_benchmarks.models.guidance_chat_templates.chat_templates import CUSTOM_CHAT_TEMPLATE_CACHE
 
 
 class HF(Model):
 
     def __init__(self, pretrained: str,
                  device: str,
-                 gen_kwargs: Dict,
                  trust_remote_code: bool,
                  guidance: bool = False,
                  torch_dtype: str = 'auto',
                  parallelize: bool = True,
+                 gen_kwargs: Dict = {}
                  ) -> None:
         self.model_name = pretrained.replace("__", "/")
         super().__init__(model_name=self.model_name)
@@ -73,22 +73,21 @@ class HF(Model):
         else:
             raise Exception('Model must be a model from Huggingface to use this method.')
 
-    def generate(self, messages: List[Dict[str, str]] | List[str]):
+    def generate(self, messages: List[Dict[str, str]] | List[str], apply_chat_template: bool):
         if isinstance(self.model, PreTrainedModel):
-            try:
-                # This line is breaking everything for me, but I should uncomment it
-                prompt = self.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-                # prompt = messages
-                model_inputs = self.tokenizer([prompt], return_tensors="pt", padding=True)
-            except:
-                # May not have a system role
-                for m in messages:
-                    if m['role'] == "system":
-                        m['role'] = "user"
-                messages = self._ensure_turn_taking(messages)
-                prompt = self.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-                model_inputs = self.tokenizer([prompt], return_tensors="pt", padding=True)
-
+            if apply_chat_template:
+                try:
+                    prompt = self.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+                except:
+                    # May not have a system role
+                    for m in messages:
+                        if m['role'] == "system":
+                            m['role'] = "user"
+                    messages = self._ensure_turn_taking(messages)
+                    prompt = self.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+            else:
+                prompt = messages
+            model_inputs = self.tokenizer([prompt], return_tensors="pt", padding=True)
             outputs = self.model.generate(
                 pad_token_id=self.tokenizer.pad_token_id,
                 **model_inputs,
@@ -110,3 +109,6 @@ class HF(Model):
 
     def get_tokenizer(self):
         return self.tokenizer
+
+    def get_device(self) -> str:
+        return self.device

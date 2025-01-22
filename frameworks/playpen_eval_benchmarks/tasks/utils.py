@@ -1,10 +1,11 @@
 import yaml
 import inspect
 import importlib.util
-from frameworks.playeval_framework import framework_root, playeval_logger
-from frameworks.playeval_framework.tasks.task import Task
+from frameworks.playpen_eval_benchmarks import framework_root, eval_logger
+from frameworks.playpen_eval_benchmarks.tasks.task import Task
 from typing import Dict, Any
 
+stdout_logger = eval_logger
 
 # Function to dynamically import a module
 def import_module_from_path(file_path):
@@ -15,7 +16,7 @@ def import_module_from_path(file_path):
     return module
 
 
-def get_task(task_name: str, task_config: Dict[str, Any]) -> Task:
+def get_task(task_name: str) -> Task:
     task_root = framework_root / "tasks"
     # Iterate over all files ending with "_task.py"
     for file_path in task_root.rglob("*_task.py"):
@@ -31,7 +32,7 @@ def get_task(task_name: str, task_config: Dict[str, Any]) -> Task:
                         instance = cls()  # Ensure the class has a no-argument constructor
                         if hasattr(instance, "task_name") and instance.task_name == task_name:
                             return instance
-                            playeval_logger.info(f"Match found: {cls.__name__} in {file_path}")
+                            stdout_logger.info(f"Match found: {cls.__name__} in {file_path}")
                     except TypeError as e:
                         playeval_logger.error(f"Could not instantiate {cls.__name__}: {e}")
         except Exception as e:
@@ -52,8 +53,10 @@ def get_task_config(task: str) -> Dict[str, Any]:
                     if isinstance(data, dict) and data.get("task_name") == task:
                         return data
                 except yaml.YAMLError as e:
-                    print(f"Error parsing {yaml_file}: {e}")
+                    stdout_logger.error(f"Error parsing {yaml_file}: {e}")
     except ValueError:
-        playeval_logger.error(f"There was an error trying to retrieve the config file for task {task}.")
+        stdout_logger.error(f"There was an error trying to retrieve the config file for task {task}.")
     if not data:
-        raise Exception(f"No config file for the task '{task}' has been found, or it's empty.")
+        message = f"No config file for the task '{task}' has been found, or it's empty."
+        stdout_logger.error(message)
+        raise Exception(message)

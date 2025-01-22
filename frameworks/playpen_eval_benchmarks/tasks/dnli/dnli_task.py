@@ -4,8 +4,8 @@ import guidance
 from pathlib import Path
 from typing import Dict, Any, List, NamedTuple, Tuple
 from tqdm import tqdm
-from frameworks.playeval_framework.models import Model
-from frameworks.playeval_framework.tasks.task import Task
+from frameworks.playpen_eval_benchmarks.models import Model
+from frameworks.playpen_eval_benchmarks.tasks.task import Task
 from guidance import select
 
 ExampleDialogueUnlabelled = Tuple[List[Tuple[str, str]], str]

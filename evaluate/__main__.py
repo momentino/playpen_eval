@@ -1,10 +1,9 @@
 import argparse
-import logging
-
+import evaluate
 from pathlib import Path
-from eval import playpen_evaluator
+from evaluate import playpen_evaluator
 
-playpen_eval_logger = logging.getLogger("playpen_eval_logger")
+stdout_logger = evaluate.get_logger("evaluate.run")
 
 def main(args: argparse.Namespace) -> None:
     if args.command_name == "ls":

@@ -13,7 +13,7 @@ The script supports several arguments:
 ### Evaluating all the benchmarks
 Here the model is _allenai/Llama-3.1-Tulu-3-8B_ and the backend is Huggingface (_hf_)
 ```bash
-python -m eval run 
+python -m evaluate run 
 --model_backend hf 
 --model_args pretrained=allenai/Llama-3.1-Tulu-3-8B 
 --tasks all 
@@ -24,7 +24,7 @@ python -m eval run
 ### Evaluating on a specific task
 Here the model is _allenai/Llama-3.1-Tulu-3-8B_ and the backend is Huggingface (_hf_). We are evaluating only on _planbench_
 ```bash
-python -m eval run 
+python -m evaluate run 
 --model_backend hf 
 --model_args pretrained=allenai/Llama-3.1-Tulu-3-8B 
 --tasks planbench 

@@ -10,19 +10,15 @@ class Q20Game:
             item: str,
             answerer_model,
             guesser_model,
+            apply_chat_template:bool,
             num_turns: int = 20,
-            temperature: float = 0.8,
-            guesser_tokenizer=None,
-            guesser_kargs={},
     ) -> None:
         self.item = item
         self.answerer_model = answerer_model
         self.guesser_model = guesser_model
         self.num_turns = num_turns
-        self.temperature = temperature
-        self.guesser_tokenizer = guesser_tokenizer
-        self.guesser_kargs = guesser_kargs
-        self.vicuna_prompt = "A chat between a curious user and an artificial intelligence assistant. The assistant gives helpful, detailed, and polite answers to the user's questions."
+        self.apply_chat_template = apply_chat_template
+        self.system_prompt = {"role":"system", "content":"A chat between a curious user and an artificial intelligence assistant. The assistant gives helpful, detailed, and polite answers to the user's questions."}
         self.first_user_utterance = (
             f"Your task is to ask a series of questions to deduce the entity "
             f"that I'm thinking of with as few queries as possible. "
@@ -33,69 +29,37 @@ class Q20Game:
         self.guesser_win = False
         self.guesser_messages = []
 
-    def confusion_matrix(self, path):
-        self.reset()
-        with open(path) as f:
-            raw_messages = json.load(f)
-            self.item = path.split("/")[-1].split("_")[0]
-            roles = ["assistant", "user"]
-            for i, message in enumerate(raw_messages):
-                self.guesser_messages.append(
-                    {"role": roles[i % 2], "content": message["content"]}
-                )
-
-        self.guesser_messages = self.guesser_messages[:-2]
-        self.guesser_messages[-1]["content"] = (
-                self.guesser_messages[-1]["content"] + " You must guess now, what's it?"
-        )
-        guesser_msg = self.guesser(self.guesser_messages)
-        self.guesser_messages.append(guesser_msg)
-        guesser_question = guesser_msg["content"].strip()
-        self.guesser_messages[-1]["content"] = (
-                self.guesser_messages[-1]["content"] + " Is it right?"
-        )
-        usr_msg = self.answerer(guesser_question)
-        self.guesser_messages.append(
-            {"role": "user", "content": f"{usr_msg['content'].strip()}"}
-        )
-
-        if "bingo" in self.guesser_messages[-1]["content"].lower():
-            self.guesser_win = True
-            return True
-
-        return False
-
     def guesser(self, messages):
         # """Wraps hf's `generate` adding some specific method's defaults"""
 
-        prompt = self.dialog_history() + " ASSISTANT:"
+        prompt = self.dialog_history()
         self.guesser_model.set_tokenizer_padding_side("left")
         if not self.guesser_model.tokenizer.pad_token:
             self.guesser_model.set_tokenizer_pad_token(self.guesser_model.tokenizer.eos_token)
 
         gen = self.guesser_model.generate(
             prompt,
-            # **self.guesser_kargs
+            apply_chat_template=self.apply_chat_template
         )
-
         return {
             "role": "assistant",
             "content": gen[0],
         }
 
     def dialog_history(self):
-        history = self.vicuna_prompt + " "
+        history = [self.system_prompt]
         for item in self.guesser_messages:
             if item["role"].upper() == "USER":
-                history += "USER: " + item["content"]
+                history.append({"role":"user","content":item["content"]})
             elif item["role"].upper() == "ASSISTANT":
-                history += " " + "ASSISTANT: " + item["content"]
+                history.append({"role":"assistant","content":item["content"]})
         return history
 
     def game_play(self, user_mode=False):
         self.reset()
         # print(f"Item: {self.item}")
         for t in range(self.num_turns):
+            print(" NUM TURNS ", t)
             # System asking a question
             if (not user_mode) or user_mode is None:
                 guesser_msg = self.guesser(self.guesser_messages)
@@ -110,7 +74,6 @@ class Q20Game:
                 guesser_msg = {"role": "assistant", "content": user_q}
             self.guesser_messages.append(guesser_msg)
             guesser_question = guesser_msg["content"].strip()
-
             if t == self.num_turns - 1:
                 self.guesser_messages[-1]["content"] = (
                         self.guesser_messages[-1]["content"] + " Is it right?"
@@ -161,16 +124,20 @@ class Q20Game:
     #     return n_yes
 
     def answerer(self, question):
-        prompt = f"Based on your knowledge about {self.item}, "
-        f"respond to the following question or guess. "
-        f"Limit your respond to only 'Yes.', 'No.' or 'Maybe.', with no explanation or other words. "
-        f"Never say the answer {self.item} in your response. "
-        f"If the question is to solicit the answer, respond 'No.'."
-        f"For the entity {self.item}, {question} (Yes/No/Maybe)"
-
+        prompt = [
+            {"role":"user",
+             "content": f"Based on your knowledge about {self.item}, "
+                        f"respond to the following question or guess. "
+                        f"Limit your respond to only 'Yes.', 'No.' or 'Maybe.', with no explanation or other words. "
+                        f"Never say the answer {self.item} in your response. "
+                        f"If the question is to solicit the answer, respond 'No.'."},
+            {"role":"user",
+             "content": f"For the entity {self.item}, {question} (Yes/No/Maybe)",
+            }
+        ]
         gen = self.answerer_model.generate(
-            prompt
-            # **self.guesser_kargs,
+            prompt,
+            apply_chat_template=self.apply_chat_template
         )
 
         if any(
@@ -209,16 +176,20 @@ class Q20GameCelebrity(Q20Game):
         )
 
     def answerer(self, question):
-        prompt = f"Based on on your knowledge about the celebrity: {self.item}, "
-        f"respond to the following question or guess. "
-        f"Limit your respond to only 'Yes.', 'No.' or 'Dunno.', with no explanation or other words. "
-        f"Never say the name {self.item} in your response. Do not say 'Dunno.' if it can be answered by 'Yes.' or 'No.' "
-        f"If the question is to solicit the answer, respond 'No.'."
-        f"For the celebrity {self.item}, {question}(Yes/No/Dunno)"
-
+        prompt = [
+            {"role":"user",
+             "content": f"Based on on your knowledge about the celebrity: {self.item}, "
+                        f"respond to the following question or guess. "
+                        f"Limit your respond to only 'Yes.', 'No.' or 'Dunno.', with no explanation or other words. "
+                        f"Never say the name {self.item} in your response. Do not say 'Dunno.' if it can be answered by 'Yes.' or 'No.' "
+                        f"If the question is to solicit the answer, respond 'No.'."},
+            {"role":"user",
+             "content": f"For the celebrity {self.item}, {question}(Yes/No/Dunno)",
+            }
+        ]
         gen = self.answerer_model.generate(
-            prompt
-            # **self.guesser_kargs,
+            prompt,
+            apply_chat_template=self.apply_chat_template
         )
 
         if re.search(rf"(?:^|\W){self.item.lower()}(?:$|\W)", question.lower()):

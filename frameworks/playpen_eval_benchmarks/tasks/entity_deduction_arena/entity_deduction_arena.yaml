@@ -1,0 +1,8 @@
+task_name: entity_deduction_arena
+guidance: False
+gen_kwargs:
+  max_new_tokens: 64
+  temperature: 0.8
+  repetition_penalty: 1.0
+  do_sample: True
+

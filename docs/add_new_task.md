@@ -32,7 +32,7 @@ You don't have to add everything (many are for the correlation analysis), but so
       has_subtasks: False  # whether it has subtasks we want to consider separately
       main_task: True  # whether it is the main task (always true if it has no subtasks as well)
       group: entity_deduction_arena  # the group of tasks 
-      backend: "playeval_framework"  # the type of backend
+      backend: "playpen_eval_benchmarks"  # the type of backend
   ```
 **The only fundamental fields for executing the benchmark are:**
 - backend

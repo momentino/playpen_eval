@@ -15,7 +15,7 @@ ewok_minimal_pairs:
         functional_groups: [ "extra" ]
         formal: [ ]
         task_type: [ "minimal_pairs_logprobs" ]
-        backend: "playeval_framework"
+        backend: "playpen_eval_benchmarks"
         main_task: True
         random_baseline: 0.5
         higher_bound: 1
@@ -25,7 +25,7 @@ ewok_minimal_pairs:
         functional_groups: [ "extra" ]
         formal: [ ]
         task_type: [ "minimal_pairs_logprobs" ]
-        backend: "playeval_framework"
+        backend: "playpen_eval_benchmarks"
         main_task: False
         random_baseline: 0.5
         higher_bound: 1
@@ -35,7 +35,7 @@ ewok_minimal_pairs:
         functional_groups: [ "extra" ]
         formal: [ ]
         task_type: [ "minimal_pairs_logprobs" ]
-        backend: "playeval_framework"
+        backend: "playpen_eval_benchmarks"
         main_task: False
         random_baseline: 0.5
         higher_bound: 1
@@ -45,7 +45,7 @@ ewok_minimal_pairs:
         functional_groups: [ "extra" ]
         formal: [ ]
         task_type: [ "minimal_pairs_logprobs" ]
-        backend: "playeval_framework"
+        backend: "playpen_eval_benchmarks"
         main_task: False
         random_baseline: 0.5
         higher_bound: 1
@@ -55,7 +55,7 @@ ewok_minimal_pairs:
         functional_groups: [ "extra" ]
         formal: [ ]
         task_type: [ "minimal_pairs_logprobs" ]
-        backend: "playeval_framework"
+        backend: "playpen_eval_benchmarks"
         main_task: False
         random_baseline: 0.5
         higher_bound: 1
@@ -65,7 +65,7 @@ ewok_minimal_pairs:
         functional_groups: [ "extra" ]
         formal: [ ]
         task_type: [ "minimal_pairs_logprobs" ]
-        backend: "playeval_framework"
+        backend: "playpen_eval_benchmarks"
         main_task: False
         random_baseline: 0.5
         higher_bound: 1
@@ -75,7 +75,7 @@ ewok_minimal_pairs:
         functional_groups: [ "extra" ]
         formal: [ ]
         task_type: [ "minimal_pairs_logprobs" ]
-        backend: "playeval_framework"
+        backend: "playpen_eval_benchmarks"
         main_task: False
         random_baseline: 0.5
         higher_bound: 1
@@ -85,7 +85,7 @@ ewok_minimal_pairs:
         functional_groups: [ "extra" ]
         formal: [ ]
         task_type: [ "minimal_pairs_logprobs" ]
-        backend: "playeval_framework"
+        backend: "playpen_eval_benchmarks"
         main_task: False
         random_baseline: 0.5
         higher_bound: 1
@@ -95,7 +95,7 @@ ewok_minimal_pairs:
         functional_groups: [ "extra" ]
         formal: [ ]
         task_type: [ "minimal_pairs_logprobs" ]
-        backend: "playeval_framework"
+        backend: "playpen_eval_benchmarks"
         main_task: False
         random_baseline: 0.5
         higher_bound: 1
@@ -105,7 +105,7 @@ ewok_minimal_pairs:
         functional_groups: [ "extra" ]
         formal: [ ]
         task_type: [ "minimal_pairs_logprobs" ]
-        backend: "playeval_framework"
+        backend: "playpen_eval_benchmarks"
         main_task: False
         random_baseline: 0.5
         higher_bound: 1
@@ -115,7 +115,7 @@ ewok_minimal_pairs:
         functional_groups: [ "extra" ]
         formal: [ ]
         task_type: [ "minimal_pairs_logprobs" ]
-        backend: "playeval_framework"
+        backend: "playpen_eval_benchmarks"
         main_task: False
         random_baseline: 0.5
         higher_bound: 1
@@ -125,7 +125,7 @@ ewok_minimal_pairs:
         functional_groups: [ "extra" ]
         formal: [ ]
         task_type: [ "minimal_pairs_logprobs" ]
-        backend: "playeval_framework"
+        backend: "playpen_eval_benchmarks"
         main_task: False
         random_baseline: 0.5
         higher_bound: 1
@@ -217,7 +217,7 @@ fantom:
 #        formal: [ ]
 #        functional_groups: [ "social_emotional_cognition" ]
 #        task_type: [ "nli" ]
-#        backend: "playeval_framework"
+#        backend: "playpen_eval_benchmarks"
 #        main_task: True
 eq_bench:
     eq_bench:
@@ -319,7 +319,7 @@ wm:
     #    functional_groups: [ "executive_functions" ]
     #     task_type: [ "open_question" ]
     #    main_task: True
-    #    backend: "playeval_framework"
+    #    backend: "playpen_eval_benchmarks"
     #    random_baseline: 0.5
     #    higher_bound: 1
     #    wm_spatial_3*3_1back:
@@ -328,7 +328,7 @@ wm:
     #        formal: [ ]
     #        functional_groups: [ "executive_functions" ]
     #        task_type: [ "open_question" ]
-    #        backend: "playeval_framework"
+    #        backend: "playpen_eval_benchmarks"
     #        main_task: False
     #        random_baseline: 0.5
     #        higher_bound: 1
@@ -338,7 +338,7 @@ wm:
     #        formal: [ ]
     #        functional_groups: [ "executive_functions" ]
     #        task_type: [ "open_question" ]
-    #        backend: "playeval_framework"
+    #        backend: "playpen_eval_benchmarks"
     #        main_task: False
     #        random_baseline: 0.5
     #        higher_bound: 1
@@ -348,7 +348,7 @@ wm:
     #        formal: [ ]
     #        functional_groups: [ "executive_functions" ]
     #        task_type: [ "open_question" ]
-    #        backend: "playeval_framework"
+    #        backend: "playpen_eval_benchmarks"
     #        main_task: False
     #        random_baseline: 0.5
     #        higher_bound: 1
@@ -358,7 +358,7 @@ wm:
     #        formal: [ ]
     #        functional_groups: [ "executive_functions" ]
     #        task_type: [ "open_question" ]
-    #        backend: "playeval_framework"
+    #        backend: "playpen_eval_benchmarks"
     #        main_task: False
     #        random_baseline: 0.5
     #        higher_bound: 1
@@ -368,7 +368,7 @@ wm:
     #        formal: [ ]
     #        functional_groups: [ "executive_functions" ]
     #        task_type: [ "open_question" ]
-    #        backend: "playeval_framework"
+    #        backend: "playpen_eval_benchmarks"
     #        main_task: False
     #        random_baseline: 0.5
     #        higher_bound: 1
@@ -378,7 +378,7 @@ wm:
     #        formal: [ ]
     #        functional_groups: [ "executive_functions" ]
     #        task_type: [ "open_question" ]
-    #        backend: "playeval_framework"
+    #        backend: "playpen_eval_benchmarks"
     #        main_task: False
     #        random_baseline: 0.5
     #        higher_bound: 1
@@ -388,7 +388,7 @@ wm:
     #        formal: [ ]
     #        functional_groups: [ "executive_functions" ]
     #        task_type: [ "open_question" ]
-    #        backend: "playeval_framework"
+    #        backend: "playpen_eval_benchmarks"
     #        main_task: False
     #        random_baseline: 0.5
     #        higher_bound: 1
@@ -398,7 +398,7 @@ wm:
     #        formal: [ ]
     #        functional_groups: [ "executive_functions" ]
     #        task_type: [ "open_question" ]
-    #        backend: "playeval_framework"
+    #        backend: "playpen_eval_benchmarks"
     #        main_task: False
     #        random_baseline: 0.5
     #        higher_bound: 1
@@ -408,7 +408,7 @@ wm:
     #        formal: [ ]
     #        functional_groups: [ "executive_functions" ]
     #        task_type: [ "open_question" ]
-    #        backend: "playeval_framework"
+    #        backend: "playpen_eval_benchmarks"
     #        main_task: False
     #        random_baseline: 0.5
     #        higher_bound: 1
@@ -418,7 +418,7 @@ wm:
     #        formal: [ ]
     #        functional_groups: [ "executive_functions" ]
     #        task_type: [ "open_question" ]
-    #        backend: "playeval_framework"
+    #        backend: "playpen_eval_benchmarks"
     #        main_task: False
     #        random_baseline: 0.5
     #        higher_bound: 1
@@ -428,7 +428,7 @@ wm:
     #        formal: [ ]
     #        functional_groups: [ "executive_functions" ]
     #        task_type: [ "open_question" ]
-    #        backend: "playeval_framework"
+    #        backend: "playpen_eval_benchmarks"
     #        main_task: False
     #        random_baseline: 0.5
     #        higher_bound: 1
@@ -438,7 +438,7 @@ wm:
     #        formal: [ ]
     #        functional_groups: [ "executive_functions" ]
     #        task_type: [ "open_question" ]
-    #        backend: "playeval_framework"
+    #        backend: "playpen_eval_benchmarks"
     #        main_task: False
     #        random_baseline: 0.5
     #        higher_bound: 1
@@ -448,7 +448,7 @@ wm:
     #        formal: [ ]
     #        functional_groups: [ "executive_functions" ]
     #        task_type: [ "open_question" ]
-    #        backend: "playeval_framework"
+    #        backend: "playpen_eval_benchmarks"
     #        main_task: False
     #        random_baseline: 0.5
     #        higher_bound: 1
@@ -458,7 +458,7 @@ wm:
     #        formal: [ ]
     #        functional_groups: [ "executive_functions" ]
     #        task_type: [ "open_question" ]
-    #        backend: "playeval_framework"
+    #        backend: "playpen_eval_benchmarks"
     #        main_task: False
     #        random_baseline: 0.5
     #        higher_bound: 1
@@ -468,7 +468,7 @@ wm:
     #        formal: [ ]
     #        functional_groups: [ "executive_functions" ]
     #        task_type: [ "open_question" ]
-    #        backend: "playeval_framework"
+    #        backend: "playpen_eval_benchmarks"
     #        main_task: False
     #        random_baseline: 0.5
     #        higher_bound: 1
@@ -478,7 +478,7 @@ wm:
     #        formal: [ ]
     #        functional_groups: [ "executive_functions" ]
     #        task_type: [ "open_question" ]
-    #        backend: "playeval_framework"
+    #        backend: "playpen_eval_benchmarks"
     #        main_task: False
     #        random_baseline: 0.5
     #        higher_bound: 1
@@ -488,7 +488,7 @@ wm:
     #        formal: [ ]
     #        functional_groups: [ "executive_functions" ]
     #        task_type: [ "open_question" ]
-    #        backend: "playeval_framework"
+    #        backend: "playpen_eval_benchmarks"
     #        main_task: False
     #        random_baseline: 0.5
     #        higher_bound: 1
@@ -498,7 +498,7 @@ wm:
     #        formal: [ ]
     #        functional_groups: [ "executive_functions" ]
     #        task_type: [ "open_question" ]
-    #        backend: "playeval_framework"
+    #        backend: "playpen_eval_benchmarks"
     #        main_task: False
     #        random_baseline: 0.5
     #        higher_bound: 1
@@ -508,7 +508,7 @@ wm:
         formal: [ ]
         functional_groups: [ "executive_functions" ]
         task_type: [ "open_question" ]
-        backend: "playeval_framework"
+        backend: "playpen_eval_benchmarks"
         main_task: False
         random_baseline: 0.5
         higher_bound: 1
@@ -518,7 +518,7 @@ wm:
         formal: [ ]
         functional_groups: [ "executive_functions" ]
         task_type: [ "open_question" ]
-        backend: "playeval_framework"
+        backend: "playpen_eval_benchmarks"
         main_task: False
         random_baseline: 0.5
         higher_bound: 1
@@ -528,7 +528,7 @@ wm:
         formal: [ ]
         functional_groups: [ "executive_functions" ]
         task_type: [ "open_question" ]
-        backend: "playeval_framework"
+        backend: "playpen_eval_benchmarks"
         main_task: True
         random_baseline: 0.5
         higher_bound: 1
@@ -617,4 +617,37 @@ metabench:
         functional: []
         functional_groups: [ "extra" ]
         random_baseline: 0.5
+        higher_bound: 1
+
+# Interactive
+entity_deduction_arena:
+    entity_deduction_arena:
+        alias: "EDA"
+        functional: [ "strategic_reasoning" ]
+        formal: [ ]
+        functional_groups: [ "executive_functions" ]
+        task_type: [ "interactive" ]
+        main_task: True
+        backend: "playpen_eval_benchmarks"
+        random_baseline: 0
+        higher_bound: 1
+    entity_deduction_arena_things:
+        alias: "EDA Things"
+        functional: [ "strategic_reasoning" ]
+        formal: [ ]
+        functional_groups: [ "executive_functions" ]
+        task_type: [ "interactive" ]
+        main_task: True
+        backend: "playpen_eval_benchmarks"
+        random_baseline: 0
+        higher_bound: 1
+    entity_deduction_arena_celebrities:
+        alias: "EDA Celebrities"
+        functional: [ "strategic_reasoning" ]
+        formal: [ ]
+        functional_groups: [ "executive_functions" ]
+        task_type: [ "interactive" ]
+        main_task: True
+        backend: "playpen_eval_benchmarks"
+        random_baseline: 0
         higher_bound: 1
