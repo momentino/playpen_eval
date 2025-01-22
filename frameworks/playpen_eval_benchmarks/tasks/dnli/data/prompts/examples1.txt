@@ -1,0 +1,3 @@
+The young boys are playing outdoors and the man is smiling nearby	There is no boy playing outdoors and there is no man smiling	Contradiction
+A person in a black jacket is doing tricks on a motorbike	A skilled person is riding a bicycle on one wheel	Neutral
+Two dogs are playing by a tree	Two dogs are playing by a plant	Entailment
