@@ -8,6 +8,16 @@ logiqa2:
         main_task: True
         random_baseline: 0.25
         higher_bound: 1
+cladder:
+    cladder:
+        alias: "CLadder"
+        functional: [ "causal_reasoning" ]
+        functional_groups: [ "executive_functions"]
+        task_type: [ "multiple_choice" ]
+        backend: "harness"
+        main_task: True
+        random_baseline: 0.4927
+        higher_bound: 1
 ewok_minimal_pairs:
     ewok_minimal_pairs:
         alias: "EWoK Minimal Pairs"

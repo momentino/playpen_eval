@@ -105,7 +105,7 @@ def run(model_backend: str,
         end_time = datetime.now()
         task_time = end_time - start_time
         results["computing_time"] = str(task_time)
-        stdout_logger.info(f"Evaluating on {task} took {task_time}")
+        stdout_logger.info(f"Evaluating {model_name} on {task} took {task_time}")
         timestamp = datetime.now().strftime("%Y-%m-%dT%H-%M-%S.%f")
         playpen_results_file_path = Path(
             os.path.join(model_playpen_results_path, f"{task}_playpen_results_{timestamp}.json"))

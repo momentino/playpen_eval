@@ -20,7 +20,7 @@ def main(args: argparse.Namespace) -> None:
             num_fewshot=args.num_fewshot,
             fewshot_as_multiturn=args.fewshot_as_multiturn,
             results_path=args.results_path,
-            apply_chat_template=args.apply_chat_template
+            apply_chat_template=args.apply_chat_template,
         )
     if args.command_name == "report_costs":
         playpen_evaluator.report_costs(

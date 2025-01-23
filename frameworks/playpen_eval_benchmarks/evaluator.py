@@ -7,7 +7,7 @@ def evaluate(task: str, model_args:str, gen_kwargs:str, device: str, apply_chat_
     task_config = get_task_config(task)
     if model == "hf":
         model_args = dict(pair.split("=") for pair in model_args.split(","))
-        if gen_kwargs in task_config:
+        if 'gen_kwargs' in task_config:
             eval_logger.info(f"gen_kwargs is set in the task [{task}] settings. Overriding user-specified gen_kwargs if present.")
             gen_kwargs = task_config["gen_kwargs"]
         else:

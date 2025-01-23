@@ -35,11 +35,12 @@ class EDATask(Task):
         answerer_model = HF(pretrained = 'meta-llama/Llama-3.1-8B-Instruct',
                  device = model.get_device(),
                  trust_remote_code = True,
-                 torch_dtype='bfloat16'
+                 torch_dtype='bfloat16',
+                 gen_kwargs= {'temperature':0.2}
                  )
 
         successes = 0
-        for item in tqdm(self.things_dataset):
+        for item in tqdm(self.things_dataset[:30]):
             game = Q20Game(
                 item=item,
                 answerer_model=answerer_model,
@@ -58,7 +59,7 @@ class EDATask(Task):
         agg += successes / len(self.things_dataset)
 
         successes = 0
-        for item in tqdm(self.celebrities_dataset):
+        for item in tqdm(self.celebrities_dataset[:30]):
             game = Q20GameCelebrity(
                 item=item,
                 answerer_model=answerer_model,

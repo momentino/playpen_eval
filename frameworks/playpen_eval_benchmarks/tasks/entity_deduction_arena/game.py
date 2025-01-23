@@ -18,7 +18,7 @@ class Q20Game:
         self.guesser_model = guesser_model
         self.num_turns = num_turns
         self.apply_chat_template = apply_chat_template
-        self.system_prompt = {"role":"system", "content":"A chat between a curious user and an artificial intelligence assistant. The assistant gives helpful, detailed, and polite answers to the user's questions."}
+        #self.system_prompt = {"role":"system", "content":"A chat between a curious user and an artificial intelligence assistant. The assistant gives helpful, detailed, and polite answers to the user's questions."}
         self.first_user_utterance = (
             f"Your task is to ask a series of questions to deduce the entity "
             f"that I'm thinking of with as few queries as possible. "
@@ -43,11 +43,15 @@ class Q20Game:
         )
         return {
             "role": "assistant",
-            "content": gen[0],
+            "content": gen[0].split("</s>")[0]
+                        .split("USER")[0]
+                        .lstrip()
+                        .strip(),
         }
 
     def dialog_history(self):
-        history = [self.system_prompt]
+        #history = [self.system_prompt]
+        history = []
         for item in self.guesser_messages:
             if item["role"].upper() == "USER":
                 history.append({"role":"user","content":item["content"]})
@@ -57,9 +61,7 @@ class Q20Game:
 
     def game_play(self, user_mode=False):
         self.reset()
-        # print(f"Item: {self.item}")
         for t in range(self.num_turns):
-            print(" NUM TURNS ", t)
             # System asking a question
             if (not user_mode) or user_mode is None:
                 guesser_msg = self.guesser(self.guesser_messages)
@@ -83,7 +85,6 @@ class Q20Game:
             self.guesser_messages.append(
                 {"role": "user", "content": f"{usr_msg['content'].strip()}"}
             )
-
             if "bingo" in usr_msg["content"].lower():
                 self.guesser_win = True
                 return True
@@ -137,9 +138,8 @@ class Q20Game:
         ]
         gen = self.answerer_model.generate(
             prompt,
-            apply_chat_template=self.apply_chat_template
+            apply_chat_template=True
         )
-
         if any(
                 [
                     re.search(rf"(?:^|\W){i.strip().lower()}(?:$|\W)", question.lower())
