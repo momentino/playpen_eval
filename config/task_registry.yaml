@@ -18,6 +18,16 @@ cladder:
         main_task: True
         random_baseline: 0.4927
         higher_bound: 1
+winogrande:
+    winogrande:
+        alias: "Winogrande"
+        functional: [ "commonsense_reasoning" ]
+        functional_groups: [ "executive_functions"]
+        task_type: [ "multiple_choice" ]
+        backend: "harness"
+        main_task: True
+        random_baseline: 0.5
+        higher_bound: 1
 planbench:
     planbench:
         alias: "Planbench"
@@ -55,6 +65,16 @@ planbench:
         main_task: True
         random_baseline: 0
         higher_bound: 1
+    planbench_blocksworld_goal_shuffling:
+        alias: "Blocksworld"
+        functional: [ "planning_decision_making" ]
+        functional_groups: [ "executive_functions"]
+        task_type: [ "generate_until" ]
+        backend: "harness"
+        main_task: True
+        random_baseline: 0
+        higher_bound: 1
+
 ewok_minimal_pairs:
     ewok_minimal_pairs:
         alias: "EWoK Minimal Pairs"
