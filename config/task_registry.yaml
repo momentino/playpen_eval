@@ -18,6 +18,43 @@ cladder:
         main_task: True
         random_baseline: 0.4927
         higher_bound: 1
+planbench:
+    planbench:
+        alias: "Planbench"
+        functional: [ "planning_decision_making" ]
+        functional_groups: [ "executive_functions"]
+        task_type: [ "generate_until" ]
+        backend: "harness"
+        main_task: True
+        random_baseline: 0
+        higher_bound: 1
+    planbench_blocksworld:
+        alias: "Blocksworld"
+        functional: [ "planning_decision_making" ]
+        functional_groups: [ "executive_functions"]
+        task_type: [ "generate_until" ]
+        backend: "harness"
+        main_task: True
+        random_baseline: 0
+        higher_bound: 1
+    planbench_blocksworld_plan_generation:
+        alias: "Blocksworld"
+        functional: [ "planning_decision_making" ]
+        functional_groups: [ "executive_functions"]
+        task_type: [ "generate_until" ]
+        backend: "harness"
+        main_task: True
+        random_baseline: 0
+        higher_bound: 1
+    planbench_blocksworld_full_to_partial:
+        alias: "Blocksworld"
+        functional: [ "planning_decision_making" ]
+        functional_groups: [ "executive_functions"]
+        task_type: [ "generate_until" ]
+        backend: "harness"
+        main_task: True
+        random_baseline: 0
+        higher_bound: 1
 ewok_minimal_pairs:
     ewok_minimal_pairs:
         alias: "EWoK Minimal Pairs"

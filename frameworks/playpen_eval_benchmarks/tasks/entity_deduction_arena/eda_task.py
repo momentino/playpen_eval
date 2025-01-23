@@ -40,7 +40,7 @@ class EDATask(Task):
                  )
 
         successes = 0
-        for item in tqdm(self.things_dataset[:30]):
+        for item in tqdm(self.things_dataset):
             game = Q20Game(
                 item=item,
                 answerer_model=answerer_model,
@@ -59,7 +59,7 @@ class EDATask(Task):
         agg += successes / len(self.things_dataset)
 
         successes = 0
-        for item in tqdm(self.celebrities_dataset[:30]):
+        for item in tqdm(self.celebrities_dataset):
             game = Q20GameCelebrity(
                 item=item,
                 answerer_model=answerer_model,
