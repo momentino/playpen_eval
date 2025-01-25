@@ -37,7 +37,7 @@ def normalize_scores(results: Dict) -> None:
     if main_task_name == "fantom_full":
         # It's a special case because we don't aggregate according to subtasks in the traditional way. See FANToM Paper https://arxiv.org/pdf/2310.15421
         results["task_results"][main_task_name]["normalized_score"] = results["task_results"][main_task_name]["score"]
-    else:
+    elif main_task_name is not None:
         results["task_results"][main_task_name]["normalized_score"] = main_task_score if num_tasks == 1 else main_task_score/(num_tasks - 1)
 
 if __name__ == "__main__":

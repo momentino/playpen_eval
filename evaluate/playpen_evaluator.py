@@ -9,6 +9,8 @@ from evaluate import get_logger, get_executed_tasks
 from evaluate.normalize import normalize_scores
 from config import project_root, get_task_registry, get_task_backend
 from utils.utils import custom_json_serializer, convert_harness_results
+import playpen.clemgame.benchmark as clembench_eval
+from playpen.backends import read_model_specs
 import frameworks.playpen_eval_benchmarks.evaluator as playeval
 
 logger = get_logger(__name__)
@@ -36,11 +38,14 @@ def run(model_backend: str,
         (part.replace("pretrained=", "").replace("/", "__") for part in model_name_parts if "pretrained=" in part),
         None  # Default value if "pretrained=" is not found
     )
-    model_harness_results_path = Path(os.path.join(project_root, results_path)) / "harness" / model_name
-    model_harness_results_path.mkdir(parents=True, exist_ok=True)
+    harness_results_path = Path(os.path.join(project_root, results_path)) / "harness" / model_name
+    harness_results_path.mkdir(parents=True, exist_ok=True)
 
-    model_playpen_results_path = Path(os.path.join(project_root, results_path)) / "playpen" / model_name
-    model_playpen_results_path.mkdir(parents=True, exist_ok=True)
+    clembench_results_path = Path(os.path.join(project_root, results_path)) / "clembench" / model_name
+    clembench_results_path.mkdir(parents=True, exist_ok=True)
+
+    playpen_eval_results_path = Path(os.path.join(project_root, results_path)) / "playpen_eval" / model_name
+    playpen_eval_results_path.mkdir(parents=True, exist_ok=True)
 
     if trust_remote_code:
         datasets.config.HF_DATASETS_TRUST_REMOTE_CODE = True
@@ -56,7 +61,7 @@ def run(model_backend: str,
             stdout_logger.info(f"Now attempting to evaluate on all tasks available in the suite: {tasks}")
         elif "remaining" in tasks[0]:
             # Check for already executed tasks
-            executed_tasks, other_tasks = get_executed_tasks(Path(model_playpen_results_path), task_names)
+            executed_tasks, other_tasks = get_executed_tasks(Path(playpen_eval_results_path), task_names)
             tasks = other_tasks
             stdout_logger.info(f"The current model has been already evaluated on the tasks: {executed_tasks}")
             stdout_logger.info(f"Now attempting to evaluate on: {other_tasks}")
@@ -72,7 +77,7 @@ def run(model_backend: str,
         start_time = datetime.now()
         backend = get_task_backend(task, task_registry)
         assert backend is not None
-        assert backend in {"harness", "playpen_eval_benchmarks"}
+        assert backend in {"harness", "playpen_eval_benchmarks", "clembench"}
         if backend == "harness":
             results = lm_eval.simple_evaluate(
                 model=model_backend,
@@ -86,7 +91,7 @@ def run(model_backend: str,
                 apply_chat_template=apply_chat_template,
             )
             timestamp = datetime.now().strftime("%Y-%m-%dT%H-%M-%S.%f")
-            harness_results_file_path = Path(os.path.join(model_harness_results_path, f"{task}_harness_results_{timestamp}.json"))
+            harness_results_file_path = Path(os.path.join(harness_results_path, f"{task}_harness_results_{timestamp}.json"))
             harness_results_file_path.parent.mkdir(parents=True, exist_ok=True)
             with open(harness_results_file_path, "w") as file:
                 json.dump(results, file, default=custom_json_serializer)
@@ -101,6 +106,13 @@ def run(model_backend: str,
                 log_samples=True,
                 apply_chat_template=apply_chat_template,
             )
+        elif backend == "clembench":
+            clembench_eval.run(task,
+                          model_specs=read_model_specs(model_name.split("__")[-1]),
+                          gen_args=dict(pair.split("=") for pair in gen_kwargs.split(",")),
+                          results_dir=str(clembench_results_path))
+            clembench_eval.score(task, results_dir=str(clembench_results_path))
+            clembench_eval.transcripts(task, results_dir=str(clembench_results_path))
         normalize_scores(results)
         end_time = datetime.now()
         task_time = end_time - start_time
@@ -108,7 +120,7 @@ def run(model_backend: str,
         stdout_logger.info(f"Evaluating {model_name} on {task} took {task_time}")
         timestamp = datetime.now().strftime("%Y-%m-%dT%H-%M-%S.%f")
         playpen_results_file_path = Path(
-            os.path.join(model_playpen_results_path, f"{task}_playpen_results_{timestamp}.json"))
+            os.path.join(playpen_eval_results_path, f"{task}_playpen_results_{timestamp}.json"))
         with open(playpen_results_file_path, "w") as file:
             json.dump(results, file, default=custom_json_serializer)
 

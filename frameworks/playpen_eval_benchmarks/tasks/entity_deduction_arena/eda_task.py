@@ -32,7 +32,7 @@ class EDATask(Task):
         }
         agg = 0
 
-        answerer_model = HF(pretrained = 'Qwen/Qwen2.5-32B-Instruct',
+        answerer_model = HF(pretrained = 'meta-llama/Llama-3.1-8B-Instruct',
                  device = model.get_device(),
                  trust_remote_code = True,
                  torch_dtype='bfloat16',
