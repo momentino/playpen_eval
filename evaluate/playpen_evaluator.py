@@ -54,20 +54,21 @@ def run(model_backend: str,
         model_args = model_args + ",parallelize=True"
 
     task_registry = get_task_registry()
-    task_names = [name for task_info in task_registry.values() for name in task_info.keys() if "main_task" in task_info[name].keys() and task_info[name]["main_task"]]
+    main_task_names = [name for task_info in task_registry.values() for name in task_info.keys() if "main_task" in task_info[name].keys() and task_info[name]["main_task"]]
+    all_task_names = [name for task_info in task_registry.values() for name in task_info.keys()]
     if len(tasks) == 1:
         if "all" in tasks[0]:
-            tasks = task_names
+            tasks = main_task_names
             stdout_logger.info(f"Now attempting to evaluate on all tasks available in the suite: {tasks}")
         elif "remaining" in tasks[0]:
             # Check for already executed tasks
-            executed_tasks, other_tasks = get_executed_tasks(Path(playpen_eval_results_path), task_names)
+            executed_tasks, other_tasks = get_executed_tasks(Path(playpen_eval_results_path), main_task_names)
             tasks = other_tasks
             stdout_logger.info(f"The current model has been already evaluated on the tasks: {executed_tasks}")
             stdout_logger.info(f"Now attempting to evaluate on: {other_tasks}")
     else:
         for t in tasks:
-            if t not in task_names:
+            if t not in all_task_names:
                 message = f"Trying to evaluate on the requested tasks, but {t} is not available in the suite."
                 stdout_logger.exception(message)
                 raise ValueError(message)
