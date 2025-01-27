@@ -21,7 +21,6 @@ def get_scores(reports, task_registry: Dict[str,Dict[str,Any]], ignore_tasks:Lis
     scores_dict = defaultdict(lambda: defaultdict(list))
     group_names = task_registry.keys()
     task_names = [task for g in group_names for task in task_registry[g].keys()]
-
     for report in reports:
         model_name = report["model_name"]
         for task_name, score_dict in report["task_results"].items():

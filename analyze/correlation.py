@@ -47,8 +47,10 @@ def sort_correlation_matrix(correlation_matrix: CorrelationMatrix, tasks_info: D
             groups_info.append(1.5)
         elif "extra" in functional_groups:
             groups_info.append(2)
-        else:
+        elif "interative" in functional_groups:
             groups_info.append(3)
+        else:
+            groups_info.append(4)
     correlation_matrix.data["group"] = groups_info
     correlation_matrix_sorted = correlation_matrix.data.sort_values(by='group', axis=0)
     if not correlation_matrix_sorted.index.equals(correlation_matrix_sorted.columns):
@@ -65,7 +67,8 @@ def plot_and_save_matrices(correlation_matrices: List[CorrelationMatrix], output
         0.5: 'red',
         1: 'blue',
         1.5: 'blue',
-        2: 'green'
+        2: 'green',
+        3: 'purple'
     }
 
     for matrix in correlation_matrices:

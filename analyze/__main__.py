@@ -23,7 +23,8 @@ def main(args: argparse.Namespace) -> None:
     elif args.command_name == "scatterplot":
         playpen_correlation_logger.info(f"Plotting results for pairs of benchmarks")
         run_scatterplots(src_path=Path(args.src_path),
-                        output_path_root=Path(args.output_path)
+                        output_path_root=Path(args.output_path),
+                        ignore_groups=args.ignore_groups
                            )
 
 
@@ -109,6 +110,13 @@ if __name__ == "__main__":
         type=str,
         default="results/scatterplots",
         help="Path to the folder where to save the plots."
+    )
+
+    scatterplot_parser.add_argument(
+        "--ignore_groups",
+        nargs="+",
+        default=[],
+        help="Specify groups of tasks to ignore in the scatterplot analysis."
     )
 
     args = parser.parse_args()

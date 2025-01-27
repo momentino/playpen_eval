@@ -1,7 +1,9 @@
 import numpy as np
 import torch
+import json
 from collections import defaultdict
 from datetime import datetime
+from config import project_root
 
 
 def convert_str_to_number(s: str) -> float:
@@ -40,6 +42,33 @@ def compute_fantom_aggregated_score(harness_results: dict) -> float:
     num_set_id = len(results)
     all_star = all_ones_count / num_set_id
     return all_star
+
+# TODO: Improve
+def convert_clembench_results(model_name:str, game_name: str) -> dict:
+    clembench_results_folder = project_root / "results" / "clembench" / model_name
+    clemscores = []
+    for file_path in clembench_results_folder.rglob("scores.json"):
+        if file_path.is_file():
+            if any(parent.name == game_name for parent in file_path.parents):
+                try:
+                    # Open and process the JSON file
+                    with file_path.open('r') as file:
+                        data = json.load(file)
+                        if "episode scores" in data:
+                            main_score = data["episode scores"]["Main Score"]
+                            if main_score is not None:
+                                clemscores.append(data["episode scores"]["Main Score"])
+                except Exception as e:
+                    print(f"Error processing {file_path}: {e}")
+    if len(clemscores) == 0:
+        clemscore = 0
+    else:
+        clemscore = sum(clemscores)/len(clemscores)
+    results = {"model_name":model_name, "task_results": {game_name:{"metric":"quality_score", "score":clemscore}}}
+    return results
+
+
+
 
 def convert_harness_results(model_name:str, harness_results: dict) -> dict:
     results = {}

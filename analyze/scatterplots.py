@@ -2,9 +2,10 @@ import matplotlib.pyplot as plt
 from tqdm import tqdm
 from matplotlib.cm import get_cmap
 from pathlib import Path
-from typing import Dict
+from typing import Dict, List
 from config import get_model_registry, get_task_registry, project_root, get_alias, get_baseline
 from analyze.score_extraction_utils import get_reports, get_scores, sort_scores
+
 
 def build_and_save_scatterplots(scores: Dict, output_path_root: Path):
     processed_pairs = set()
@@ -22,9 +23,8 @@ def build_and_save_scatterplots(scores: Dict, output_path_root: Path):
                             y = scores2
                             x_labels, x_values = zip(*x)
                             y_labels, y_values = zip(*y)
-
                             # Ensure labels match between x and y
-                            assert x_labels == y_labels, "Labels in x and y arrays do not match!"
+                            assert x_labels == y_labels, f"Labels in x {x_labels} and y {y_labels} arrays do not match!"
 
                             # Assign unique colors to each label
                             unique_labels = list(set(x_labels))  # Find unique labels
@@ -66,15 +66,16 @@ def build_and_save_scatterplots(scores: Dict, output_path_root: Path):
 
 
 def run_scatterplots(src_path: Path,
-                    output_path_root:Path):
+                    output_path_root:Path,
+                     ignore_groups: List[str]):
     model_registry = get_model_registry()
     task_registry = get_task_registry()
     src_path = project_root / src_path
+
     reports = get_reports(src_path=src_path, model_registry=model_registry)
     scores = get_scores(reports, task_registry, subset="all", take_above_baseline=False,
-                        ignore_tasks=[], ignore_groups=[])
+                        ignore_tasks=[], ignore_groups=ignore_groups)
     sort_scores(scores)
-
     build_and_save_scatterplots(scores=scores, output_path_root=output_path_root)
 
 
