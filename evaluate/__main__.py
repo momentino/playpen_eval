@@ -6,6 +6,7 @@ from evaluate import playpen_evaluator
 stdout_logger = evaluate.get_logger("evaluate.run")
 
 def main(args: argparse.Namespace) -> None:
+    print(" ENTERING MAIN ")
     if args.command_name == "ls":
         playpen_evaluator.list_tasks()
     if args.command_name == "run":
