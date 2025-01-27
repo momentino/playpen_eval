@@ -78,6 +78,8 @@ def run(model_backend: str,
     for task in tasks:
         start_time = datetime.now()
         backend = get_task_backend(task, task_registry)
+        print(" TASK ", task)
+        print(" TASK REGISTRY ", task_registry["task"])
         assert backend is not None
         assert backend in {"harness", "playpen_eval_benchmarks", "clembench"}
         if backend == "harness":
