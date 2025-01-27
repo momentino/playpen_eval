@@ -32,7 +32,7 @@ def run(model_backend: str,
         fewshot_as_multiturn: bool,
         apply_chat_template: bool,
         results_path: Path = "results") -> None:
-
+    print(" ENTROOOO ")
     model_name_parts = model_args.split(",")
     # Look for the part that starts with "pretrained="
     model_name = next(
@@ -73,7 +73,7 @@ def run(model_backend: str,
                 message = f"Trying to evaluate on the requested tasks, but {t} is not available in the suite."
                 stdout_logger.exception(message)
                 raise ValueError(message)
-
+    print(" TASKKKKKK ", tasks)
     # Run evaluation for each task
     for task in tasks:
         start_time = datetime.now()
