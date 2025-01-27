@@ -815,9 +815,20 @@ imagegame:
         backend: "clembench"
         random_baseline: 0
         higher_bound: 1
+referencegame:
+    referencegame:
+        alias: "Clembench ReferenceGame"
+        functional: [ "" ]
+        formal: [ ]
+        functional_groups: [ "interactive" ]
+        task_type: [ "interactive" ]
+        main_task: True
+        backend: "clembench"
+        random_baseline: 0
+        higher_bound: 1
 taboo:
     taboo:
-        alias: "Clembench Imagegame"
+        alias: "Clembench Taboo"
         functional: [ "" ]
         formal: [ ]
         functional_groups: [ "interactive" ]
