@@ -56,7 +56,7 @@ def convert_clembench_results(model_name:str, game_name: str) -> dict:
                         data = json.load(file)
                         if "episode scores" in data:
                             main_score = data["episode scores"]["Main Score"]
-                            if main_score is not None:
+                            if main_score is not np.isnan(main_score):
                                 clemscores.append(data["episode scores"]["Main Score"])
                 except Exception as e:
                     print(f"Error processing {file_path}: {e}")
