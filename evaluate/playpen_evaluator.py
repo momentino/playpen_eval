@@ -1,6 +1,7 @@
 import os
 import json
 import datasets
+import pandas as pd
 from evaluate import lm_eval
 from pathlib import Path
 from typing import List
@@ -8,7 +9,7 @@ from datetime import datetime
 from evaluate import get_logger, get_executed_tasks
 from evaluate.normalize import normalize_scores
 from config import project_root, get_task_registry, get_task_backend
-from utils.utils import custom_json_serializer, convert_harness_results
+from utils.utils import custom_json_serializer, convert_harness_results, compute_total_time
 import playpen.clemgame.benchmark as clembench_eval
 from playpen.backends import read_model_specs
 import frameworks.playpen_eval_benchmarks.evaluator as playeval
@@ -125,3 +126,66 @@ def run(model_backend: str,
         with open(playpen_results_file_path, "w") as file:
             json.dump(results, file, default=custom_json_serializer)
 
+def report_costs(models: List[str], results_path: Path, output_path: Path) -> None:
+    output_path = Path(os.path.join(project_root, output_path))
+    output_path.mkdir(parents=True, exist_ok=True)
+    models =  [m.replace("/","__") for m in models]
+    for m in models:
+        results_path = Path(project_root) / results_path / m
+        report_name = m + ".csv"
+        cost_report_path = output_path / report_name
+        if cost_report_path.exists():
+            try:
+                df = pd.read_csv(cost_report_path)
+            except Exception as e:
+                print(f"Error reading the CSV file: {e}")
+        else:
+            # File does not exist, create a new CSV
+            columns = ["benchmark", "date", "compute_time"]
+            df = pd.DataFrame(columns=columns)
+        for file_path in results_path.iterdir():
+            if file_path.is_file() and file_path.suffix == '.json':
+                file_name = file_path.stem
+                benchmark_name, date = file_name.split("_playpen_results_")
+                try:
+                    with open(file_path, 'r') as file:
+                        data = json.load(file)
+                        computing_time = data.get("computing_time", "Key not found")
+                except json.JSONDecodeError:
+                    print(f"Error decoding JSON in file: {file_path.name}")
+                except Exception as e:
+                    print(f"An error occurred with file {file_path.name}: {e}")
+                if df.loc[df["benchmark"] == benchmark_name].empty:
+                    new_row = {
+                        "benchmark": benchmark_name,
+                        "date": date,
+                        "compute_time": computing_time
+                    }
+                    df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
+                else:
+                    matching_row = df.loc[df["benchmark"] == benchmark_name, "date"]
+                    date2 = matching_row.iloc[
+                            0]
+                    date_format = "%Y-%m-%dT%H-%M-%S.%f"
+                    date_new = datetime.strptime(date, date_format)
+                    date_old = datetime.strptime(date2, date_format)
+                    if date_new > date_old:
+                        # substitute with the more recent report
+                        new_row = {
+                            "benchmark": benchmark_name,
+                            "date": date,
+                            "compute_time": computing_time
+                        }
+                        df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
+        df = df[df['benchmark'] != 'TOTAL']
+        total = compute_total_time(df['compute_time'].tolist())
+        new_row = {
+            "benchmark": "TOTAL",
+            "date": datetime.now().strftime("%Y-%m-%dT%H-%M-%S.%f"),
+            "compute_time": total
+        }
+        df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
+        try:
+            df.to_csv(cost_report_path, index=False)
+        except Exception as e:
+            print(f"Error creating the CSV file: {e}")

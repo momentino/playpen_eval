@@ -8,8 +8,9 @@ from pathlib import Path
 
 from config import project_root, get_functional_group_from_alias, get_alias, get_model_registry, \
     get_task_registry
-from analyze.score_extraction_utils import get_reports, get_scores, keep_common, organize_scores_capabilities
-
+from analyze.score_extraction_utils import get_reports, get_scores, keep_common, organize_scores_capabilities, \
+    sort_scores
+from utils.utils import convert_str_to_number
 
 class CorrelationMatrix():
 
@@ -112,7 +113,7 @@ def get_correlation_matrices(correlation_method:str, scores: Dict, model_registr
         if len(tasks.keys()) > 1:
             partial_scores = defaultdict(list)
             for task_id, model_results in tasks.items():
-                task_name = get_alias(task_id, task_registry)
+                task_name = get_alias(task_id)
                 partial_scores[task_name] = [v for v in model_results if
                                     (lower_bound is None and upper_bound is None) or
                                     (lower_bound < convert_str_to_number(model_registry[v[0]]['params']) <= upper_bound)]
@@ -156,13 +157,12 @@ def run_correlation(src_path: Path,
                     tiers: bool,
                     subset: str,
                     take_above_baseline: bool) -> None:
-
     model_registry = get_model_registry()
     task_registry = get_task_registry()
     src_path = project_root / src_path
     reports = get_reports(src_path=src_path, model_registry = model_registry)
     scores = get_scores(reports, task_registry, subset=subset, ignore_tasks=ignore_tasks, ignore_groups=ignore_groups, take_above_baseline=take_above_baseline)
-
+    sort_scores(scores)
     organized_scores = []
     if discriminant == "capabilities":
         output_path_root = output_path_root/ "functional"
@@ -176,8 +176,6 @@ def run_correlation(src_path: Path,
     #    organized_scores.append({"scores": organize_scores_tasks(scores, tasks_info), "output_path_root": output_path_root})
     elif discriminant == "benchmarks":
         organized_scores.append({"scores": scores, "output_path_root": output_path_root})
-
-
     for scores in organized_scores:
         correlation_matrices = get_correlation_matrices(correlation_method, scores["scores"], model_registry = model_registry, task_registry=task_registry)
         output_path_root = output_path_root / "all"

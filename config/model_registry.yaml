@@ -12,7 +12,5 @@ CohereForAI__aya-expanse-32b:
   params: 32B
 meta-llama__Llama-3.3-70B-Instruct:
   params: 70B
-meta-llama__Meta-Llama-3.1-70B-Instruct:
-  params: 70B
-  #CohereForAI__c4ai-command-r-plus:
-  #  params: 104B
+Qwen__Qwen2.5-72B-Instruct:
+  params: 72B

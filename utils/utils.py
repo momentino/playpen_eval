@@ -69,6 +69,7 @@ def time_to_seconds(time_str):
     return seconds
 
 
+
 def compute_total_time(time_strings: str) -> str:
     total_seconds = sum(time_to_seconds(time) for time in time_strings)
     hours = int(total_seconds // 3600)

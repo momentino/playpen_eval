@@ -29,24 +29,24 @@ winogrande:
         random_baseline: 0.5
         higher_bound: 1
 planbench:
-    planbench:
-        alias: "Planbench"
-        functional: [ "planning_decision_making" ]
-        functional_groups: [ "executive_functions"]
-        task_type: [ "generate_until" ]
-        backend: "harness"
-        main_task: True
-        random_baseline: 0
-        higher_bound: 1
-    planbench_blocksworld:
-        alias: "Planbench Blocksworld"
-        functional: [ "planning_decision_making" ]
-        functional_groups: [ "executive_functions"]
-        task_type: [ "generate_until" ]
-        backend: "harness"
-        main_task: True
-        random_baseline: 0
-        higher_bound: 1
+    #planbench:
+    #    alias: "Planbench"
+    #    functional: [ "planning_decision_making" ]
+    #    functional_groups: [ "executive_functions"]
+    #    task_type: [ "generate_until" ]
+    #    backend: "harness"
+    #    main_task: True
+    #    random_baseline: 0
+    #    higher_bound: 1
+    #planbench_blocksworld:
+    #    alias: "Planbench Blocksworld"
+    #    functional: [ "planning_decision_making" ]
+    #    functional_groups: [ "executive_functions"]
+    #    task_type: [ "generate_until" ]
+    #    backend: "harness"
+    #    main_task: False
+    #    random_baseline: 0
+    #    higher_bound: 1
     planbench_blocksworld_plan_generation:
         alias: "Planbench Blocksworld Plan Generation"
         functional: [ "planning_decision_making" ]
@@ -56,87 +56,88 @@ planbench:
         main_task: False
         random_baseline: 0
         higher_bound: 1
-    planbench_blocksworld_full_to_partial:
-        alias: "Planbench Blocksworld Full-to-Partial"
-        functional: [ "planning_decision_making" ]
-        functional_groups: [ "executive_functions"]
-        task_type: [ "generate_until" ]
-        backend: "harness"
-        main_task: False
-        random_baseline: 0
-        higher_bound: 1
-    planbench_blocksworld_goal_shuffling:
-        alias: "Planbench Blocksworld Goal Shuffling"
-        functional: [ "planning_decision_making" ]
-        functional_groups: [ "executive_functions"]
-        task_type: [ "generate_until" ]
-        backend: "harness"
-        main_task: False
-        random_baseline: 0
-        higher_bound: 1
-    planbench_blocksworld_partial_to_full:
-        alias: "Planbench Blocksworld Partial-to-Full"
-        functional: [ "planning_decision_making" ]
-        functional_groups: [ "executive_functions"]
-        task_type: [ "generate_until" ]
-        backend: "harness"
-        main_task: False
-        random_baseline: 0
-        higher_bound: 1
-    planbench_blocksworld_plan_execution:
-        alias: "Planbench Blocksworld Plan Execution"
-        functional: [ "planning_decision_making" ]
-        functional_groups: [ "executive_functions"]
-        task_type: [ "generate_until" ]
-        backend: "harness"
-        main_task: False
-        random_baseline: 0
-        higher_bound: 1
-    planbench_blocksworld_plan_generalization:
-        alias: "Planbench Blocksworld Plan Generalization"
-        functional: [ "planning_decision_making" ]
-        functional_groups: [ "executive_functions"]
-        task_type: [ "generate_until" ]
-        backend: "harness"
-        main_task: False
-        random_baseline: 0
-        higher_bound: 1
-    planbench_blocksworld_plan_optimality:
-        alias: "Planbench Blocksworld Plan Optimality"
-        functional: [ "planning_decision_making" ]
-        functional_groups: [ "executive_functions"]
-        task_type: [ "generate_until" ]
-        backend: "harness"
-        main_task: False
-        random_baseline: 0
-        higher_bound: 1
-    planbench_blocksworld_plan_reuse:
-        alias: "Planbench Blocksworld Plan Reuse"
-        functional: [ "planning_decision_making" ]
-        functional_groups: [ "executive_functions"]
-        task_type: [ "generate_until" ]
-        backend: "harness"
-        main_task: False
-        random_baseline: 0
-        higher_bound: 1
-    planbench_blocksworld_plan_verification:
-        alias: "Planbench Blocksworld Plan Verification"
-        functional: [ "planning_decision_making" ]
-        functional_groups: [ "executive_functions"]
-        task_type: [ "generate_until" ]
-        backend: "harness"
-        main_task: False
-        random_baseline: 0
-        higher_bound: 1
-    planbench_blocksworld_plan_replanning:
-        alias: "Planbench Blocksworld Replanning"
-        functional: [ "planning_decision_making" ]
-        functional_groups: [ "executive_functions"]
-        task_type: [ "generate_until" ]
-        backend: "harness"
-        main_task: False
-        random_baseline: 0
-        higher_bound: 1
+    #planbench_blocksworld_full_to_partial:
+    #    alias: "Planbench Blocksworld Full-to-Partial"
+    #    functional: [ "planning_decision_making" ]
+    #    functional_groups: [ "executive_functions"]
+    #    task_type: [ "generate_until" ]
+    #    backend: "harness"
+    #    main_task: False
+    #    random_baseline: 0
+    #    higher_bound: 1
+    #planbench_blocksworld_goal_shuffling:
+    #    alias: "Planbench Blocksworld Goal Shuffling"
+    #    functional: [ "planning_decision_making" ]
+    #    functional_groups: [ "executive_functions"]
+    #    task_type: [ "generate_until" ]
+    #    backend: "harness"
+    #    main_task: False
+    #    random_baseline: 0
+    #    higher_bound: 1
+    #planbench_blocksworld_partial_to_full:
+    #    alias: "Planbench Blocksworld Partial-to-Full"
+    #    functional: [ "planning_decision_making" ]
+    #    functional_groups: [ "executive_functions"]
+    #    task_type: [ "generate_until" ]
+    #    backend: "harness"
+    #    main_task: False
+    #    random_baseline: 0
+    #    higher_bound: 1
+    # planbench_blocksworld_plan_execution:
+    #     alias: "Planbench Blocksworld Plan Execution"
+    #     functional: [ "planning_decision_making" ]
+    #     functional_groups: [ "executive_functions"]
+    #     task_type: [ "generate_until" ]
+    #     backend: "harness"
+    #     main_task: False
+    #     random_baseline: 0
+    #     higher_bound: 1
+    # planbench_blocksworld_plan_generalization:
+    #     alias: "Planbench Blocksworld Plan Generalization"
+    #     functional: [ "planning_decision_making" ]
+    #     functional_groups: [ "executive_functions"]
+    #     task_type: [ "generate_until" ]
+    #     backend: "harness"
+    #     main_task: False
+    #     random_baseline: 0
+    #     higher_bound: 1
+    # planbench_blocksworld_plan_optimality:
+    #     alias: "Planbench Blocksworld Plan Optimality"
+    #     functional: [ "planning_decision_making" ]
+    #     functional_groups: [ "executive_functions"]
+    #     task_type: [ "generate_until" ]
+    #     backend: "harness"
+    #     main_task: False
+    #     random_baseline: 0
+    #     higher_bound: 1
+    # planbench_blocksworld_plan_reuse:
+    #     alias: "Planbench Blocksworld Plan Reuse"
+    #     functional: [ "planning_decision_making" ]
+    #     functional_groups: [ "executive_functions"]
+    #     task_type: [ "generate_until" ]
+    #     backend: "harness"
+    #     main_task: False
+    #     random_baseline: 0
+    #     higher_bound: 1
+    # planbench_blocksworld_plan_verification:
+    #     alias: "Planbench Blocksworld Plan Verification"
+    #     functional: [ "planning_decision_making" ]
+    #     functional_groups: [ "executive_functions"]
+    #     task_type: [ "generate_until" ]
+    #     backend: "harness"
+    #     main_task: False
+    #     random_baseline: 0
+    #     higher_bound: 1
+    # planbench_blocksworld_plan_replanning:
+    #     alias: "Planbench Blocksworld Replanning"
+    #     functional: [ "planning_decision_making" ]
+    #     functional_groups: [ "executive_functions"]
+    #     task_type: [ "generate_until" ]
+    #     backend: "harness"
+    #     main_task: False
+    #     random_baseline: 0
+    #     higher_bound: 1
+
 
 ewok_minimal_pairs:
     ewok_minimal_pairs:
@@ -442,196 +443,196 @@ lm_pragmatics:
         random_baseline: 0.25
         higher_bound: 1
 wm:
-    wm:
-        alias: "WM"
-        functional: [ "working_memory" ]
-        formal: [ ]
-        functional_groups: [ "executive_functions" ]
-        task_type: [ "open_question" ]
-        main_task: True
-        backend: "playpen_eval_benchmarks"
-        random_baseline: 0.5
-        higher_bound: 1
-        wm_spatial_3*3_1back:
-            alias: "WM Spatial 3*3 N-1"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playpen_eval_benchmarks"
-            main_task: False
-            random_baseline: 0.5
-            higher_bound: 1
-        wm_spatial_3*3_2back:
-            alias: "WM Spatial 3*3 N-2"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playpen_eval_benchmarks"
-            main_task: False
-            random_baseline: 0.5
-            higher_bound: 1
-        wm_spatial_3*3_3back:
-            alias: "WM Spatial 3*3 N-3"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playpen_eval_benchmarks"
-            main_task: False
-            random_baseline: 0.5
-            higher_bound: 1
-        wm_spatial_4*4_1back:
-            alias: "WM Spatial 4*4 N-1"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playpen_eval_benchmarks"
-            main_task: False
-            random_baseline: 0.5
-            higher_bound: 1
-        wm_spatial_4*4_2back:
-            alias: "WM Spatial 4*4 N-2"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playpen_eval_benchmarks"
-            main_task: False
-            random_baseline: 0.5
-            higher_bound: 1
-        wm_spatial_4*4_3back:
-            alias: "WM Spatial 4*4 N-3"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playpen_eval_benchmarks"
-            main_task: False
-            random_baseline: 0.5
-            higher_bound: 1
-        wm_Spatial_5*5_1back:
-            alias: "WM Spatial 5*5 N-1"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playpen_eval_benchmarks"
-            main_task: False
-            random_baseline: 0.5
-            higher_bound: 1
-        wm_spatial_5*5_2back:
-            alias: "WM Spatial 5*5 N-2"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playpen_eval_benchmarks"
-            main_task: False
-            random_baseline: 0.5
-            higher_bound: 1
-        wm_spatial_5*5_3back:
-            alias: "WM Spatial 5*5 N-3"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playpen_eval_benchmarks"
-            main_task: False
-            random_baseline: 0.5
-            higher_bound: 1
-        wm_spatial_7*7_1back:
-            alias: "WM Spatial 7*7 N-1"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playpen_eval_benchmarks"
-            main_task: False
-            random_baseline: 0.5
-            higher_bound: 1
-        wm_spatial_7*7_2back:
-            alias: "WM Spatial 7*7 N-2"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playpen_eval_benchmarks"
-            main_task: False
-            random_baseline: 0.5
-            higher_bound: 1
-        wm_spatial_7*7_3back:
-            alias: "WM Spatial 7*7 N-3"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playpen_eval_benchmarks"
-            main_task: False
-            random_baseline: 0.5
-            higher_bound: 1
-        wm_spatial_3*3_abstract_ 1back:
-            alias: "WM Spatial 3*3 Abstract N-1"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playpen_eval_benchmarks"
-            main_task: False
-            random_baseline: 0.5
-            higher_bound: 1
-        wm_spatial_3*3_abstract_2back:
-            alias: "WM Spatial 3*3 Abstract N-2"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playpen_eval_benchmarks"
-            main_task: False
-            random_baseline: 0.5
-            higher_bound: 1
-        wm_spatial_3*3_abstract_3back:
-            alias: "WM Spatial 3*3 Abstract N-3"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playpen_eval_benchmarks"
-            main_task: False
-            random_baseline: 0.5
-            higher_bound: 1
-        wm_spatial_3*3_abstract_2_1back:
-            alias: "WM Spatial 3*3 Abstract 2 N-1"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playpen_eval_benchmarks"
-            main_task: False
-            random_baseline: 0.5
-            higher_bound: 1
-        wm_spatial_3*3_abstract_2_2back:
-            alias: "WM Spatial 3*3 Abstract 2 N-2"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playpen_eval_benchmarks"
-            main_task: False
-            random_baseline: 0.5
-            higher_bound: 1
-        wm_spatial_abstract_2_3back:
-            alias: "WM Spatial 3*3 Abstract 2 N-3"
-            functional: [ "working_memory" ]
-            formal: [ ]
-            functional_groups: [ "executive_functions" ]
-            task_type: [ "open_question" ]
-            backend: "playpen_eval_benchmarks"
-            main_task: False
-            random_baseline: 0.5
-            higher_bound: 1
+    # wm:
+    #     alias: "WM"
+    #     functional: [ "working_memory" ]
+    #     formal: [ ]
+    #     functional_groups: [ "executive_functions" ]
+    #     task_type: [ "open_question" ]
+    #     main_task: False
+    #     backend: "playpen_eval_benchmarks"
+    #     random_baseline: 0.5
+    #     higher_bound: 1
+    # wm_spatial_3*3_1back:
+    #     alias: "WM Spatial 3*3 N-1"
+    #     functional: [ "working_memory" ]
+    #     formal: [ ]
+    #     functional_groups: [ "executive_functions" ]
+    #     task_type: [ "open_question" ]
+    #     backend: "playpen_eval_benchmarks"
+    #     main_task: False
+    #     random_baseline: 0.5
+    #     higher_bound: 1
+    # wm_spatial_3*3_2back:
+    #     alias: "WM Spatial 3*3 N-2"
+    #     functional: [ "working_memory" ]
+    #     formal: [ ]
+    #     functional_groups: [ "executive_functions" ]
+    #     task_type: [ "open_question" ]
+    #     backend: "playpen_eval_benchmarks"
+    #     main_task: False
+    #     random_baseline: 0.5
+    #     higher_bound: 1
+    # wm_spatial_3*3_3back:
+    #     alias: "WM Spatial 3*3 N-3"
+    #     functional: [ "working_memory" ]
+    #     formal: [ ]
+    #     functional_groups: [ "executive_functions" ]
+    #     task_type: [ "open_question" ]
+    #     backend: "playpen_eval_benchmarks"
+    #     main_task: False
+    #     random_baseline: 0.5
+    #     higher_bound: 1
+    # wm_spatial_4*4_1back:
+    #     alias: "WM Spatial 4*4 N-1"
+    #     functional: [ "working_memory" ]
+    #     formal: [ ]
+    #     functional_groups: [ "executive_functions" ]
+    #     task_type: [ "open_question" ]
+    #     backend: "playpen_eval_benchmarks"
+    #     main_task: False
+    #     random_baseline: 0.5
+    #     higher_bound: 1
+    # wm_spatial_4*4_2back:
+    #     alias: "WM Spatial 4*4 N-2"
+    #     functional: [ "working_memory" ]
+    #     formal: [ ]
+    #     functional_groups: [ "executive_functions" ]
+    #     task_type: [ "open_question" ]
+    #     backend: "playpen_eval_benchmarks"
+    #     main_task: False
+    #     random_baseline: 0.5
+    #     higher_bound: 1
+    # wm_spatial_4*4_3back:
+    #     alias: "WM Spatial 4*4 N-3"
+    #     functional: [ "working_memory" ]
+    #     formal: [ ]
+    #     functional_groups: [ "executive_functions" ]
+    #     task_type: [ "open_question" ]
+    #     backend: "playpen_eval_benchmarks"
+    #     main_task: False
+    #     random_baseline: 0.5
+    #     higher_bound: 1
+    # wm_Spatial_5*5_1back:
+    #     alias: "WM Spatial 5*5 N-1"
+    #     functional: [ "working_memory" ]
+    #     formal: [ ]
+    #     functional_groups: [ "executive_functions" ]
+    #     task_type: [ "open_question" ]
+    #     backend: "playpen_eval_benchmarks"
+    #     main_task: False
+    #     random_baseline: 0.5
+    #     higher_bound: 1
+    # wm_spatial_5*5_2back:
+    #     alias: "WM Spatial 5*5 N-2"
+    #     functional: [ "working_memory" ]
+    #     formal: [ ]
+    #     functional_groups: [ "executive_functions" ]
+    #     task_type: [ "open_question" ]
+    #     backend: "playpen_eval_benchmarks"
+    #     main_task: False
+    #     random_baseline: 0.5
+    #     higher_bound: 1
+    # wm_spatial_5*5_3back:
+    #     alias: "WM Spatial 5*5 N-3"
+    #     functional: [ "working_memory" ]
+    #     formal: [ ]
+    #     functional_groups: [ "executive_functions" ]
+    #     task_type: [ "open_question" ]
+    #     backend: "playpen_eval_benchmarks"
+    #     main_task: False
+    #     random_baseline: 0.5
+    #     higher_bound: 1
+    # wm_spatial_7*7_1back:
+    #     alias: "WM Spatial 7*7 N-1"
+    #     functional: [ "working_memory" ]
+    #     formal: [ ]
+    #     functional_groups: [ "executive_functions" ]
+    #     task_type: [ "open_question" ]
+    #     backend: "playpen_eval_benchmarks"
+    #     main_task: False
+    #     random_baseline: 0.5
+    #     higher_bound: 1
+    # wm_spatial_7*7_2back:
+    #     alias: "WM Spatial 7*7 N-2"
+    #     functional: [ "working_memory" ]
+    #     formal: [ ]
+    #     functional_groups: [ "executive_functions" ]
+    #     task_type: [ "open_question" ]
+    #     backend: "playpen_eval_benchmarks"
+    #     main_task: False
+    #     random_baseline: 0.5
+    #     higher_bound: 1
+    # wm_spatial_7*7_3back:
+    #     alias: "WM Spatial 7*7 N-3"
+    #     functional: [ "working_memory" ]
+    #     formal: [ ]
+    #     functional_groups: [ "executive_functions" ]
+    #     task_type: [ "open_question" ]
+    #     backend: "playpen_eval_benchmarks"
+    #     main_task: False
+    #     random_baseline: 0.5
+    #     higher_bound: 1
+    # wm_spatial_3*3_abstract_1back:
+    #     alias: "WM Spatial 3*3 Abstract N-1"
+    #     functional: [ "working_memory" ]
+    #     formal: [ ]
+    #     functional_groups: [ "executive_functions" ]
+    #     task_type: [ "open_question" ]
+    #     backend: "playpen_eval_benchmarks"
+    #     main_task: False
+    #     random_baseline: 0.5
+    #     higher_bound: 1
+    # wm_spatial_3*3_abstract_2back:
+    #     alias: "WM Spatial 3*3 Abstract N-2"
+    #     functional: [ "working_memory" ]
+    #     formal: [ ]
+    #     functional_groups: [ "executive_functions" ]
+    #     task_type: [ "open_question" ]
+    #     backend: "playpen_eval_benchmarks"
+    #     main_task: False
+    #     random_baseline: 0.5
+    #     higher_bound: 1
+    # wm_spatial_3*3_abstract_3back:
+    #     alias: "WM Spatial 3*3 Abstract N-3"
+    #     functional: [ "working_memory" ]
+    #     formal: [ ]
+    #     functional_groups: [ "executive_functions" ]
+    #     task_type: [ "open_question" ]
+    #     backend: "playpen_eval_benchmarks"
+    #     main_task: False
+    #     random_baseline: 0.5
+    #     higher_bound: 1
+    # wm_spatial_3*3_abstract_2_1back:
+    #     alias: "WM Spatial 3*3 Abstract 2 N-1"
+    #     functional: [ "working_memory" ]
+    #     formal: [ ]
+    #     functional_groups: [ "executive_functions" ]
+    #     task_type: [ "open_question" ]
+    #     backend: "playpen_eval_benchmarks"
+    #     main_task: False
+    #     random_baseline: 0.5
+    #     higher_bound: 1
+    # wm_spatial_3*3_abstract_2_2back:
+    #     alias: "WM Spatial 3*3 Abstract 2 N-2"
+    #     functional: [ "working_memory" ]
+    #     formal: [ ]
+    #     functional_groups: [ "executive_functions" ]
+    #     task_type: [ "open_question" ]
+    #     backend: "playpen_eval_benchmarks"
+    #     main_task: False
+    #     random_baseline: 0.5
+    #     higher_bound: 1
+    # wm_spatial_abstract_2_3back:
+    #     alias: "WM Spatial 3*3 Abstract 2 N-3"
+    #     functional: [ "working_memory" ]
+    #     formal: [ ]
+    #     functional_groups: [ "executive_functions" ]
+    #     task_type: [ "open_question" ]
+    #     backend: "playpen_eval_benchmarks"
+    #     main_task: False
+    #     random_baseline: 0.5
+    #     higher_bound: 1
     wm_verbal_1back:
         alias: "WM Verbal N-1"
         functional: [ "working_memory" ]
@@ -659,7 +660,7 @@ wm:
         functional_groups: [ "executive_functions" ]
         task_type: [ "open_question" ]
         backend: "playpen_eval_benchmarks"
-        main_task: True
+        main_task: False
         random_baseline: 0.5
         higher_bound: 1
 

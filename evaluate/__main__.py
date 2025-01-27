@@ -117,8 +117,8 @@ if __name__ == "__main__":
     report_costs_parser.add_argument(
         "--results_path",
         type=str,
-        default="results/playpen",
-        help="Output path for results. Default is 'results/playpen'."
+        default="results/playpen_eval",
+        help="Output path for results. Default is 'results/playpen_eval'."
     )
     report_costs_parser.add_argument(
         "--output_path",

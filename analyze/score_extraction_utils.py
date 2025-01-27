@@ -46,7 +46,7 @@ def sort_scores(scores: Dict):
     for group, tasks in scores.items():
         for task_name, model_scores in tasks.items():
             if len({t[0] for t in model_scores}) < len(model_scores):
-                raise Exception("There are two scores for the same model and task! Check your results files folder.")
+                raise Exception(f"There are two scores for the same model and task! {[task_name]} Check your results files folder.")
             model_scores.sort(key=lambda x: (convert_str_to_number(get_model_registry()[x[0]]['params']), x[0]))
 
 def organize_scores_capabilities(scores: Dict, task_registry: Dict, category:str):

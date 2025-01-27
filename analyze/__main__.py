@@ -8,12 +8,9 @@ from analyze.scatterplots import run_scatterplots
 def main(args: argparse.Namespace) -> None:
     if args.command_name == "correlation":
         playpen_correlation_logger.info(f"Starting the correlation analysis for the experiment.")
-        if args.take_functional_subtasks:
-            output_path_root = Path(args.output_path) / Path(args.discriminant) / Path("unpacked") / args.correlation_method
-        else:
-            if args.discriminant == "benchmarks":
-                raise Exception("Cannot consider overall benchmarks here. We are taking into consideration within-benchmark subtasks. Try by adding the '--take_functional_subtasks' argument.")
-            output_path_root = Path(args.output_path) / Path(args.discriminant) / Path("overall") / args.correlation_method
+        output_path_root = Path(args.output_path) / Path(args.discriminant) / args.subset / args.correlation_method
+        if args.discriminant == "benchmark" and args.subset in ["main","all"]:
+            raise Exception("Cannot consider overall benchmarks here. We are taking into consideration within-benchmark subtasks. Try by adding the '--take_functional_subtasks' argument.")
         run_correlation(src_path = Path(args.src_path),
                         output_path_root = output_path_root,
                         tiers = args.tiers,
@@ -40,7 +37,7 @@ if __name__ == "__main__":
     run_correlation_parser.add_argument(
         "-s", "--src_path",
         type=str,
-        default="results/playpen",
+        default="results/playpen_eval",
         help="Path to the folder containing the results from which to extract data for the correlation analysis."
     )
     run_correlation_parser.add_argument(
@@ -52,6 +49,7 @@ if __name__ == "__main__":
     run_correlation_parser.add_argument(
         "--subset",
         type=str,
+        default='main',
         help="Choose which subset of results you wish to consider. Admissible values: 'subtasks', 'main', 'all'."
     )
 
@@ -103,7 +101,7 @@ if __name__ == "__main__":
     scatterplot_parser.add_argument(
         "-s", "--src_path",
         type=str,
-        default="results/playpen",
+        default="results/playpen_eval",
         help="Path to the folder containing the results from which to extract data for the plots."
     )
     scatterplot_parser.add_argument(
