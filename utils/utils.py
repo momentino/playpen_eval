@@ -60,6 +60,7 @@ def convert_clembench_results(model_name:str, game_name: str) -> dict:
                                 clemscores.append(data["episode scores"]["Main Score"])
                 except Exception as e:
                     print(f"Error processing {file_path}: {e}")
+    print(clemscores)
     if len(clemscores) == 0:
         clemscore = 0
     else:
