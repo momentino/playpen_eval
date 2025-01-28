@@ -12,5 +12,5 @@ CohereForAI__aya-expanse-32b:
   params: 32B
 meta-llama__Llama-3.3-70B-Instruct:
   params: 70B
-#Qwen__Qwen2.5-72B-Instruct:
-#  params: 72B
+Qwen__Qwen2.5-72B-Instruct:
+  params: 72B

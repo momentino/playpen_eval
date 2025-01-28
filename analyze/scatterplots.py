@@ -21,6 +21,7 @@ def build_and_save_scatterplots(scores: Dict, output_path_root: Path):
                             processed_pairs.add(pair)
                             x = scores1
                             y = scores2
+
                             x_labels, x_values = zip(*x)
                             y_labels, y_values = zip(*y)
                             # Ensure labels match between x and y

@@ -837,3 +837,35 @@ taboo:
         backend: "clembench"
         random_baseline: 0
         higher_bound: 1
+
+llm_cognitive_flexibility:
+    llm_cognitive_flexibility:
+        alias: "LLM Cognitive Flexibility"
+        functional: [ "" ]
+        formal: [ ]
+        functional_groups: [ "executive_functions" ]
+        task_type: [ "interactive" ]
+        main_task: False
+        backend: "playpen_eval_benchmarks"
+        random_baseline: 0
+        higher_bound: 1
+    llm_cognitive_flexibility_wcst:
+        alias: "LLM Cognitive Flexibility (WCST)"
+        functional: [ "" ]
+        formal: [ ]
+        functional_groups: [ "executive_functions" ]
+        task_type: [ "interactive" ]
+        main_task: True
+        backend: "playpen_eval_benchmarks"
+        random_baseline: 0.25
+        higher_bound: 1
+    llm_cognitive_flexibility_lnt:
+        alias: "LLM Cognitive Flexibility (LNT)"
+        functional: [ "" ]
+        formal: [ ]
+        functional_groups: [ "executive_functions" ]
+        task_type: [ "interactive" ]
+        main_task: True
+        backend: "playpen_eval_benchmarks"
+        random_baseline: 0.25
+        higher_bound: 1

@@ -47,7 +47,7 @@ def sort_correlation_matrix(correlation_matrix: CorrelationMatrix, tasks_info: D
             groups_info.append(1.5)
         elif "extra" in functional_groups:
             groups_info.append(2)
-        elif "interative" in functional_groups:
+        elif "interactive" in functional_groups:
             groups_info.append(3)
         else:
             groups_info.append(4)
