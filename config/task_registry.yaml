@@ -443,16 +443,7 @@ lm_pragmatics:
         random_baseline: 0.25
         higher_bound: 1
 wm:
-     wm:
-         alias: "WM"
-         functional: [ "working_memory" ]
-         formal: [ ]
-         functional_groups: [ "executive_functions" ]
-         task_type: [ "open_question" ]
-         main_task: False
-         backend: "playpen_eval_benchmarks"
-         random_baseline: 0.5
-         higher_bound: 1
+
     # wm_spatial_3*3_1back:
     #     alias: "WM Spatial 3*3 N-1"
     #     functional: [ "working_memory" ]
@@ -633,6 +624,16 @@ wm:
     #     main_task: False
     #     random_baseline: 0.5
     #     higher_bound: 1
+    wm:
+        alias: "WM"
+        functional: [ "working_memory" ]
+        formal: [ ]
+        functional_groups: [ "executive_functions" ]
+        task_type: [ "open_question" ]
+        main_task: False
+        backend: "playpen_eval_benchmarks"
+        random_baseline: 0.5
+        higher_bound: 1
     wm_verbal_1back:
         alias: "WM Verbal N-1"
         functional: [ "working_memory" ]
