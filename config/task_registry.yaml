@@ -870,3 +870,40 @@ llm_cognitive_flexibility:
         backend: "playpen_eval_benchmarks"
         random_baseline: 0.25
         higher_bound: 1
+simpletom:
+    simpletom:
+        alias: "SimpleToM"
+        functional: [ "" ]
+        formal: [ ]
+        functional_groups: [ "social_emotional_cognition" ]
+        main_task: True
+        backend: "harness"
+        random_baseline: 0.5
+        higher_bound: 1
+    judgment-qa:
+        alias: "SimpleToM (Judgment)"
+        functional: [ "" ]
+        formal: [ ]
+        functional_groups: [ "social_emotional_cognition" ]
+        main_task: True
+        backend: "harness"
+        random_baseline: 0.5
+        higher_bound: 1
+    behavior-qa:
+        alias: "SimpleToM (Behavior)"
+        functional: [ "" ]
+        formal: [ ]
+        functional_groups: [ "social_emotional_cognition" ]
+        main_task: True
+        backend: "harness"
+        random_baseline: 0.5
+        higher_bound: 1
+    mental-state-qa:
+        alias: "SimpleToM (Mental State)"
+        functional: [ "" ]
+        formal: [ ]
+        functional_groups: [ "social_emotional_cognition" ]
+        main_task: True
+        backend: "harness"
+        random_baseline: 0.5
+        higher_bound: 1

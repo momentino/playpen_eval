@@ -4,9 +4,6 @@ from frameworks.playpen_eval_benchmarks.models import Model, HF
 from frameworks.playpen_eval_benchmarks.tasks.task import Task
 from frameworks.playpen_eval_benchmarks.tasks.llm_cognitive_flexibility.wcst_test import WCSTConfig, WCST
 from frameworks.playpen_eval_benchmarks.tasks.llm_cognitive_flexibility.lnt_test import LNTConfig, LNT
-import logging
-
-logger = logging.getLogger("output")
 
 class LLMCognitiveFlexibilityTask(Task):
     def __init__(self):
