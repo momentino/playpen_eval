@@ -17,7 +17,8 @@ setup(
         "sentence_transformers",
         "sentencepiece",
         "llguidance==0.2.0",
-        "playpen @ git+https://github.com/momentino/playpen"
+        "playpen @ git+https://github.com/momentino/playpen",
+        "pingouin"
 
     ],
 )

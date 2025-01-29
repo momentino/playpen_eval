@@ -110,7 +110,7 @@ def plot_and_save_matrices(correlation_matrices: List[CorrelationMatrix], output
                 file.write(f"{element}\n")
 
 
-def get_correlation_matrices(correlation_method:str, scores: Dict, model_registry: Dict, task_registry: Dict, lower_bound: float = None, upper_bound: float = None) -> List[CorrelationMatrix]:
+def get_correlation_matrices(correlation_method:str, scores: Dict, model_registry: Dict, task_registry: Dict, lower_bound: float = None, upper_bound: float = None, partial: bool = False) -> List[CorrelationMatrix]:
     matrices = []
     for category, tasks in scores.items():
         if len(tasks.keys()) > 1:
@@ -121,8 +121,12 @@ def get_correlation_matrices(correlation_method:str, scores: Dict, model_registr
                                     (lower_bound is None and upper_bound is None) or
                                     (lower_bound < convert_str_to_number(model_registry[v[0]]['params']) <= upper_bound)]
             scores, remaining_models = keep_common(partial_scores)
+            print(partial_scores)
             scores_matrix = pd.DataFrame(scores)
-            correlation_matrix = CorrelationMatrix(data=scores_matrix.corr(method=correlation_method), category=category, name=category, models=remaining_models)
+            if partial:
+                print(scores_matrix)
+            else:
+                correlation_matrix = CorrelationMatrix(data=scores_matrix.corr(method=correlation_method), category=category, name=category, models=remaining_models)
             correlation_matrix = sort_correlation_matrix(correlation_matrix, task_registry)
             matrices.append(correlation_matrix)
     return matrices
@@ -155,6 +159,7 @@ def run_correlation(src_path: Path,
                     output_path_root:Path,
                     correlation_method: str,
                     discriminant: str,
+                    partial: bool,
                     ignore_tasks: List[str],
                     ignore_groups: List[str],
                     tiers: bool,
@@ -180,7 +185,7 @@ def run_correlation(src_path: Path,
     elif discriminant == "benchmarks":
         organized_scores.append({"scores": scores, "output_path_root": output_path_root})
     for scores in organized_scores:
-        correlation_matrices = get_correlation_matrices(correlation_method, scores["scores"], model_registry = model_registry, task_registry=task_registry)
+        correlation_matrices = get_correlation_matrices(correlation_method, scores["scores"], model_registry = model_registry, task_registry=task_registry, partial=partial)
         output_path_root = output_path_root / "all"
         plot_and_save_matrices(correlation_matrices=correlation_matrices,
                                output_path_root=scores["output_path_root"])

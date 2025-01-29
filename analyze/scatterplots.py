@@ -3,8 +3,10 @@ from tqdm import tqdm
 from matplotlib.cm import get_cmap
 from pathlib import Path
 from typing import Dict, List
+from utils.utils import convert_str_to_number
 from config import get_model_registry, get_task_registry, project_root, get_alias, get_baseline
 from analyze.score_extraction_utils import get_reports, get_scores, sort_scores
+from scipy.stats import rankdata
 
 
 def build_and_save_scatterplots(scores: Dict, output_path_root: Path):
@@ -22,15 +24,24 @@ def build_and_save_scatterplots(scores: Dict, output_path_root: Path):
                             x = scores1
                             y = scores2
 
+                            x = [(s[0],s[1] / 100) if s[1] > 1 else (s[0],s[1]) for s in x]
+                            y = [(s[0],s[1] / 100) if s[1] > 1 else (s[0],s[1]) for s in y]
+
                             x_labels, x_values = zip(*x)
                             y_labels, y_values = zip(*y)
                             # Ensure labels match between x and y
-                            assert x_labels == y_labels, f"Labels in x {x_labels} and y {y_labels} arrays do not match!"
+                            assert x_labels == y_labels, f"Labels in x {x_labels} and y {y_labels} for the tasks {task1_name},{task2_name} do not match!"
 
-                            # Assign unique colors to each label
-                            unique_labels = list(set(x_labels))  # Find unique labels
-                            color_map = get_cmap("tab10", len(unique_labels))  # Use a colormap
-                            label_to_color = {label: color_map(i) for i, label in enumerate(unique_labels)}
+                            # Assume model_size_dict is a dictionary mapping labels to model sizes
+                            model_sizes = [convert_str_to_number(get_model_registry()[label]['params']) for label in x_labels]  # Extract model sizes
+                            size_ranks = rankdata(model_sizes, method='average')
+
+                            normalized_ranks = (size_ranks - 1) / (len(size_ranks) - 1)
+
+                            # Use a continuous colormap (e.g., viridis, plasma, coolwarm)
+                            color_map = get_cmap("YlOrRd")
+                            label_to_color = {label: color_map(norm_size) for label, norm_size in
+                                              zip(x_labels, normalized_ranks)}
 
                             for type in ["zoom", "normal"]:
                                 # Plot scatterplot

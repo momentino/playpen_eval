@@ -16,6 +16,7 @@ def main(args: argparse.Namespace) -> None:
                         tiers = args.tiers,
                         correlation_method = args.correlation_method,
                         discriminant = args.discriminant,
+                        partial=args.partial,
                         subset = args.subset,
                         ignore_tasks=args.ignore_tasks,
                         ignore_groups=args.ignore_groups,
@@ -96,6 +97,13 @@ if __name__ == "__main__":
         default="capabilities",
         choices=['capabilities', 'tasks', 'benchmarks'],
         help="The variable to consider for grouping benchmarks for the correlation analysis."
+    )
+
+    run_correlation_parser.add_argument(
+        "--partial",
+        action="store_true",
+        default=False,
+        help="Whether to consider only results above the random baseline or not."
     )
 
     scatterplot_parser = sub_parsers.add_parser("scatterplot", formatter_class=argparse.RawTextHelpFormatter)
