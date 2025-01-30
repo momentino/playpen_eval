@@ -59,6 +59,10 @@ class LLMCognitiveFlexibilityTask(Task):
                 response = model.generate(messages, apply_chat_template=apply_chat_template)
                 choice = self._extract_choice(response[0])
 
+                if choice is None:
+                    print(f"Invalid response format: {response}")
+                    continue
+
                 is_correct = test.evaluate_choice(card, choice, options)
                 feedback = "Correct!" if is_correct else "Incorrect!"
 
@@ -100,13 +104,12 @@ class LLMCognitiveFlexibilityTask(Task):
                 response = model.generate(messages, apply_chat_template=apply_chat_template)
                 choice = self._extract_ln_response(response[0])
 
+                if choice is None:
+                    print(f"Invalid response format: {response}")
+                    continue
+
                 is_correct = test.evaluate_response(sequence, choice)
                 feedback = "Correct!" if is_correct else "Incorrect!"
-
-                logger.info(
-                    f"Trial {trial + 1}: Sequence={sequence}, "
-                    f"Response={choice}, Result={feedback}"
-                )
 
                 messages.append({"role":"user","content":feedback})
                 accuracy, num_successes, trials = test.get_performance()

@@ -38,7 +38,7 @@ class WMTask(Task):
 
                         type = Path(file_path).parent.parent.name
                         difficulty = Path(file_path).parent.name
-                        grid_type = type if "abstraction" not in type else "grids_3*3"
+                        grid_type = type if "abstraction" or "spatial_feedback" not in type else "grids_3*3"
                         grid_task = False
                         if type != "grids" and "prompts" not in file_path:
                             if "grids" in type:
@@ -81,7 +81,9 @@ class WMTask(Task):
             "spatial_4*4": "grids_4*4",
             "spatial_5*5": "grids_5*5",
             "spatial_7*7": "grids_7*7",
-            "verbal": "letters"
+            "spatial_feedback": "grids_3*3",
+            "verbal": "letters",
+            "verbal_feedback": "letters"
 
         }
         results = defaultdict(lambda: defaultdict(float))
