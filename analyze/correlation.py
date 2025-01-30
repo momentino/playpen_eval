@@ -164,7 +164,8 @@ def run_correlation(src_path: Path,
                     ignore_groups: List[str],
                     tiers: bool,
                     subset: str,
-                    take_above_baseline: bool) -> None:
+                    take_above_baseline: bool,
+                    functional_groups_to_exclude: List[str]) -> None:
     model_registry = get_model_registry()
     task_registry = get_task_registry()
     src_path = project_root / src_path
@@ -173,14 +174,13 @@ def run_correlation(src_path: Path,
     sort_scores(scores)
     organized_scores = []
     if discriminant == "capabilities":
-        output_path_root = output_path_root/ "functional"
-        organized_scores.append({"scores": organize_scores_capabilities(scores, task_registry, "functional"), "output_path_root": output_path_root}) # TODO: improve
-        output_path_root = output_path_root / "total"
-        organized_scores.append(
-            {"scores": organize_scores_capabilities(scores, task_registry, "total"),
-             "output_path_root": output_path_root})  # TODO: improve
+        output_path_root = output_path_root/ "only_executive"
+        organized_scores.append({"scores": organize_scores_capabilities(scores,
+                                                                        task_registry,
+                                                                        functional_groups_to_exclude),
+                                 "output_path_root": output_path_root}) # TODO: improve
 
-    #elif discriminant == "tasks":
+        #elif discriminant == "tasks":
     #    organized_scores.append({"scores": organize_scores_tasks(scores, tasks_info), "output_path_root": output_path_root})
     elif discriminant == "benchmarks":
         organized_scores.append({"scores": scores, "output_path_root": output_path_root})

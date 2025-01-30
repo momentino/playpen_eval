@@ -2,7 +2,7 @@ logiqa2:
     logiqa2:
         alias: "LogiQA 2.0"
         functional: [ "logical_numerical_reasoning" ]
-        functional_groups: [ "executive_functions"]
+        functional_group: [ "executive_functions"]
         task_type: [ "multiple_choice" ]
         backend: "harness"
         main_task: True
@@ -12,7 +12,7 @@ cladder:
     cladder:
         alias: "CLadder"
         functional: [ "causal_reasoning" ]
-        functional_groups: [ "executive_functions"]
+        functional_group: [ "executive_functions"]
         task_type: [ "multiple_choice" ]
         backend: "harness"
         main_task: True
@@ -22,7 +22,7 @@ winogrande:
     winogrande:
         alias: "Winogrande"
         functional: [ "commonsense_reasoning" ]
-        functional_groups: [ "executive_functions"]
+        functional_group: [ "executive_functions"]
         task_type: [ "multiple_choice" ]
         backend: "harness"
         main_task: True
@@ -32,7 +32,7 @@ planbench:
     #planbench:
     #    alias: "Planbench"
     #    functional: [ "planning_decision_making" ]
-    #    functional_groups: [ "executive_functions"]
+    #    functional_group: [ "executive_functions"]
     #    task_type: [ "generate_until" ]
     #    backend: "harness"
     #    main_task: True
@@ -41,7 +41,7 @@ planbench:
     #planbench_blocksworld:
     #    alias: "Planbench Blocksworld"
     #    functional: [ "planning_decision_making" ]
-    #    functional_groups: [ "executive_functions"]
+    #    functional_group: [ "executive_functions"]
     #    task_type: [ "generate_until" ]
     #    backend: "harness"
     #    main_task: False
@@ -50,7 +50,7 @@ planbench:
     planbench_blocksworld_plan_generation:
         alias: "Planbench Blocksworld Plan Generation"
         functional: [ "planning_decision_making" ]
-        functional_groups: [ "executive_functions"]
+        functional_group: [ "executive_functions"]
         task_type: [ "generate_until" ]
         backend: "harness"
         main_task: True
@@ -59,7 +59,7 @@ planbench:
     #planbench_blocksworld_full_to_partial:
     #    alias: "Planbench Blocksworld Full-to-Partial"
     #    functional: [ "planning_decision_making" ]
-    #    functional_groups: [ "executive_functions"]
+    #    functional_group: [ "executive_functions"]
     #    task_type: [ "generate_until" ]
     #    backend: "harness"
     #    main_task: False
@@ -68,7 +68,7 @@ planbench:
     #planbench_blocksworld_goal_shuffling:
     #    alias: "Planbench Blocksworld Goal Shuffling"
     #    functional: [ "planning_decision_making" ]
-    #    functional_groups: [ "executive_functions"]
+    #    functional_group: [ "executive_functions"]
     #    task_type: [ "generate_until" ]
     #    backend: "harness"
     #    main_task: False
@@ -77,7 +77,7 @@ planbench:
     #planbench_blocksworld_partial_to_full:
     #    alias: "Planbench Blocksworld Partial-to-Full"
     #    functional: [ "planning_decision_making" ]
-    #    functional_groups: [ "executive_functions"]
+    #    functional_group: [ "executive_functions"]
     #    task_type: [ "generate_until" ]
     #    backend: "harness"
     #    main_task: False
@@ -86,7 +86,7 @@ planbench:
     # planbench_blocksworld_plan_execution:
     #     alias: "Planbench Blocksworld Plan Execution"
     #     functional: [ "planning_decision_making" ]
-    #     functional_groups: [ "executive_functions"]
+    #     functional_group: [ "executive_functions"]
     #     task_type: [ "generate_until" ]
     #     backend: "harness"
     #     main_task: False
@@ -95,7 +95,7 @@ planbench:
     # planbench_blocksworld_plan_generalization:
     #     alias: "Planbench Blocksworld Plan Generalization"
     #     functional: [ "planning_decision_making" ]
-    #     functional_groups: [ "executive_functions"]
+    #     functional_group: [ "executive_functions"]
     #     task_type: [ "generate_until" ]
     #     backend: "harness"
     #     main_task: False
@@ -104,7 +104,7 @@ planbench:
     # planbench_blocksworld_plan_optimality:
     #     alias: "Planbench Blocksworld Plan Optimality"
     #     functional: [ "planning_decision_making" ]
-    #     functional_groups: [ "executive_functions"]
+    #     functional_group: [ "executive_functions"]
     #     task_type: [ "generate_until" ]
     #     backend: "harness"
     #     main_task: False
@@ -113,7 +113,7 @@ planbench:
     # planbench_blocksworld_plan_reuse:
     #     alias: "Planbench Blocksworld Plan Reuse"
     #     functional: [ "planning_decision_making" ]
-    #     functional_groups: [ "executive_functions"]
+    #     functional_group: [ "executive_functions"]
     #     task_type: [ "generate_until" ]
     #     backend: "harness"
     #     main_task: False
@@ -122,7 +122,7 @@ planbench:
     # planbench_blocksworld_plan_verification:
     #     alias: "Planbench Blocksworld Plan Verification"
     #     functional: [ "planning_decision_making" ]
-    #     functional_groups: [ "executive_functions"]
+    #     functional_group: [ "executive_functions"]
     #     task_type: [ "generate_until" ]
     #     backend: "harness"
     #     main_task: False
@@ -131,7 +131,7 @@ planbench:
     # planbench_blocksworld_plan_replanning:
     #     alias: "Planbench Blocksworld Replanning"
     #     functional: [ "planning_decision_making" ]
-    #     functional_groups: [ "executive_functions"]
+    #     functional_group: [ "executive_functions"]
     #     task_type: [ "generate_until" ]
     #     backend: "harness"
     #     main_task: False
@@ -143,7 +143,7 @@ ewok_minimal_pairs:
     ewok_minimal_pairs:
         alias: "EWoK Minimal Pairs"
         functional: []
-        functional_groups: [ "extra" ]
+        functional_group: [ "massive" ]
         formal: [ ]
         task_type: [ "minimal_pairs_logprobs" ]
         backend: "playpen_eval_benchmarks"
@@ -153,7 +153,7 @@ ewok_minimal_pairs:
     ewok_minimal_pairs_agent_properties:
         alias: "EWoK Minimal Pairs Agent Properties"
         functional: []
-        functional_groups: [ "extra" ]
+        functional_group: [ "massive" ]
         formal: [ ]
         task_type: [ "minimal_pairs_logprobs" ]
         backend: "playpen_eval_benchmarks"
@@ -163,7 +163,7 @@ ewok_minimal_pairs:
     ewok_minimal_pairs_social_relations:
         alias: "EWoK Minimal Pairs Social Relations"
         functional: []
-        functional_groups: [ "extra" ]
+        functional_group: [ "massive" ]
         formal: [ ]
         task_type: [ "minimal_pairs_logprobs" ]
         backend: "playpen_eval_benchmarks"
@@ -173,7 +173,7 @@ ewok_minimal_pairs:
     ewok_minimal_pairs_material_dynamics:
         alias: "EWoK Minimal Pairs Material Dynamics"
         functional: []
-        functional_groups: [ "extra" ]
+        functional_group: [ "massive" ]
         formal: [ ]
         task_type: [ "minimal_pairs_logprobs" ]
         backend: "playpen_eval_benchmarks"
@@ -183,7 +183,7 @@ ewok_minimal_pairs:
     ewok_minimal_pairs_physical_relations:
         alias: "EWoK Minimal Pairs Physical Relations"
         functional: []
-        functional_groups: [ "extra" ]
+        functional_group: [ "massive" ]
         formal: [ ]
         task_type: [ "minimal_pairs_logprobs" ]
         backend: "playpen_eval_benchmarks"
@@ -193,7 +193,7 @@ ewok_minimal_pairs:
     ewok_minimal_pairs_physical_interactions:
         alias: "EWoK Minimal Pairs Physical Interactions"
         functional: []
-        functional_groups: [ "extra" ]
+        functional_group: [ "massive" ]
         formal: [ ]
         task_type: [ "minimal_pairs_logprobs" ]
         backend: "playpen_eval_benchmarks"
@@ -203,7 +203,7 @@ ewok_minimal_pairs:
     ewok_minimal_pairs_physical_dynamics:
         alias: "EWoK Minimal Pairs Physical Dynamics"
         functional: []
-        functional_groups: [ "extra" ]
+        functional_group: [ "massive" ]
         formal: [ ]
         task_type: [ "minimal_pairs_logprobs" ]
         backend: "playpen_eval_benchmarks"
@@ -213,7 +213,7 @@ ewok_minimal_pairs:
     ewok_minimal_pairs_spatial_relations:
         alias: "EWoK Minimal Pairs Spatial Relations"
         functional: []
-        functional_groups: [ "extra" ]
+        functional_group: [ "massive" ]
         formal: [ ]
         task_type: [ "minimal_pairs_logprobs" ]
         backend: "playpen_eval_benchmarks"
@@ -223,7 +223,7 @@ ewok_minimal_pairs:
     ewok_minimal_pairs_quantitative_properties:
         alias: "EWoK Minimal Pairs Quantitative Properties"
         functional: []
-        functional_groups: [ "extra" ]
+        functional_group: [ "massive" ]
         formal: [ ]
         task_type: [ "minimal_pairs_logprobs" ]
         backend: "playpen_eval_benchmarks"
@@ -233,7 +233,7 @@ ewok_minimal_pairs:
     ewok_minimal_pairs_social_properties:
         alias: "EWoK Minimal Pairs Social Properties"
         functional: []
-        functional_groups: [ "extra" ]
+        functional_group: [ "massive" ]
         formal: [ ]
         task_type: [ "minimal_pairs_logprobs" ]
         backend: "playpen_eval_benchmarks"
@@ -243,7 +243,7 @@ ewok_minimal_pairs:
     ewok_minimal_pairs_social_interactions:
         alias: "EWoK Minimal Pairs Social Interactions"
         functional: []
-        functional_groups: [ "extra" ]
+        functional_group: [ "massive" ]
         formal: [ ]
         task_type: [ "minimal_pairs_logprobs" ]
         backend: "playpen_eval_benchmarks"
@@ -253,7 +253,7 @@ ewok_minimal_pairs:
     ewok_minimal_pairs_material_properties:
         alias: "EWoK Minimal Pairs Material Properties"
         functional: []
-        functional_groups: [ "extra" ]
+        functional_group: [ "massive" ]
         formal: [ ]
         task_type: [ "minimal_pairs_logprobs" ]
         backend: "playpen_eval_benchmarks"
@@ -265,7 +265,7 @@ fantom:
         alias: "FANToM"
         functional: [ "theory_of_mind" ]
         formal: [ ]
-        functional_groups: [ "social_emotional_cognition" ]
+        functional_group: [ "social_emotional_cognition" ]
         task_type: [ "multiple_choice" , "open_question" ]
         backend: "harness"
         main_task: True
@@ -275,7 +275,7 @@ fantom:
         alias: "FANToM Answerability Y/N"
         functional: [ "theory_of_mind" ]
         formal: [ ]
-        functional_groups: [ "social_emotional_cognition" ]
+        functional_group: [ "social_emotional_cognition" ]
         task_type: [ "multiple_choice" ]
         backend: "harness"
         main_task: False
@@ -285,7 +285,7 @@ fantom:
         alias: "FANToM Answerability L"
         functional: [ "theory_of_mind" ]
         formal: [ ]
-        functional_groups: [ "social_emotional_cognition" ]
+        functional_group: [ "social_emotional_cognition" ]
         task_type: [ "open_question" ]
         backend: "harness"
         main_task: False
@@ -295,7 +295,7 @@ fantom:
     #    alias: "FANToM Belief Choice"
     #    functional: [ "theory_of_mind" ]
     #    formal: [ ]
-    #    functional_groups: [ "social_emotional_cognition" ]
+    #    functional_group: [ "social_emotional_cognition" ]
     #    task_type: [ "multiple_choice" ]
     #    backend: "harness"
     #    main_task: False
@@ -305,7 +305,7 @@ fantom:
         alias: "FANToM Belief Dist"
         functional: [ "theory_of_mind" ]
         formal: [ ]
-        functional_groups: [ "social_emotional_cognition" ]
+        functional_group: [ "social_emotional_cognition" ]
         task_type: [ "open_question" ]
         backend: "harness"
         main_task: False
@@ -315,7 +315,7 @@ fantom:
         alias: "FANToM Full Fact"
         functional: [ "theory_of_mind" ]
         formal: [ ]
-        functional_groups: [ "social_emotional_cognition" ]
+        functional_group: [ "social_emotional_cognition" ]
         task_type: [ "open_question" ]
         backend: "harness"
         main_task: False
@@ -325,7 +325,7 @@ fantom:
         alias: "FANToM Infoaccessibility Y/N"
         functional: [ "theory_of_mind" ]
         formal: [ ]
-        functional_groups: [ "social_emotional_cognition" ]
+        functional_group: [ "social_emotional_cognition" ]
         task_type: [ "multiple_choice" ]
         backend: "harness"
         main_task: False
@@ -335,7 +335,7 @@ fantom:
         alias: "FANToM Infoaccessibility L"
         functional: [ "theory_of_mind" ]
         formal: [ ]
-        functional_groups: [ "social_emotional_cognition" ]
+        functional_group: [ "social_emotional_cognition" ]
         task_type: [ "open_question" ]
         backend: "harness"
         main_task: False
@@ -346,7 +346,7 @@ fantom:
 #        alias: "DNLI"
 #        functional: [ "pragmatics" ]
 #        formal: [ ]
-#        functional_groups: [ "social_emotional_cognition" ]
+#        functional_group: [ "social_emotional_cognition" ]
 #        task_type: [ "nli" ]
 #        backend: "playpen_eval_benchmarks"
 #        main_task: True
@@ -355,7 +355,7 @@ eq_bench:
         alias: "EQBench"
         functional: [ "emotional_intelligence" ]
         formal: [ ]
-        functional_groups: [ "social_emotional_cognition" ]
+        functional_group: [ "social_emotional_cognition" ]
         task_type: [ "likert" ]
         main_task: True
         backend: "harness"
@@ -366,7 +366,7 @@ lm_pragmatics:
         alias: "LM-Pragmatics"
         functional: [ "pragmatics" ]
         formal: [ ]
-        functional_groups: [ "social_emotional_cognition" ]
+        functional_group: [ "social_emotional_cognition" ]
         task_type: [ "multiple_choice" ]
         backend: "harness"
         main_task: True
@@ -376,7 +376,7 @@ lm_pragmatics:
         alias: "LM-Pragmatics Coherence"
         functional: [ "pragmatics" ]
         formal: [ ]
-        functional_groups: [ "social_emotional_cognition_outlier" ]
+        functional_group: [ "social_emotional_cognition" ]
         task_type: [ "multiple_choice" ]
         backend: "harness"
         main_task: False
@@ -386,7 +386,7 @@ lm_pragmatics:
         alias: "LM-Pragmatics Deceits"
         functional: [ "pragmatics" ]
         formal: [ ]
-        functional_groups: [ "social_emotional_cognition_outlier" ]
+        functional_group: [ "social_emotional_cognition" ]
         task_type: [ "multiple_choice" ]
         backend: "harness"
         main_task: False
@@ -396,7 +396,7 @@ lm_pragmatics:
         alias: "LM-Pragmatics Humour"
         functional: [ "pragmatics" ]
         formal: [ ]
-        functional_groups: [ "social_emotional_cognition" ]
+        functional_group: [ "social_emotional_cognition" ]
         task_type: [ "multiple_choice" ]
         backend: "harness"
         main_task: False
@@ -406,7 +406,7 @@ lm_pragmatics:
         alias: "LM-Pragmatics Irony"
         functional: [ "pragmatics" ]
         formal: [ ]
-        functional_groups: [ "social_emotional_cognition" ]
+        functional_group: [ "social_emotional_cognition" ]
         task_type: [ "multiple_choice" ]
         backend: "harness"
         main_task: False
@@ -416,7 +416,7 @@ lm_pragmatics:
         alias: "LM-Pragmatics Maxims"
         functional: [ "pragmatics" ]
         formal: [ ]
-        functional_groups: [ "social_emotional_cognition" ]
+        functional_group: [ "social_emotional_cognition" ]
         task_type: [ "multiple_choice" ]
         backend: "harness"
         main_task: False
@@ -426,7 +426,7 @@ lm_pragmatics:
         alias: "LM-Pragmatics Metaphor"
         functional: [ "pragmatics" ]
         formal: [ ]
-        functional_groups: [ "social_emotional_cognition" ]
+        functional_group: [ "social_emotional_cognition" ]
         task_type: [ "multiple_choice" ]
         backend: "harness"
         main_task: False
@@ -436,7 +436,7 @@ lm_pragmatics:
         alias: "LM-Pragmatics Indirect Speech"
         functional: [ "pragmatics" ]
         formal: [ ]
-        functional_groups: [ "social_emotional_cognition" ]
+        functional_group: [ "social_emotional_cognition" ]
         task_type: [ "multiple_choice" ]
         backend: "harness"
         main_task: False
@@ -448,7 +448,7 @@ wm:
     #     alias: "WM Spatial 3*3 N-1"
     #     functional: [ "working_memory" ]
     #     formal: [ ]
-    #     functional_groups: [ "executive_functions" ]
+    #     functional_group: [ "executive_functions" ]
     #     task_type: [ "open_question" ]
     #     backend: "playpen_eval_benchmarks"
     #     main_task: False
@@ -458,7 +458,7 @@ wm:
     #     alias: "WM Spatial 3*3 N-2"
     #     functional: [ "working_memory" ]
     #     formal: [ ]
-    #     functional_groups: [ "executive_functions" ]
+    #     functional_group: [ "executive_functions" ]
     #     task_type: [ "open_question" ]
     #     backend: "playpen_eval_benchmarks"
     #     main_task: False
@@ -468,7 +468,7 @@ wm:
     #     alias: "WM Spatial 3*3 N-3"
     #     functional: [ "working_memory" ]
     #     formal: [ ]
-    #     functional_groups: [ "executive_functions" ]
+    #     functional_group: [ "executive_functions" ]
     #     task_type: [ "open_question" ]
     #     backend: "playpen_eval_benchmarks"
     #     main_task: False
@@ -478,7 +478,7 @@ wm:
     #     alias: "WM Spatial 4*4 N-1"
     #     functional: [ "working_memory" ]
     #     formal: [ ]
-    #     functional_groups: [ "executive_functions" ]
+    #     functional_group: [ "executive_functions" ]
     #     task_type: [ "open_question" ]
     #     backend: "playpen_eval_benchmarks"
     #     main_task: False
@@ -488,7 +488,7 @@ wm:
     #     alias: "WM Spatial 4*4 N-2"
     #     functional: [ "working_memory" ]
     #     formal: [ ]
-    #     functional_groups: [ "executive_functions" ]
+    #     functional_group: [ "executive_functions" ]
     #     task_type: [ "open_question" ]
     #     backend: "playpen_eval_benchmarks"
     #     main_task: False
@@ -498,7 +498,7 @@ wm:
     #     alias: "WM Spatial 4*4 N-3"
     #     functional: [ "working_memory" ]
     #     formal: [ ]
-    #     functional_groups: [ "executive_functions" ]
+    #     functional_group: [ "executive_functions" ]
     #     task_type: [ "open_question" ]
     #     backend: "playpen_eval_benchmarks"
     #     main_task: False
@@ -508,7 +508,7 @@ wm:
     #     alias: "WM Spatial 5*5 N-1"
     #     functional: [ "working_memory" ]
     #     formal: [ ]
-    #     functional_groups: [ "executive_functions" ]
+    #     functional_group: [ "executive_functions" ]
     #     task_type: [ "open_question" ]
     #     backend: "playpen_eval_benchmarks"
     #     main_task: False
@@ -518,7 +518,7 @@ wm:
     #     alias: "WM Spatial 5*5 N-2"
     #     functional: [ "working_memory" ]
     #     formal: [ ]
-    #     functional_groups: [ "executive_functions" ]
+    #     functional_group: [ "executive_functions" ]
     #     task_type: [ "open_question" ]
     #     backend: "playpen_eval_benchmarks"
     #     main_task: False
@@ -528,7 +528,7 @@ wm:
     #     alias: "WM Spatial 5*5 N-3"
     #     functional: [ "working_memory" ]
     #     formal: [ ]
-    #     functional_groups: [ "executive_functions" ]
+    #     functional_group: [ "executive_functions" ]
     #     task_type: [ "open_question" ]
     #     backend: "playpen_eval_benchmarks"
     #     main_task: False
@@ -538,7 +538,7 @@ wm:
     #     alias: "WM Spatial 7*7 N-1"
     #     functional: [ "working_memory" ]
     #     formal: [ ]
-    #     functional_groups: [ "executive_functions" ]
+    #     functional_group: [ "executive_functions" ]
     #     task_type: [ "open_question" ]
     #     backend: "playpen_eval_benchmarks"
     #     main_task: False
@@ -548,7 +548,7 @@ wm:
     #     alias: "WM Spatial 7*7 N-2"
     #     functional: [ "working_memory" ]
     #     formal: [ ]
-    #     functional_groups: [ "executive_functions" ]
+    #     functional_group: [ "executive_functions" ]
     #     task_type: [ "open_question" ]
     #     backend: "playpen_eval_benchmarks"
     #     main_task: False
@@ -558,7 +558,7 @@ wm:
     #     alias: "WM Spatial 7*7 N-3"
     #     functional: [ "working_memory" ]
     #     formal: [ ]
-    #     functional_groups: [ "executive_functions" ]
+    #     functional_group: [ "executive_functions" ]
     #     task_type: [ "open_question" ]
     #     backend: "playpen_eval_benchmarks"
     #     main_task: False
@@ -568,7 +568,7 @@ wm:
     #     alias: "WM Spatial 3*3 Abstract N-1"
     #     functional: [ "working_memory" ]
     #     formal: [ ]
-    #     functional_groups: [ "executive_functions" ]
+    #     functional_group: [ "executive_functions" ]
     #     task_type: [ "open_question" ]
     #     backend: "playpen_eval_benchmarks"
     #     main_task: False
@@ -578,7 +578,7 @@ wm:
     #     alias: "WM Spatial 3*3 Abstract N-2"
     #     functional: [ "working_memory" ]
     #     formal: [ ]
-    #     functional_groups: [ "executive_functions" ]
+    #     functional_group: [ "executive_functions" ]
     #     task_type: [ "open_question" ]
     #     backend: "playpen_eval_benchmarks"
     #     main_task: False
@@ -588,7 +588,7 @@ wm:
     #     alias: "WM Spatial 3*3 Abstract N-3"
     #     functional: [ "working_memory" ]
     #     formal: [ ]
-    #     functional_groups: [ "executive_functions" ]
+    #     functional_group: [ "executive_functions" ]
     #     task_type: [ "open_question" ]
     #     backend: "playpen_eval_benchmarks"
     #     main_task: False
@@ -598,7 +598,7 @@ wm:
     #     alias: "WM Spatial 3*3 Abstract 2 N-1"
     #     functional: [ "working_memory" ]
     #     formal: [ ]
-    #     functional_groups: [ "executive_functions" ]
+    #     functional_group: [ "executive_functions" ]
     #     task_type: [ "open_question" ]
     #     backend: "playpen_eval_benchmarks"
     #     main_task: False
@@ -608,7 +608,7 @@ wm:
     #     alias: "WM Spatial 3*3 Abstract 2 N-2"
     #     functional: [ "working_memory" ]
     #     formal: [ ]
-    #     functional_groups: [ "executive_functions" ]
+    #     functional_group: [ "executive_functions" ]
     #     task_type: [ "open_question" ]
     #     backend: "playpen_eval_benchmarks"
     #     main_task: False
@@ -618,7 +618,7 @@ wm:
     #     alias: "WM Spatial 3*3 Abstract 2 N-3"
     #     functional: [ "working_memory" ]
     #     formal: [ ]
-    #     functional_groups: [ "executive_functions" ]
+    #     functional_group: [ "executive_functions" ]
     #     task_type: [ "open_question" ]
     #     backend: "playpen_eval_benchmarks"
     #     main_task: False
@@ -628,7 +628,7 @@ wm:
         alias: "WM"
         functional: [ "working_memory" ]
         formal: [ ]
-        functional_groups: [ "executive_functions" ]
+        functional_group: [ "executive_functions" ]
         task_type: [ "open_question" ]
         main_task: False
         backend: "playpen_eval_benchmarks"
@@ -638,7 +638,7 @@ wm:
         alias: "WM Verbal N-1"
         functional: [ "working_memory" ]
         formal: [ ]
-        functional_groups: [ "executive_functions" ]
+        functional_group: [ "executive_functions" ]
         task_type: [ "open_question" ]
         backend: "playpen_eval_benchmarks"
         main_task: False
@@ -648,7 +648,7 @@ wm:
         alias: "WM Verbal N-2"
         functional: [ "working_memory" ]
         formal: [ ]
-        functional_groups: [ "executive_functions" ]
+        functional_group: [ "executive_functions" ]
         task_type: [ "open_question" ]
         backend: "playpen_eval_benchmarks"
         main_task: False
@@ -658,7 +658,7 @@ wm:
         alias: "WM Verbal N-3"
         functional: [ "working_memory" ]
         formal: [ ]
-        functional_groups: [ "executive_functions" ]
+        functional_group: [ "executive_functions" ]
         task_type: [ "open_question" ]
         backend: "playpen_eval_benchmarks"
         main_task: True
@@ -671,7 +671,7 @@ social_iqa:
     social_iqa:
         alias: "SocialIQA"
         backend: "harness"
-        functional_groups: [ "social_emotional_cognition_outlier" ]
+        functional_group: [ "social_emotional_cognition" ]
         functional: [ "social_commonsense_reasoning" ]
         main_task: True
         random_baseline: 0.33
@@ -681,7 +681,7 @@ mmlu:
         alias: "MMLU"
         backend: "harness"
         functional: []
-        functional_groups: [ "extra" ]
+        functional_group: [ "massive" ]
         main_task: True
         random_baseline: 0.5
         higher_bound: 1
@@ -690,7 +690,7 @@ bbh_fewshot:
         alias: "BBH"
         backend: "harness"
         functional: []
-        functional_groups: [ "extra" ]
+        functional_group: [ "massive" ]
         random_baseline: 0 # normalized now
         main_task: True
 metabench:
@@ -699,7 +699,7 @@ metabench:
         backend: "harness"
         main_task: True
         functional: []
-        functional_groups: [ "extra" ]
+        functional_group: [ "massive" ]
         random_baseline: 0 # to compute (but maybe useless)
         higher_bound: 1
     metabench_arc:
@@ -707,7 +707,7 @@ metabench:
         backend: "harness"
         main_task: False
         functional: []
-        functional_groups: [ "extra" ]
+        functional_group: [ "massive" ]
         random_baseline: 0.25
         higher_bound: 1
     metabench_gsm8k:
@@ -715,14 +715,14 @@ metabench:
         backend: "harness"
         main_task: False
         functional: []
-        functional_groups: [ "extra" ]
+        functional_group: [ "massive" ]
         random_baseline: 0
         higher_bound: 1
     metabench_hellaswag:
         alias: "Metabench HellaSWAG"
         backend: "harness"
         functional: []
-        functional_groups: [ "extra" ]
+        functional_group: [ "massive" ]
         main_task: False
         random_baseline: 0.25
         higher_bound: 1
@@ -731,7 +731,7 @@ metabench:
         backend: "harness"
         main_task: False
         functional: []
-        functional_groups: [ "extra" ]
+        functional_group: [ "massive" ]
         random_baseline: 0.25
         higher_bound: 1
     metabench_truthfulqa:
@@ -739,7 +739,7 @@ metabench:
         backend: "harness"
         main_task: False
         functional: []
-        functional_groups: [ "extra" ]
+        functional_group: [ "massive" ]
         random_baseline: 0.12
         higher_bound: 1
     metabench_winogrande:
@@ -747,7 +747,7 @@ metabench:
         backend: "harness"
         main_task: False
         functional: []
-        functional_groups: [ "extra" ]
+        functional_group: [ "massive" ]
         random_baseline: 0.5
         higher_bound: 1
 
@@ -757,7 +757,7 @@ entity_deduction_arena:
         alias: "EDA"
         functional: [ "strategic_reasoning" ]
         formal: [ ]
-        functional_groups: [ "interactive" ]
+        functional_group: [ "interactive" ]
         task_type: [ "interactive" ]
         main_task: True
         backend: "playpen_eval_benchmarks"
@@ -767,7 +767,7 @@ entity_deduction_arena:
         alias: "EDA Things"
         functional: [ "strategic_reasoning" ]
         formal: [ ]
-        functional_groups: [ "interactive" ]
+        functional_group: [ "interactive" ]
         task_type: [ "interactive" ]
         main_task: True
         backend: "playpen_eval_benchmarks"
@@ -777,7 +777,7 @@ entity_deduction_arena:
         alias: "EDA Celebrities"
         functional: [ "strategic_reasoning" ]
         formal: [ ]
-        functional_groups: [ "interactive" ]
+        functional_group: [ "interactive" ]
         task_type: [ "interactive" ]
         main_task: True
         backend: "playpen_eval_benchmarks"
@@ -788,7 +788,7 @@ wordle:
         alias: "Clembench Wordle"
         functional: [ "" ]
         formal: [ ]
-        functional_groups: [ "interactive" ]
+        functional_group: [ "interactive" ]
         task_type: [ "interactive" ]
         main_task: True
         backend: "clembench"
@@ -799,7 +799,7 @@ privateshared:
         alias: "Clembench Private/Shared"
         functional: [ "" ]
         formal: [ ]
-        functional_groups: [ "interactive" ]
+        functional_group: [ "interactive" ]
         task_type: [ "interactive" ]
         main_task: True
         backend: "clembench"
@@ -810,7 +810,7 @@ imagegame:
         alias: "Clembench Imagegame"
         functional: [ "" ]
         formal: [ ]
-        functional_groups: [ "interactive" ]
+        functional_group: [ "interactive" ]
         task_type: [ "interactive" ]
         main_task: True
         backend: "clembench"
@@ -821,7 +821,7 @@ referencegame:
         alias: "Clembench ReferenceGame"
         functional: [ "" ]
         formal: [ ]
-        functional_groups: [ "interactive" ]
+        functional_group: [ "interactive" ]
         task_type: [ "interactive" ]
         main_task: True
         backend: "clembench"
@@ -832,7 +832,7 @@ taboo:
         alias: "Clembench Taboo"
         functional: [ "" ]
         formal: [ ]
-        functional_groups: [ "interactive" ]
+        functional_group: [ "interactive" ]
         task_type: [ "interactive" ]
         main_task: True
         backend: "clembench"
@@ -844,7 +844,7 @@ llm_cognitive_flexibility:
         alias: "LLM Cognitive Flexibility"
         functional: [ "" ]
         formal: [ ]
-        functional_groups: [ "executive_functions" ]
+        functional_group: [ "executive_functions" ]
         task_type: [ "interactive" ]
         main_task: False
         backend: "playpen_eval_benchmarks"
@@ -854,7 +854,7 @@ llm_cognitive_flexibility:
         alias: "LLM Cognitive Flexibility (WCST)"
         functional: [ "" ]
         formal: [ ]
-        functional_groups: [ "executive_functions" ]
+        functional_group: [ "executive_functions" ]
         task_type: [ "interactive" ]
         main_task: True
         backend: "playpen_eval_benchmarks"
@@ -864,7 +864,7 @@ llm_cognitive_flexibility:
         alias: "LLM Cognitive Flexibility (LNT)"
         functional: [ "" ]
         formal: [ ]
-        functional_groups: [ "executive_functions" ]
+        functional_group: [ "executive_functions" ]
         task_type: [ "interactive" ]
         main_task: True
         backend: "playpen_eval_benchmarks"
@@ -875,7 +875,7 @@ simpletom:
         alias: "SimpleToM"
         functional: [ "" ]
         formal: [ ]
-        functional_groups: [ "social_emotional_cognition" ]
+        functional_group: [ "social_emotional_cognition" ]
         main_task: True
         backend: "harness"
         random_baseline: 0.5
@@ -884,7 +884,7 @@ simpletom:
         alias: "SimpleToM (Judgment)"
         functional: [ "" ]
         formal: [ ]
-        functional_groups: [ "social_emotional_cognition" ]
+        functional_group: [ "social_emotional_cognition" ]
         main_task: True
         backend: "harness"
         random_baseline: 0.5
@@ -893,7 +893,7 @@ simpletom:
         alias: "SimpleToM (Behavior)"
         functional: [ "" ]
         formal: [ ]
-        functional_groups: [ "social_emotional_cognition" ]
+        functional_group: [ "social_emotional_cognition" ]
         main_task: True
         backend: "harness"
         random_baseline: 0.5
@@ -902,7 +902,7 @@ simpletom:
         alias: "SimpleToM (Mental State)"
         functional: [ "" ]
         formal: [ ]
-        functional_groups: [ "social_emotional_cognition" ]
+        functional_group: [ "social_emotional_cognition" ]
         main_task: True
         backend: "harness"
         random_baseline: 0.5

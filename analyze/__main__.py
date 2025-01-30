@@ -20,6 +20,7 @@ def main(args: argparse.Namespace) -> None:
                         subset = args.subset,
                         ignore_tasks=args.ignore_tasks,
                         ignore_groups=args.ignore_groups,
+                        functional_groups_to_exclude=args.functional_groups_to_exclude,
                         take_above_baseline=args.take_above_baseline)
     elif args.command_name == "scatterplot":
         playpen_correlation_logger.info(f"Plotting results for pairs of benchmarks")
@@ -97,6 +98,13 @@ if __name__ == "__main__":
         default="capabilities",
         choices=['capabilities', 'tasks', 'benchmarks'],
         help="The variable to consider for grouping benchmarks for the correlation analysis."
+    )
+
+    run_correlation_parser.add_argument(
+        "--functional_groups_to_exclude",
+        nargs="+",
+        default=[],
+        help="Specify groups of functional capabilities to not include in the analysis."
     )
 
     run_correlation_parser.add_argument(

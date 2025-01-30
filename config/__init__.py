@@ -40,7 +40,7 @@ def get_functional_group_from_alias(task_name:str, tasks_info: Dict) -> str:
     for group, tasks in tasks_info.items():
         for name, info in tasks.items():
             if info["alias"] == task_name:
-                return info["functional_groups"]
+                return info["functional_group"]
 
 def get_task_backend(task_name: str, task_registry: Dict) -> str:
     for group, tasks in task_registry.items():

@@ -48,20 +48,27 @@ def sort_scores(scores: Dict):
                 raise Exception(f"There are two scores for the same model and task! {[task_name]} Check your results files folder.")
             model_scores.sort(key=lambda x: (convert_str_to_number(get_model_registry()[x[0]]['params']), x[0]))
 
-def organize_scores_capabilities(scores: Dict, task_registry: Dict, category:str):
+def organize_scores_capabilities(scores: Dict, task_registry: Dict, functional_groups_to_exclude:List[str]):
     organized_scores = defaultdict(lambda: defaultdict(list))
     for group1, tasks1 in scores.items():
         for task1_name, scores1 in tasks1.items():
             for group2, tasks2 in scores.items():
                 for task2_name, scores2 in tasks2.items():
                     if task1_name != task2_name:
-                        if category != "total":
+
+                        task1_functional_group = task_registry[group1][task1_name]["functional_group"][0]
+                        task2_functional_group = task_registry[group2][task2_name]["functional_group"][0]
+                        if (task1_functional_group not in functional_groups_to_exclude) and (task2_functional_group not in functional_groups_to_exclude):
+                            print(functional_groups_to_exclude, task1_functional_group, task2_functional_group)
+                            organized_scores[f"total_no_{functional_groups_to_exclude}"][task2_name] = scores2
+                        """if category != "total":
                             task1_categories = task_registry[group1][task1_name][category]
                             task2_categories = task_registry[group2][task2_name][category]
                             if len(task1_categories) == 1 and len(task2_categories) == 1 and task1_categories[0] == task2_categories[0]:
                                 organized_scores[task2_categories[0]][task2_name] = scores2
-                        else:
-                            organized_scores["total"][task2_name] = scores2
+                        else:"""
+
+
     return organized_scores
 
 def keep_common(partial_scores: Dict[str, List[Tuple[str,float]]]) -> (Dict[str, List[float]], set):
