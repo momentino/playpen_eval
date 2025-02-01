@@ -24,7 +24,7 @@ def main(args: argparse.Namespace) -> None:
                         benchmark_subset = args.benchmark_subset,
                         ignore_tasks=args.ignore_tasks,
                         ignore_groups=args.ignore_groups,
-                        functional_groups_to_exclude=args.functional_groups_to_exclude,
+                        capability_groups_to_exclude=args.capability_groups_to_exclude,
                         take_above_baseline=args.take_above_baseline,
                         by=args.by)
     elif args.command_name == "scatterplot":
@@ -122,7 +122,7 @@ if __name__ == "__main__":
     )
 
     run_correlation_parser.add_argument(
-        "--functional_groups_to_exclude",
+        "--capability_groups_to_exclude",
         nargs="+",
         default=[],
         help="Specify groups of functional capabilities to not include in the analysis."
@@ -184,6 +184,7 @@ if __name__ == "__main__":
         default=[],
         help="Specify groups of tasks to ignore in the bar charts."
     )
+
 
     barchart_parser.add_argument(
         "--by",

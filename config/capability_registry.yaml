@@ -1,10 +1,32 @@
 capabilities:
-  functional: [ "commonsense_reasoning",
-                "planning_decision_making",
-                "logical_numerical_reasoning",
-                "causal_reasoning",
-                "social_commonsense_reasoning",
-                "theory_of_mind",
-                "emotional_intelligence",
-                "pragmatics",
-                "working_memory"]
+  executive_functions:
+    planning_decision_making:
+      alias: "Planning/Decision Making"
+    causal_reasoning:
+      alias: "Causal Reasoning"
+    logic_numerical_reasoning:
+      alias: "Logic/Numerical Reasoning"
+    commonsense_reasoning:
+      alias: "Commonsense Reasoning"
+  core_executive_functions:
+    cognitive_flexibility:
+      alias: "Cognitive Flexibility"
+    working_memory:
+      alias: "Working Memory"
+    inhibitory_control:
+      alias: "Inhibitory Control"
+    self_monitoring_error_correction:
+      alias: "Self-Monitoring/Error Correction"
+  social_emotional_cognition:
+    social_commonsense_reasoning:
+      alias: "Social Commonsense Reasoning"
+    theory_of_mind:
+      alias: "Theory of Mind"
+    emotional_intelligence:
+      alias: "Emotional Intelligence"
+    pragmatics:
+      alias: "Pragmatics"
+    self_awareness:
+      alias: "Self-Awareness"
+    attribution_judgment:
+      alias: "Attribution/Judgment"

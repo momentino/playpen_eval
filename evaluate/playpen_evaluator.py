@@ -8,7 +8,7 @@ from typing import List
 from datetime import datetime
 from evaluate import get_logger, get_executed_tasks
 from evaluate.normalize import normalize_scores
-from config import project_root, get_task_registry, get_task_backend
+from config import project_root, get_task_backend, TASK_REGISTRY
 from utils.utils import custom_json_serializer, convert_harness_results, convert_clembench_results, compute_total_time
 import playpen.clemgame.benchmark as clembench_eval
 from playpen.backends import read_model_specs
@@ -31,6 +31,7 @@ def run(model_backend: str,
         num_fewshot: int,
         fewshot_as_multiturn: bool,
         apply_chat_template: bool,
+        batch_size: int,
         results_path: Path = "results") -> None:
 
     model_name_parts = model_args.split(",")
@@ -54,9 +55,8 @@ def run(model_backend: str,
     if parallelize:
         model_args = model_args + ",parallelize=True"
 
-    task_registry = get_task_registry()
-    main_task_names = [name for task_info in task_registry.values() for name in task_info.keys() if "main_task" in task_info[name].keys() and task_info[name]["main_task"]]
-    all_task_names = [name for task_info in task_registry.values() for name in task_info.keys()]
+    main_task_names = [name for task_info in TASK_REGISTRY.values() for name in task_info.keys() if "main_task" in task_info[name].keys() and task_info[name]["main_task"]]
+    all_task_names = [name for task_info in TASK_REGISTRY.values() for name in task_info.keys()]
     if len(tasks) == 1:
         if "all" in tasks[0]:
             tasks = main_task_names
@@ -76,7 +76,7 @@ def run(model_backend: str,
     # Run evaluation for each task
     for task in tasks:
         start_time = datetime.now()
-        backend = get_task_backend(task, task_registry)
+        backend = get_task_backend(task)
         assert backend is not None
         assert backend in {"harness", "playpen_eval_benchmarks", "clembench"}
         if backend == "harness":
@@ -90,6 +90,7 @@ def run(model_backend: str,
                 num_fewshot=num_fewshot,
                 fewshot_as_multiturn=fewshot_as_multiturn,
                 apply_chat_template=apply_chat_template,
+                batch_size=batch_size,
             )
             timestamp = datetime.now().strftime("%Y-%m-%dT%H-%M-%S.%f")
             harness_results_file_path = Path(os.path.join(harness_results_path, f"{task}_harness_results_{timestamp}.json"))

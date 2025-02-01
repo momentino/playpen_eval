@@ -3,11 +3,11 @@ import json
 from pathlib import Path
 from typing import Dict, List, Any, Tuple
 from collections import defaultdict
-from config import get_task_info, get_model_registry
+from config import get_task_info, MODEL_REGISTRY, TASK_REGISTRY
 from utils.utils import convert_str_to_number
 
-def get_reports(src_path: Path, model_registry: Dict[str, Dict[str, str]]):
-    model_names = model_registry.keys()
+def get_reports(src_path: Path):
+    model_names = MODEL_REGISTRY.keys()
     models_reports = []
     for subdir, dirs, files in os.walk(src_path):
         subfolder_name = os.path.basename(subdir)
@@ -17,13 +17,13 @@ def get_reports(src_path: Path, model_registry: Dict[str, Dict[str, str]]):
                     models_reports.append(json.load(open(os.path.join(subdir, file))))
     return models_reports
 
-def get_scores(reports, task_registry: Dict[str,Dict[str,Any]], ignore_tasks:List[str], ignore_groups: List[str], benchmark_subset: str, take_above_baseline: bool, by:str):
+def get_scores(reports, ignore_tasks:List[str], ignore_groups: List[str], benchmark_subset: str, take_above_baseline: bool, by:str):
     if by == "models":
         scores_dict = defaultdict(list)
     elif by == "benchmarks":
         scores_dict = defaultdict(lambda: defaultdict(list))
-    group_names = task_registry.keys()
-    task_names = [task for g in group_names for task in task_registry[g].keys()]
+    group_names = TASK_REGISTRY.keys()
+    task_names = [task for g in group_names for task in TASK_REGISTRY[g].keys()]
     for report in reports:
         model_name = report["model_name"]
         for task_name, score_dict in report["task_results"].items():
@@ -37,14 +37,14 @@ def get_scores(reports, task_registry: Dict[str,Dict[str,Any]], ignore_tasks:Lis
                             continue
                     main_task = task_config["main_task"]
                     if by == "benchmarks":
-                        if benchmark_subset == "subtasks" and (not main_task or len(task_registry[group]) == 1):
+                        if benchmark_subset == "subtasks" and (not main_task or len(TASK_REGISTRY[group]) == 1):
                             scores_dict[group][task_name].append((model_name, score))
                         elif benchmark_subset == "main" and main_task:
                             scores_dict[group][task_name].append((model_name, score))
                         elif benchmark_subset == "all":
                             scores_dict[group][task_name].append((model_name, score))
                     elif by == "models":
-                        if benchmark_subset == "subtasks" and (not main_task or len(task_registry[group]) == 1):
+                        if benchmark_subset == "subtasks" and (not main_task or len(TASK_REGISTRY[group]) == 1):
                             scores_dict[model_name].append((task_name, score))
                         elif benchmark_subset == "main" and main_task:
                             scores_dict[model_name].append((task_name, score))
@@ -60,7 +60,7 @@ def sort_scores(scores: Dict, by: str):
                 if len({t[0] for t in model_scores}) < len(model_scores):
                     raise Exception(f"There are two scores for the same model and task! {[task_name]} Check your results files folder.")
                 # sort according to family and within the family by the number of params
-                model_scores.sort(key=lambda x: (get_model_registry()[x[0]]['family'],convert_str_to_number(get_model_registry()[x[0]]['params'])))
+                model_scores.sort(key=lambda x: (MODEL_REGISTRY[x[0]]['family'],convert_str_to_number(MODEL_REGISTRY[x[0]]['params'])))
     elif by=="models":
         for model_name, model_scores in scores.items():
             if len({t[0] for t in model_scores}) < len(model_scores):
@@ -68,7 +68,7 @@ def sort_scores(scores: Dict, by: str):
                     f"There are two scores for the same model and task! {[model_name]} Check your results files folder.")
             model_scores.sort(key=lambda x: (get_task_info(x[0])[1]["functional_group"], x[0])) # sort according to task name in alphabetical order
 
-def organize_scores_capabilities(scores: Dict, task_registry: Dict, functional_groups_to_exclude:List[str]):
+def organize_scores_capabilities(scores: Dict, capability_groups_to_exclude:List[str]):
     organized_scores = defaultdict(lambda: defaultdict(list))
     for group1, tasks1 in scores.items():
         for task1_name, scores1 in tasks1.items():
@@ -76,10 +76,10 @@ def organize_scores_capabilities(scores: Dict, task_registry: Dict, functional_g
                 for task2_name, scores2 in tasks2.items():
                     if task1_name != task2_name:
 
-                        task1_functional_group = task_registry[group1][task1_name]["functional_group"][0]
-                        task2_functional_group = task_registry[group2][task2_name]["functional_group"][0]
-                        if (task1_functional_group not in functional_groups_to_exclude) and (task2_functional_group not in functional_groups_to_exclude):
-                            organized_scores[f"total_no_{functional_groups_to_exclude}"][task2_name] = scores2
+                        task1_functional_group = TASK_REGISTRY[group1][task1_name]["functional_group"][0]
+                        task2_functional_group = TASK_REGISTRY[group2][task2_name]["functional_group"][0]
+                        if (task1_functional_group not in capability_groups_to_exclude) and (task2_functional_group not in capability_groups_to_exclude):
+                            organized_scores[f"total_no_{capability_groups_to_exclude}"][task2_name] = scores2
                         """if category != "total":
                             task1_categories = task_registry[group1][task1_name][category]
                             task2_categories = task_registry[group2][task2_name][category]

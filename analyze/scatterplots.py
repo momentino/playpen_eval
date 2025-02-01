@@ -5,7 +5,7 @@ from matplotlib.cm import get_cmap
 from pathlib import Path
 from typing import Dict, List
 from utils.utils import convert_str_to_number
-from config import get_model_registry, get_task_registry, project_root, get_alias, get_baseline, get_task_info
+from config import project_root, get_alias, get_baseline, get_task_info, MODEL_REGISTRY, TASK_REGISTRY
 from analyze.score_extraction_utils import get_reports, get_scores, sort_scores
 from scipy.stats import rankdata
 

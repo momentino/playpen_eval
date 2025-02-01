@@ -21,6 +21,7 @@ def main(args: argparse.Namespace) -> None:
             fewshot_as_multiturn=args.fewshot_as_multiturn,
             results_path=args.results_path,
             apply_chat_template=args.apply_chat_template,
+            batch_size=args.batch_size
         )
     if args.command_name == "report_costs":
         playpen_evaluator.report_costs(
@@ -78,6 +79,7 @@ if __name__ == "__main__":
         help="Whether to run big models on multiple GPUs."
     )
 
+
     run_parser.add_argument(
         "--num_fewshot",
         type=int,
@@ -90,6 +92,13 @@ if __name__ == "__main__":
         action="store_true",
         default=False,
         help="Whether we wish to have fewshot example spanning across turns"
+    )
+
+    run_parser.add_argument(
+        "--batch_size",
+        type=int,
+        default=8,
+        help="Batch size."
     )
 
     run_parser.add_argument(

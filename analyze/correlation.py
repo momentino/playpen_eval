@@ -9,8 +9,7 @@ from collections import defaultdict
 from typing import Dict, List
 from pathlib import Path
 
-from config import project_root, get_functional_group_from_alias, get_alias, get_model_registry, \
-    get_task_registry
+from config import project_root, get_capability_group_from_alias, get_alias, MODEL_REGISTRY
 from analyze.score_extraction_utils import get_reports, get_scores, keep_common, organize_scores_capabilities, \
     sort_scores
 from utils.utils import convert_str_to_number
@@ -44,21 +43,17 @@ class CorrelationMatrixModels(CorrelationMatrix):
         pass
 
 
-def sort_correlation_matrix(correlation_matrix: CorrelationMatrix, tasks_info: Dict[str, Dict[str, str]]):
+def sort_correlation_matrix(correlation_matrix: CorrelationMatrix):
     groups_info = []
     for task in correlation_matrix.data.columns:
-        functional_groups = get_functional_group_from_alias(task, tasks_info)
-        if "executive_functions" in functional_groups and "social_emotional_cognition" not in functional_groups:
+        task_group = get_capability_group_from_alias(task)
+        if task_group == "executive_functions":
             groups_info.append(0)
-        elif "executive_functions_outliers" in functional_groups:
-            groups_info.append(0.5)
-        elif "social_emotional_cognition" in functional_groups and "executive_functions" not in functional_groups:
+        elif task_group == "social_emotional_cognition":
             groups_info.append(1)
-        elif "social_emotional_cognition_outlier" in functional_groups:
-            groups_info.append(1.5)
-        elif "massive" in functional_groups:
+        elif task_group == "interactive":
             groups_info.append(2)
-        elif "interactive" in functional_groups:
+        elif task_group == "massive":
             groups_info.append(3)
         else:
             groups_info.append(4)
@@ -121,7 +116,7 @@ def plot_and_save_matrices(correlation_matrices: List[CorrelationMatrix], output
                 file.write(f"{element}\n")
 
 
-def get_correlation_matrices_benchmarks(correlation_method:str, scores: Dict, model_registry: Dict, task_registry: Dict, lower_bound: float = None, upper_bound: float = None, partial: bool = False) -> List[CorrelationMatrix]:
+def get_correlation_matrices_benchmarks(correlation_method:str, scores: Dict, lower_bound: float = None, upper_bound: float = None, partial: bool = False) -> List[CorrelationMatrix]:
     matrices = []
     for group, tasks in scores.items():
         if len(tasks.keys()) > 1:
@@ -130,16 +125,15 @@ def get_correlation_matrices_benchmarks(correlation_method:str, scores: Dict, mo
                 task_name = get_alias(task_id)
                 partial_scores[task_name] = [v for v in model_results if
                                     (lower_bound is None and upper_bound is None) or
-                                    (lower_bound < convert_str_to_number(model_registry[v[0]]['params']) <= upper_bound)]
+                                    (lower_bound < convert_str_to_number(MODEL_REGISTRY[v[0]]['params']) <= upper_bound)]
             scores, remaining_models = keep_common(partial_scores)
             scores_matrix = pd.DataFrame(scores)
-            print(scores_matrix)
             correlation_matrix = CorrelationMatrixBenchnmarks(data=scores_matrix.corr(method=correlation_method), category=group, name=group, models=remaining_models)
-            correlation_matrix = sort_correlation_matrix(correlation_matrix, task_registry)
+            correlation_matrix = sort_correlation_matrix(correlation_matrix)
             matrices.append(correlation_matrix)
     return matrices
 
-def get_correlation_matrices_models(correlation_method:str, scores: Dict, model_registry: Dict, task_registry: Dict, partial: bool = False) -> List[CorrelationMatrix]:
+def get_correlation_matrices_models(correlation_method:str, scores: Dict, partial: bool = False) -> List[CorrelationMatrix]:
     task_names = sorted(set(t[0] for col in scores.values() for t in col))
     scores_matrix = pd.DataFrame(index=task_names)
     for model_name, tuples in scores.items():
@@ -180,21 +174,17 @@ def run_correlation(src_path: Path,
                     tiers: bool,
                     benchmark_subset: str,
                     take_above_baseline: bool,
-                    functional_groups_to_exclude: List[str],
+                    capability_groups_to_exclude: List[str],
                     by: str) -> None:
-    model_registry = get_model_registry()
-    task_registry = get_task_registry()
     src_path = project_root / src_path
-    reports = get_reports(src_path=src_path, model_registry = model_registry)
-    scores = get_scores(reports, task_registry, benchmark_subset=benchmark_subset, ignore_tasks=ignore_tasks, ignore_groups=ignore_groups, take_above_baseline=take_above_baseline, by=by)
+    reports = get_reports(src_path=src_path)
+    scores = get_scores(reports, benchmark_subset=benchmark_subset, ignore_tasks=ignore_tasks, ignore_groups=ignore_groups, take_above_baseline=take_above_baseline, by=by)
     sort_scores(scores, by=by)
     organized_scores = []
     if by == "models":
         organized_scores.append({"scores": scores,
                                  "output_path_root": output_path_root})
-        correlation_matrices = get_correlation_matrices_models(correlation_method, organized_scores[0]["scores"],
-                                                                   model_registry=model_registry,
-                                                                   task_registry=task_registry)
+        correlation_matrices = get_correlation_matrices_models(correlation_method, organized_scores[0]["scores"])
         output_path = scores["output_path_root"]
         plot_and_save_matrices(correlation_matrices=correlation_matrices,
                                output_path_root=output_path)
@@ -203,8 +193,7 @@ def run_correlation(src_path: Path,
         if discriminant == "capabilities":
             output_path_root = output_path_root/ "only_executive"
             organized_scores.append({"scores": organize_scores_capabilities(scores,
-                                                                            task_registry,
-                                                                            functional_groups_to_exclude),
+                                                                            capability_groups_to_exclude),
                                      "output_path_root": output_path_root}) # TODO: improve
             #elif discriminant == "tasks":
         #    organized_scores.append({"scores": organize_scores_tasks(scores, tasks_info), "output_path_root": output_path_root})
@@ -212,7 +201,7 @@ def run_correlation(src_path: Path,
             organized_scores.append({"scores": scores, "output_path_root": output_path_root})
         for scores in organized_scores:
 
-            correlation_matrices = get_correlation_matrices_benchmarks(correlation_method, scores["scores"], model_registry = model_registry, task_registry=task_registry, partial=partial)
+            correlation_matrices = get_correlation_matrices_benchmarks(correlation_method, scores["scores"], partial=partial)
             output_path_root = output_path_root / "all"
             plot_and_save_matrices(correlation_matrices=correlation_matrices,
                                    output_path_root=scores["output_path_root"])
@@ -232,7 +221,7 @@ def run_correlation(src_path: Path,
                     #}
                 }
                 for tier, bounds in model_size_thresholds.items():
-                    correlation_matrices = get_correlation_matrices_benchmarks(correlation_method, scores["scores"], lower_bound=bounds['lower_bound'], upper_bound=bounds['upper_bound'], model_registry = model_registry, task_registry=task_registry)
+                    correlation_matrices = get_correlation_matrices_benchmarks(correlation_method, scores["scores"], lower_bound=bounds['lower_bound'], upper_bound=bounds['upper_bound'])
                     output_path = scores["output_path_root"] / tier
                     plot_and_save_matrices(correlation_matrices=correlation_matrices,
                                            output_path_root=output_path)
