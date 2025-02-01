@@ -1,4 +1,7 @@
 import os
+import abc
+from abc import abstractmethod
+
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -12,7 +15,12 @@ from analyze.score_extraction_utils import get_reports, get_scores, keep_common,
     sort_scores
 from utils.utils import convert_str_to_number
 
-class CorrelationMatrix():
+class CorrelationMatrix(abc.ABC):
+    @abstractmethod
+    def sort(self):
+        pass
+
+class CorrelationMatrixBenchnmarks(CorrelationMatrix):
 
     def __init__(self, data, category, name, models):
         self.data = data
@@ -31,6 +39,9 @@ class CorrelationMatrix():
         self.data = self.data[self.data.index]
         self.data['group'] = group_column
 
+class CorrelationMatrixModels(CorrelationMatrix):
+    def sort(self):
+        pass
 
 
 def sort_correlation_matrix(correlation_matrix: CorrelationMatrix, tasks_info: Dict[str, Dict[str, str]]):
@@ -45,7 +56,7 @@ def sort_correlation_matrix(correlation_matrix: CorrelationMatrix, tasks_info: D
             groups_info.append(1)
         elif "social_emotional_cognition_outlier" in functional_groups:
             groups_info.append(1.5)
-        elif "extra" in functional_groups:
+        elif "massive" in functional_groups:
             groups_info.append(2)
         elif "interactive" in functional_groups:
             groups_info.append(3)
@@ -110,9 +121,9 @@ def plot_and_save_matrices(correlation_matrices: List[CorrelationMatrix], output
                 file.write(f"{element}\n")
 
 
-def get_correlation_matrices(correlation_method:str, scores: Dict, model_registry: Dict, task_registry: Dict, lower_bound: float = None, upper_bound: float = None, partial: bool = False) -> List[CorrelationMatrix]:
+def get_correlation_matrices_benchmarks(correlation_method:str, scores: Dict, model_registry: Dict, task_registry: Dict, lower_bound: float = None, upper_bound: float = None, partial: bool = False) -> List[CorrelationMatrix]:
     matrices = []
-    for category, tasks in scores.items():
+    for group, tasks in scores.items():
         if len(tasks.keys()) > 1:
             partial_scores = defaultdict(list)
             for task_id, model_results in tasks.items():
@@ -121,17 +132,21 @@ def get_correlation_matrices(correlation_method:str, scores: Dict, model_registr
                                     (lower_bound is None and upper_bound is None) or
                                     (lower_bound < convert_str_to_number(model_registry[v[0]]['params']) <= upper_bound)]
             scores, remaining_models = keep_common(partial_scores)
-            print(partial_scores)
             scores_matrix = pd.DataFrame(scores)
-            if partial:
-                print(scores_matrix)
-            else:
-                correlation_matrix = CorrelationMatrix(data=scores_matrix.corr(method=correlation_method), category=category, name=category, models=remaining_models)
+            print(scores_matrix)
+            correlation_matrix = CorrelationMatrixBenchnmarks(data=scores_matrix.corr(method=correlation_method), category=group, name=group, models=remaining_models)
             correlation_matrix = sort_correlation_matrix(correlation_matrix, task_registry)
             matrices.append(correlation_matrix)
     return matrices
 
-
+def get_correlation_matrices_models(correlation_method:str, scores: Dict, model_registry: Dict, task_registry: Dict, partial: bool = False) -> List[CorrelationMatrix]:
+    task_names = sorted(set(t[0] for col in scores.values() for t in col))
+    scores_matrix = pd.DataFrame(index=task_names)
+    for model_name, tuples in scores.items():
+        scores_matrix[model_name] = {t[0]: t[1] for t in tuples}
+    matrices = []
+    correlation_matrix = scores_matrix.corr(method=correlation_method)
+    return matrices
 
 """def organize_scores_tasks(scores: Dict, task_registry: Dict):
     organized_scores = {
@@ -163,50 +178,62 @@ def run_correlation(src_path: Path,
                     ignore_tasks: List[str],
                     ignore_groups: List[str],
                     tiers: bool,
-                    subset: str,
+                    benchmark_subset: str,
                     take_above_baseline: bool,
-                    functional_groups_to_exclude: List[str]) -> None:
+                    functional_groups_to_exclude: List[str],
+                    by: str) -> None:
     model_registry = get_model_registry()
     task_registry = get_task_registry()
     src_path = project_root / src_path
     reports = get_reports(src_path=src_path, model_registry = model_registry)
-    scores = get_scores(reports, task_registry, subset=subset, ignore_tasks=ignore_tasks, ignore_groups=ignore_groups, take_above_baseline=take_above_baseline)
-    sort_scores(scores)
+    scores = get_scores(reports, task_registry, benchmark_subset=benchmark_subset, ignore_tasks=ignore_tasks, ignore_groups=ignore_groups, take_above_baseline=take_above_baseline, by=by)
+    sort_scores(scores, by=by)
     organized_scores = []
-    if discriminant == "capabilities":
-        output_path_root = output_path_root/ "only_executive"
-        organized_scores.append({"scores": organize_scores_capabilities(scores,
-                                                                        task_registry,
-                                                                        functional_groups_to_exclude),
-                                 "output_path_root": output_path_root}) # TODO: improve
-
-        #elif discriminant == "tasks":
-    #    organized_scores.append({"scores": organize_scores_tasks(scores, tasks_info), "output_path_root": output_path_root})
-    elif discriminant == "benchmarks":
-        organized_scores.append({"scores": scores, "output_path_root": output_path_root})
-    for scores in organized_scores:
-        correlation_matrices = get_correlation_matrices(correlation_method, scores["scores"], model_registry = model_registry, task_registry=task_registry, partial=partial)
-        output_path_root = output_path_root / "all"
+    if by == "models":
+        organized_scores.append({"scores": scores,
+                                 "output_path_root": output_path_root})
+        correlation_matrices = get_correlation_matrices_models(correlation_method, organized_scores[0]["scores"],
+                                                                   model_registry=model_registry,
+                                                                   task_registry=task_registry)
+        output_path = scores["output_path_root"]
         plot_and_save_matrices(correlation_matrices=correlation_matrices,
-                               output_path_root=scores["output_path_root"])
-        if tiers:
-            model_size_thresholds = {
-                'xsmall': {
-                    "lower_bound": 0,
-                    "upper_bound": 5000000000
-                },
-                'small': {
-                    "lower_bound": 5000000000,
-                    "upper_bound": 10000000000
-                },
-                #'medium': {
-                #    "lower_bound": 10000000000,
-                #    "upper_bound": 70000000000
-                #}
-            }
-            for tier, bounds in model_size_thresholds.items():
-                correlation_matrices = get_correlation_matrices(correlation_method, scores["scores"], lower_bound=bounds['lower_bound'], upper_bound=bounds['upper_bound'], model_registry = model_registry, task_registry=task_registry)
-                output_path = scores["output_path_root"] / tier
-                plot_and_save_matrices(correlation_matrices=correlation_matrices,
-                                       output_path_root=output_path)
+                               output_path_root=output_path)
+
+    if by == "benchmarks":
+        if discriminant == "capabilities":
+            output_path_root = output_path_root/ "only_executive"
+            organized_scores.append({"scores": organize_scores_capabilities(scores,
+                                                                            task_registry,
+                                                                            functional_groups_to_exclude),
+                                     "output_path_root": output_path_root}) # TODO: improve
+            #elif discriminant == "tasks":
+        #    organized_scores.append({"scores": organize_scores_tasks(scores, tasks_info), "output_path_root": output_path_root})
+        elif discriminant == "benchmarks":
+            organized_scores.append({"scores": scores, "output_path_root": output_path_root})
+        for scores in organized_scores:
+
+            correlation_matrices = get_correlation_matrices_benchmarks(correlation_method, scores["scores"], model_registry = model_registry, task_registry=task_registry, partial=partial)
+            output_path_root = output_path_root / "all"
+            plot_and_save_matrices(correlation_matrices=correlation_matrices,
+                                   output_path_root=scores["output_path_root"])
+            if tiers:
+                model_size_thresholds = {
+                    'xsmall': {
+                        "lower_bound": 0,
+                        "upper_bound": 5000000000
+                    },
+                    'small': {
+                        "lower_bound": 5000000000,
+                        "upper_bound": 10000000000
+                    },
+                    #'medium': {
+                    #    "lower_bound": 10000000000,
+                    #    "upper_bound": 70000000000
+                    #}
+                }
+                for tier, bounds in model_size_thresholds.items():
+                    correlation_matrices = get_correlation_matrices_benchmarks(correlation_method, scores["scores"], lower_bound=bounds['lower_bound'], upper_bound=bounds['upper_bound'], model_registry = model_registry, task_registry=task_registry)
+                    output_path = scores["output_path_root"] / tier
+                    plot_and_save_matrices(correlation_matrices=correlation_matrices,
+                                           output_path_root=output_path)
 

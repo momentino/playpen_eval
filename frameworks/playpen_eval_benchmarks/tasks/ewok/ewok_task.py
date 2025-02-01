@@ -120,7 +120,7 @@ class EwokMinimalPairsTask(Task):
             model.set_tokenizer_pad_token(model.tokenizer.eos_token)
 
         correct = {
-            'total': [],
+            #'total': [],
             'executive': [],
             'social': [],
             'agent_properties': [],
@@ -213,16 +213,23 @@ class EwokMinimalPairsTask(Task):
                 score = 0
             domain = row["Domain"].replace("-", "_")
             correct[domain].append(score)
-            correct["total"].append(score)
+            #correct["total"].append(score)
             if domain in executive_subtasks:
                 correct["executive"].append(score)
             elif domain in social_subtasks:
                 correct["social"].append(score)
 
+
+
         formatted_results = {"model_name": model.get_model_name().replace("/","__"), "task_results": {}}
         for key, value in correct.items():
-            subtask = "_" + key if key != "total" else ""
+            subtask = "_" + key
             formatted_results["task_results"][f"{self.task_name}{subtask}"] = {"metric": "acc",
                                                                                "score": sum(correct[key]) / len(
                                                                                    correct[key])}
+            if key not in ["executive","social"]:
+                correct["total"].append(sum(correct[key]) / len(
+                                                                                   correct[key]))
+        formatted_results["task_results"][f"{self.task_name}_total"] = {"metric": "acc",
+                                                                           "score": sum(correct["total"])/11}
         return formatted_results

@@ -3,12 +3,16 @@ from pathlib import Path
 from analyze import playpen_correlation_logger
 from analyze.correlation import run_correlation
 from analyze.scatterplots import run_scatterplots
+from analyze.histograms import run_histograms
 
 
 def main(args: argparse.Namespace) -> None:
     if args.command_name == "correlation":
         playpen_correlation_logger.info(f"Starting the correlation analysis for the experiment.")
-        output_path_root = Path(args.output_path) / Path(args.discriminant) / args.subset / args.correlation_method
+        if args.by == "benchmarks":
+            output_path_root = Path(args.output_path) / Path(args.discriminant) / args.benchmark_subset / args.correlation_method
+        elif args.by == "models":
+            output_path_root = Path(args.output_path) / "models" / args.benchmark_subset / args.correlation_method
         if args.discriminant == "benchmark" and args.subset in ["main","all"]:
             raise Exception("Cannot consider overall benchmarks here. We are taking into consideration within-benchmark subtasks. Try by adding the '--take_functional_subtasks' argument.")
         run_correlation(src_path = Path(args.src_path),
@@ -17,18 +21,27 @@ def main(args: argparse.Namespace) -> None:
                         correlation_method = args.correlation_method,
                         discriminant = args.discriminant,
                         partial=args.partial,
-                        subset = args.subset,
+                        benchmark_subset = args.benchmark_subset,
                         ignore_tasks=args.ignore_tasks,
                         ignore_groups=args.ignore_groups,
                         functional_groups_to_exclude=args.functional_groups_to_exclude,
-                        take_above_baseline=args.take_above_baseline)
+                        take_above_baseline=args.take_above_baseline,
+                        by=args.by)
     elif args.command_name == "scatterplot":
         playpen_correlation_logger.info(f"Plotting results for pairs of benchmarks")
-        run_scatterplots(src_path=Path(args.src_path),
-                        output_path_root=Path(args.output_path),
-                        ignore_groups=args.ignore_groups
+        output_path = Path(args.output_path) / args.by
+        run_scatterplots(src_path=args.src_path,
+                        output_path_root=output_path,
+                        ignore_groups=args.ignore_groups,
+                        by=args.by
                            )
-
+    elif args.command_name == "histogram":
+        output_path = Path(args.output_path) / args.by
+        run_histograms(src_path=args.src_path,
+                         output_path_root=output_path,
+                         ignore_groups=args.ignore_groups,
+                         by=args.by
+                         )
 
 
 if __name__ == "__main__":
@@ -50,10 +63,18 @@ if __name__ == "__main__":
         help="Path to the folder where to save the results from the correlation analysis."
     )
     run_correlation_parser.add_argument(
-        "--subset",
+        "--benchmark_subset",
         type=str,
         default='main',
         help="Choose which subset of results you wish to consider. Admissible values: 'subtasks', 'main', 'all'."
+    )
+
+    run_correlation_parser.add_argument(
+        "--by",
+        type=str,
+        default='benchmarks',
+        choices=["benchmarks","models"],
+        help="Choose whether you wish to compute the correlation by benchmark or model."
     )
 
     run_correlation_parser.add_argument(
@@ -95,8 +116,8 @@ if __name__ == "__main__":
     run_correlation_parser.add_argument(
         "--discriminant",
         type=str,
-        default="capabilities",
-        choices=['capabilities', 'tasks', 'benchmarks'],
+        default=None,
+        choices=[None, 'capabilities', 'tasks', 'benchmarks'],
         help="The variable to consider for grouping benchmarks for the correlation analysis."
     )
 
@@ -133,6 +154,43 @@ if __name__ == "__main__":
         nargs="+",
         default=[],
         help="Specify groups of tasks to ignore in the scatterplot analysis."
+    )
+
+    scatterplot_parser.add_argument(
+        "--by",
+        type=str,
+        default='benchmarks',
+        choices=["benchmarks", "models"],
+        help="Choose whether you wish to compute the correlation by benchmark or model."
+    )
+
+    histogram_parser = sub_parsers.add_parser("histogram", formatter_class=argparse.RawTextHelpFormatter)
+    histogram_parser.add_argument(
+        "-s", "--src_path",
+        type=str,
+        default="results/playpen_eval",
+        help="Path to the folder containing the results from which to extract data for the plots."
+    )
+    histogram_parser.add_argument(
+        "-o", "--output_path",
+        type=str,
+        default="results/histograms",
+        help="Path to the folder where to save the plots."
+    )
+
+    histogram_parser.add_argument(
+        "--ignore_groups",
+        nargs="+",
+        default=[],
+        help="Specify groups of tasks to ignore in the scatterplot analysis."
+    )
+
+    histogram_parser.add_argument(
+        "--by",
+        type=str,
+        default='benchmarks',
+        choices=["benchmarks", "models"],
+        help="Choose whether you wish to compute the correlation by benchmark or model."
     )
 
     args = parser.parse_args()
