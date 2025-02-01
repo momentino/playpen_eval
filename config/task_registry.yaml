@@ -907,3 +907,41 @@ simpletom:
         backend: "harness"
         random_baseline: 0.5
         higher_bound: 1
+
+natural_planning:
+    natural_planning:
+        alias: "Natural Planning"
+        functional: [ "" ]
+        formal: [ ]
+        functional_group: [ "executive_functions" ]
+        main_task: True
+        backend: "harness"
+        random_baseline: 0
+        higher_bound: 1
+    calendar_planning_5shot:
+        alias: "Natural Planning (Calendar)"
+        functional: [ "" ]
+        formal: [ ]
+        functional_group: [ "executive_functions" ]
+        main_task: True
+        backend: "harness"
+        random_baseline: 0
+        higher_bound: 1
+    meeting_planning_5shot:
+        alias: "Natural Planning (Meeting)"
+        functional: [ "" ]
+        formal: [ ]
+        functional_group: [ "executive_functions" ]
+        main_task: True
+        backend: "harness"
+        random_baseline: 0
+        higher_bound: 1
+    travel_planning_5shot:
+        alias: "Natural Planning (Travel)"
+        functional: [ "" ]
+        formal: [ ]
+        functional_group: [ "executive_functions" ]
+        main_task: True
+        backend: "harness"
+        random_baseline: 0
+        higher_bound: 1
