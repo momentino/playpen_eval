@@ -28,6 +28,7 @@ def run(model_backend: str,
         device: str,
         trust_remote_code:bool,
         parallelize:bool,
+        device_map_option:str,
         num_fewshot: int,
         fewshot_as_multiturn: bool,
         apply_chat_template: bool,
@@ -54,6 +55,7 @@ def run(model_backend: str,
         model_args = model_args + ",trust_remote_code=True"
     if parallelize:
         model_args = model_args + ",parallelize=True"
+    model_args=model_args + f",device_map={device_map_option}"
 
     main_task_names = [name for task_info in TASK_REGISTRY.values() for name in task_info.keys() if "main_task" in task_info[name].keys() and task_info[name]["main_task"]]
     all_task_names = [name for task_info in TASK_REGISTRY.values() for name in task_info.keys()]

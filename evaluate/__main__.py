@@ -17,6 +17,7 @@ def main(args: argparse.Namespace) -> None:
             device=args.device,
             trust_remote_code=args.trust_remote_code,
             parallelize=args.parallelize,
+            device_map_option=args.device_map_option,
             num_fewshot=args.num_fewshot,
             fewshot_as_multiturn=args.fewshot_as_multiturn,
             results_path=args.results_path,
@@ -116,6 +117,13 @@ if __name__ == "__main__":
     )
 
     run_parser.add_argument(
+        "--device_map_option",
+        type=str,
+        default="auto",
+        help="Output path for the reports for the cost estimates. Default is 'results/cost_reports'."
+    )
+
+    run_parser.add_argument(
         "--results_path",
         type=str,
         default="results",
@@ -143,6 +151,8 @@ if __name__ == "__main__":
             List of models for which we want to estimate costs
         """
     )
+
+
 
     args = parser.parse_args()
     main(args)
