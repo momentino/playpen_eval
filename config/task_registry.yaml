@@ -909,7 +909,7 @@ simpletom:
         higher_bound: 1
 
 natural_planning:
-    natural_planning:
+    natural_planning_5shot:
         alias: "Natural Planning"
         functional: [ "" ]
         formal: [ ]
