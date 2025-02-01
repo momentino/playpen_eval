@@ -918,7 +918,7 @@ natural_planning:
         backend: "harness"
         random_baseline: 0
         higher_bound: 1
-    calendar_planning_5shot:
+    calendar-planning-5shot:
         alias: "Natural Planning (Calendar)"
         functional: [ "" ]
         formal: [ ]
@@ -927,7 +927,7 @@ natural_planning:
         backend: "harness"
         random_baseline: 0
         higher_bound: 1
-    meeting_planning_5shot:
+    meeting-planning-5shot:
         alias: "Natural Planning (Meeting)"
         functional: [ "" ]
         formal: [ ]
@@ -936,7 +936,7 @@ natural_planning:
         backend: "harness"
         random_baseline: 0
         higher_bound: 1
-    travel_planning_5shot:
+    travel-planning-5shot:
         alias: "Natural Planning (Travel)"
         functional: [ "" ]
         formal: [ ]

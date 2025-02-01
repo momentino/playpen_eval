@@ -31,6 +31,7 @@ def get_scores(reports, task_registry: Dict[str,Dict[str,Any]], ignore_tasks:Lis
                 group, task_config = get_task_info(task_name)
                 if group not in ignore_groups:
                     score = score_dict['score'] # score = score_dict['normalized_score']
+                    score = score/100 if score > 1 else score
                     if take_above_baseline:
                         if score < task_config["random_baseline"]:
                             continue

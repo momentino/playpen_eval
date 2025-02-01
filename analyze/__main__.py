@@ -3,7 +3,7 @@ from pathlib import Path
 from analyze import playpen_correlation_logger
 from analyze.correlation import run_correlation
 from analyze.scatterplots import run_scatterplots
-from analyze.histograms import run_histograms
+from analyze.barcharts import run_barcharts
 
 
 def main(args: argparse.Namespace) -> None:
@@ -35,9 +35,9 @@ def main(args: argparse.Namespace) -> None:
                         ignore_groups=args.ignore_groups,
                         by=args.by
                            )
-    elif args.command_name == "histogram":
+    elif args.command_name == "barchart":
         output_path = Path(args.output_path) / args.by
-        run_histograms(src_path=args.src_path,
+        run_barcharts(src_path=args.src_path,
                          output_path_root=output_path,
                          ignore_groups=args.ignore_groups,
                          by=args.by
@@ -164,33 +164,33 @@ if __name__ == "__main__":
         help="Choose whether you wish to compute the correlation by benchmark or model."
     )
 
-    histogram_parser = sub_parsers.add_parser("histogram", formatter_class=argparse.RawTextHelpFormatter)
-    histogram_parser.add_argument(
+    barchart_parser = sub_parsers.add_parser("barchart", formatter_class=argparse.RawTextHelpFormatter)
+    barchart_parser.add_argument(
         "-s", "--src_path",
         type=str,
         default="results/playpen_eval",
-        help="Path to the folder containing the results from which to extract data for the plots."
+        help="Path to the folder containing the results from which to extract data for the bar charts."
     )
-    histogram_parser.add_argument(
+    barchart_parser.add_argument(
         "-o", "--output_path",
         type=str,
-        default="results/histograms",
-        help="Path to the folder where to save the plots."
+        default="results/barcharts",
+        help="Path to the folder where to save the bar charts."
     )
 
-    histogram_parser.add_argument(
+    barchart_parser.add_argument(
         "--ignore_groups",
         nargs="+",
         default=[],
-        help="Specify groups of tasks to ignore in the scatterplot analysis."
+        help="Specify groups of tasks to ignore in the bar charts."
     )
 
-    histogram_parser.add_argument(
+    barchart_parser.add_argument(
         "--by",
         type=str,
         default='benchmarks',
         choices=["benchmarks", "models"],
-        help="Choose whether you wish to compute the correlation by benchmark or model."
+        help="Choose whether you wish to create the bar charts by benchmark or model."
     )
 
     args = parser.parse_args()
