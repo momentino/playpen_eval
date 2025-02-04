@@ -127,8 +127,8 @@ if __name__ == '__main__':
             results_path = "results"
             playpen_eval_results_path = Path(os.path.join(project_root, results_path)) / "playpen_eval" / model_name
             playpen_eval_results_path.mkdir(parents=True, exist_ok=True)
-            
+            timestamp = datetime.now().strftime("%Y-%m-%dT%H-%M-%S.%f")
             playpen_results_file_path = Path(
-            os.path.join(playpen_eval_results_path, f"{task}_fixed_playpen_results_{timestamp}.json"))
+            os.path.join(playpen_eval_results_path, f"{game}_fixed_playpen_results_{timestamp}.json"))
             with open(playpen_results_file_path, "w") as file:
                 json.dump(results, file, default=custom_json_serializer)
