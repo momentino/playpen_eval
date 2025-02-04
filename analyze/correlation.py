@@ -9,7 +9,7 @@ from collections import defaultdict
 from typing import Dict, List
 from pathlib import Path
 
-from config import project_root, get_capability_group_from_alias, get_alias, MODEL_REGISTRY
+from config import project_root, get_alias, get_capability_group_from_alias, MODEL_REGISTRY
 from analyze.score_extraction_utils import get_reports, get_scores, keep_common, organize_scores_capabilities, \
     sort_scores
 from utils.utils import convert_str_to_number
@@ -47,16 +47,21 @@ def sort_correlation_matrix(correlation_matrix: CorrelationMatrix):
     groups_info = []
     for task in correlation_matrix.data.columns:
         task_group = get_capability_group_from_alias(task)
-        if task_group == "executive_functions":
+        if task_group == "core_executive_functions":
             groups_info.append(0)
-        elif task_group == "social_emotional_cognition":
+        elif task_group == "executive_functions":
             groups_info.append(1)
-        elif task_group == "interactive":
+        elif task_group == "social_emotional_cognition":
             groups_info.append(2)
-        elif task_group == "massive":
+        elif task_group == "interactive":
             groups_info.append(3)
+        elif task_group == "massive":
+            if task == "BBH":
+                groups_info.append(4.5)
+            else:
+                groups_info.append(4)
         else:
-            groups_info.append(4)
+            groups_info.append(5)
     correlation_matrix.data["group"] = groups_info
     correlation_matrix_sorted = correlation_matrix.data.sort_values(by='group', axis=0)
     if not correlation_matrix_sorted.index.equals(correlation_matrix_sorted.columns):
@@ -69,12 +74,12 @@ def sort_correlation_matrix(correlation_matrix: CorrelationMatrix):
 
 def plot_and_save_matrices(correlation_matrices: List[CorrelationMatrix], output_path_root: Path):
     color_map = {
-        0: 'red',
-        0.5: 'red',
-        1: 'blue',
-        1.5: 'blue',
-        2: 'green',
-        3: 'purple'
+        0: 'darkred',
+        1: 'red',
+        2: 'blue',
+        3: 'purple',
+        4: 'green',
+        4.5: 'green'
     }
 
     for matrix in correlation_matrices:
@@ -128,6 +133,7 @@ def get_correlation_matrices_benchmarks(correlation_method:str, scores: Dict, lo
                                     (lower_bound < convert_str_to_number(MODEL_REGISTRY[v[0]]['params']) <= upper_bound)]
             scores, remaining_models = keep_common(partial_scores)
             scores_matrix = pd.DataFrame(scores)
+            print(scores_matrix)
             correlation_matrix = CorrelationMatrixBenchnmarks(data=scores_matrix.corr(method=correlation_method), category=group, name=group, models=remaining_models)
             correlation_matrix = sort_correlation_matrix(correlation_matrix)
             matrices.append(correlation_matrix)

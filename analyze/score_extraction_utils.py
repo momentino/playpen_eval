@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 from typing import Dict, List, Any, Tuple
 from collections import defaultdict
-from config import get_task_info, MODEL_REGISTRY, TASK_REGISTRY
+from config import get_task_info, MODEL_REGISTRY, TASK_REGISTRY, CAPABILITY_REGISTRY, get_capability_group_from_task_name
 from utils.utils import convert_str_to_number
 
 def get_reports(src_path: Path):
@@ -66,7 +66,7 @@ def sort_scores(scores: Dict, by: str):
             if len({t[0] for t in model_scores}) < len(model_scores):
                 raise Exception(
                     f"There are two scores for the same model and task! {[model_name]} Check your results files folder.")
-            model_scores.sort(key=lambda x: (get_task_info(x[0])[1]["functional_group"], x[0])) # sort according to task name in alphabetical order
+            model_scores.sort(key=lambda x: (get_capability_group_from_task_name(x[0]), x[0])) # sort according to task name in alphabetical order
 
 def organize_scores_capabilities(scores: Dict, capability_groups_to_exclude:List[str]):
     organized_scores = defaultdict(lambda: defaultdict(list))
@@ -75,18 +75,10 @@ def organize_scores_capabilities(scores: Dict, capability_groups_to_exclude:List
             for group2, tasks2 in scores.items():
                 for task2_name, scores2 in tasks2.items():
                     if task1_name != task2_name:
-
-                        task1_functional_group = TASK_REGISTRY[group1][task1_name]["functional_group"][0]
-                        task2_functional_group = TASK_REGISTRY[group2][task2_name]["functional_group"][0]
-                        if (task1_functional_group not in capability_groups_to_exclude) and (task2_functional_group not in capability_groups_to_exclude):
+                        task1_category = get_capability_group_from_task_name(task1_name)
+                        task2_category = get_capability_group_from_task_name(task2_name)
+                        if (task1_category not in capability_groups_to_exclude) and (task2_category not in capability_groups_to_exclude):
                             organized_scores[f"total_no_{capability_groups_to_exclude}"][task2_name] = scores2
-                        """if category != "total":
-                            task1_categories = task_registry[group1][task1_name][category]
-                            task2_categories = task_registry[group2][task2_name][category]
-                            if len(task1_categories) == 1 and len(task2_categories) == 1 and task1_categories[0] == task2_categories[0]:
-                                organized_scores[task2_categories[0]][task2_name] = scores2
-                        else:"""
-
     return organized_scores
 
 def organize_scores_models(scores: Dict, task_registry: Dict, functional_groups_to_exclude:List[str]):

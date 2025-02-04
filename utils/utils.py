@@ -1,6 +1,8 @@
 import numpy as np
 import torch
 import json
+import os
+from pathlib import Path
 from collections import defaultdict
 from datetime import datetime
 from config import project_root
@@ -46,7 +48,8 @@ def compute_fantom_aggregated_score(harness_results: dict) -> float:
 # TODO: Improve
 def convert_clembench_results(model_name:str, game_name: str) -> dict:
     clembench_results_folder = project_root / "results" / "clembench" / model_name
-    clemscores = []
+    scores = []
+    num_episodes = 0
     for file_path in clembench_results_folder.rglob("scores.json"):
         if file_path.is_file():
             if any(parent.name == game_name for parent in file_path.parents):
@@ -55,15 +58,21 @@ def convert_clembench_results(model_name:str, game_name: str) -> dict:
                     with file_path.open('r') as file:
                         data = json.load(file)
                         if "episode scores" in data:
+                            num_episodes+=1
                             main_score = data["episode scores"]["Main Score"]
                             if not np.isnan(main_score):
-                                clemscores.append(data["episode scores"]["Main Score"])
+                                scores.append(data["episode scores"]["Main Score"])
                 except Exception as e:
                     print(f"Error processing {file_path}: {e}")
-    if len(clemscores) == 0:
+    if len(scores) == 0:
         clemscore = 0
+        #print("ZERO PLAYED ", game_name, model_name, clemscore)
     else:
-        clemscore = sum(clemscores)/len(clemscores)
+        played = len(scores) / num_episodes
+        score = sum(scores)/len(scores)
+        clemscore = score*(played/100)
+
+        print("SCORE ",score, played, clemscore)
     results = {"model_name":model_name, "task_results": {game_name:{"metric":"quality_score", "score":clemscore}}}
     return results
 
@@ -105,3 +114,21 @@ def compute_total_time(time_strings: str) -> str:
     minutes = int((total_seconds % 3600) // 60)
     seconds = total_seconds % 60
     return f"{hours}:{minutes:02}:{seconds:06.3f}"
+
+
+if __name__ == '__main__':
+    from config import MODEL_REGISTRY
+    for model_name, model_info in MODEL_REGISTRY.items():
+        print(model_name)
+        for game in ["wordle","imagegame","privateshared","referencegame","taboo"]:
+            print(game)
+            results = convert_clembench_results(model_name, game)
+            print(results)
+            results_path = "results"
+            playpen_eval_results_path = Path(os.path.join(project_root, results_path)) / "playpen_eval" / model_name
+            playpen_eval_results_path.mkdir(parents=True, exist_ok=True)
+            
+            playpen_results_file_path = Path(
+            os.path.join(playpen_eval_results_path, f"{task}_fixed_playpen_results_{timestamp}.json"))
+            with open(playpen_results_file_path, "w") as file:
+                json.dump(results, file, default=custom_json_serializer)

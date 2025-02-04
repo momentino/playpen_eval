@@ -5,7 +5,7 @@ from matplotlib.cm import get_cmap
 from pathlib import Path
 from typing import Dict, List
 from utils.utils import convert_str_to_number
-from config import project_root, get_alias, get_baseline, get_task_info, MODEL_REGISTRY, TASK_REGISTRY
+from config import project_root, get_alias, get_baseline, get_task_info, MODEL_REGISTRY
 from analyze.score_extraction_utils import get_reports, get_scores, sort_scores
 from scipy.stats import rankdata
 
@@ -80,7 +80,7 @@ def build_and_save_scatterplots_benchmarks(scores: Dict, output_path_root: Path)
                         assert x_labels == y_labels, f"Labels in x {x_labels} and y {y_labels} for the tasks {task1_name},{task2_name} do not match!"
 
                         # Assume model_size_dict is a dictionary mapping labels to model sizes
-                        model_sizes = [convert_str_to_number(get_model_registry()[label]['params']) for label in x_labels]  # Extract model sizes
+                        model_sizes = [convert_str_to_number(MODEL_REGISTRY[label]['params']) for label in x_labels]  # Extract model sizes
                         size_ranks = rankdata(model_sizes, method='average')
 
                         normalized_ranks = (size_ranks - 1) / (len(size_ranks) - 1)
@@ -178,12 +178,10 @@ def run_scatterplots(src_path: Path,
                     output_path_root:Path,
                      ignore_groups: List[str],
                      by: str):
-    model_registry = get_model_registry()
-    task_registry = get_task_registry()
     src_path = project_root / src_path
 
-    reports = get_reports(src_path=src_path, model_registry=model_registry)
-    scores = get_scores(reports, task_registry, benchmark_subset="main", take_above_baseline=False,
+    reports = get_reports(src_path=src_path)
+    scores = get_scores(reports, benchmark_subset="main", take_above_baseline=False,
                         ignore_tasks=[], ignore_groups=ignore_groups, by=by)
     sort_scores(scores, by=by)
     if by=="benchmarks":

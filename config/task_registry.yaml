@@ -143,14 +143,14 @@ ewok_minimal_pairs:
         alias: "EWoK (Social)"
         category: "massive"
         backend: "playpen_eval_benchmarks"
-        main_task: False
+        main_task: True
         random_baseline: 0.5
         higher_bound: 1
     ewok_minimal_pairs_executive:
         alias: "EWoK (Non-Social)"
         category: "massive"
         backend: "playpen_eval_benchmarks"
-        main_task: False
+        main_task: True
         random_baseline: 0.5
         higher_bound: 1
     ewok_minimal_pairs_agent_properties:
@@ -580,7 +580,7 @@ wm:
 social_iqa:
     social_iqa:
         alias: "SocialIQA"
-        category: "social_commonsense reasoning"
+        category: "social_commonsense_reasoning"
         backend: "harness"
         main_task: True
         random_baseline: 0.33
@@ -722,44 +722,48 @@ llm_cognitive_flexibility:
         category: "cognitive_flexibility"
         main_task: True
         backend: "playpen_eval_benchmarks"
-        random_baseline: 0
+        random_baseline: 0.25
         higher_bound: 1
     llm_cognitive_flexibility_wcst:
         alias: "LLM Cognitive Flexibility (WCST)"
         category: "cognitive_flexibility"
         main_task: False
         backend: "playpen_eval_benchmarks"
-        random_baseline: 0.25
+        random_baseline: 0.75
         higher_bound: 1
     llm_cognitive_flexibility_lnt:
         alias: "LLM Cognitive Flexibility (LNT)"
         category: "cognitive_flexibility"
         main_task: False
         backend: "playpen_eval_benchmarks"
-        random_baseline: 0.25
+        random_baseline: 0.857
         higher_bound: 1
 simpletom:
     simpletom:
         alias: "SimpleToM"
         category: "theory_of_mind"
-        functional: [ "" ]
-        formal: [ ]
-        functional_group: [ "social_emotional_cognition" ]
         main_task: False
+        backend: "harness"
+        random_baseline: 0.5
+        higher_bound: 1
+    simpletom-judgment-behavior-qa:
+        alias: "SimpleToM (Judgment/Behavior)"
+        category: "attribution_judgment"
+        main_task: True
         backend: "harness"
         random_baseline: 0.5
         higher_bound: 1
     judgment-qa:
         alias: "SimpleToM (Judgment)"
         category: "attribution_judgment"
-        main_task: True
+        main_task: False
         backend: "harness"
         random_baseline: 0.5
         higher_bound: 1
     behavior-qa:
         alias: "SimpleToM (Behavior)"
         category: "attribution_judgment"
-        main_task: True
+        main_task: False
         backend: "harness"
         random_baseline: 0.5
         higher_bound: 1
@@ -782,21 +786,21 @@ natural_planning:
     calendar-planning-5shot:
         alias: "Natural Planning (Calendar)"
         category: "planning_decision_making"
-        main_task: True
+        main_task: False
         backend: "harness"
         random_baseline: 0
         higher_bound: 1
     meeting-planning-5shot:
         alias: "Natural Planning (Meeting)"
         category: "planning_decision_making"
-        main_task: True
+        main_task: False
         backend: "harness"
         random_baseline: 0
         higher_bound: 1
     travel-planning-5shot:
         alias: "Natural Planning (Travel)"
         category: "planning_decision_making"
-        main_task: True
+        main_task: False
         backend: "harness"
         random_baseline: 0
         higher_bound: 1
