@@ -73,6 +73,7 @@ def convert_clembench_results(model_name:str, game_name: str) -> dict:
         clemscore = score*(played/100)
 
         print("SCORE ",score, played, clemscore)
+    print("TOTAL SCORE",clemscore)
     results = {"model_name":model_name, "task_results": {game_name:{"metric":"quality_score", "score":clemscore}}}
     return results
 
