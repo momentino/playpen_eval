@@ -26,7 +26,7 @@ def build_and_save_barcharts(scores: Dict, output_path_root: Path):
     with tqdm(total=total_iterations, desc="Building bar charts", unit="bar charts") as pbar:
 
         for model_name, scores in scores.items():
-            print(model_name)
+            print( "MODEL NAME ", model_name)
             print(scores)
             values_to_plot = [item[1] for item in scores]
             ceilings = [get_task_info(item[0])[1]["random_baseline"] for item in scores]
@@ -35,13 +35,13 @@ def build_and_save_barcharts(scores: Dict, output_path_root: Path):
             fig, ax = plt.subplots(figsize=(8,6))
             colors = [set_label_color(label) for label in custom_labels]
 
-            x = np.arange(len(custom_labels))
+            #x = np.arange(len(custom_labels))
 
             # Width of the bars
-            width = 0.35
-
-            ax.bar(x -width/2, custom_labels, values_to_plot, alpha=0.7, edgecolor='black', color=colors)
-            ax.bar(x + width/2, custom_labels, values_to_plot, alpha=0.7, edgecolor='green', color=colors)
+            #width = 0.35
+            ax.bar(custom_labels, values_to_plot, alpha=0.7, edgecolor='black', color=colors)
+            #ax.bar(x -width/2, custom_labels, values_to_plot, alpha=0.7, edgecolor='black', color=colors)
+            #ax.bar(x + width/2, custom_labels, values_to_plot, alpha=0.7, edgecolor='green', color=colors)
             for i, ceiling in enumerate(ceilings):
                 ax.hlines(y=ceiling, xmin=i - 0.4, xmax=i + 0.4, color='black', linestyle='--', linewidth=2)
             plt.xticks(rotation=45, ha='right')

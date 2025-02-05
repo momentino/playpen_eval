@@ -683,6 +683,22 @@ wordle:
         backend: "clembench"
         random_baseline: 0
         higher_bound: 1
+wordle_withcritic:
+    wordle_withcritic:
+        alias: "Clembench Wordle (Critic)"
+        category: "interactive"
+        main_task: True
+        backend: "clembench"
+        random_baseline: 0
+        higher_bound: 1
+wordle_withclue:
+    wordle_withclue:
+        alias: "Clembench Wordle (Clue)"
+        category: "interactive"
+        main_task: True
+        backend: "clembench"
+        random_baseline: 0
+        higher_bound: 1
 privateshared:
     privateshared:
         alias: "Clembench Private/Shared"
