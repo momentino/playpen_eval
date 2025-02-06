@@ -37,7 +37,7 @@ def get_baseline(task_name:str) -> str:
 
 def get_capability_group_from_task_name(task_name:str) -> str:
     _, task_info = get_task_info(task_name)
-    if task_info["category"] in ["interactive", "massive"]:
+    if task_info["category"] in ["interactive", "massive", "extra"]:
         return task_info["category"]
     else:
         for capability_group, capability in CAPABILITY_REGISTRY.items():
@@ -50,12 +50,6 @@ def get_capability_group_from_alias(task_alias:str) -> str:
     return get_capability_group_from_task_name(task_name)
 
 def get_capability_alias(capability_name):
-    for capability_group, capability_dict in CAPABILITY_REGISTRY.items():
-        for capability, capability_info in capability_dict.items():
-            if capability == capability_name:
-                return capability_info['alias']
-
-def get_capability_group_from_capability_alias(capability_alias: str):
     for capability_group, capability_dict in CAPABILITY_REGISTRY.items():
         for capability, capability_info in capability_dict.items():
             if capability == capability_name:

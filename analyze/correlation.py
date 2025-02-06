@@ -60,8 +60,10 @@ def sort_correlation_matrix(correlation_matrix: CorrelationMatrix):
                 groups_info.append(4.5)
             else:
                 groups_info.append(4)
-        else:
+        elif task_group == "extra":
             groups_info.append(5)
+        else:
+            groups_info.append(6)
     correlation_matrix.data["group"] = groups_info
     correlation_matrix_sorted = correlation_matrix.data.sort_values(by='group', axis=0)
     if not correlation_matrix_sorted.index.equals(correlation_matrix_sorted.columns):
@@ -79,7 +81,8 @@ def plot_and_save_matrices(correlation_matrices: List[CorrelationMatrix], output
         2: 'blue',
         3: 'purple',
         4: 'green',
-        4.5: 'green'
+        4.5: 'green',
+        5: 'orange'
     }
 
     for matrix in correlation_matrices:

@@ -601,6 +601,15 @@ bbh_fewshot:
         random_baseline: 0
         higher_bound: 1
         main_task: True
+
+ifeval:
+    ifeval:
+        alias: "IFEval"
+        backend: "harness"
+        category: "extra"
+        random_baseline: 0
+        higher_bound: 1
+        main_task: True
 metabench:
     metabench:
         alias: "Metabench"
@@ -738,7 +747,7 @@ llm_cognitive_flexibility:
         category: "cognitive_flexibility"
         main_task: True
         backend: "playpen_eval_benchmarks"
-        random_baseline: 0.25
+        random_baseline: 0.8035
         higher_bound: 1
     llm_cognitive_flexibility_wcst:
         alias: "LLM Cognitive Flexibility (WCST)"
