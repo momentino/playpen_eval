@@ -119,7 +119,7 @@ if __name__ == "__main__":
     run_parser.add_argument(
         "--device_map_option",
         type=str,
-        default="auto",
+        default="",
         help="Output path for the reports for the cost estimates. Default is 'results/cost_reports'."
     )
 
