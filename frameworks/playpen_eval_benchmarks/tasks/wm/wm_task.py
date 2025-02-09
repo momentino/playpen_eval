@@ -43,7 +43,7 @@ class WMTask(Task):
                         if type != "grids" and "prompts" not in file_path:
                             if "grids" in type:
                                 grid_task = True
-
+                                continue #TODO FIX
                             with open(file_path, 'r') as f:
                                 seq = f.readline().strip().split(",")
                                 cond = f.readline().strip().split(",")
@@ -91,6 +91,7 @@ class WMTask(Task):
             for n in range(1, self.nback+1):
                 prompt = self._get_prompt(experiment, n)
                 accuracies = []
+                print("DATASET ",self.dataset)
                 for block, trials in tqdm(self.dataset[exp_to_input_map[experiment]][f"{n}back"].items()):
                     correct = 0
                     messages = []
