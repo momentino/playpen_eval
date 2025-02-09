@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 from tqdm import tqdm
 from matplotlib.cm import get_cmap
 from pathlib import Path
@@ -58,7 +59,7 @@ def choose_color_models(model_name, magnitude):
 
 
 
-def build_and_save_scatterplots_benchmarks(scores: Dict, output_path_root: Path):
+def build_and_save_scatterplots_benchmarks(scores: Dict, output_path_root: Path, correlation_matrix: pd.DataFrame, p_values_matrix: pd.DataFrame, correlation_method: str):
     total_iterations = sum(len(tasks1) * len(tasks2) for tasks1 in scores.values() for tasks2 in scores.values())
     with tqdm(total=total_iterations, desc="Building scatterplots", unit="scatterplot") as pbar:
         for group1, tasks1 in scores.items():
@@ -68,6 +69,9 @@ def build_and_save_scatterplots_benchmarks(scores: Dict, output_path_root: Path)
                         #pair = tuple(sorted([task1_name, task2_name]))
                         #if task1_name != task2_name and pair not in processed_pairs:
                         #    processed_pairs.add(pair)
+                        task1_alias = get_alias(task1_name)
+                        task2_alias = get_alias(task2_name)
+
                         x = scores1
                         y = scores2
 
@@ -105,11 +109,17 @@ def build_and_save_scatterplots_benchmarks(scores: Dict, output_path_root: Path)
                                 plt.ylim(0, 1)
                             # Add legend
                             plt.legend(title="Models", bbox_to_anchor=(1.05, 1), loc="upper left", fontsize="small")
+                            if correlation_matrix is not None and p_values_matrix is not None:
+                                corr_value = correlation_matrix.loc[task1_alias, task2_alias]
+                                p_value = p_values_matrix.loc[task1_alias, task2_alias]
+                                text = "Pearson's R: " if correlation_method == "pearson" else "Kendall's Tau: " if correlation_method == "kendall" else ""
+                                text = f"{text}{corr_value:.2f}{'*' if p_value < 0.05 else ''}"
+                                plt.gca().text(1.09, 0.50, text,
+                                               transform=plt.gca().transAxes, fontsize="medium",
+                                               bbox=dict(facecolor='white', edgecolor='#E0E0E0', boxstyle='square,pad=1'))
 
-
-
-                            plt.xlabel(f"{get_alias(task1_name)}")
-                            plt.ylabel(f"{get_alias(task2_name)}")
+                            plt.xlabel(f"{task1_alias}")
+                            plt.ylabel(f"{task2_alias}")
                             filename = f"{group1}_{task1_name}_vs_{group2}_{task2_name}.png".replace("/", "_")
                             output_path = output_path_root/type
                             output_path.mkdir(parents=True, exist_ok=True)
@@ -160,6 +170,10 @@ def build_and_save_scatterplots_models(scores: Dict, output_path_root: Path):
                         # Add legend
                         plt.legend(title="Benchmarks", bbox_to_anchor=(1.05, 1), loc="upper left", fontsize="small")
 
+                        corr_value = 0.89
+                        plt.figtext(1.05, 0.3, f"Correlation Value:\n{corr_value:.2f}", loc="upper left",
+                                 fontsize="small")
+
                         plt.xlabel(f"{model_name1}")
                         plt.ylabel(f"{model_name2}")
                         filename = f"{model_name1}_vs_{model_name2}.png".replace("/", "_")
@@ -177,15 +191,21 @@ def build_and_save_scatterplots_models(scores: Dict, output_path_root: Path):
 def run_scatterplots(src_path: Path,
                     output_path_root:Path,
                      ignore_groups: List[str],
-                     by: str):
+                     by: str,
+                     correlation_method: str,
+                     correlation_path: Path,
+                     p_values_path: Path):
     src_path = project_root / src_path
 
     reports = get_reports(src_path=src_path)
     scores = get_scores(reports, benchmark_subset="main", take_above_baseline=False,
                         ignore_tasks=[], ignore_groups=ignore_groups, by=by)
     sort_scores(scores, by=by)
+
+    correlation_matrix = pd.read_csv(correlation_path, index_col=0) if correlation_method != "" else None
+    p_values_matrix = pd.read_csv(p_values_path, index_col=0) if correlation_method != "" else None
     if by=="benchmarks":
-        build_and_save_scatterplots_benchmarks(scores=scores, output_path_root=output_path_root)
+        build_and_save_scatterplots_benchmarks(scores=scores, output_path_root=output_path_root, correlation_matrix=correlation_matrix, correlation_method=correlation_method, p_values_matrix=p_values_matrix)
     elif by == "models":
         build_and_save_scatterplots_models(scores=scores, output_path_root=output_path_root)
 

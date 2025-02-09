@@ -29,12 +29,16 @@ def main(args: argparse.Namespace) -> None:
                         by=args.by)
     elif args.command_name == "scatterplot":
         playpen_correlation_logger.info(f"Plotting results for pairs of benchmarks")
-        output_path = Path(args.output_path) / args.by
+        output_path = Path(args.output_path) / args.by / args.correlation_method
         run_scatterplots(src_path=args.src_path,
                         output_path_root=output_path,
                         ignore_groups=args.ignore_groups,
-                        by=args.by
-                           )
+                        by=args.by,
+                        correlation_method=args.correlation_method,
+                        correlation_path=Path(args.correlation_path),
+                        p_values_path=Path(args.p_values_path)
+
+                         )
     elif args.command_name == "barchart":
         output_path = Path(args.output_path) / args.by
         run_barcharts(src_path=args.src_path,
@@ -150,6 +154,20 @@ if __name__ == "__main__":
     )
 
     scatterplot_parser.add_argument(
+        "-p", "--correlation_path",
+        type=str,
+        default="",
+        help="Path to the correlation matrix (CSV format)."
+    )
+
+    scatterplot_parser.add_argument(
+        "-v", "--p_values_path",
+        type=str,
+        default="",
+        help="Path to the p-values associated with a correlation matrix (CSV format)."
+    )
+
+    scatterplot_parser.add_argument(
         "--ignore_groups",
         nargs="+",
         default=[],
@@ -162,6 +180,14 @@ if __name__ == "__main__":
         default='benchmarks',
         choices=["benchmarks", "models"],
         help="Choose whether you wish to compute the correlation by benchmark or model."
+    )
+
+    scatterplot_parser.add_argument(
+        "--correlation_method",
+        type=str,
+        default="",
+        choices=['pearson', 'kendall', 'spearman', ''],
+        help="Whether to include the name of the image in the correlation plot."
     )
 
     barchart_parser = sub_parsers.add_parser("barchart", formatter_class=argparse.RawTextHelpFormatter)
@@ -193,6 +219,8 @@ if __name__ == "__main__":
         choices=["benchmarks", "models"],
         help="Choose whether you wish to create the bar charts by benchmark or model."
     )
+
+
 
     args = parser.parse_args()
     main(args)

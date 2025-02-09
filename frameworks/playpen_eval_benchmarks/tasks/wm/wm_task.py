@@ -12,7 +12,7 @@ class WMTask(Task):
         super().__init__(task_name="wm")
         self.dataset = self._prepare_dataset()
         # "spatial_4*4", "spatial_5*5", "spatial_7*7", "spatial_3*3", "spatial_3*3_abstraction", "spatial_3*3_abstraction_2",
-        self.experiments = ["verbal", "verbal_feedback", "spatial_feedback", "spatial_4*4", "spatial_5*5", "spatial_7*7", "spatial_3*3", "spatial_3*3_abstraction", "spatial_3*3_abstraction_2"]
+        self.experiments = ["verbal"]
         self.nback = 3
 
     def _prepare_dataset(self) -> Dict[str, Dict[str, Any]]:

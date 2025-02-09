@@ -19,6 +19,8 @@ def set_label_color(task_alias: str):
         color="Green"
     elif category == "interactive":
         color="Purple"
+    elif category == "extra":
+        color="Orange"
     return color
 
 def build_and_save_barcharts(scores: Dict, output_path_root: Path):
