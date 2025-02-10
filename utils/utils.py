@@ -68,6 +68,7 @@ def convert_clembench_results(model_name:str, game_name: str) -> dict:
         clemscore = 0
         #print("ZERO PLAYED ", game_name, model_name, clemscore)
     else:
+        print(" PLAYED ", scores, sum(scores), "LEN ",len(scores))
         played = len(scores) / num_episodes
         score = sum(scores)/len(scores)
         clemscore = score*(played/100)

@@ -97,8 +97,8 @@ if __name__ == "__main__":
 
     run_parser.add_argument(
         "--batch_size",
-        type=int,
-        default=8,
+        type=str,
+        default='auto',
         help="Batch size."
     )
 

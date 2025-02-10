@@ -91,7 +91,6 @@ class WMTask(Task):
             for n in range(1, self.nback+1):
                 prompt = self._get_prompt(experiment, n)
                 accuracies = []
-                print("DATASET ",self.dataset)
                 for block, trials in tqdm(self.dataset[exp_to_input_map[experiment]][f"{n}back"].items()):
                     correct = 0
                     messages = []
