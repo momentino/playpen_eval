@@ -23,6 +23,7 @@ class HF(Model):
                  peft: Optional[str] = None,
                  load_in_8bit: Optional[bool] = False,
                  load_in_4bit: Optional[bool] = False,
+                 bnb_4bit_compute_dtype: Optional[str] = None
                  ) -> None:
         self.model_name = pretrained.replace("__", "/")
         super().__init__(model_name=self.model_name)
@@ -55,13 +56,20 @@ class HF(Model):
             )
             self.model.engine.model_obj = dispatch_model(self.model.engine.model_obj, device_map=device_map)
         else:
+            if transformers.__version__ >= "4.30.0":
+                if load_in_4bit:
+                    if bnb_4bit_compute_dtype is not None:
+                        bnb_4bit_compute_dtype = get_dtype(bnb_4bit_compute_dtype)
+
+
             self.torch_dtype = torch.float16 if torch_dtype == 'float16' else torch_dtype
 
             self.model = AutoModelForCausalLM.from_pretrained(self.model_name,
                                                               trust_remote_code=self.trust_remote_code,
                                                               revision='main',
                                                               torch_dtype=self.torch_dtype,
-                                                              device_map='auto')
+                                                              device_map='auto',
+                                                              bnb_4bit_compute_dtype=bnb_4bit_compute_dtype)
 
         if peft:
             if load_in_4bit:
