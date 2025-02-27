@@ -3,10 +3,11 @@ import numpy as np
 import pandas as pd
 from tqdm import tqdm
 from matplotlib.cm import get_cmap
+import matplotlib.colors as mcolors
 from pathlib import Path
 from typing import Dict, List
 from utils.utils import convert_str_to_number
-from config import project_root, get_alias, get_baseline, get_task_info, MODEL_REGISTRY
+from config import project_root, get_alias, get_baseline, get_task_info, MODEL_REGISTRY, get_capability_alias
 from analyze.score_extraction_utils import get_reports, get_scores, sort_scores
 from scipy.stats import rankdata
 
@@ -35,6 +36,8 @@ benchmark_magnitudes = {
 
 }
 
+
+
 def choose_color_benchmarks(benchmark_name):
     _, info = get_task_info(benchmark_name)
     functional_group = info["functional_group"][0]
@@ -49,13 +52,26 @@ def choose_color_benchmarks(benchmark_name):
 def choose_color_models(model_name, magnitude):
     """Select colormap based on s[1] value range."""
     if "Qwen" in model_name:
-        return get_cmap("Purples")(magnitude)  # Lighter shades for lower values
+        alpha_map = {
+            "Qwen__Qwen2.5-7B-Instruct": 0.3,
+            "Qwen__Qwen2.5-32B-Instruct": 0.6,
+            "Qwen__Qwen2.5-72B-Instruct": 1
+        }
+        return mcolors.to_rgba("#0000FF", alpha=alpha_map[model_name])  # Lighter shades for lower values
     elif "Llama" in model_name:
-        return get_cmap("Greens")(magnitude)  # Mid-range values get green
+        alpha_map = {
+            "meta-llama__Llama-3.1-8B-Instruct": 0.7,
+            "meta-llama__Llama-3.3-70B-Instruct": 1
+        }
+        return mcolors.to_rgba("#FF9900", alpha=alpha_map[model_name])
     elif "OLMo" in model_name:
-        return get_cmap("Reds")(magnitude)  # Higher values get red shades
+        alpha_map = {
+            "allenai__OLMo-2-1124-7B-Instruct": 0.4,
+            "allenai__OLMo-2-1124-13B-Instruct": 0.8
+        }
+        return mcolors.to_rgba("#4D4D4D", alpha=alpha_map[model_name])
     elif "Falcon" in model_name:
-        return get_cmap("Greys")(magnitude)
+        return mcolors.to_rgba("#FF66CC")
 
 
 
@@ -69,8 +85,13 @@ def build_and_save_scatterplots_benchmarks(scores: Dict, output_path_root: Path,
                         #pair = tuple(sorted([task1_name, task2_name]))
                         #if task1_name != task2_name and pair not in processed_pairs:
                         #    processed_pairs.add(pair)
-                        task1_alias = get_alias(task1_name)
-                        task2_alias = get_alias(task2_name)
+                        _, task1_info = get_task_info(task1_name)
+                        _, task2_info = get_task_info(task2_name)
+                        capability1_alias = get_capability_alias(task1_info['category'])
+                        capability2_alias = get_capability_alias((task2_info['category']))
+                        capability1_alias = capability1_alias if capability1_alias is not None else get_alias(task1_name)
+                        capability2_alias = capability2_alias if capability2_alias is not None else get_alias(
+                            task2_name)
 
                         x = scores1
                         y = scores2
@@ -110,16 +131,16 @@ def build_and_save_scatterplots_benchmarks(scores: Dict, output_path_root: Path,
                             # Add legend
                             plt.legend(title="Models", bbox_to_anchor=(1.05, 1), loc="upper left", fontsize="small")
                             if correlation_matrix is not None and p_values_matrix is not None:
-                                corr_value = correlation_matrix.loc[task1_alias, task2_alias]
-                                p_value = p_values_matrix.loc[task1_alias, task2_alias]
+                                corr_value = correlation_matrix.loc[capability1_alias, capability2_alias]
+                                p_value = p_values_matrix.loc[capability1_alias, capability2_alias]
                                 text = "Pearson's R: " if correlation_method == "pearson" else "Kendall's Tau: " if correlation_method == "kendall" else ""
                                 text = f"{text}{corr_value:.2f}{'*' if p_value < 0.05 else ''}"
                                 plt.gca().text(1.09, 0.50, text,
                                                transform=plt.gca().transAxes, fontsize="medium",
                                                bbox=dict(facecolor='white', edgecolor='#E0E0E0', boxstyle='square,pad=1'))
 
-                            plt.xlabel(f"{task1_alias}")
-                            plt.ylabel(f"{task2_alias}")
+                            plt.xlabel(f"{capability1_alias}")
+                            plt.ylabel(f"{capability2_alias}")
                             filename = f"{group1}_{task1_name}_vs_{group2}_{task2_name}.png".replace("/", "_")
                             output_path = output_path_root/type
                             output_path.mkdir(parents=True, exist_ok=True)

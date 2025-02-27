@@ -684,9 +684,27 @@ entity_deduction_arena:
         backend: "playpen_eval_benchmarks"
         random_baseline: 0
         higher_bound: 1
+
+clembench:
+    clembench:
+        alias: "Interactive"
+        category: "interactive"
+        main_task: True
+        backend: "clembench"
+        random_baseline: 0
+        higher_bound: 1
+
+massive_merged:
+    massive_merged:
+        alias: "Static"
+        category: "massive"
+        main_task: True
+        backend: "harness"
+        random_baseline: 0
+        higher_bound: 1
 wordle:
     wordle:
-        alias: "Clembench Wordle"
+        alias: "Wordle"
         category: "interactive"
         main_task: True
         backend: "clembench"
@@ -694,7 +712,7 @@ wordle:
         higher_bound: 1
 wordle_withcritic:
     wordle_withcritic:
-        alias: "Clembench Wordle (Critic)"
+        alias: "Wordle (Critic)"
         category: "interactive"
         main_task: True
         backend: "clembench"
@@ -702,7 +720,7 @@ wordle_withcritic:
         higher_bound: 1
 wordle_withclue:
     wordle_withclue:
-        alias: "Clembench Wordle (Clue)"
+        alias: "Wordle (Clue)"
         category: "interactive"
         main_task: True
         backend: "clembench"
@@ -710,7 +728,7 @@ wordle_withclue:
         higher_bound: 1
 privateshared:
     privateshared:
-        alias: "Clembench Private/Shared"
+        alias: "Private/Shared"
         category: "interactive"
         main_task: True
         backend: "clembench"
@@ -718,7 +736,7 @@ privateshared:
         higher_bound: 1
 imagegame:
     imagegame:
-        alias: "Clembench Imagegame"
+        alias: "Image Game"
         category: "interactive"
         main_task: True
         backend: "clembench"
@@ -726,7 +744,7 @@ imagegame:
         higher_bound: 1
 referencegame:
     referencegame:
-        alias: "Clembench ReferenceGame"
+        alias: "Reference Game"
         category: "interactive"
         main_task: True
         backend: "clembench"
@@ -734,7 +752,7 @@ referencegame:
         higher_bound: 1
 taboo:
     taboo:
-        alias: "Clembench Taboo"
+        alias: "Taboo"
         category: "interactive"
         main_task: True
         backend: "clembench"
@@ -829,3 +847,12 @@ natural_planning:
         backend: "harness"
         random_baseline: 0
         higher_bound: 1
+
+    gsm8k:
+        alias: "GSM8K"
+        category: "logical_reasoning"
+        main_task: True
+    mmlu_pro:
+        alias: "MMLU-Pro"
+        category: "massive"
+        main_task: True

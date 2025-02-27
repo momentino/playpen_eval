@@ -1,6 +1,7 @@
 import os
 import abc
 from abc import abstractmethod
+import pingouin as pg
 
 import pandas as pd
 import seaborn as sns
@@ -10,8 +11,9 @@ from collections import defaultdict
 from typing import Dict, List
 from pathlib import Path
 import numpy as np
-from scipy.stats import kendalltau, pearsonr
-from config import project_root, get_alias, get_capability_group_from_alias, MODEL_REGISTRY
+from scipy.stats import kendalltau, pearsonr, permutation_test
+from config import project_root, get_alias, get_capability_group_from_alias, MODEL_REGISTRY, get_capability_alias, \
+    get_task_info, get_capability_group_from_task_name
 from analyze.score_extraction_utils import get_reports, get_scores, keep_common, organize_scores_capabilities, \
     sort_scores
 from utils.utils import convert_str_to_number
@@ -23,9 +25,10 @@ class CorrelationMatrix(abc.ABC):
 
 class CorrelationMatrixBenchnmarks(CorrelationMatrix):
 
-    def __init__(self, correlations, p_values, category, name, models):
+    def __init__(self, correlations, p_values, scores, category, name, models):
         self.correlations = correlations
         self.p_values = p_values
+        self.scores = scores
         self.category = category
         self.name = name
         self.models = models
@@ -53,8 +56,9 @@ class CorrelationMatrixModels(CorrelationMatrix):
 
 def sort_correlation_matrix(correlation_matrix: CorrelationMatrix):
     groups_info = []
-    for task in correlation_matrix.correlations.columns:
-        task_group = get_capability_group_from_alias(task)
+    for task_name in correlation_matrix.correlations.columns:
+        _, task_info = get_task_info(task_name)
+        task_group = get_capability_group_from_task_name(task_name)
         if task_group == "core_executive_functions":
             groups_info.append(0)
         elif task_group == "executive_functions":
@@ -64,7 +68,7 @@ def sort_correlation_matrix(correlation_matrix: CorrelationMatrix):
         elif task_group == "interactive":
             groups_info.append(3)
         elif task_group == "massive":
-            if task == "BBH":
+            if task_name == "BBH":
                 groups_info.append(4.5)
             else:
                 groups_info.append(4)
@@ -72,6 +76,13 @@ def sort_correlation_matrix(correlation_matrix: CorrelationMatrix):
             groups_info.append(5)
         else:
             groups_info.append(6)
+        capability_alias = get_capability_alias(task_info['category'])
+        new_name = capability_alias if capability_alias is not None else get_alias(task_name)
+
+        correlation_matrix.correlations = correlation_matrix.correlations.rename(columns={task_name: new_name})
+        correlation_matrix.correlations = correlation_matrix.correlations.rename(index={task_name: new_name})
+        correlation_matrix.p_values = correlation_matrix.p_values.rename(columns={task_name: new_name})
+        correlation_matrix.p_values = correlation_matrix.p_values.rename(index={task_name: new_name})
     correlation_matrix.correlations["group"] = groups_info
     correlation_matrix_sorted = correlation_matrix.correlations.sort_values(by='group', axis=0)
     if not correlation_matrix_sorted.index.equals(correlation_matrix_sorted.columns):
@@ -79,24 +90,36 @@ def sort_correlation_matrix(correlation_matrix: CorrelationMatrix):
         correlation_matrix_sorted = correlation_matrix_sorted.reindex(columns=correlation_matrix_sorted.index)
     correlation_matrix.correlations = correlation_matrix_sorted
     correlation_matrix.correlations["group"] = groups_info # TODO Improve. Reindex makes it disappear and so it is repeated twice
+
     return correlation_matrix
 
 
 def plot_and_save_matrices(correlation_matrices: List[CorrelationMatrix], output_path_root: Path):
+    """color_map = {
+        0: '#660033',
+        1: '#C00000',
+        2: '#0070C0',
+        3: '#7030A0',
+        4: '#00B050',
+        4.5: '#00B050',
+        5: 'black'
+    }"""
+
     color_map = {
-        0: 'darkred',
-        1: 'red',
-        2: 'blue',
-        3: 'purple',
-        4: 'green',
-        4.5: 'green',
-        5: 'orange'
+        0: '#660033',
+        1: '#C00000',
+        2: '#0070C0',
+        3: 'black',
+        4: 'black',
+        4.5: 'black',
+        5: 'black'
     }
 
     for matrix in correlation_matrices:
         matrix.sort()
         matrix_data = matrix.correlations
         p_values = matrix.p_values
+        scores = matrix.scores
         output_path = output_path_root / matrix.category
         os.makedirs(output_path, exist_ok=True)
         label_colors = [color_map[attr] for attr in matrix_data['group'].values.tolist()]
@@ -138,11 +161,15 @@ def plot_and_save_matrices(correlation_matrices: List[CorrelationMatrix], output
         matrix_data.to_csv(f"{file_path}.csv", index=True)
         p_value_file_path = output_path / "p_values.csv"
         p_values.to_csv(p_value_file_path, index=True)
+
+        scores_file_path = output_path / "scores.csv"
+        scores.to_csv(scores_file_path, index=True)
         # save models taken into consideration
         file_path = output_path / f"{matrix.name}_models.txt"
         with open(file_path, "w") as file:
             for element in matrix.models:
                 file.write(f"{element}\n")
+
 
 def compute_correlations(scores_matrix: pd.DataFrame, correlation_method: str) -> (pd.DataFrame, pd.DataFrame):
     n = scores_matrix.shape[1]
@@ -154,18 +181,20 @@ def compute_correlations(scores_matrix: pd.DataFrame, correlation_method: str) -
                 corr_matrix[i, j] = 1.0  # Correlation of a variable with itself is 1
                 p_value_matrix[i, j] = 0.0  # P-value is 0 for diagonal
             else:
-                coefficient, p_value = kendalltau(scores_matrix.iloc[:, i], scores_matrix.iloc[:, j]) if correlation_method == "kendall" \
-                    else pearsonr(scores_matrix.iloc[:, i], scores_matrix.iloc[:, j]) if correlation_method == "pearson" \
-                    else None
+                corr_stats = pg.corr(scores_matrix.iloc[:, i], scores_matrix.iloc[:, j], method=correlation_method)
+                coefficient = corr_stats['r'].values[0]
+                p_value = corr_stats['p-val'].values[0]
+
                 assert coefficient is not None
                 assert p_value is not None
+
                 corr_matrix[i, j] = coefficient
                 p_value_matrix[i, j] = p_value
     corr_df = pd.DataFrame(corr_matrix, index=scores_matrix.columns, columns=scores_matrix.columns)
     p_value_df = pd.DataFrame(p_value_matrix, index=scores_matrix.columns, columns=scores_matrix.columns)
-    print(scores_matrix)
-    print(corr_df)
-    print(p_value_df)
+    #print(scores_matrix)
+    #print(corr_df)
+    #print(p_value_df)
 
     return corr_df, p_value_df
 
@@ -175,14 +204,14 @@ def get_correlation_matrices_benchmarks(correlation_method:str, scores: Dict, lo
         if len(tasks.keys()) > 1:
             partial_scores = defaultdict(list)
             for task_id, model_results in tasks.items():
-                task_name = get_alias(task_id)
-                partial_scores[task_name] = [v for v in model_results if
+                partial_scores[task_id] = [v for v in model_results if
                                     (lower_bound is None and upper_bound is None) or
                                     (lower_bound < convert_str_to_number(MODEL_REGISTRY[v[0]]['params']) <= upper_bound)]
             scores, remaining_models = keep_common(partial_scores)
             scores_matrix = pd.DataFrame(scores)
+            print(scores_matrix)
             correlations,p_values = compute_correlations(scores_matrix, correlation_method)
-            correlation_matrix = CorrelationMatrixBenchnmarks(correlations=correlations, p_values=p_values, category=group, name=group, models=remaining_models)
+            correlation_matrix = CorrelationMatrixBenchnmarks(correlations=correlations, p_values=p_values, scores=scores_matrix, category=group, name=group, models=remaining_models)
             correlation_matrix = sort_correlation_matrix(correlation_matrix)
             matrices.append(correlation_matrix)
     return matrices

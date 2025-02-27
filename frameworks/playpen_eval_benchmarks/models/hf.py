@@ -8,6 +8,8 @@ from transformers import AutoModelForCausalLM, AutoTokenizer, PreTrainedModel
 from frameworks.playpen_eval_benchmarks.models import Model
 from frameworks.playpen_eval_benchmarks.models.guidance_chat_templates.chat_templates import CUSTOM_CHAT_TEMPLATE_CACHE
 
+from peft import __version__ as PEFT_VERSION, PeftModel
+
 
 class HF(Model):
 
@@ -17,7 +19,10 @@ class HF(Model):
                  guidance: bool = False,
                  torch_dtype: str = 'auto',
                  parallelize: bool = True,
-                 gen_kwargs: Dict = {}
+                 gen_kwargs: Dict = {},
+                 peft: Optional[str] = None,
+                 load_in_8bit: Optional[bool] = False,
+                 load_in_4bit: Optional[bool] = False,
                  ) -> None:
         self.model_name = pretrained.replace("__", "/")
         super().__init__(model_name=self.model_name)
@@ -57,6 +62,13 @@ class HF(Model):
                                                               revision='main',
                                                               torch_dtype=self.torch_dtype,
                                                               device_map='auto')
+
+        if peft:
+            if load_in_4bit:
+                assert PEFT_VERSION >= "0.4.0", "load_in_4bit requires peft >= 0.4.0"
+            self._model = PeftModel.from_pretrained(
+                self._model, peft, revision=revision
+            )
 
     def set_tokenizer_padding_side(self, padding_side: str):
         self.tokenizer.padding_side = padding_side

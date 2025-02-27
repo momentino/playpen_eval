@@ -1,10 +1,10 @@
 executive_functions:
   planning_decision_making:
-    alias: "Planning/Decision Making"
+    alias: "Planning"
   causal_reasoning:
     alias: "Causal Reasoning"
   logical_numerical_reasoning:
-    alias: "Logic/Numerical Reasoning"
+    alias: "Logic Reasoning"
   commonsense_reasoning:
     alias: "Commonsense Reasoning"
 core_executive_functions:
@@ -18,7 +18,7 @@ core_executive_functions:
     alias: "Self-Monitoring/Error Correction"
 social_emotional_cognition:
   social_commonsense_reasoning:
-    alias: "Social Commonsense Reasoning"
+    alias: "Social Reasoning"
   theory_of_mind:
     alias: "Theory of Mind"
   emotional_intelligence:
