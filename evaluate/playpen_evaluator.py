@@ -35,12 +35,17 @@ def run(model_backend: str,
         batch_size: int,
         results_path: Path = "results") -> None:
 
-    model_name_parts = model_args.split(",")
+    model_args_split = model_args.split(",")
     # Look for the part that starts with "pretrained="
-    model_name = next(
-        (part.replace("pretrained=", "").replace("/", "__") for part in model_name_parts if "pretrained=" in part),
-        None  # Default value if "pretrained=" is not found
-    )
+    if "peft=" not in model_args:
+        model_name = next(
+            (part.replace("pretrained=", "").replace("/", "__") for part in model_args_split if "pretrained=" in part),
+            None  # Default value if "pretrained=" is not found
+        )
+    else:
+        model_name = next(
+            (part.replace("peft=", "").replace("/", "__") for part in model_args_split if "peft=" in part),
+            None ) # Default value if "peft=" is not found
     harness_results_path = Path(os.path.join(project_root, results_path)) / "harness" / model_name
     harness_results_path.mkdir(parents=True, exist_ok=True)
 
