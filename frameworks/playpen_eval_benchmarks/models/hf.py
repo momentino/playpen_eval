@@ -1,5 +1,5 @@
 import torch
-from typing import List, Dict
+from typing import List, Dict, Optional
 from functools import reduce
 from guidance import models
 from accelerate import dispatch_model, infer_auto_device_map
