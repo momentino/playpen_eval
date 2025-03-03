@@ -12,7 +12,7 @@ def evaluate(task: str, model_args:str, gen_kwargs:str, device: str, apply_chat_
             gen_kwargs = task_config["gen_kwargs"]
         else:
             gen_kwargs = dict(pair.split("=") for pair in gen_kwargs.split(","))
-        model = HF(guidance=task_config['guidance'], device=device, gen_kwargs=gen_kwargs, **model_args)
+        model = HF(device=device, gen_kwargs=gen_kwargs, **model_args)
     else:
         message = f"Model backend {model} is not supported."
         eval_logger.exception(message)

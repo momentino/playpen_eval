@@ -1,13 +1,12 @@
 import torch
-from typing import List, Dict, Optional
+import transformers
+from typing import List, Dict, Optional, Union
 from functools import reduce
-from guidance import models
 from accelerate import dispatch_model, infer_auto_device_map
 from accelerate.utils.modeling import get_max_memory
-from transformers import AutoModelForCausalLM, AutoTokenizer, PreTrainedModel
+from packaging import version
+from transformers import AutoModelForCausalLM, AutoTokenizer, PreTrainedModel, BitsAndBytesConfig
 from frameworks.playpen_eval_benchmarks.models import Model
-from frameworks.playpen_eval_benchmarks.models.guidance_chat_templates.chat_templates import CUSTOM_CHAT_TEMPLATE_CACHE
-
 from peft import __version__ as PEFT_VERSION, PeftModel
 
 
@@ -16,7 +15,6 @@ class HF(Model):
     def __init__(self, pretrained: str,
                  device: str,
                  trust_remote_code: bool,
-                 guidance: bool = False,
                  torch_dtype: str = 'auto',
                  parallelize: bool = True,
                  gen_kwargs: Dict = {},
@@ -35,47 +33,36 @@ class HF(Model):
         if self.tokenizer.pad_token is None:
             self.set_tokenizer_pad_token(self.tokenizer.eos_token)
 
-        if guidance:
-            model_config = {
-                'echo': False,
-                'dtype': 'float16',
-                'device_map': 'auto'
-            }
-            self.chat_template = AutoTokenizer.from_pretrained(self.model_name).chat_template
-            if self.chat_template in CUSTOM_CHAT_TEMPLATE_CACHE:
-                self.model = models.Transformers(self.model_name,
-                                                 chat_template=CUSTOM_CHAT_TEMPLATE_CACHE[self.chat_template],
-                                                 **model_config)
-            else:
-                self.model = models.Transformers(self.model_name, **model_config)
-            device_map = infer_auto_device_map(
-                self.model.engine.model_obj,
-                max_memory=None,
-                no_split_module_classes=self.model.engine.model_obj._no_split_modules,
-                dtype='float16'
+        model_kwargs = {}
+        load_in_4bit = bool(load_in_4bit)
+        load_in_8bit = bool(load_in_8bit)
+        if transformers.__version__ >= "4.30.0":
+            if load_in_4bit:
+                if bnb_4bit_compute_dtype is not None:
+                    bnb_4bit_compute_dtype = self.get_dtype(bnb_4bit_compute_dtype)
+            bnb_config = BitsAndBytesConfig(
+                load_in_4bit=load_in_4bit,
+                load_in_8bit=load_in_8bit,
+                bnb_4bit_compute_dtype=bnb_4bit_compute_dtype
             )
-            self.model.engine.model_obj = dispatch_model(self.model.engine.model_obj, device_map=device_map)
-        else:
-            if transformers.__version__ >= "4.30.0":
-                if load_in_4bit:
-                    if bnb_4bit_compute_dtype is not None:
-                        bnb_4bit_compute_dtype = get_dtype(bnb_4bit_compute_dtype)
+            model_kwargs['quantization_config'] = bnb_config
+        self.torch_dtype = torch.float16 if torch_dtype == 'float16' else torch_dtype
 
 
-            self.torch_dtype = torch.float16 if torch_dtype == 'float16' else torch_dtype
 
-            self.model = AutoModelForCausalLM.from_pretrained(self.model_name,
-                                                              trust_remote_code=self.trust_remote_code,
-                                                              revision='main',
-                                                              torch_dtype=self.torch_dtype,
-                                                              device_map='auto',
-                                                              bnb_4bit_compute_dtype=bnb_4bit_compute_dtype)
+        self.model = AutoModelForCausalLM.from_pretrained(self.model_name,
+                                                          trust_remote_code=self.trust_remote_code,
+                                                          revision='main',
+                                                          torch_dtype=self.torch_dtype,
+                                                          device_map='auto',
+                                                          **model_kwargs)
 
         if peft:
             if load_in_4bit:
-                assert PEFT_VERSION >= "0.4.0", "load_in_4bit requires peft >= 0.4.0"
-            self._model = PeftModel.from_pretrained(
-                self._model, peft, revision=revision
+                if version.parse(PEFT_VERSION) < version.parse("0.4.0"):
+                    raise AssertionError("load_in_4bit requires peft >= 0.4.0")
+            self.model = PeftModel.from_pretrained(
+                self.model, peft, revision="main"
             )
 
     def set_tokenizer_padding_side(self, padding_side: str):
@@ -84,8 +71,18 @@ class HF(Model):
     def set_tokenizer_pad_token(self, pad_token: str):
         self.tokenizer.pad_token = pad_token
 
+    # From eval harness
+    def get_dtype(self, dtype: Union[str, torch.dtype]) -> torch.dtype:
+        """Converts `dtype` from `str` to torch.dtype when possible. Does not use an instantiated HF AutoConfig"""
+        if isinstance(dtype, str) and dtype != "auto":
+            # Convert `str` args torch dtype: `float16` -> `torch.float16`
+            _torch_dtype = getattr(torch, dtype)
+        else:
+            _torch_dtype = dtype
+        return _torch_dtype
+
     def __call__(self, prompt: str) -> (torch.Tensor, torch.Tensor):
-        if isinstance(self.model, PreTrainedModel):
+        if isinstance(self.model, Union[PreTrainedModel,PeftModel]):
             model_inputs = self.tokenizer([prompt], return_tensors="pt", padding=True).to(self.device)
             with torch.no_grad():
                 outputs = self.model(**model_inputs)
@@ -94,7 +91,7 @@ class HF(Model):
             raise Exception('Model must be a model from Huggingface to use this method.')
 
     def generate(self, messages: List[Dict[str, str]] | List[str], apply_chat_template: bool):
-        if isinstance(self.model, PreTrainedModel):
+        if isinstance(self.model, Union[PreTrainedModel,PeftModel]):
             if apply_chat_template:
                 try:
                     prompt = self.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
@@ -119,13 +116,6 @@ class HF(Model):
             return completions
         else:
             raise Exception('Model must be a model from Huggingface to use this method.')
-
-    def generate_guidance(self, prompt: List) -> str:
-        if isinstance(self.model, models.Transformers):
-            lm = reduce(lambda acc, p: acc + p, prompt, self.model)
-            return lm
-        else:
-            raise Exception('Model must be a Transformer from Guidance to use this method.')
 
     def get_tokenizer(self):
         return self.tokenizer

@@ -10,8 +10,8 @@ from evaluate import get_logger, get_executed_tasks
 from evaluate.normalize import normalize_scores
 from config import project_root, get_task_backend, TASK_REGISTRY
 from utils.utils import custom_json_serializer, convert_harness_results, convert_clembench_results, compute_total_time
-import playpen.clemgame.benchmark as clembench_eval
-from playpen.backends import read_model_specs
+#import playpen.clemgame.benchmark as clembench_eval
+#from playpen.backends import read_model_specs
 import frameworks.playpen_eval_benchmarks.evaluator as playeval
 
 logger = get_logger(__name__)
@@ -117,13 +117,13 @@ def run(model_backend: str,
                 apply_chat_template=apply_chat_template,
             )
         elif backend == "clembench":
-            clembench_eval.run(task,
+            """clembench_eval.run(task,
                           model_specs=read_model_specs([model_name.split("__")[-1]]),
                           gen_args = {'temperature': 0.0, 'max_tokens':250}, #TODO Improve error casting
                           #gen_args=dict(pair.split("=") for pair in gen_kwargs.split(",")),
                           results_dir=str(clembench_results_path))
             clembench_eval.score(task, results_dir=str(clembench_results_path))
-            clembench_eval.transcripts(task, results_dir=str(clembench_results_path))
+            clembench_eval.transcripts(task, results_dir=str(clembench_results_path))"""
             results = convert_clembench_results(model_name=model_name, game_name=task)
 
         normalize_scores(results)
