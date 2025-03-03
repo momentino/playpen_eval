@@ -2,135 +2,29 @@ logiqa2:
     logiqa2:
         alias: "LogiQA 2.0"
         category: "logical_numerical_reasoning"
-        backend: "harness"
+        backend: "lm-eval"
         main_task: True
         random_baseline: 0.25
         higher_bound: 1
+        metrics_short_report: ['acc']
 cladder:
     cladder:
         alias: "CLadder"
         category: "causal_reasoning"
-        backend: "harness"
+        backend: "lm-eval"
         main_task: True
         random_baseline: 0.4927
         higher_bound: 1
+        metrics_short_report: ['acc']
 winogrande:
     winogrande:
         alias: "Winogrande"
         category: "commonsense_reasoning"
-        backend: "harness"
+        backend: "lm-eval"
         main_task: True
         random_baseline: 0.5
         higher_bound: 1
-planbench:
-    #planbench:
-    #    alias: "Planbench"
-    #    functional: [ "planning_decision_making" ]
-    #    functional_group: [ "executive_functions"]
-    #    task_type: [ "generate_until" ]
-    #    backend: "harness"
-    #    main_task: True
-    #    random_baseline: 0
-    #    higher_bound: 1
-    #planbench_blocksworld:
-    #    alias: "Planbench Blocksworld"
-    #    functional: [ "planning_decision_making" ]
-    #    functional_group: [ "executive_functions"]
-    #    task_type: [ "generate_until" ]
-    #    backend: "harness"
-    #    main_task: False
-    #    random_baseline: 0
-    #    higher_bound: 1
-    planbench_blocksworld_plan_generation:
-        alias: "Planbench Blocksworld Plan Generation"
-        category: "planning_decision_making"
-        backend: "harness"
-        main_task: True
-        random_baseline: 0
-        higher_bound: 1
-    #planbench_blocksworld_full_to_partial:
-    #    alias: "Planbench Blocksworld Full-to-Partial"
-    #    functional: [ "planning_decision_making" ]
-    #    functional_group: [ "executive_functions"]
-    #    task_type: [ "generate_until" ]
-    #    backend: "harness"
-    #    main_task: False
-    #    random_baseline: 0
-    #    higher_bound: 1
-    #planbench_blocksworld_goal_shuffling:
-    #    alias: "Planbench Blocksworld Goal Shuffling"
-    #    functional: [ "planning_decision_making" ]
-    #    functional_group: [ "executive_functions"]
-    #    task_type: [ "generate_until" ]
-    #    backend: "harness"
-    #    main_task: False
-    #    random_baseline: 0
-    #    higher_bound: 1
-    #planbench_blocksworld_partial_to_full:
-    #    alias: "Planbench Blocksworld Partial-to-Full"
-    #    functional: [ "planning_decision_making" ]
-    #    functional_group: [ "executive_functions"]
-    #    task_type: [ "generate_until" ]
-    #    backend: "harness"
-    #    main_task: False
-    #    random_baseline: 0
-    #    higher_bound: 1
-    # planbench_blocksworld_plan_execution:
-    #     alias: "Planbench Blocksworld Plan Execution"
-    #     functional: [ "planning_decision_making" ]
-    #     functional_group: [ "executive_functions"]
-    #     task_type: [ "generate_until" ]
-    #     backend: "harness"
-    #     main_task: False
-    #     random_baseline: 0
-    #     higher_bound: 1
-    # planbench_blocksworld_plan_generalization:
-    #     alias: "Planbench Blocksworld Plan Generalization"
-    #     functional: [ "planning_decision_making" ]
-    #     functional_group: [ "executive_functions"]
-    #     task_type: [ "generate_until" ]
-    #     backend: "harness"
-    #     main_task: False
-    #     random_baseline: 0
-    #     higher_bound: 1
-    # planbench_blocksworld_plan_optimality:
-    #     alias: "Planbench Blocksworld Plan Optimality"
-    #     functional: [ "planning_decision_making" ]
-    #     functional_group: [ "executive_functions"]
-    #     task_type: [ "generate_until" ]
-    #     backend: "harness"
-    #     main_task: False
-    #     random_baseline: 0
-    #     higher_bound: 1
-    # planbench_blocksworld_plan_reuse:
-    #     alias: "Planbench Blocksworld Plan Reuse"
-    #     functional: [ "planning_decision_making" ]
-    #     functional_group: [ "executive_functions"]
-    #     task_type: [ "generate_until" ]
-    #     backend: "harness"
-    #     main_task: False
-    #     random_baseline: 0
-    #     higher_bound: 1
-    # planbench_blocksworld_plan_verification:
-    #     alias: "Planbench Blocksworld Plan Verification"
-    #     functional: [ "planning_decision_making" ]
-    #     functional_group: [ "executive_functions"]
-    #     task_type: [ "generate_until" ]
-    #     backend: "harness"
-    #     main_task: False
-    #     random_baseline: 0
-    #     higher_bound: 1
-    # planbench_blocksworld_plan_replanning:
-    #     alias: "Planbench Blocksworld Replanning"
-    #     functional: [ "planning_decision_making" ]
-    #     functional_group: [ "executive_functions"]
-    #     task_type: [ "generate_until" ]
-    #     backend: "harness"
-    #     main_task: False
-    #     random_baseline: 0
-    #     higher_bound: 1
-
-
+        metrics_short_report: ['acc']
 ewok_minimal_pairs:
     ewok_minimal_pairs:
         alias: "EWoK Minimal Pairs"
@@ -139,6 +33,7 @@ ewok_minimal_pairs:
         main_task: False
         random_baseline: 0.5
         higher_bound: 1
+        metrics_short_report: ['acc']
     ewok_minimal_pairs_social:
         alias: "EWoK (Social)"
         category: "massive"
@@ -146,6 +41,7 @@ ewok_minimal_pairs:
         main_task: True
         random_baseline: 0.5
         higher_bound: 1
+        metrics_short_report: ['acc']
     ewok_minimal_pairs_executive:
         alias: "EWoK (Non-Social)"
         category: "massive"
@@ -153,6 +49,7 @@ ewok_minimal_pairs:
         main_task: True
         random_baseline: 0.5
         higher_bound: 1
+        metrics_short_report: ['acc']
     ewok_minimal_pairs_agent_properties:
         alias: "EWoK Minimal Pairs Agent Properties"
         category: "massive"
@@ -160,6 +57,7 @@ ewok_minimal_pairs:
         main_task: False
         random_baseline: 0.5
         higher_bound: 1
+        metrics_short_report: ['acc']
     ewok_minimal_pairs_social_relations:
         alias: "EWoK Minimal Pairs Social Relations"
         category: "massive"
@@ -167,6 +65,7 @@ ewok_minimal_pairs:
         main_task: False
         random_baseline: 0.5
         higher_bound: 1
+        metrics_short_report: ['acc']
     ewok_minimal_pairs_material_dynamics:
         alias: "EWoK Minimal Pairs Material Dynamics"
         category: "massive"
@@ -174,6 +73,7 @@ ewok_minimal_pairs:
         main_task: False
         random_baseline: 0.5
         higher_bound: 1
+        metrics_short_report: ['acc']
     ewok_minimal_pairs_physical_relations:
         alias: "EWoK Minimal Pairs Physical Relations"
         category: "massive"
@@ -181,6 +81,7 @@ ewok_minimal_pairs:
         main_task: False
         random_baseline: 0.5
         higher_bound: 1
+        metrics_short_report: ['acc']
     ewok_minimal_pairs_physical_interactions:
         alias: "EWoK Minimal Pairs Physical Interactions"
         category: "massive"
@@ -188,6 +89,7 @@ ewok_minimal_pairs:
         main_task: False
         random_baseline: 0.5
         higher_bound: 1
+        metrics_short_report: ['acc']
     ewok_minimal_pairs_physical_dynamics:
         alias: "EWoK Minimal Pairs Physical Dynamics"
         category: "massive"
@@ -195,6 +97,7 @@ ewok_minimal_pairs:
         main_task: False
         random_baseline: 0.5
         higher_bound: 1
+        metrics_short_report: ['acc']
     ewok_minimal_pairs_spatial_relations:
         alias: "EWoK Minimal Pairs Spatial Relations"
         category: "massive"
@@ -202,6 +105,7 @@ ewok_minimal_pairs:
         main_task: False
         random_baseline: 0.5
         higher_bound: 1
+        metrics_short_report: ['acc']
     ewok_minimal_pairs_quantitative_properties:
         alias: "EWoK Minimal Pairs Quantitative Properties"
         category: "massive"
@@ -209,6 +113,7 @@ ewok_minimal_pairs:
         main_task: False
         random_baseline: 0.5
         higher_bound: 1
+        metrics_short_report: ['acc']
     ewok_minimal_pairs_social_properties:
         alias: "EWoK Minimal Pairs Social Properties"
         category: "massive"
@@ -216,6 +121,7 @@ ewok_minimal_pairs:
         main_task: False
         random_baseline: 0.5
         higher_bound: 1
+        metrics_short_report: ['acc']
     ewok_minimal_pairs_social_interactions:
         alias: "EWoK Minimal Pairs Social Interactions"
         category: "massive"
@@ -223,6 +129,7 @@ ewok_minimal_pairs:
         main_task: False
         random_baseline: 0.5
         higher_bound: 1
+        metrics_short_report: ['acc']
     ewok_minimal_pairs_material_properties:
         alias: "EWoK Minimal Pairs Material Properties"
         category: "massive"
@@ -230,322 +137,82 @@ ewok_minimal_pairs:
         main_task: False
         random_baseline: 0.5
         higher_bound: 1
-fantom:
-    fantom_full:
-        alias: "FANToM"
-        category: "theory_of_mind"
-        backend: "harness"
-        main_task: True
-        random_baseline: 0 # TODO
-        higher_bound: 1
-    fantom_full_answerability_binary:
-        alias: "FANToM Answerability Y/N"
-        category: "theory_of_mind"
-        backend: "harness"
-        main_task: False
-        random_baseline: 0.5
-        higher_bound: 1
-    fantom_full_answerability_list:
-        alias: "FANToM Answerability L"
-        category: "theory_of_mind"
-        backend: "harness"
-        main_task: False
-        random_baseline: 0.03 # (1/32) since only one combination of names of 5 characters is the correct one
-        higher_bound: 1
-    #fantom_full_belief_choice:
-    #    alias: "FANToM Belief Choice"
-    #    functional: [ "theory_of_mind" ]
-    #    formal: [ ]
-    #    functional_group: [ "social_emotional_cognition" ]
-    #    task_type: [ "multiple_choice" ]
-    #    backend: "harness"
-    #    main_task: False
-    #    random_baseline: 0.5
-    #    higher_bound: 1
-    fantom_full_belief_gen:
-        alias: "FANToM Belief Dist"
-        category: "theory_of_mind"
-        backend: "harness"
-        main_task: False
-        random_baseline: 0
-        higher_bound: 1
-    fantom_full_fact:
-        alias: "FANToM Full Fact"
-        category: "theory_of_mind"
-        backend: "harness"
-        main_task: False
-        random_baseline: 0
-        higher_bound: 1
-    fantom_full_infoaccessibility_binary:
-        alias: "FANToM Infoaccessibility Y/N"
-        category: "theory_of_mind"
-        backend: "harness"
-        main_task: False
-        random_baseline: 0.5
-        higher_bound: 1
-    fantom_full_infoaccessibility_list:
-        alias: "FANToM Infoaccessibility L"
-        category: "theory_of_mind"
-        backend: "harness"
-        main_task: False
-        random_baseline: 0.03
-        higher_bound: 1
-#dnli:
-#    dnli:
-#        alias: "DNLI"
-#        functional: [ "pragmatics" ]
-#        formal: [ ]
-#        functional_group: [ "social_emotional_cognition" ]
-#        task_type: [ "nli" ]
-#        backend: "playpen_eval_benchmarks"
-#        main_task: True
+        metrics_short_report: ['acc']
 eq_bench:
     eq_bench:
         alias: "EQBench"
         category: "emotional_intelligence"
         main_task: True
-        backend: "harness"
+        backend: "lm-eval"
         random_baseline: 0
         higher_bound: 100
+        metrics_short_report: ['eqbench']
 lm_pragmatics:
     lm_pragmatics:
         alias: "LM-Pragmatics"
         category: "pragmatics"
-        backend: "harness"
+        backend: "lm-eval"
         main_task: True
         random_baseline: 0.3
         higher_bound: 1
+        metrics_short_report: ['acc']
     coherence:
         alias: "LM-Pragmatics Coherence"
         category: "pragmatics"
-        backend: "harness"
+        backend: "lm-eval"
         main_task: False
         random_baseline: 0.5
         higher_bound: 1
+        metrics_short_report: ['acc']
     deceits:
         alias: "LM-Pragmatics Deceits"
         category: "pragmatics"
-        backend: "harness"
+        backend: "lm-eval"
         main_task: False
         random_baseline: 0.25
         higher_bound: 1
+        metrics_short_report: ['acc']
     humour:
         alias: "LM-Pragmatics Humour"
         category: "pragmatics"
-        backend: "harness"
+        backend: "lm-eval"
         main_task: False
         random_baseline: 0.2
         higher_bound: 1
+        metrics_short_report: ['acc']
     irony:
         alias: "LM-Pragmatics Irony"
         category: "pragmatics"
-        backend: "harness"
+        backend: "lm-eval"
         main_task: False
         random_baseline: 0.25
         higher_bound: 1
+        metrics_short_report: ['acc']
     maxims:
         alias: "LM-Pragmatics Maxims"
         category: "pragmatics"
-        backend: "harness"
+        backend: "lm-eval"
         main_task: False
         random_baseline: 0.25
         higher_bound: 1
+        metrics_short_report: ['acc']
     metaphor:
         alias: "LM-Pragmatics Metaphor"
         category: "pragmatics"
-        backend: "harness"
+        backend: "lm-eval"
         main_task: False
         random_baseline: 0.2
         higher_bound: 1
+        metrics_short_report: ['acc']
     indirect_speech:
         alias: "LM-Pragmatics Indirect Speech"
         category: "pragmatics"
-        backend: "harness"
+        backend: "lm-eval"
         main_task: False
         random_baseline: 0.25
         higher_bound: 1
+        metrics_short_report: ['acc']
 wm:
-
-    # wm_spatial_3*3_1back:
-    #     alias: "WM Spatial 3*3 N-1"
-    #     functional: [ "working_memory" ]
-    #     formal: [ ]
-    #     functional_group: [ "executive_functions" ]
-    #     task_type: [ "open_question" ]
-    #     backend: "playpen_eval_benchmarks"
-    #     main_task: False
-    #     random_baseline: 0.5
-    #     higher_bound: 1
-    # wm_spatial_3*3_2back:
-    #     alias: "WM Spatial 3*3 N-2"
-    #     functional: [ "working_memory" ]
-    #     formal: [ ]
-    #     functional_group: [ "executive_functions" ]
-    #     task_type: [ "open_question" ]
-    #     backend: "playpen_eval_benchmarks"
-    #     main_task: False
-    #     random_baseline: 0.5
-    #     higher_bound: 1
-    # wm_spatial_3*3_3back:
-    #     alias: "WM Spatial 3*3 N-3"
-    #     functional: [ "working_memory" ]
-    #     formal: [ ]
-    #     functional_group: [ "executive_functions" ]
-    #     task_type: [ "open_question" ]
-    #     backend: "playpen_eval_benchmarks"
-    #     main_task: False
-    #     random_baseline: 0.5
-    #     higher_bound: 1
-    # wm_spatial_4*4_1back:
-    #     alias: "WM Spatial 4*4 N-1"
-    #     functional: [ "working_memory" ]
-    #     formal: [ ]
-    #     functional_group: [ "executive_functions" ]
-    #     task_type: [ "open_question" ]
-    #     backend: "playpen_eval_benchmarks"
-    #     main_task: False
-    #     random_baseline: 0.5
-    #     higher_bound: 1
-    # wm_spatial_4*4_2back:
-    #     alias: "WM Spatial 4*4 N-2"
-    #     functional: [ "working_memory" ]
-    #     formal: [ ]
-    #     functional_group: [ "executive_functions" ]
-    #     task_type: [ "open_question" ]
-    #     backend: "playpen_eval_benchmarks"
-    #     main_task: False
-    #     random_baseline: 0.5
-    #     higher_bound: 1
-    # wm_spatial_4*4_3back:
-    #     alias: "WM Spatial 4*4 N-3"
-    #     functional: [ "working_memory" ]
-    #     formal: [ ]
-    #     functional_group: [ "executive_functions" ]
-    #     task_type: [ "open_question" ]
-    #     backend: "playpen_eval_benchmarks"
-    #     main_task: False
-    #     random_baseline: 0.5
-    #     higher_bound: 1
-    # wm_Spatial_5*5_1back:
-    #     alias: "WM Spatial 5*5 N-1"
-    #     functional: [ "working_memory" ]
-    #     formal: [ ]
-    #     functional_group: [ "executive_functions" ]
-    #     task_type: [ "open_question" ]
-    #     backend: "playpen_eval_benchmarks"
-    #     main_task: False
-    #     random_baseline: 0.5
-    #     higher_bound: 1
-    # wm_spatial_5*5_2back:
-    #     alias: "WM Spatial 5*5 N-2"
-    #     functional: [ "working_memory" ]
-    #     formal: [ ]
-    #     functional_group: [ "executive_functions" ]
-    #     task_type: [ "open_question" ]
-    #     backend: "playpen_eval_benchmarks"
-    #     main_task: False
-    #     random_baseline: 0.5
-    #     higher_bound: 1
-    # wm_spatial_5*5_3back:
-    #     alias: "WM Spatial 5*5 N-3"
-    #     functional: [ "working_memory" ]
-    #     formal: [ ]
-    #     functional_group: [ "executive_functions" ]
-    #     task_type: [ "open_question" ]
-    #     backend: "playpen_eval_benchmarks"
-    #     main_task: False
-    #     random_baseline: 0.5
-    #     higher_bound: 1
-    # wm_spatial_7*7_1back:
-    #     alias: "WM Spatial 7*7 N-1"
-    #     functional: [ "working_memory" ]
-    #     formal: [ ]
-    #     functional_group: [ "executive_functions" ]
-    #     task_type: [ "open_question" ]
-    #     backend: "playpen_eval_benchmarks"
-    #     main_task: False
-    #     random_baseline: 0.5
-    #     higher_bound: 1
-    # wm_spatial_7*7_2back:
-    #     alias: "WM Spatial 7*7 N-2"
-    #     functional: [ "working_memory" ]
-    #     formal: [ ]
-    #     functional_group: [ "executive_functions" ]
-    #     task_type: [ "open_question" ]
-    #     backend: "playpen_eval_benchmarks"
-    #     main_task: False
-    #     random_baseline: 0.5
-    #     higher_bound: 1
-    # wm_spatial_7*7_3back:
-    #     alias: "WM Spatial 7*7 N-3"
-    #     functional: [ "working_memory" ]
-    #     formal: [ ]
-    #     functional_group: [ "executive_functions" ]
-    #     task_type: [ "open_question" ]
-    #     backend: "playpen_eval_benchmarks"
-    #     main_task: False
-    #     random_baseline: 0.5
-    #     higher_bound: 1
-    # wm_spatial_3*3_abstract_1back:
-    #     alias: "WM Spatial 3*3 Abstract N-1"
-    #     functional: [ "working_memory" ]
-    #     formal: [ ]
-    #     functional_group: [ "executive_functions" ]
-    #     task_type: [ "open_question" ]
-    #     backend: "playpen_eval_benchmarks"
-    #     main_task: False
-    #     random_baseline: 0.5
-    #     higher_bound: 1
-    # wm_spatial_3*3_abstract_2back:
-    #     alias: "WM Spatial 3*3 Abstract N-2"
-    #     functional: [ "working_memory" ]
-    #     formal: [ ]
-    #     functional_group: [ "executive_functions" ]
-    #     task_type: [ "open_question" ]
-    #     backend: "playpen_eval_benchmarks"
-    #     main_task: False
-    #     random_baseline: 0.5
-    #     higher_bound: 1
-    # wm_spatial_3*3_abstract_3back:
-    #     alias: "WM Spatial 3*3 Abstract N-3"
-    #     functional: [ "working_memory" ]
-    #     formal: [ ]
-    #     functional_group: [ "executive_functions" ]
-    #     task_type: [ "open_question" ]
-    #     backend: "playpen_eval_benchmarks"
-    #     main_task: False
-    #     random_baseline: 0.5
-    #     higher_bound: 1
-    # wm_spatial_3*3_abstract_2_1back:
-    #     alias: "WM Spatial 3*3 Abstract 2 N-1"
-    #     functional: [ "working_memory" ]
-    #     formal: [ ]
-    #     functional_group: [ "executive_functions" ]
-    #     task_type: [ "open_question" ]
-    #     backend: "playpen_eval_benchmarks"
-    #     main_task: False
-    #     random_baseline: 0.5
-    #     higher_bound: 1
-    # wm_spatial_3*3_abstract_2_2back:
-    #     alias: "WM Spatial 3*3 Abstract 2 N-2"
-    #     functional: [ "working_memory" ]
-    #     formal: [ ]
-    #     functional_group: [ "executive_functions" ]
-    #     task_type: [ "open_question" ]
-    #     backend: "playpen_eval_benchmarks"
-    #     main_task: False
-    #     random_baseline: 0.5
-    #     higher_bound: 1
-    # wm_spatial_abstract_2_3back:
-    #     alias: "WM Spatial 3*3 Abstract 2 N-3"
-    #     functional: [ "working_memory" ]
-    #     formal: [ ]
-    #     functional_group: [ "executive_functions" ]
-    #     task_type: [ "open_question" ]
-    #     backend: "playpen_eval_benchmarks"
-    #     main_task: False
-    #     random_baseline: 0.5
-    #     higher_bound: 1
     wm:
         alias: "WM"
         category: "working_memory"
@@ -553,6 +220,7 @@ wm:
         backend: "playpen_eval_benchmarks"
         random_baseline: 0.5
         higher_bound: 1
+        metrics_short_report: ['acc']
     wm_verbal_1back:
         alias: "WM Verbal N-1"
         category: "working_memory"
@@ -560,6 +228,7 @@ wm:
         main_task: False
         random_baseline: 0.5
         higher_bound: 1
+        metrics_short_report: ['acc']
     wm_verbal_2back:
         alias: "WM Verbal N-2"
         category: "working_memory"
@@ -567,6 +236,7 @@ wm:
         main_task: False
         random_baseline: 0.5
         higher_bound: 1
+        metrics_short_report: ['acc']
     wm_verbal_3back:
         alias: "WM Verbal N-3"
         category: "working_memory"
@@ -574,93 +244,142 @@ wm:
         main_task: True
         random_baseline: 0.5
         higher_bound: 1
-
-
-##
+        metrics_short_report: ['acc']
 social_iqa:
     social_iqa:
         alias: "SocialIQA"
         category: "social_commonsense_reasoning"
-        backend: "harness"
+        backend: "lm-eval"
         main_task: True
         random_baseline: 0.33
         higher_bound: 1
+        metrics_short_report: ['acc']
 mmlu:
     mmlu:
         alias: "MMLU"
-        backend: "harness"
+        backend: "lm-eval"
         category: "massive"
         main_task: True
         random_baseline: 0.5
         higher_bound: 1
+        metrics_short_report: ['acc']
 bbh_fewshot:
     bbh_fewshot:
         alias: "BBH"
-        backend: "harness"
+        backend: "lm-eval"
         category: "massive"
         random_baseline: 0
         higher_bound: 1
         main_task: True
-
+        metrics_short_report: ['exact_match']
 ifeval:
     ifeval:
         alias: "IFEval"
-        backend: "harness"
+        backend: "lm-eval"
         category: "extra"
         random_baseline: 0
         higher_bound: 1
         main_task: True
-metabench:
-    metabench:
-        alias: "Metabench"
-        backend: "harness"
-        category: "massive"
+        metrics_short_report: ['prompt_level_strict_acc', 'inst_level_strict_acc']
+llm_cognitive_flexibility:
+    llm_cognitive_flexibility:
+        alias: "LLM Cognitive Flexibility"
+        category: "cognitive_flexibility"
         main_task: True
-        random_baseline: 0
+        backend: "playpen_eval_benchmarks"
+        random_baseline: 0.8035
         higher_bound: 1
-    metabench_arc:
-        alias: "Metabench ARC"
-        backend: "harness"
-        category: "massive"
+        metrics_short_report: ['acc']
+    llm_cognitive_flexibility_wcst:
+        alias: "LLM Cognitive Flexibility (WCST)"
+        category: "cognitive_flexibility"
         main_task: False
-        random_baseline: 0.25
+        backend: "playpen_eval_benchmarks"
+        random_baseline: 0.75
         higher_bound: 1
-    metabench_gsm8k:
-        alias: "Metabench GSM8K"
-        backend: "harness"
-        category: "massive"
+        metrics_short_report: ['acc']
+    llm_cognitive_flexibility_lnt:
+        alias: "LLM Cognitive Flexibility (LNT)"
+        category: "cognitive_flexibility"
         main_task: False
-        random_baseline: 0
+        backend: "playpen_eval_benchmarks"
+        random_baseline: 0.857
         higher_bound: 1
-    metabench_hellaswag:
-        alias: "Metabench HellaSWAG"
-        backend: "harness"
-        category: "massive"
+        metrics_short_report: ['acc']
+simpletom:
+    simpletom:
+        alias: "SimpleToM"
+        category: "theory_of_mind"
         main_task: False
-        random_baseline: 0.25
-        higher_bound: 1
-    metabench_mmlu:
-        alias: "Metabench MMLU"
-        backend: "harness"
-        main_task: False
-        category: "massive"
-        random_baseline: 0.25
-        higher_bound: 1
-    metabench_truthfulqa:
-        alias: "Metabench TruthfulQA"
-        backend: "harness"
-        category: "massive"
-        main_task: False
-        random_baseline: 0.12
-        higher_bound: 1
-    metabench_winogrande:
-        alias: "Metabench Winogrande"
-        backend: "harness"
-        main_task: False
-        category: "massive"
+        backend: "lm-eval"
         random_baseline: 0.5
         higher_bound: 1
-
+        metrics_short_report: ['acc']
+    simpletom-judgment-behavior-qa:
+        alias: "SimpleToM (Judgment/Behavior)"
+        category: "attribution_judgment"
+        main_task: True
+        backend: "lm-eval"
+        random_baseline: 0.5
+        higher_bound: 1
+        metrics_short_report: ['acc']
+    judgment-qa:
+        alias: "SimpleToM (Judgment)"
+        category: "attribution_judgment"
+        main_task: False
+        backend: "lm-eval"
+        random_baseline: 0.5
+        higher_bound: 1
+        metrics_short_report: ['acc']
+    behavior-qa:
+        alias: "SimpleToM (Behavior)"
+        category: "attribution_judgment"
+        main_task: False
+        backend: "lm-eval"
+        random_baseline: 0.5
+        higher_bound: 1
+        metrics_short_report: ['acc']
+    mental-state-qa:
+        alias: "SimpleToM (Mental State)"
+        category: "theory_of_mind"
+        main_task: True
+        backend: "lm-eval"
+        random_baseline: 0.5
+        higher_bound: 1
+        metrics_short_report: ['acc']
+natural_planning:
+    natural_planning_5shot:
+        alias: "Natural Planning"
+        category: "planning_decision_making"
+        main_task: True
+        backend: "lm-eval"
+        random_baseline: 0
+        higher_bound: 1
+        metrics_short_report: ['acc']
+    calendar-planning-5shot:
+        alias: "Natural Planning (Calendar)"
+        category: "planning_decision_making"
+        main_task: False
+        backend: "lm-eval"
+        random_baseline: 0
+        higher_bound: 1
+        metrics_short_report: ['acc']
+    meeting-planning-5shot:
+        alias: "Natural Planning (Meeting)"
+        category: "planning_decision_making"
+        main_task: False
+        backend: "lm-eval"
+        random_baseline: 0
+        higher_bound: 1
+        metrics_short_report: ['acc']
+    travel-planning-5shot:
+        alias: "Natural Planning (Travel)"
+        category: "planning_decision_making"
+        main_task: False
+        backend: "lm-eval"
+        random_baseline: 0
+        higher_bound: 1
+        metrics_short_report: ['acc']
 # Interactive
 entity_deduction_arena:
     entity_deduction_arena:
@@ -684,7 +403,6 @@ entity_deduction_arena:
         backend: "playpen_eval_benchmarks"
         random_baseline: 0
         higher_bound: 1
-
 clembench:
     clembench:
         alias: "Interactive"
@@ -699,7 +417,7 @@ massive_merged:
         alias: "Static"
         category: "massive"
         main_task: True
-        backend: "harness"
+        backend: "lm-eval"
         random_baseline: 0
         higher_bound: 1
 wordle:
@@ -758,101 +476,3 @@ taboo:
         backend: "clembench"
         random_baseline: 0
         higher_bound: 1
-
-llm_cognitive_flexibility:
-    llm_cognitive_flexibility:
-        alias: "LLM Cognitive Flexibility"
-        category: "cognitive_flexibility"
-        main_task: True
-        backend: "playpen_eval_benchmarks"
-        random_baseline: 0.8035
-        higher_bound: 1
-    llm_cognitive_flexibility_wcst:
-        alias: "LLM Cognitive Flexibility (WCST)"
-        category: "cognitive_flexibility"
-        main_task: False
-        backend: "playpen_eval_benchmarks"
-        random_baseline: 0.75
-        higher_bound: 1
-    llm_cognitive_flexibility_lnt:
-        alias: "LLM Cognitive Flexibility (LNT)"
-        category: "cognitive_flexibility"
-        main_task: False
-        backend: "playpen_eval_benchmarks"
-        random_baseline: 0.857
-        higher_bound: 1
-simpletom:
-    simpletom:
-        alias: "SimpleToM"
-        category: "theory_of_mind"
-        main_task: False
-        backend: "harness"
-        random_baseline: 0.5
-        higher_bound: 1
-    simpletom-judgment-behavior-qa:
-        alias: "SimpleToM (Judgment/Behavior)"
-        category: "attribution_judgment"
-        main_task: True
-        backend: "harness"
-        random_baseline: 0.5
-        higher_bound: 1
-    judgment-qa:
-        alias: "SimpleToM (Judgment)"
-        category: "attribution_judgment"
-        main_task: False
-        backend: "harness"
-        random_baseline: 0.5
-        higher_bound: 1
-    behavior-qa:
-        alias: "SimpleToM (Behavior)"
-        category: "attribution_judgment"
-        main_task: False
-        backend: "harness"
-        random_baseline: 0.5
-        higher_bound: 1
-    mental-state-qa:
-        alias: "SimpleToM (Mental State)"
-        category: "theory_of_mind"
-        main_task: True
-        backend: "harness"
-        random_baseline: 0.5
-        higher_bound: 1
-
-natural_planning:
-    natural_planning_5shot:
-        alias: "Natural Planning"
-        category: "planning_decision_making"
-        main_task: True
-        backend: "harness"
-        random_baseline: 0
-        higher_bound: 1
-    calendar-planning-5shot:
-        alias: "Natural Planning (Calendar)"
-        category: "planning_decision_making"
-        main_task: False
-        backend: "harness"
-        random_baseline: 0
-        higher_bound: 1
-    meeting-planning-5shot:
-        alias: "Natural Planning (Meeting)"
-        category: "planning_decision_making"
-        main_task: False
-        backend: "harness"
-        random_baseline: 0
-        higher_bound: 1
-    travel-planning-5shot:
-        alias: "Natural Planning (Travel)"
-        category: "planning_decision_making"
-        main_task: False
-        backend: "harness"
-        random_baseline: 0
-        higher_bound: 1
-
-    gsm8k:
-        alias: "GSM8K"
-        category: "logical_reasoning"
-        main_task: True
-    mmlu_pro:
-        alias: "MMLU-Pro"
-        category: "massive"
-        main_task: True

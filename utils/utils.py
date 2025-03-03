@@ -2,11 +2,16 @@ import numpy as np
 import torch
 import json
 import os
+from typing import Dict
 from pathlib import Path
 from collections import defaultdict
 from datetime import datetime
-from config import project_root
+from config import project_root, get_task_info
 
+def prepare_reports_folders(framework: str, model_name: str, reports_path: str = 'results') -> Path:
+    reports_path = Path(os.path.join(project_root, reports_path)) / framework / model_name
+    reports_path.mkdir(parents=True, exist_ok=True)
+    return reports_path
 
 def convert_str_to_number(s: str) -> float:
     multipliers = {'B': 1_000_000_000}
@@ -45,8 +50,13 @@ def compute_fantom_aggregated_score(harness_results: dict) -> float:
     all_star = all_ones_count / num_set_id
     return all_star
 
-# TODO: Improve
-def convert_clembench_results(model_name:str, game_name: str) -> dict:
+def build_task_report(framework: str, task_name: str, model_name: str) -> Dict:
+    if framework == 'clembench':
+        return clembench_report(model_name, task_name)
+    elif framework == 'lm-eval':
+        return lmeval_report(model_name, task_name)
+
+def clembench_report(model_name:str, game_name: str) -> dict:
     clembench_results_folder = project_root / "results" / "clembench" / model_name
     scores = []
     num_episodes = 0
@@ -66,41 +76,34 @@ def convert_clembench_results(model_name:str, game_name: str) -> dict:
                     print(f"Error processing {file_path}: {e}")
     if len(scores) == 0:
         clemscore = 0
-        #print("ZERO PLAYED ", game_name, model_name, clemscore)
     else:
-        print(" PLAYED ", scores, sum(scores), "LEN ",len(scores))
         played = len(scores) / num_episodes
         score = sum(scores)/len(scores)
         clemscore = score*(played/100)
-
-        print("SCORE ",score, played, clemscore)
-    print("TOTAL SCORE",clemscore)
     results = {"model_name":model_name, "task_results": {game_name:{"metric":"quality_score", "score":clemscore}}}
     return results
 
-
-
-
-def convert_harness_results(model_name:str, harness_results: dict) -> dict:
-    results = {}
+def lmeval_report(model_name:str, task_name: str):
+    lmeval_full_report = project_root / "results" / "lm-eval" / model_name / f"{task_name}_report_latest.json"
+    lmeval_report = json.load(open(lmeval_full_report))
+    report = {}
     task_results = {}
-    for task_name, scores in harness_results["results"].items():
-        task_score_key = [key for key in scores if ("none" in key or "strict-match" in key)  and "stderr" not in key]
-        # Take only the score from the first metric if there are more
-        task_score_key = task_score_key[0]
-        metric_name = task_score_key.split(",")[0]
-
-        score_value = scores[task_score_key]
+    for task_name, scores in lmeval_report["results"].items():
         if task_name == "fantom_full":
-            score_value = compute_fantom_aggregated_score(harness_results)
+            score_value = compute_fantom_aggregated_score(lmeval_report)
             task_results["fantom_full"] = {"metric": 'all_star', "score": score_value}
         else:
-            task_results[task_name] = {"metric": metric_name, "score": score_value}
-    results.update({
+            _, task_info = get_task_info(task_name)
+            metrics = task_info['metrics_short_report']
+            task_results[task_name] = []
+            for m in metrics:
+                score = scores[m+',none']
+                task_results[task_name].append({"metric": m, "score": score})
+    report.update({
         "model_name": model_name,
         "task_results": task_results
     })
-    return results
+    return report
 
 def time_to_seconds(time_str):
     h, m, s = time_str.split(":")

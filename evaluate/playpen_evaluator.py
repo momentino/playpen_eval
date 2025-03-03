@@ -9,9 +9,9 @@ from datetime import datetime
 from evaluate import get_logger, get_executed_tasks
 from evaluate.normalize import normalize_scores
 from config import project_root, get_task_backend, TASK_REGISTRY
-from utils.utils import custom_json_serializer, convert_harness_results, convert_clembench_results, compute_total_time
-#import playpen.clemgame.benchmark as clembench_eval
-#from playpen.backends import read_model_specs
+from utils.utils import custom_json_serializer, compute_total_time, prepare_reports_folders, build_task_report
+import playpen.clemgame.benchmark as clembench_eval
+from playpen.backends import read_model_specs
 import frameworks.playpen_eval_benchmarks.evaluator as playeval
 
 logger = get_logger(__name__)
@@ -32,11 +32,9 @@ def run(model_backend: str,
         num_fewshot: int,
         fewshot_as_multiturn: bool,
         apply_chat_template: bool,
-        batch_size: int,
-        results_path: Path = "results") -> None:
-
+        batch_size: int) -> None:
     model_args_split = model_args.split(",")
-    # Look for the part that starts with "pretrained="
+    # Look for the part that starts with "pretrained=" or "peft="
     if "peft=" not in model_args:
         model_name = next(
             (part.replace("pretrained=", "").replace("/", "__") for part in model_args_split if "pretrained=" in part),
@@ -46,14 +44,7 @@ def run(model_backend: str,
         model_name = next(
             (part.replace("peft=", "").replace("/", "__") for part in model_args_split if "peft=" in part),
             None ) # Default value if "peft=" is not found
-    harness_results_path = Path(os.path.join(project_root, results_path)) / "harness" / model_name
-    harness_results_path.mkdir(parents=True, exist_ok=True)
-
-    clembench_results_path = Path(os.path.join(project_root, results_path)) / "clembench" / model_name
-    clembench_results_path.mkdir(parents=True, exist_ok=True)
-
-    playpen_eval_results_path = Path(os.path.join(project_root, results_path)) / "playpen_eval" / model_name
-    playpen_eval_results_path.mkdir(parents=True, exist_ok=True)
+    playpen_eval_reports_path = prepare_reports_folders('playpen_eval', model_name=model_name)
 
     if trust_remote_code:
         datasets.config.HF_DATASETS_TRUST_REMOTE_CODE = True
@@ -71,7 +62,7 @@ def run(model_backend: str,
             stdout_logger.info(f"Now attempting to evaluate on all tasks available in the suite: {tasks}")
         elif "remaining" in tasks[0]:
             # Check for already executed tasks
-            executed_tasks, other_tasks = get_executed_tasks(Path(playpen_eval_results_path), main_task_names)
+            executed_tasks, other_tasks = get_executed_tasks(Path(playpen_eval_reports_path), main_task_names)
             tasks = other_tasks
             stdout_logger.info(f"The current model has been already evaluated on the tasks: {executed_tasks}")
             stdout_logger.info(f"Now attempting to evaluate on: {other_tasks}")
@@ -86,8 +77,9 @@ def run(model_backend: str,
         start_time = datetime.now()
         backend = get_task_backend(task)
         assert backend is not None
-        assert backend in {"harness", "playpen_eval_benchmarks", "clembench"}
-        if backend == "harness":
+        assert backend in {"lm-eval", "playpen_eval_benchmarks", "clembench"}
+        if backend == "lm-eval":
+            lmeval_reports_path = prepare_reports_folders('lm-eval', model_name=model_name)
             results = lm_eval.simple_evaluate(
                 model=model_backend,
                 model_args=model_args,
@@ -100,14 +92,11 @@ def run(model_backend: str,
                 apply_chat_template=apply_chat_template,
                 batch_size=batch_size,
             )
-            timestamp = datetime.now().strftime("%Y-%m-%dT%H-%M-%S.%f")
-            harness_results_file_path = Path(os.path.join(harness_results_path, f"{task}_harness_results_{timestamp}.json"))
-            harness_results_file_path.parent.mkdir(parents=True, exist_ok=True)
-            with open(harness_results_file_path, "w") as file:
+            lmeval_report_path = Path(os.path.join(lmeval_reports_path, f"{task}_report_latest.json"))
+            with open(lmeval_report_path, "w") as file:
                 json.dump(results, file, default=custom_json_serializer)
-            results = convert_harness_results(model_name=model_name, harness_results=results)
         elif backend == "playpen_eval_benchmarks":
-            results = playeval.evaluate(
+            report = playeval.evaluate(
                 model=model_backend,
                 model_args=model_args,
                 gen_kwargs=gen_kwargs,
@@ -117,25 +106,25 @@ def run(model_backend: str,
                 apply_chat_template=apply_chat_template,
             )
         elif backend == "clembench":
-            """clembench_eval.run(task,
+            clembench_reports_path = prepare_reports_folders('clembench', model_name=model_name)
+            clembench_eval.run(task,
                           model_specs=read_model_specs([model_name.split("__")[-1]]),
-                          gen_args = {'temperature': 0.0, 'max_tokens':250}, #TODO Improve error casting
-                          #gen_args=dict(pair.split("=") for pair in gen_kwargs.split(",")),
-                          results_dir=str(clembench_results_path))
-            clembench_eval.score(task, results_dir=str(clembench_results_path))
-            clembench_eval.transcripts(task, results_dir=str(clembench_results_path))"""
-            results = convert_clembench_results(model_name=model_name, game_name=task)
+                          gen_args = {'temperature': 0.0, 'max_tokens':250},
+                          results_dir=str(clembench_reports_path))
+            clembench_eval.score(task, results_dir=str(clembench_reports_path))
+            clembench_eval.transcripts(task, results_dir=str(clembench_reports_path))
 
-        normalize_scores(results)
+        report = build_task_report(backend, task, model_name) if backend in ["clembench", "lm-eval"] else report
+
         end_time = datetime.now()
         task_time = end_time - start_time
-        results["computing_time"] = str(task_time)
+        report["computing_time"] = str(task_time)
         stdout_logger.info(f"Evaluating {model_name} on {task} took {task_time}")
         timestamp = datetime.now().strftime("%Y-%m-%dT%H-%M-%S.%f")
         playpen_results_file_path = Path(
-            os.path.join(playpen_eval_results_path, f"{task}_playpen_results_{timestamp}.json"))
+            os.path.join(playpen_eval_reports_path, f"{task}_playpen_eval_report_{timestamp}.json"))
         with open(playpen_results_file_path, "w") as file:
-            json.dump(results, file, default=custom_json_serializer)
+            json.dump(report, file, default=custom_json_serializer)
 
 def report_costs(models: List[str], results_path: Path, output_path: Path) -> None:
     output_path = Path(os.path.join(project_root, output_path))

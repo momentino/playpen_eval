@@ -20,7 +20,6 @@ def main(args: argparse.Namespace) -> None:
             device_map_option=args.device_map_option,
             num_fewshot=args.num_fewshot,
             fewshot_as_multiturn=args.fewshot_as_multiturn,
-            results_path=args.results_path,
             apply_chat_template=args.apply_chat_template,
             batch_size=args.batch_size
         )
@@ -121,13 +120,6 @@ if __name__ == "__main__":
         type=str,
         default="",
         help="Output path for the reports for the cost estimates. Default is 'results/cost_reports'."
-    )
-
-    run_parser.add_argument(
-        "--results_path",
-        type=str,
-        default="results",
-        help="Output path for results. Default is 'results/by_model'."
     )
 
     report_costs_parser = sub_parsers.add_parser("report_costs", formatter_class=argparse.RawTextHelpFormatter)
