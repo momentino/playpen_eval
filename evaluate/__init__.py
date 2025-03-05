@@ -2,9 +2,9 @@ import os
 import json
 import yaml
 import logging
+import lm_eval
 from pathlib import Path
 from typing import List, Dict, Any
-from frameworks.lm_evaluation_harness import lm_eval
 from config import project_root
 
 BANNER = \

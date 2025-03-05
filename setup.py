@@ -16,6 +16,7 @@ setup(
         "sentence_transformers",
         "sentencepiece",
         "playpen @ git+https://github.com/momentino/playpen",
+        "lm_eval @ git+https://github.com/momentino/lm-evaluation-harness",
         "pingouin",
         "langdetect",
         "immutabledict",
