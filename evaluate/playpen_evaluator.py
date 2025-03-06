@@ -88,7 +88,6 @@ def run(model_backend: str,
                 fewshot_as_multiturn=fewshot_as_multiturn,
                 apply_chat_template=apply_chat_template,
                 batch_size=batch_size,
-                limit=10
             )
             lmeval_report_path = Path(os.path.join(lmeval_reports_path, f"{task}_report_latest.json"))
             with open(lmeval_report_path, "w") as file:
