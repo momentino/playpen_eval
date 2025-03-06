@@ -7,8 +7,7 @@ from pathlib import Path
 from typing import List
 from datetime import datetime
 from evaluate import get_logger, get_executed_tasks
-from evaluate.normalize import normalize_scores
-from config import project_root, get_task_backend, TASK_REGISTRY
+from config import project_root, get_task_backend, TASK_REGISTRY, MAIN_TASK_LIST, COMPLETE_TASK_LIST
 from utils.utils import custom_json_serializer, compute_total_time, prepare_reports_folders, build_task_report
 import playpen.clemgame.benchmark as clembench_eval
 from playpen.backends import read_model_specs
@@ -54,21 +53,19 @@ def run(model_backend: str,
     if device_map_option != "":
         model_args=model_args + f",device_map={device_map_option}"
 
-    main_task_names = [name for task_info in TASK_REGISTRY.values() for name in task_info.keys() if "main_task" in task_info[name].keys() and task_info[name]["main_task"]]
-    all_task_names = [name for task_info in TASK_REGISTRY.values() for name in task_info.keys()]
     if len(tasks) == 1:
         if "all" in tasks[0]:
-            tasks = main_task_names
+            tasks = MAIN_TASK_LIST
             stdout_logger.info(f"Now attempting to evaluate on all tasks available in the suite: {tasks}")
         elif "remaining" in tasks[0]:
             # Check for already executed tasks
-            executed_tasks, other_tasks = get_executed_tasks(Path(playpen_eval_reports_path), main_task_names)
+            executed_tasks, other_tasks = get_executed_tasks(Path(playpen_eval_reports_path), MAIN_TASK_LIST)
             tasks = other_tasks
             stdout_logger.info(f"The current model has been already evaluated on the tasks: {executed_tasks}")
             stdout_logger.info(f"Now attempting to evaluate on: {other_tasks}")
     else:
         for t in tasks:
-            if t not in all_task_names:
+            if t not in COMPLETE_TASK_LIST:
                 message = f"Trying to evaluate on the requested tasks, but {t} is not available in the suite."
                 stdout_logger.exception(message)
                 raise ValueError(message)
@@ -91,6 +88,7 @@ def run(model_backend: str,
                 fewshot_as_multiturn=fewshot_as_multiturn,
                 apply_chat_template=apply_chat_template,
                 batch_size=batch_size,
+                limit=10
             )
             lmeval_report_path = Path(os.path.join(lmeval_reports_path, f"{task}_report_latest.json"))
             with open(lmeval_report_path, "w") as file:

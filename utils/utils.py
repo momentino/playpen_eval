@@ -6,7 +6,7 @@ from typing import Dict
 from pathlib import Path
 from collections import defaultdict
 from datetime import datetime
-from config import project_root, get_task_info
+from config import project_root, get_task_info, COMPLETE_TASK_LIST
 
 def prepare_reports_folders(framework: str, model_name: str, reports_path: str = 'results') -> Path:
     reports_path = Path(os.path.join(project_root, reports_path)) / framework / model_name
@@ -93,12 +93,13 @@ def lmeval_report(model_name:str, task_name: str):
             score_value = compute_fantom_aggregated_score(lmeval_report)
             task_results["fantom_full"] = {"metric": 'all_star', "score": score_value}
         else:
-            _, task_info = get_task_info(task_name)
-            metrics = task_info['metrics_short_report']
-            task_results[task_name] = []
-            for m in metrics:
-                score = scores[m+',none']
-                task_results[task_name].append({"metric": m, "score": score})
+            if task_name in COMPLETE_TASK_LIST:
+                _, task_info = get_task_info(task_name)
+                metrics = task_info['metrics_short_report']
+                task_results[task_name] = []
+                for m in metrics:
+                    score = scores[m+',none']
+                    task_results[task_name].append({"metric": m, "score": score})
     report.update({
         "model_name": model_name,
         "task_results": task_results

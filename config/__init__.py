@@ -12,6 +12,9 @@ MODEL_REGISTRY = yaml.safe_load(open(model_registry_path))
 TASK_REGISTRY = yaml.safe_load(open(task_registry_path))
 CAPABILITY_REGISTRY = yaml.safe_load(open(capability_registry_path))
 
+MAIN_TASK_LIST = all_task_names = [name for task_info in TASK_REGISTRY.values() for name in task_info.keys()]
+COMPLETE_TASK_LIST = [name for task_info in TASK_REGISTRY.values() for name in task_info.keys()]
+
 
 def get_task_info(task_name: str) -> (str, Dict):
     task_registry = yaml.safe_load(open(task_registry_path))
