@@ -5,9 +5,9 @@ from frameworks.playpen_eval_benchmarks.tasks.task import Task
 from frameworks.playpen_eval_benchmarks.tasks.llm_cognitive_flexibility.wcst_test import WCSTConfig, WCST
 from frameworks.playpen_eval_benchmarks.tasks.llm_cognitive_flexibility.lnt_test import LNTConfig, LNT
 
-class LLMCognitiveFlexibilityTask(Task):
+class LLMCognitiveFlexibilityOriginalTask(Task):
     def __init__(self):
-        super().__init__(task_name="llm_cognitive_flexibility")
+        super().__init__(task_name="llm_cognitive_flexibility_original")
 
     def _format_card(self, card: tuple) -> str:
         """Format card tuple as string."""
