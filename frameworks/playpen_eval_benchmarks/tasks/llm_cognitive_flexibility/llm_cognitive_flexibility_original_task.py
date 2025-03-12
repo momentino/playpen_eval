@@ -49,9 +49,6 @@ class LLMCognitiveFlexibilityOriginalTask(Task):
             for trial in range(num_trials):
                 card = test.deck[trial]
                 options = test.generate_options(card)
-                print(" TRIAL ", trial)
-                print(" CARD ",card)
-                print(" OPTIONS ", options)
                 prompt = f"\nNew Card: {self._format_card(card)}\n"
                 for i, option in enumerate(options, 1):
                     prompt += f"Option {i}: {self._format_card(option)}\n"
