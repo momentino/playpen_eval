@@ -1,4 +1,4 @@
-task_name: llm_cognitive_flexibility
+task_name: llm_cognitive_flexibility_original
 gen_kwargs:
   temperature: 0.7
   max_new_tokens: 100

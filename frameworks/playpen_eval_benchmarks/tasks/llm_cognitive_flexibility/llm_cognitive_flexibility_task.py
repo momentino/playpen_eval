@@ -49,7 +49,9 @@ class LLMCognitiveFlexibilityTask(Task):
             for trial in range(num_trials):
                 card = test.deck[trial]
                 options = test.generate_options(card)
-
+                print(" TRIAL ", trial)
+                print(" CARD ",card)
+                print(" OPTIONS ", options)
                 prompt = f"\nNew Card: {self._format_card(card)}\n"
                 for i, option in enumerate(options, 1):
                     prompt += f"Option {i}: {self._format_card(option)}\n"
@@ -132,11 +134,11 @@ class LLMCognitiveFlexibilityTask(Task):
 
 
         formatted_results = {"model_name": model.get_model_name().replace("/", "__"), "task_results": {}}
-        formatted_results["task_results"]["llm_cognitive_flexibility_wcst"] = {"metric": "acc",
+        formatted_results["task_results"]["llm_cognitive_flexibility_wcst_original"] = {"metric": "acc",
                                                                                "score": wcst_acc}
-        formatted_results["task_results"]["llm_cognitive_flexibility_lnt"] = {"metric": "acc",
+        formatted_results["task_results"]["llm_cognitive_flexibility_lnt_original"] = {"metric": "acc",
                                                                                "score": lnt_acc}
-        formatted_results["task_results"]["llm_cognitive_flexibility"] = {"metric": "acc",
+        formatted_results["task_results"]["llm_cognitive_flexibility_original"] = {"metric": "acc",
                                                                               "score": (wcst_acc+lnt_acc)/2}
 
         return formatted_results

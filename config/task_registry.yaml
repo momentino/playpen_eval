@@ -281,8 +281,8 @@ ifeval:
         higher_bound: 1
         main_task: True
         metrics_short_report: ['prompt_level_strict_acc', 'inst_level_strict_acc']
-llm_cognitive_flexibility:
-    llm_cognitive_flexibility:
+llm_cognitive_flexibility_original:
+    llm_cognitive_flexibility_original:
         alias: "LLM Cognitive Flexibility"
         category: "cognitive_flexibility"
         main_task: True
@@ -290,7 +290,7 @@ llm_cognitive_flexibility:
         random_baseline: 0.8035
         higher_bound: 1
         metrics_short_report: ['acc']
-    llm_cognitive_flexibility_wcst:
+    llm_cognitive_flexibility_wcst_original:
         alias: "LLM Cognitive Flexibility (WCST)"
         category: "cognitive_flexibility"
         main_task: False
@@ -298,7 +298,32 @@ llm_cognitive_flexibility:
         random_baseline: 0.75
         higher_bound: 1
         metrics_short_report: ['acc']
-    llm_cognitive_flexibility_lnt:
+    llm_cognitive_flexibility_lnt_original:
+        alias: "LLM Cognitive Flexibility (LNT)"
+        category: "cognitive_flexibility"
+        main_task: False
+        backend: "playpen_eval_benchmarks"
+        random_baseline: 0.857
+        higher_bound: 1
+        metrics_short_report: ['acc']
+llm_cognitive_flexibility_revisited:
+    llm_cognitive_flexibility_revisited:
+        alias: "LLM Cognitive Flexibility"
+        category: "cognitive_flexibility"
+        main_task: True
+        backend: "playpen_eval_benchmarks"
+        random_baseline: 0.8035
+        higher_bound: 1
+        metrics_short_report: ['acc']
+    llm_cognitive_flexibility_wcst_revisited:
+        alias: "LLM Cognitive Flexibility (WCST)"
+        category: "cognitive_flexibility"
+        main_task: False
+        backend: "playpen_eval_benchmarks"
+        random_baseline: 0.75
+        higher_bound: 1
+        metrics_short_report: ['acc']
+    llm_cognitive_flexibility_lnt_revisited:
         alias: "LLM Cognitive Flexibility (LNT)"
         category: "cognitive_flexibility"
         main_task: False
