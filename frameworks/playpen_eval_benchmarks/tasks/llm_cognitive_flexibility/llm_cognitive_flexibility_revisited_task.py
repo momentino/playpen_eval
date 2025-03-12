@@ -135,11 +135,11 @@ class LLMCognitiveFlexibilityRevisitedTask(Task):
 
 
         formatted_results = {"model_name": model.get_model_name().replace("/", "__"), "task_results": {}}
-        formatted_results["task_results"]["llm_cognitive_flexibility_wcst_original"] = {"metric": "acc",
+        formatted_results["task_results"]["llm_cognitive_flexibility_wcst_revisited"] = {"metric": "acc",
                                                                                "score": wcst_acc}
-        formatted_results["task_results"]["llm_cognitive_flexibility_lnt_original"] = {"metric": "acc",
+        formatted_results["task_results"]["llm_cognitive_flexibility_lnt_revisited"] = {"metric": "acc",
                                                                                "score": lnt_acc}
-        formatted_results["task_results"]["llm_cognitive_flexibility_original"] = {"metric": "acc",
+        formatted_results["task_results"]["llm_cognitive_flexibility_revisited"] = {"metric": "acc",
                                                                               "score": (wcst_acc+lnt_acc)/2}
 
         return formatted_results
