@@ -93,6 +93,7 @@ class LLMCognitiveFlexibilityRevisitedTask(Task):
         """
         config: LNTConfig = LNTConfig()
         results = []
+        print(data, " DATA LEN ", len(data))
         for eval_num, evaluation_instances in enumerate(data):
             print(" EVAL NUM ",eval_num)
             test = LNTRevisited(eval_num=eval_num, config=config)
