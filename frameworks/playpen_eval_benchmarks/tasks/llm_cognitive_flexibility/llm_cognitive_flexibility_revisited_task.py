@@ -93,9 +93,11 @@ class LLMCognitiveFlexibilityRevisitedTask(Task):
         """
         config: LNTConfig = LNTConfig()
         results = []
+        print(" LNT DATA ",data)
         for eval_num, evaluation_instances in enumerate(data):
             test = LNTRevisited(eval_num=eval_num, config=config)
             messages = [{"role": "system", "content": LNT_SYSTEM_PROMPT}]
+            print(" INSTANCES ", evaluation_instances)
             for instance in evaluation_instances:
                 sequence = instance['sequence']
                 print(" SEQUENCE ",sequence)
