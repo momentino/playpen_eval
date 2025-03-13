@@ -36,7 +36,7 @@ class WCST:
         }
         rules_successors_path = Path(__file__).parent / "revisited_data" / 'wcst' / 'rules.json'
 
-        self.rules_successors = json.load(open(rules_successors_path), 'r')
+        self.rules_successors = json.load(open(rules_successors_path, 'r'))
 
     def _generate_deck(self) -> List[Card]:
         """Generate all possible card combinations."""
