@@ -10,14 +10,29 @@ def wcst_rules_generation(num_rules: int) -> Dict[str, List]:
     rules = {
         "shape": [],
         "color": [],
-        "number": []
+        "number": [],
+        "starter": []
     }
-    for rule in rules.keys():
-        other_rules = set(copy.copy(list(rules.keys())))
+    rule_list = ["shape","color","number"]
+    for rule in rule_list:
+        other_rules = set(copy.copy(rule_list))
         other_rules.remove(rule)
         for _ in range(num_rules):
             next_element = random.choice(list(other_rules))
             rules[rule].append(next_element)
+    for _ in range(num_rules):
+        starter = random.choice(list(rule_list))
+        rules["starter"].append(starter)
+    return rules
+
+def lnt_rules_generation(num_rules: int) -> Dict[str, List]:
+    rules = {
+        "starter": []
+    }
+    rule_list = ["letter","number"]
+    for _ in range(num_rules):
+        starter = random.choice(list(rule_list))
+        rules["starter"].append(starter)
     return rules
 
 
@@ -52,16 +67,16 @@ if __name__ == "__main__":
     num_evaluations = 8
     trials = 25
     num_rules = 1000
-    experiment = "wcst" #change the name into 'lnt' for generating data for that experiment
+    experiment = "lnt" #change the name into 'lnt' for generating data for that experiment
     output_path = Path(__file__).parent / "revisited_data" / experiment
     output_path.mkdir(parents=True, exist_ok=True)
     if experiment == 'wcst':
-        data = wcst_instance_generation(num_evaluations, trials)
+        #data = wcst_instance_generation(num_evaluations, trials)
         rules = wcst_rules_generation(num_rules)
     elif experiment == 'lnt':
-        data = lnt_instance_generation(num_evaluations, trials)
+        #data = lnt_instance_generation(num_evaluations, trials)
+        rules = lnt_rules_generation(num_rules)
     else:
         raise Exception("Experiment unknown in the LLM-Cognitive-Flexibility dataset's data generation script.")
-    json.dump(data, open(output_path / "data.json", 'w'))
-    if experiment == 'wcst':
-        json.dump(rules, open(output_path / "rules.json", 'w'))
+    #json.dump(data, open(output_path / "data.json", 'w'))
+    json.dump(rules, open(output_path / "rules.json", 'w'))

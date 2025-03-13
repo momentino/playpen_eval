@@ -4,8 +4,8 @@ from typing import List, Dict, Any, Optional
 from pathlib import Path
 from frameworks.playpen_eval_benchmarks.models import Model, HF
 from frameworks.playpen_eval_benchmarks.tasks.task import Task
-from frameworks.playpen_eval_benchmarks.tasks.llm_cognitive_flexibility.wcst_test import WCSTConfig, WCST
-from frameworks.playpen_eval_benchmarks.tasks.llm_cognitive_flexibility.lnt_test import LNTConfig, LNT
+from frameworks.playpen_eval_benchmarks.tasks.llm_cognitive_flexibility.wcst_test import WCSTConfig, WCSTRevisited
+from frameworks.playpen_eval_benchmarks.tasks.llm_cognitive_flexibility.lnt_test import LNTConfig, LNTRevisited
 
 class LLMCognitiveFlexibilityRevisitedTask(Task):
     def __init__(self):
@@ -45,11 +45,12 @@ class LLMCognitiveFlexibilityRevisitedTask(Task):
         config: WCSTConfig = WCSTConfig()
         results = []
         for eval_num, evaluation_instances in enumerate(data):
-            test = WCST(config)
+            test = WCSTRevisited(eval_num=eval_num, config=config)
             messages = [{"role": "system", "content": WCST_SYSTEM_PROMPT}]
             for instance in evaluation_instances:
                 card = instance['card']
                 options = instance['options']
+                print(" CARD ", card, "OPTIONS ",options)
                 prompt = f"\nNew Card: {self._format_card(card)}\n"
                 for i, option in enumerate(options, 1):
                     prompt += f"Option {i}: {self._format_card(option)}\n"
@@ -93,10 +94,11 @@ class LLMCognitiveFlexibilityRevisitedTask(Task):
         config: LNTConfig = LNTConfig()
         results = []
         for eval_num, evaluation_instances in enumerate(data):
-            test = LNT(config)
+            test = LNTRevisited(eval_num=eval_num, config=config)
             messages = [{"role": "system", "content": LNT_SYSTEM_PROMPT}]
             for instance in evaluation_instances:
                 sequence = instance['sequence']
+                print(" SEQUENCE ",sequence)
                 prompt = f"\nSequence: {sequence}\n"
 
                 messages.append({"role": "user", "content": prompt})

@@ -148,6 +148,29 @@ class WCST:
 
         return chosen_rule == self.current_rule
 
+    def evaluate_choice(self, card: Card, choice: int, options: List[Card]) -> bool:
+        """Evaluate the choice based on the current rule."""
+        rule_indices = {"shape": 0, "color": 1, "number": 2}
+
+        # Check if the chosen card matches the current rule
+        chosen_rule = self.current_rule if options[choice][rule_indices[self.current_rule]] == card[
+            rule_indices[self.current_rule]] else None
+
+        if chosen_rule == self.current_rule:
+            self.score += 1
+            self.successes += 1
+        else:
+            self.successes = 0
+
+        # Change the rule after 6 successes
+        if self.successes == 6:
+            rules = ["shape", "color", "number"]
+            rules.remove(self.current_rule)
+            self.current_rule = random.choice(rules)
+            self.successes = 0
+
+        return chosen_rule == self.current_rule
+
     def run_task(self, verbose: bool = False):
         """Run the complete WCST task."""
         deck = self.deck.copy()
@@ -197,3 +220,45 @@ class WCST:
     def get_performance(self):
         """Return accuracy, number of successes, and total trials."""
         return (self.score / self.config.num_trials, self.score, self.config.num_trials)
+
+class WCSTRevisited(WCST):
+    def __init__(self, eval_num: int, config: WCSTConfig = WCSTConfig()):
+        super().__init__(config)
+        self.config = config
+        self.deck = self._generate_deck()
+        #random.shuffle(self.deck)
+        #self.current_rule = random.choice(['shape', 'color', 'number'])
+        self.score = 0
+        self.successes = 0
+
+        self.eval_num = eval_num
+        self.rule_iterators = {
+            'shape': 0,
+            'color': 0,
+            'number': 0
+        }
+        rules_successors_path = Path(__file__).parent / "revisited_data" / 'wcst' / 'rules.json'
+
+        self.rules_successors = json.load(open(rules_successors_path, 'r'))
+        self.current_rule = self.rules_successors["starter"][eval_num]
+
+    def evaluate_choice(self, card: Card, choice: int, options: List[Card]) -> bool:
+        """Evaluate the choice based on the current rule."""
+        rule_indices = {"shape": 0, "color": 1, "number": 2}
+
+        # Check if the chosen card matches the current rule
+        chosen_rule = self.current_rule if options[choice][rule_indices[self.current_rule]] == card[rule_indices[self.current_rule]] else None
+
+        if chosen_rule == self.current_rule:
+            self.score += 1
+            self.successes += 1
+        else:
+            self.successes = 0
+
+        # Change the rule after 6 successes
+        if self.successes == 6:
+            rule_index = self.rule_iterators[self.current_rule]
+            self.rule_iterators[self.current_rule] += 1
+            self.current_rule = self.rules_successors[self.current_rule][rule_index]
+            self.successes = 0
+        return chosen_rule == self.current_rule

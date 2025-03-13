@@ -3,8 +3,10 @@
 """
 Letter Number Test implementation.
 """
+import json
 import random
 import string
+from pathlib import Path
 from dataclasses import dataclass
 from typing import Tuple, Literal
 
@@ -69,3 +71,16 @@ class LNT:
         """Return accuracy, number of successes, and total trials."""
         accuracy = self.score / self.trials if self.trials > 0 else 0
         return accuracy, self.score, self.trials
+
+class LNTRevisited(LNT):
+    def __init__(self, eval_num: int, config: LNTConfig = LNTConfig()):
+        super().__init__(config)
+        self.config = config
+        self.score = 0
+        self.successes = 0
+        self.trials = 0
+
+        rules_successors_path = Path(__file__).parent / "revisited_data" / 'lnt' / 'rules.json'
+
+        self.rules_successors = json.load(open(rules_successors_path, 'r'))
+        self.current_task = self.rules_successors["starter"][eval_num]
