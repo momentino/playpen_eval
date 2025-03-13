@@ -98,10 +98,9 @@ class LLMCognitiveFlexibilityRevisitedTask(Task):
             test = LNTRevisited(eval_num=eval_num, config=config)
             messages = [{"role": "system", "content": LNT_SYSTEM_PROMPT}]
             for instance in evaluation_instances:
-                print(" SEQUENCE ", sequence)
                 sequence = instance['sequence']
                 prompt = f"\nSequence: {sequence}\n"
-
+                print(" SEQUENCE ", sequence)
                 messages.append({"role": "user", "content": prompt})
                 response = model.generate(messages, apply_chat_template=apply_chat_template)
                 choice = self._extract_ln_response(response[0])
