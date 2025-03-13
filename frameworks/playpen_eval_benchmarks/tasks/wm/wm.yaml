@@ -1,3 +1,4 @@
 task_name: wm
 gen_kwargs:
-  temperature: 1
+  do_sample: False
+  #temperature: 1
