@@ -50,7 +50,6 @@ class LLMCognitiveFlexibilityRevisitedTask(Task):
             for instance in evaluation_instances:
                 card = instance['card']
                 options = instance['options']
-                print(" CARD ", card, "OPTIONS ",options)
                 prompt = f"\nNew Card: {self._format_card(card)}\n"
                 for i, option in enumerate(options, 1):
                     prompt += f"Option {i}: {self._format_card(option)}\n"
@@ -93,15 +92,12 @@ class LLMCognitiveFlexibilityRevisitedTask(Task):
         """
         config: LNTConfig = LNTConfig()
         results = []
-        print(data, " DATA LEN ", len(data))
         for eval_num, evaluation_instances in enumerate(data):
-            print(" EVAL NUM ",eval_num)
             test = LNTRevisited(eval_num=eval_num, config=config)
             messages = [{"role": "system", "content": LNT_SYSTEM_PROMPT}]
             for instance in evaluation_instances:
                 sequence = instance['sequence']
                 prompt = f"\nSequence: {sequence}\n"
-                print(" SEQUENCE ", sequence)
                 messages.append({"role": "user", "content": prompt})
                 response = model.generate(messages, apply_chat_template=apply_chat_template)
                 choice = self._extract_ln_response(response[0])
@@ -122,7 +118,7 @@ class LLMCognitiveFlexibilityRevisitedTask(Task):
                     "trials": trials
                 }
                 results.append(eval_result)
-            return results
+        return results
 
     def evaluate(self, model: Model | HF, apply_chat_template:bool) -> Dict[str, Any]:
         num_evaluations = 8
