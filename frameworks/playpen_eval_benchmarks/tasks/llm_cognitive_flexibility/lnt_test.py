@@ -84,3 +84,4 @@ class LNTRevisited(LNT):
 
         self.rules_successors = json.load(open(rules_successors_path, 'r'))
         self.current_task = self.rules_successors["starter"][eval_num]
+        print(" LNT CURRENT TASK ",self.current_task, " EVAL NUM ",eval_num)

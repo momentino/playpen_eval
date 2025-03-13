@@ -93,14 +93,13 @@ class LLMCognitiveFlexibilityRevisitedTask(Task):
         """
         config: LNTConfig = LNTConfig()
         results = []
-        print(" LNT DATA ",data)
         for eval_num, evaluation_instances in enumerate(data):
+            print(" EVAL NUM ",eval_num)
             test = LNTRevisited(eval_num=eval_num, config=config)
             messages = [{"role": "system", "content": LNT_SYSTEM_PROMPT}]
-            print(" INSTANCES ", evaluation_instances)
             for instance in evaluation_instances:
+                print(" SEQUENCE ", sequence)
                 sequence = instance['sequence']
-                print(" SEQUENCE ",sequence)
                 prompt = f"\nSequence: {sequence}\n"
 
                 messages.append({"role": "user", "content": prompt})
