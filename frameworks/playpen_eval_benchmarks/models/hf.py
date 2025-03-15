@@ -54,7 +54,7 @@ class HF(Model):
                                                           trust_remote_code=self.trust_remote_code,
                                                           revision='main',
                                                           torch_dtype=self.torch_dtype,
-                                                          device_map='auto',
+                                                          device_map='balanced_low_0',
                                                           **model_kwargs)
 
         if peft:
