@@ -96,6 +96,7 @@ class WMTask(Task):
                     messages = []
                     messages.append({"role": "system", "content": prompt})
                     for t in trials:
+                        print(" ENTER LOOP, NEW TRIAL")
                         messages.append({"role": "user", "content": t["stimulus"]})
                         answer = model.generate(messages=messages, apply_chat_template=apply_chat_template)[0]
                         correct += answer == t["target"]
