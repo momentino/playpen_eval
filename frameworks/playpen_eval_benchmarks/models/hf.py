@@ -56,14 +56,15 @@ class HF(Model):
                                                           torch_dtype=self.torch_dtype,
                                                           device_map='balanced_low_0',
                                                           **model_kwargs)
-
         if peft:
             if load_in_4bit:
                 if version.parse(PEFT_VERSION) < version.parse("0.4.0"):
                     raise AssertionError("load_in_4bit requires peft >= 0.4.0")
             self.model = PeftModel.from_pretrained(
-                self.model, peft, revision="main"
+                self.model, peft, revision="main", device_map='balanced_low_0', low_cpu_mem_usage=True
             )
+
+        print("MODEL LOADED ", self.model)
 
     def set_tokenizer_padding_side(self, padding_side: str):
         self.tokenizer.padding_side = padding_side
