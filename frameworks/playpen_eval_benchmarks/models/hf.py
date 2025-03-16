@@ -66,6 +66,7 @@ class HF(Model):
 
         #print("MODEL LOADED ", self.model)
         print(" TORCH DTYPE ", self.torch_dtype)
+        print(" Memory summary ", torch.cuda.memory_summary())
 
     def set_tokenizer_padding_side(self, padding_side: str):
         self.tokenizer.padding_side = padding_side
