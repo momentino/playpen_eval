@@ -14,7 +14,6 @@ class WMTask(Task):
         # "spatial_4*4", "spatial_5*5", "spatial_7*7", "spatial_3*3", "spatial_3*3_abstraction", "spatial_3*3_abstraction_2",
         self.experiments = ["verbal"]
         self.nback = 3
-        print(" IN WM TASK ")
 
     def _prepare_dataset(self) -> Dict[str, Dict[str, Any]]:
         dataset = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
@@ -74,6 +73,7 @@ class WMTask(Task):
             print(f"An error occurred: {e}")
 
     def evaluate(self, model: Model, apply_chat_template:bool) -> Dict[str, Any]:
+        print(" ENTRO 1")
         out_of_context = 0
         exp_to_input_map = {
             "spatial_3*3": "grids_3*3",
@@ -88,14 +88,19 @@ class WMTask(Task):
 
         }
         results = defaultdict(lambda: defaultdict(float))
+        print(" ENTRO 2")
         for experiment in self.experiments:
             for n in range(1, self.nback+1):
+                print(" ENTRO 3")
                 prompt = self._get_prompt(experiment, n)
+                print(" ENTRO 4")
                 accuracies = []
                 for block, trials in tqdm(self.dataset[exp_to_input_map[experiment]][f"{n}back"].items()):
+                    print(" ENTRO 5")
                     correct = 0
                     messages = []
                     messages.append({"role": "system", "content": prompt})
+                    print(" ENTRO 6")
                     for t in trials:
                         print(" ENTER LOOP, NEW TRIAL")
                         messages.append({"role": "user", "content": t["stimulus"]})

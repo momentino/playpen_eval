@@ -18,5 +18,6 @@ def evaluate(task: str, model_args:str, gen_kwargs:str, device: str, apply_chat_
         eval_logger.exception(message)
         raise Exception(message)
     task = get_task(task)
+    print(" READY FOR EVALUATION ",task)
     results = task.evaluate(model, apply_chat_template)
     return results
