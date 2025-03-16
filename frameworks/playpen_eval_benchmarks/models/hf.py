@@ -15,7 +15,7 @@ class HF(Model):
     def __init__(self, pretrained: str,
                  device: str,
                  trust_remote_code: bool,
-                 torch_dtype: str = 'auto',
+                 torch_dtype: str = 'bfloat16',
                  parallelize: bool = True,
                  gen_kwargs: Dict = {},
                  peft: Optional[str] = None,
