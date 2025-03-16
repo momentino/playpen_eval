@@ -91,6 +91,7 @@ class HF(Model):
             raise Exception('Model must be a model from Huggingface to use this method.')
 
     def generate(self, messages: List[Dict[str, str]] | List[str], apply_chat_template: bool):
+        print(" ENTRO ",len(messages))
         if isinstance(self.model, Union[PreTrainedModel,PeftModel]):
             if apply_chat_template:
                 try:
