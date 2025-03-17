@@ -20,5 +20,6 @@ setup(
         "pingouin",
         "langdetect",
         "immutabledict",
+        "nltk>=3.9.1"
     ],
 )
