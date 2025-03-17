@@ -212,8 +212,8 @@ lm_pragmatics:
         random_baseline: 0.25
         higher_bound: 1
         metrics_short_report: ['acc']
-wm:
-    wm:
+wm_greedy:
+    wm_greedy:
         alias: "WM"
         category: "working_memory"
         main_task: False
@@ -221,7 +221,7 @@ wm:
         random_baseline: 0.5
         higher_bound: 1
         metrics_short_report: ['acc']
-    wm_verbal_1back:
+    wm_verbal_1back_greedy:
         alias: "WM Verbal N-1"
         category: "working_memory"
         backend: "playpen_eval_benchmarks"
@@ -229,7 +229,7 @@ wm:
         random_baseline: 0.5
         higher_bound: 1
         metrics_short_report: ['acc']
-    wm_verbal_2back:
+    wm_verbal_2back_greedy:
         alias: "WM Verbal N-2"
         category: "working_memory"
         backend: "playpen_eval_benchmarks"
@@ -237,7 +237,7 @@ wm:
         random_baseline: 0.5
         higher_bound: 1
         metrics_short_report: ['acc']
-    wm_verbal_3back:
+    wm_verbal_3back_greedy:
         alias: "WM Verbal N-3"
         category: "working_memory"
         backend: "playpen_eval_benchmarks"
@@ -501,3 +501,53 @@ taboo:
         backend: "clembench"
         random_baseline: 0
         higher_bound: 1
+
+glue_diagnostics:
+    glue_diagnostics:
+        alias: "GLUE Diagnostics"
+        backend: "lm-eval"
+        category: "formal"
+        random_baseline: 0
+        higher_bound: 0.33
+        main_task: True
+        metrics_short_report: ['acc']
+    glue_diagnostics_lexical_semantics:
+        alias: "GLUE Diagnostics Lexical Semantics"
+        backend: "lm-eval"
+        category: "formal"
+        random_baseline: 0
+        higher_bound: 0.33
+        main_task: True
+        metrics_short_report: ['acc']
+    glue_diagnostics_predicate_argument_structure:
+        alias: "GLUE Diagnostics Predicate Argument Structure"
+        backend: "lm-eval"
+        category: "formal"
+        random_baseline: 0
+        higher_bound: 0.33
+        main_task: True
+        metrics_short_report: ['acc']
+    glue_diagnostics_logic:
+        alias: "GLUE Diagnostics Logic"
+        backend: "lm-eval"
+        category: "formal"
+        random_baseline: 0
+        higher_bound: 0.33
+        main_task: True
+        metrics_short_report: ['acc']
+    glue_diagnostics_knowledge_world:
+        alias: "GLUE Diagnostics Knowledge World"
+        backend: "lm-eval"
+        category: "formal"
+        random_baseline: 0
+        higher_bound: 0.33
+        main_task: True
+        metrics_short_report: ['acc']
+    glue_diagnostics_knowledge_common_sense:
+        alias: "GLUE Diagnostics Commonsense"
+        backend: "lm-eval"
+        category: "formal"
+        random_baseline: 0
+        higher_bound: 0.33
+        main_task: True
+        metrics_short_report: ['acc']
