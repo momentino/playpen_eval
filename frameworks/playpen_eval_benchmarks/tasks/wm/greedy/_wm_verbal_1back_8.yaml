@@ -1,0 +1,4 @@
+tag: wm_verbal_1back_greedy_tasks
+task: wm_verbal_1back_8_greedy
+test_split: '8'
+include: _template_wm_verbal_1back_greedy_yaml

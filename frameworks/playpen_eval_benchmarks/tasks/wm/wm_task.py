@@ -6,6 +6,7 @@ from tqdm import tqdm
 from collections import defaultdict
 from frameworks.playpen_eval_benchmarks.models import Model
 from frameworks.playpen_eval_benchmarks.tasks.task import Task
+from lm_eval.models.huggingface import HFLM
 
 class WMTask(Task):
     def __init__(self):
@@ -72,8 +73,7 @@ class WMTask(Task):
         except Exception as e:
             print(f"An error occurred: {e}")
 
-    def evaluate(self, model: Model, apply_chat_template:bool) -> Dict[str, Any]:
-        print(" ENTRO 1")
+    def evaluate(self, model: HFLM, apply_chat_template:bool) -> Dict[str, Any]:
         out_of_context = 0
         exp_to_input_map = {
             "spatial_3*3": "grids_3*3",
@@ -88,22 +88,18 @@ class WMTask(Task):
 
         }
         results = defaultdict(lambda: defaultdict(float))
-        print(" ENTRO 2")
         for experiment in self.experiments:
             for n in range(1, self.nback+1):
-                print(" ENTRO 3")
                 prompt = self._get_prompt(experiment, n)
-                print(" ENTRO 4")
                 accuracies = []
                 for block, trials in tqdm(self.dataset[exp_to_input_map[experiment]][f"{n}back"].items()):
-                    print(" ENTRO 5")
                     correct = 0
                     messages = []
                     messages.append({"role": "system", "content": prompt})
-                    print(" ENTRO 6")
                     for t in trials:
                         print(" ENTER LOOP, NEW TRIAL")
                         messages.append({"role": "user", "content": t["stimulus"]})
+                        answer = model._model_generate()
                         answer = model.generate(messages=messages, apply_chat_template=apply_chat_template)[0]
                         correct += answer == t["target"]
                     block_acc = correct / len(trials)

@@ -2,7 +2,7 @@ logiqa2:
     logiqa2:
         alias: "LogiQA 2.0"
         category: "logical_numerical_reasoning"
-        backend: "lm-eval"
+        backend: "playpen_eval_benchmarks"
         main_task: True
         random_baseline: 0.25
         higher_bound: 1

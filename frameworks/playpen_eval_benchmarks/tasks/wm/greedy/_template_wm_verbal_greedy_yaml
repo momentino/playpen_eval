@@ -1,0 +1,11 @@
+dataset_path: clembench-playpen/working-memory
+output_type: generate_until_multiturn
+instance_as_next_message: True
+doc_to_text: stimuli
+doc_to_target: target
+generation_kwargs:
+  do_sample: False
+metric_list:
+    - metric: acc
+      aggregation: mean
+      higher_is_better: True

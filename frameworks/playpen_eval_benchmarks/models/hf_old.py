@@ -1,9 +1,6 @@
 import torch
 import transformers
 from typing import List, Dict, Optional, Union
-from functools import reduce
-from accelerate import dispatch_model, infer_auto_device_map
-from accelerate.utils.modeling import get_max_memory
 from packaging import version
 from transformers import AutoModelForCausalLM, AutoTokenizer, PreTrainedModel, BitsAndBytesConfig
 from frameworks.playpen_eval_benchmarks.models import Model
@@ -15,7 +12,7 @@ class HF(Model):
     def __init__(self, pretrained: str,
                  device: str,
                  trust_remote_code: bool,
-                 torch_dtype: str = 'bfloat16',
+                 torch_dtype: str = 'auto',
                  parallelize: bool = True,
                  gen_kwargs: Dict = {},
                  peft: Optional[str] = None,
@@ -54,17 +51,18 @@ class HF(Model):
                                                           trust_remote_code=self.trust_remote_code,
                                                           revision='main',
                                                           torch_dtype=self.torch_dtype,
-                                                          device_map='balanced_low_0',
+                                                          device_map='auto',
                                                           **model_kwargs)
         if peft:
             if load_in_4bit:
                 if version.parse(PEFT_VERSION) < version.parse("0.4.0"):
                     raise AssertionError("load_in_4bit requires peft >= 0.4.0")
             self.model = PeftModel.from_pretrained(
-                self.model, peft, revision="main", device_map='balanced_low_0', low_cpu_mem_usage=True, torch_dtype=self.torch_dtype
-            )
+                self.model, peft, revision="main", low_cpu_mem_usage=True, torch_dtype=self.torch_dtype,
+                ephemeral_gpu_offload=True
+            ) #device_map='balanced_low_0',
 
-        #print("MODEL LOADED ", self.model)
+        print("PEFT ", self.model)
         print(" TORCH DTYPE ", self.torch_dtype)
         print(" Memory summary ", torch.cuda.memory_summary())
 

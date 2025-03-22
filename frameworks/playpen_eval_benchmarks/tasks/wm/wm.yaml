@@ -1,4 +1,0 @@
-task_name: wm
-gen_kwargs:
-  do_sample: False
-  #temperature: 1

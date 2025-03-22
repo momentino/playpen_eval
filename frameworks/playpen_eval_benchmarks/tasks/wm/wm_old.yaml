@@ -1,0 +1,12 @@
+task_name: wm
+output_type: generate_until_multiturn
+gen_kwargs:
+  do_sample: False
+  #temperature: 1
+group: wm
+task:
+  group: wm_verbal
+experiments:
+  - wm_verbal_1back
+  - wm_verbal_2back
+  - wm_verbal_3back

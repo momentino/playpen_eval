@@ -1,4 +1,9 @@
 task_name: llm_cognitive_flexibility_original
+output_type: generate_until_multiturn
 gen_kwargs:
   temperature: 0.7
   max_new_tokens: 100
+experiments:
+  - llm_cognitive_flexibility_wcst_original
+  - llm_cognitive_flexibility_lnt_original
+n_runs: 1
