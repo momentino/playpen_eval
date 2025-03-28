@@ -15,11 +15,12 @@ setup(
         "bitsandbytes",
         "sentence_transformers",
         "sentencepiece",
-        "playpen @ git+https://github.com/momentino/playpen",
+        #"playpen @ git+https://github.com/momentino/playpen",
         "lm_eval @ git+https://github.com/momentino/lm-evaluation-harness",
+        "lm_eval[vllm] @ git+https://github.com/momentino/lm-evaluation-harness",
         "pingouin",
         "langdetect",
         "immutabledict",
-        "nltk>=3.9.1"
+        "nltk>=3.9.1",
     ],
 )

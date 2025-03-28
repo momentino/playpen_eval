@@ -9,8 +9,8 @@ from datetime import datetime
 from evaluate import get_logger, get_executed_tasks
 from config import project_root, get_task_backend, TASK_REGISTRY, MAIN_TASK_LIST, COMPLETE_TASK_LIST
 from utils.utils import custom_json_serializer, compute_total_time, prepare_reports_folders, build_task_report
-import playpen.clemgame.benchmark as clembench_eval
-from playpen.backends import read_model_specs
+#import playpen.clemgame.benchmark as clembench_eval
+#from playpen.backends import read_model_specs
 import frameworks.playpen_eval_benchmarks.evaluator as playeval
 
 logger = get_logger(__name__)
@@ -102,14 +102,14 @@ def run(model_backend: str,
                 log_samples=True,
                 apply_chat_template=apply_chat_template,
             )
-        elif backend == "clembench":
+        """elif backend == "clembench":
             clembench_reports_path = prepare_reports_folders('clembench', model_name=model_name)
             clembench_eval.run(task,
                           model_specs=read_model_specs([model_name.split("__")[-1]]),
                           gen_args = {'temperature': 0.0, 'max_tokens':250},
                           results_dir=str(clembench_reports_path))
             clembench_eval.score(task, results_dir=str(clembench_reports_path))
-            clembench_eval.transcripts(task, results_dir=str(clembench_reports_path))
+            clembench_eval.transcripts(task, results_dir=str(clembench_reports_path))"""
 
         report = build_task_report(backend, task, model_name) if backend in ["clembench", "lm-eval"] else report
 
