@@ -1,4 +1,5 @@
 from pathlib import Path
+from collections import defaultdict
 from typing import Dict, List, Any, Union
 from frameworks.playpen_eval_benchmarks import eval_logger
 from frameworks.playpen_eval_benchmarks.tasks import CustomTaskManager
@@ -70,7 +71,16 @@ def evaluate(task: str,
         return adjusted_task_dict
 
     task_dict = _adjust_config(task_dict)
+
+    # tracks all Instances/requests a model must generate output on.
+    requests = defaultdict(list)
+    # stores the amount to pad out reqs per req. type so that
+    # number of fwd passes per distributed rank is equal
+    padding_requests = defaultdict(int)
+
     eval_tasks = get_task_list(task_dict)
+
+
     print(eval_tasks)
 
 

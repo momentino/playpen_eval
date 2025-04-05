@@ -6,10 +6,10 @@ from typing import Dict
 from pathlib import Path
 from collections import defaultdict
 from datetime import datetime
-from config import project_root, get_task_info, COMPLETE_TASK_LIST
+from config import PROJECT_ROOT, get_task_info, COMPLETE_TASK_LIST
 
 def prepare_reports_folders(framework: str, model_name: str, reports_path: str = 'results') -> Path:
-    reports_path = Path(os.path.join(project_root, reports_path)) / framework / model_name
+    reports_path = Path(os.path.join(PROJECT_ROOT, reports_path)) / framework / model_name
     reports_path.mkdir(parents=True, exist_ok=True)
     return reports_path
 
@@ -57,7 +57,7 @@ def build_task_report(framework: str, task_name: str, model_name: str) -> Dict:
         return lmeval_report(model_name, task_name)
 
 def clembench_report(model_name:str, game_name: str) -> dict:
-    clembench_results_folder = project_root / "results" / "clembench" / model_name
+    clembench_results_folder = PROJECT_ROOT / "results" / "clembench" / model_name
     scores = []
     num_episodes = 0
     for file_path in clembench_results_folder.rglob("scores.json"):
@@ -84,7 +84,7 @@ def clembench_report(model_name:str, game_name: str) -> dict:
     return results
 
 def lmeval_report(model_name:str, task_name: str):
-    lmeval_full_report = project_root / "results" / "lm-eval" / model_name / f"{task_name}_report_latest.json"
+    lmeval_full_report = PROJECT_ROOT / "results" / "lm-eval" / model_name / f"{task_name}_report_latest.json"
     lmeval_report = json.load(open(lmeval_full_report))
     report = {}
     task_results = {}
@@ -131,7 +131,7 @@ if __name__ == '__main__':
             results = convert_clembench_results(model_name, game)
             print(results)
             results_path = "results"
-            playpen_eval_results_path = Path(os.path.join(project_root, results_path)) / "playpen_eval" / model_name
+            playpen_eval_results_path = Path(os.path.join(PROJECT_ROOT, results_path)) / "playpen_eval" / model_name
             playpen_eval_results_path.mkdir(parents=True, exist_ok=True)
             timestamp = datetime.now().strftime("%Y-%m-%dT%H-%M-%S.%f")
             playpen_results_file_path = Path(

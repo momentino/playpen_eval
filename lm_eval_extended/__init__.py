@@ -1,0 +1,1 @@
+from lm_eval_extended.evaluator import simple_evaluate
