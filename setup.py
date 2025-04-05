@@ -21,6 +21,6 @@ setup(
         "langdetect",
         "immutabledict",
         "nltk>=3.9.1",
-        "flashinfer-python==0.2.2",
+        "flashinfer-python",
     ],
 )
