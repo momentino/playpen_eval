@@ -1,0 +1,19 @@
+group: playschool_leaderboard
+task:
+  - playschool_bbh_fewshot
+  - playschool_cladder
+  - playschool_eq_bench
+  - playschool_glue_diagnostics
+  - playschool_ifeval
+  - playschool_lm_pragmatics
+  - playschool_logiqa2
+  - playschool_mmlu_pro
+  - playschool_natural_plan_5shot
+  - playschool_attribution_judgment_simpletom
+  - playschool_simpletom_tom
+  - playschool_social_iqa
+  - playschool_winogrande
+aggregate_metric_list:
+  - aggregation: mean
+    metric: acc
+    weight_by_size: true

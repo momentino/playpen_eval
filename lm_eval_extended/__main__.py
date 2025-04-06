@@ -15,7 +15,7 @@ from lm_eval.loggers import EvaluationTracker, WandbLogger
 from lm_eval.tasks import TaskManager
 from lm_eval.utils import handle_non_serializable, make_table, simple_parse_args_string
 
-from config import LM_EVAL_TASK_LIST, PROJECT_ROOT
+from config import PROJECT_ROOT
 
 
 def _int_or_none_list_arg_type(
@@ -201,7 +201,7 @@ def setup_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--include_path",
         type=str,
-        default=None,
+        default=f"{PROJECT_ROOT}/lm_eval_extended/tasks",
         metavar="DIR",
         help="Additional path to include if there are external tasks to include.",
     )
@@ -354,19 +354,6 @@ def cli_evaluate(args: Union[argparse.Namespace, None] = None) -> None:
         sys.exit()
     else:
         task_list = args.tasks.split(",")
-        for task in task_list:
-            if task not in LM_EVAL_TASK_LIST and task != "all":
-                eval_logger.error(f"The task '{task}' is not found.")
-                raise ValueError(
-                    f"There is at least one task that is not found in the Playpen Eval Suite: {task}. Aborting.."
-                )
-        if "all" in task_list:
-            if len(task_list) == 1:
-                eval_logger.info(f"All tasks specified. Selecting all tasks")
-            else:
-                eval_logger.info(f"'all' is specified but it is not the only specified task. Ignoring the other tasks and selecting all")
-            task_list = LM_EVAL_TASK_LIST
-
         task_names = task_manager.match_tasks(task_list)
         for task in [task for task in task_list if task not in task_names]:
             if os.path.isfile(task):
