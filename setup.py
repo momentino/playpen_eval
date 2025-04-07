@@ -16,7 +16,7 @@ setup(
         "sentence_transformers",
         "sentencepiece",
         "lm_eval @ git+https://github.com/momentino/lm-evaluation-harness",
-        "vllm==0.8.2",
+        "vllm==0.8.3",
         "pingouin",
         "langdetect",
         "immutabledict",
