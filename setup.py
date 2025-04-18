@@ -22,5 +22,6 @@ setup(
         "immutabledict",
         "nltk>=3.9.1",
         "flashinfer-python",
+        "fastapi[standard]==0.115.12"
     ],
 )
