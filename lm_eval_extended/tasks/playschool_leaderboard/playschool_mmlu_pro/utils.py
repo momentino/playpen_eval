@@ -21,7 +21,7 @@ choices = [
 ]
 
 
-def format_cot_example(example, including_answer=True):
+def format_example(example, including_answer=True):
     prompt = "Question:\n"
     question = example["question"]
     options = example["options"]
@@ -30,17 +30,15 @@ def format_cot_example(example, including_answer=True):
     for i, opt in enumerate(options):
         prompt += "{}. {}\n".format(choices[i], opt)
     if including_answer:
-        cot_content = example["cot_content"].replace(
-            "A: Let's think step by step.", "Answer: Let's think step by step."
-        )
-        prompt += cot_content + "\n\n"
+        answer = f"Answer: {example['answer']}"
+        prompt += answer + "\n\n"
     else:
-        prompt += "Answer: Let's think step by step."
+        prompt += "Answer:"
     return prompt
 
 
-doc_to_text = partial(format_cot_example, including_answer=False)
-fewshot_to_text = partial(format_cot_example, including_answer=True)
+doc_to_text = partial(format_example, including_answer=False)
+fewshot_to_text = partial(format_example, including_answer=True)
 
 
 def process_docs(dataset, subject):
