@@ -30,7 +30,7 @@ def format_example(example, including_answer=True):
     for i, opt in enumerate(options):
         prompt += "{}. {}\n".format(choices[i], opt)
     if including_answer:
-        answer = f"Answer: {example['answer']}"
+        answer = f"The answer is: {example['answer']}"
         prompt += answer + "\n\n"
     else:
         prompt += "Answer:"
