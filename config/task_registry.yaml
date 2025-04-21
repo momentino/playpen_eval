@@ -829,3 +829,46 @@ natural_planning:
         backend: "harness"
         random_baseline: 0
         higher_bound: 1
+glue_diagnostics:
+    glue_diagnostics:
+        alias: "GLUE Diagnostics"
+        category: "formal"
+        main_task: True
+        backend: "harness"
+        random_baseline: 0
+        higher_bound: 0.33
+    glue_diagnostics_knowledge_common_sense:
+        alias: "GLUE Diagnostics Commonsense"
+        category: "formal"
+        main_task: True
+        backend: "harness"
+        random_baseline: 0
+        higher_bound: 0.33
+    glue_diagnostics_knowledge_world:
+        alias: "GLUE Diagnostics World Knowledge"
+        category: "formal"
+        main_task: True
+        backend: "harness"
+        random_baseline: 0
+        higher_bound: 0.33
+    glue_diagnostics_lexical_semantics:
+        alias: "GLUE Diagnostics Lexical Semantics"
+        category: "formal"
+        main_task: True
+        backend: "harness"
+        random_baseline: 0
+        higher_bound: 0.33
+    glue_diagnostics_logic:
+        alias: "GLUE Diagnostics Logic"
+        category: "formal"
+        main_task: True
+        backend: "harness"
+        random_baseline: 0
+        higher_bound: 0.33
+    glue_diagnostics_predicate_argument_structure:
+        alias: "GLUE Diagnostics Predicate-Argument Structure"
+        category: "formal"
+        main_task: True
+        backend: "harness"
+        random_baseline: 0
+        higher_bound: 0.33
