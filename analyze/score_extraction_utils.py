@@ -30,6 +30,7 @@ def get_scores(reports, ignore_tasks:List[str], ignore_groups: List[str], benchm
             if task_name in task_names and task_name not in ignore_tasks:
                 group, task_config = get_task_info(task_name)
                 if group not in ignore_groups:
+                    print(model_name, " ",task_name, " ",score_dict)
                     score = score_dict['score'] # score = score_dict['normalized_score']
                     score = score/100 if score > 1 else score
                     if take_above_baseline:

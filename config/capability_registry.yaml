@@ -1,31 +1,27 @@
 executive_functions:
   planning_decision_making:
-    alias: "Planning/Decision Making"
+    alias: "Planning"
   causal_reasoning:
-    alias: "Causal Reasoning"
+    alias: "Causal R."
   logical_numerical_reasoning:
-    alias: "Logic/Numerical Reasoning"
+    alias: "Logic R."
   commonsense_reasoning:
-    alias: "Commonsense Reasoning"
+    alias: "Commonsense R."
 core_executive_functions:
   cognitive_flexibility:
-    alias: "Cognitive Flexibility"
+    alias: "Cog. Flex."
   working_memory:
-    alias: "Working Memory"
-  inhibitory_control:
-    alias: "Inhibitory Control"
-  self_monitoring_error_correction:
-    alias: "Self-Monitoring/Error Correction"
+    alias: "Working Mem."
 social_emotional_cognition:
   social_commonsense_reasoning:
-    alias: "Social Commonsense Reasoning"
+    alias: "Social R."
   theory_of_mind:
     alias: "Theory of Mind"
   emotional_intelligence:
-    alias: "Emotional Intelligence"
+    alias: "Emo. Int."
   pragmatics:
     alias: "Pragmatics"
-  self_awareness:
-    alias: "Self-Awareness"
   attribution_judgment:
-    alias: "Attribution/Judgment"
+    alias: "Attr./Judgment"
+
+

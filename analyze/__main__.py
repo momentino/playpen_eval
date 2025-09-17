@@ -3,8 +3,6 @@ from pathlib import Path
 from analyze import playpen_correlation_logger
 from analyze.correlation import run_correlation
 from analyze.scatterplots import run_scatterplots
-from analyze.barcharts import run_barcharts
-
 
 def main(args: argparse.Namespace) -> None:
     if args.command_name == "correlation":
@@ -38,13 +36,6 @@ def main(args: argparse.Namespace) -> None:
                         correlation_path=Path(args.correlation_path),
                         p_values_path=Path(args.p_values_path)
 
-                         )
-    elif args.command_name == "barchart":
-        output_path = Path(args.output_path) / args.by
-        run_barcharts(src_path=args.src_path,
-                         output_path_root=output_path,
-                         ignore_groups=args.ignore_groups,
-                         by=args.by
                          )
 
 
@@ -112,7 +103,7 @@ if __name__ == "__main__":
     run_correlation_parser.add_argument(
         "--correlation_method",
         type=str,
-        default="pearson",
+        default="kendall",
         choices = ['pearson', 'kendall', 'spearman'],
         help="Whether to include the name of the image in the correlation plot."
     )
@@ -189,38 +180,6 @@ if __name__ == "__main__":
         choices=['pearson', 'kendall', 'spearman', ''],
         help="Whether to include the name of the image in the correlation plot."
     )
-
-    barchart_parser = sub_parsers.add_parser("barchart", formatter_class=argparse.RawTextHelpFormatter)
-    barchart_parser.add_argument(
-        "-s", "--src_path",
-        type=str,
-        default="results/playpen_eval",
-        help="Path to the folder containing the results from which to extract data for the bar charts."
-    )
-    barchart_parser.add_argument(
-        "-o", "--output_path",
-        type=str,
-        default="results/barcharts",
-        help="Path to the folder where to save the bar charts."
-    )
-
-    barchart_parser.add_argument(
-        "--ignore_groups",
-        nargs="+",
-        default=[],
-        help="Specify groups of tasks to ignore in the bar charts."
-    )
-
-
-    barchart_parser.add_argument(
-        "--by",
-        type=str,
-        default='benchmarks',
-        choices=["benchmarks", "models"],
-        help="Choose whether you wish to create the bar charts by benchmark or model."
-    )
-
-
 
     args = parser.parse_args()
     main(args)

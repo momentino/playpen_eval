@@ -1,0 +1,217 @@
+fantom:
+    fantom_full:
+        alias: "FANToM"
+        category: "theory_of_mind"
+        backend: "harness"
+        main_task: True
+        random_baseline: 0 # TODO
+        higher_bound: 1
+    fantom_full_answerability_binary:
+        alias: "FANToM Answerability Y/N"
+        category: "theory_of_mind"
+        backend: "harness"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    fantom_full_answerability_list:
+        alias: "FANToM Answerability L"
+        category: "theory_of_mind"
+        backend: "harness"
+        main_task: False
+        random_baseline: 0.03 # (1/32) since only one combination of names of 5 characters is the correct one
+        higher_bound: 1
+    fantom_full_belief_choice:
+        alias: "FANToM Belief Choice"
+        functional: [ "theory_of_mind" ]
+        formal: [ ]
+        functional_group: [ "social_emotional_cognition" ]
+        task_type: [ "multiple_choice" ]
+        backend: "harness"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    fantom_full_belief_gen:
+        alias: "FANToM Belief Dist"
+        category: "theory_of_mind"
+        backend: "harness"
+        main_task: False
+        random_baseline: 0
+        higher_bound: 1
+    fantom_full_fact:
+        alias: "FANToM Full Fact"
+        category: "theory_of_mind"
+        backend: "harness"
+        main_task: False
+        random_baseline: 0
+        higher_bound: 1
+    fantom_full_infoaccessibility_binary:
+        alias: "FANToM Infoaccessibility Y/N"
+        category: "theory_of_mind"
+        backend: "harness"
+        main_task: False
+        random_baseline: 0.5
+        higher_bound: 1
+    fantom_full_infoaccessibility_list:
+        alias: "FANToM Infoaccessibility L"
+        category: "theory_of_mind"
+        backend: "harness"
+        main_task: False
+        random_baseline: 0.03
+        higher_bound: 1
+planbench:
+    planbench:
+        alias: "Planbench"
+        functional: [ "planning_decision_making" ]
+        functional_group: [ "executive_functions"]
+        task_type: [ "generate_until" ]
+        backend: "harness"
+        main_task: True
+        random_baseline: 0
+        higher_bound: 1
+    planbench_blocksworld:
+        alias: "Planbench Blocksworld"
+        functional: [ "planning_decision_making" ]
+        functional_group: [ "executive_functions"]
+        task_type: [ "generate_until" ]
+        backend: "harness"
+        main_task: False
+        random_baseline: 0
+        higher_bound: 1
+    planbench_blocksworld_plan_generation:
+        alias: "Planbench Blocksworld Plan Generation"
+        category: "planning_decision_making"
+        backend: "harness"
+        main_task: True
+        random_baseline: 0
+        higher_bound: 1
+    planbench_blocksworld_full_to_partial:
+        alias: "Planbench Blocksworld Full-to-Partial"
+        functional: [ "planning_decision_making" ]
+        functional_group: [ "executive_functions"]
+        task_type: [ "generate_until" ]
+        backend: "harness"
+        main_task: False
+        random_baseline: 0
+        higher_bound: 1
+    planbench_blocksworld_goal_shuffling:
+        alias: "Planbench Blocksworld Goal Shuffling"
+        functional: [ "planning_decision_making" ]
+        functional_group: [ "executive_functions"]
+        task_type: [ "generate_until" ]
+        backend: "harness"
+        main_task: False
+        random_baseline: 0
+        higher_bound: 1
+    planbench_blocksworld_partial_to_full:
+        alias: "Planbench Blocksworld Partial-to-Full"
+        functional: [ "planning_decision_making" ]
+        functional_group: [ "executive_functions"]
+        task_type: [ "generate_until" ]
+        backend: "harness"
+        main_task: False
+        random_baseline: 0
+        higher_bound: 1
+    planbench_blocksworld_plan_execution:
+         alias: "Planbench Blocksworld Plan Execution"
+         functional: [ "planning_decision_making" ]
+         functional_group: [ "executive_functions"]
+         task_type: [ "generate_until" ]
+         backend: "harness"
+         main_task: False
+         random_baseline: 0
+         higher_bound: 1
+    planbench_blocksworld_plan_generalization:
+         alias: "Planbench Blocksworld Plan Generalization"
+         functional: [ "planning_decision_making" ]
+         functional_group: [ "executive_functions"]
+         task_type: [ "generate_until" ]
+         backend: "harness"
+         main_task: False
+         random_baseline: 0
+         higher_bound: 1
+    planbench_blocksworld_plan_optimality:
+         alias: "Planbench Blocksworld Plan Optimality"
+         functional: [ "planning_decision_making" ]
+         functional_group: [ "executive_functions"]
+         task_type: [ "generate_until" ]
+         backend: "harness"
+         main_task: False
+         random_baseline: 0
+         higher_bound: 1
+    planbench_blocksworld_plan_reuse:
+         alias: "Planbench Blocksworld Plan Reuse"
+         functional: [ "planning_decision_making" ]
+         functional_group: [ "executive_functions"]
+         task_type: [ "generate_until" ]
+         backend: "harness"
+         main_task: False
+         random_baseline: 0
+         higher_bound: 1
+    planbench_blocksworld_plan_verification:
+         alias: "Planbench Blocksworld Plan Verification"
+         functional: [ "planning_decision_making" ]
+         functional_group: [ "executive_functions"]
+         task_type: [ "generate_until" ]
+         backend: "harness"
+         main_task: False
+         random_baseline: 0
+         higher_bound: 1
+    planbench_blocksworld_plan_replanning:
+         alias: "Planbench Blocksworld Replanning"
+         functional: [ "planning_decision_making" ]
+         functional_group: [ "executive_functions"]
+         task_type: [ "generate_until" ]
+         backend: "harness"
+         main_task: False
+         random_baseline: 0
+         higher_bound: 1
+metabench:
+    metabench:
+        alias: "Metabench"
+        backend: "harness"
+        category: "massive"
+        main_task: True
+        random_baseline: 0
+        higher_bound: 1
+    metabench_arc:
+        alias: "Metabench ARC"
+        backend: "harness"
+        category: "massive"
+        main_task: False
+        random_baseline: 0.25
+        higher_bound: 1
+    metabench_gsm8k:
+        alias: "Metabench GSM8K"
+        backend: "harness"
+        category: "massive"
+        main_task: False
+        random_baseline: 0
+        higher_bound: 1
+    metabench_hellaswag:
+        alias: "Metabench HellaSWAG"
+        backend: "harness"
+        category: "massive"
+        main_task: False
+        random_baseline: 0.25
+        higher_bound: 1
+    metabench_mmlu:
+        alias: "Metabench MMLU"
+        backend: "harness"
+        main_task: False
+        category: "massive"
+        random_baseline: 0.25
+        higher_bound: 1
+    metabench_truthfulqa:
+        alias: "Metabench TruthfulQA"
+        backend: "harness"
+        category: "massive"
+        main_task: False
+        random_baseline: 0.12
+        higher_bound: 1
+    metabench_winogrande:
+        alias: "Metabench Winogrande"
+        backend: "harness"
+        main_task: False
+        category: "massive"
+        random_baseline: 0.5
+        higher_bound: 1
