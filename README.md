@@ -1,4 +1,4 @@
-# playpen_eval
+# Repository for the paper: "Triangulating LLM Progress through Benchmarks, Games, and Cognitive Tests"
 
 # Cloning the repository correctly
 Since it contains submodules, it's important to initialize them correctly:
@@ -7,11 +7,13 @@ Since it contains submodules, it's important to initialize them correctly:
 
 # Creating the environment  
 Create a new conda environment  :
-```conda create playpen_eval```  
+```conda create triangulating```  
 Define a new environment variable with (recommended if you are using models which are gated on HF)  
 ```conda env config vars set HF_TOKEN=<your token>```  
 Run:  
 ```./install.sh```
+
+
 
 # Requirements:
 - python==3.10
