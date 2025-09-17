@@ -1,4 +1,4 @@
-# Repository for the paper: "Triangulating LLM Progress through Benchmarks, Games, and Cognitive Tests"
+# Triangulating LLM Progress through Benchmarks, Games, and Cognitive Tests
 
 # Cloning the repository correctly
 Since it contains submodules, it's important to initialize them correctly:
