@@ -1,11 +1,11 @@
 # Triangulating LLM Progress through Benchmarks, Games, and Cognitive Tests
 
-# Cloning the repository correctly
+## Cloning the repository correctly
 Since it contains submodules, it's important to initialize them correctly:
 
 ```git clone --recurse-submodules https://github.com/momentino/playpen_eval.git```
 
-# Creating the environment  
+## Creating the environment  
 Create a new conda environment  :
 ```conda create triangulating```  
 Define a new environment variable with (recommended if you are using models which are gated on HF)  
@@ -15,5 +15,5 @@ Run:
 
 
 
-# Requirements:
+## Requirements:
 - python==3.10
