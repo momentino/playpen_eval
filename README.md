@@ -17,3 +17,14 @@ Run:
 
 ## Requirements:
 - python==3.10
+
+## Citation
+> @article{momentè2025triangulating,  
+      title={Triangulating LLM Progress through Benchmarks, Games, and Cognitive Tests},   
+      author={Filippo Momentè and Alessandro Suglia and Mario Giulianelli and Ambra Ferrari and Alexander Koller   and Oliver Lemon and David Schlangen and Raquel Fernández and Raffaella Bernardi},  
+      year={2025},  
+      eprint={2502.14359},  
+      archivePrefix={arXiv},  
+      primaryClass={cs.CL},  
+      url={https://arxiv.org/abs/2502.14359},   
+}  
